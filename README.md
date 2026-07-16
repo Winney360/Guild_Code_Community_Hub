@@ -121,8 +121,8 @@ cd Guild_Code_Community_Hub
 
 ```bash
 cd client
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 ---
@@ -131,8 +131,8 @@ npm run dev
 
 ```bash
 cd server
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 ---
@@ -231,7 +231,7 @@ git push origin feature/your-feature
 **Winfred Nkatha**
 
 - GitHub: https://github.com/Winney360
-- LinkedIn: *(Add your LinkedIn profile)*
+- LinkedIn: *(https://www.linkedin.com/in/winfred-nkatha/)*
 
 ---
 
