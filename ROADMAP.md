@@ -17,7 +17,7 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] Set up Tailwind CSS
 - [x] Create project folder structure
 - [x] Configure environment variables
-- [ ] Prepare deployment environment
+- [x] Prepare deployment environment
 
 ✅ Milestone: Development environment is fully configured.
 
