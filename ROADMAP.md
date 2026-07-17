@@ -27,12 +27,12 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] User authentication
-- [ ] User registration
-- [ ] Login & logout
-- [ ] JWT authentication
-- [ ] Protected routes
-- [ ] Role-based authorization
+- [x] User authentication
+- [x] User registration
+- [x] Login & logout
+- [x] JWT authentication
+- [x] Protected routes
+- [x] Role-based authorization
 - [ ] User profile management
 - [ ] Member directory
 - [ ] Authentication pages
