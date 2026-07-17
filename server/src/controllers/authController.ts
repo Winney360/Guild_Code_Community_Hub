@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { User } from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import { sendTokenCookie } from '../utils/generateToken.js';
+import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 // @desc    Register user
 // @route   POST /api/auth/signup
@@ -108,6 +109,49 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         status: user.status,
         isActive: user.isActive,
       },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
+// @desc    Logout user & clear cookie
+// @route   POST /api/auth/logout
+// @access  Private (Authenticated)
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  try {
+    res.cookie('token', '', {
+      httpOnly: true,
+      expires: new Date(0), // Set expiry in the past to delete the cookie
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict' as const,
+    });
+
+    res.status(200).json({ success: true, message: 'Logged out successfully' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
+// @desc    Get current user details
+// @route   GET /api/auth/me
+// @access  Private (Authenticated)
+export const getMe = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
