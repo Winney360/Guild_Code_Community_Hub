@@ -11,7 +11,7 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] Initialize GitHub repository
 - [x] Set up React + Vite
 - [x] Set up Express.js
-- [ ] Configure MongoDB Atlas
+- [x] Configure MongoDB Atlas
 - [ ] Configure Cloudinary
 - [ ] Install project dependencies
 - [ ] Set up Tailwind CSS
