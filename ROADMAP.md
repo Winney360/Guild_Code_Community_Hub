@@ -8,8 +8,8 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] Initialize GitHub repository
-- [ ] Set up React + Vite
+- [x] Initialize GitHub repository
+- [x] Set up React + Vite
 - [ ] Set up Express.js
 - [ ] Configure MongoDB Atlas
 - [ ] Configure Cloudinary
