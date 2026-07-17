@@ -12,11 +12,11 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] Set up React + Vite
 - [x] Set up Express.js
 - [x] Configure MongoDB Atlas
-- [ ] Configure Cloudinary
-- [ ] Install project dependencies
-- [ ] Set up Tailwind CSS
-- [ ] Create project folder structure
-- [ ] Configure environment variables
+- [x] Configure Cloudinary
+- [x] Install project dependencies
+- [x] Set up Tailwind CSS
+- [x] Create project folder structure
+- [x] Configure environment variables
 - [ ] Prepare deployment environment
 
 ✅ Milestone: Development environment is fully configured.
