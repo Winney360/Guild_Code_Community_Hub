@@ -1,12 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { connectDB } from '.config/db.ts';
 
 //load environment variales
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+//Connect to Database
+connectDB();
 
 //niddleware
 app.use(cors({
