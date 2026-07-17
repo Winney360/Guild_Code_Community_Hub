@@ -33,8 +33,8 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] JWT authentication
 - [x] Protected routes
 - [x] Role-based authorization
-- [ ] User profile management
-- [ ] Member directory
+- [x] User profile management
+- [x] Member directory
 - [ ] Authentication pages
 - [ ] Authentication testing
 
