@@ -47,8 +47,8 @@ A high-level roadmap for building the Guild Code Community Platform.
 ## Goals
 
 - [ ] Configure design system
-- [ ] Build reusable layouts
-- [ ] Build navigation components
+- [x] Build reusable layouts
+- [x] Build navigation components
 - [ ] Build form components
 - [ ] Build buttons
 - [ ] Build cards
