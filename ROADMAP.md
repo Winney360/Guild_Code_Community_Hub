@@ -35,8 +35,8 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] Role-based authorization
 - [x] User profile management
 - [x] Member directory
-- [ ] Authentication pages
-- [ ] Authentication testing
+- [x] Authentication pages
+- [x] Authentication testing
 
 ✅ Milestone: Users can securely register, log in, and manage their profiles.
 
