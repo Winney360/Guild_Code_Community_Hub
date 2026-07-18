@@ -2,16 +2,32 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext.js';
 import { Login } from './pages/Login.js';
 import { Signup } from './pages/Signup.js';
+import { PublicLayout } from './layouts/PublicLayout.js';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Public Routes wrapped in PublicLayout */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<div className="p-8 text-center text-xl font-bold">Home Page (Under Construction)</div>} />
+            <Route path="/projects" element={<div className="p-8 text-center text-xl font-bold">Projects Showcase (Under Construction)</div>} />
+            <Route path="/members" element={<div className="p-8 text-center text-xl font-bold">Members Directory (Under Construction)</div>} />
+            <Route path="/collaborate" element={<div className="p-8 text-center text-xl font-bold">Ecosystem Collaboration (Under Construction)</div>} />
+            <Route path="/events" element={<div className="p-8 text-center text-xl font-bold">Community Events (Under Construction)</div>} />
+            <Route path="/privacy" element={<div className="p-8 text-center text-xl font-bold">Privacy Policy</div>} />
+            <Route path="/terms" element={<div className="p-8 text-center text-xl font-bold">Terms of Service</div>} />
+          </Route>
+
+          {/* Auth Routes (standalone screen layout) */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<div className="p-8">Dashboard (Approved members only)</div>} />
+          
+          {/* Protected Dashboard Route Placeholder */}
+          <Route path="/dashboard" element={<div className="p-8 text-center text-xl font-bold">Dashboard (Approved members only)</div>} />
+          
+          {/* Fallback redirection */}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
