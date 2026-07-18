@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext.js';
 import { Login } from './pages/Login.js';
 import { Signup } from './pages/Signup.js';
 import { Home } from './pages/Home.js';
+import { MembersDirectory } from './pages/MembersDirectory.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<div className="p-8 text-center text-xl font-bold">Projects Showcase (Under Construction)</div>} />
-            <Route path="/members" element={<div className="p-8 text-center text-xl font-bold">Members Directory (Under Construction)</div>} />
+            <Route path="/members" element={<MembersDirectory />} />
             <Route path="/collaborate" element={<div className="p-8 text-center text-xl font-bold">Ecosystem Collaboration (Under Construction)</div>} />
             <Route path="/events" element={<div className="p-8 text-center text-xl font-bold">Community Events (Under Construction)</div>} />
             <Route path="/privacy" element={<div className="p-8 text-center text-xl font-bold">Privacy Policy</div>} />
