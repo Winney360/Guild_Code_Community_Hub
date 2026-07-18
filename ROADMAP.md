@@ -70,7 +70,7 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] Home page
 - [x] Members page
 - [x] Member profile page
-- [ ] Projects page
+- [x] Projects page
 - [ ] Project details page
 - [ ] Collaborations page
 - [ ] Collaboration details page
