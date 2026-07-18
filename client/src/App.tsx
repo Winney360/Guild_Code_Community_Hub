@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext.js';
 import { Login } from './pages/Login.js';
 import { Signup } from './pages/Signup.js';
+import { Home } from './pages/Home.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
         <Routes>
           {/* Public Routes wrapped in PublicLayout */}
           <Route element={<PublicLayout />}>
-            <Route path="/" element={<div className="p-8 text-center text-xl font-bold">Home Page (Under Construction)</div>} />
+            <Route path="/" element={<Home />} />
             <Route path="/projects" element={<div className="p-8 text-center text-xl font-bold">Projects Showcase (Under Construction)</div>} />
             <Route path="/members" element={<div className="p-8 text-center text-xl font-bold">Members Directory (Under Construction)</div>} />
             <Route path="/collaborate" element={<div className="p-8 text-center text-xl font-bold">Ecosystem Collaboration (Under Construction)</div>} />
