@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import mongoose from 'mongoose';
 import { User } from '../models/User.js';
+import { Project } from '../models/Project.js';
 import bcrypt from 'bcryptjs';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
@@ -11,7 +12,19 @@ export const getUsers = async (req: AuthenticatedRequest, res: Response): Promis
   try {
     // Spec 4.4: Displays only approved, active members
     const users = await User.find({ isActive: true, status: 'active' });
-    res.status(200).json({ success: true, count: users.length, data: users });
+    
+    // Fetch project count for each member
+    const usersWithProjectCount = await Promise.all(
+      users.map(async (user) => {
+        const projectCount = await Project.countDocuments({ byUser: user._id, isVisible: true });
+        return {
+          ...user.toObject(),
+          projectCount,
+        };
+      })
+    );
+
+    res.status(200).json({ success: true, count: usersWithProjectCount.length, data: usersWithProjectCount });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
