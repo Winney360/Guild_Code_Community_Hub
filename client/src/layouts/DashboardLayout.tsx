@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import { ThemeToggle } from '../components/ThemeToggle.js';
 
 export const DashboardLayout: React.FC = () => {
   const { user, logout } = useAuth();
@@ -163,10 +164,11 @@ export const DashboardLayout: React.FC = () => {
                 className="pl-8 pr-4 py-1.5 bg-[#f8fafc] border border-slate-200 rounded-lg text-xs w-48 focus:outline-none"
               />
             </div>
-            <span className="text-sm cursor-pointer relative" title="Notifications">
+            <Link to="/dashboard/activity" className="text-sm cursor-pointer relative block hover:scale-105 transition-transform" title="Notifications">
               🔔
               <span className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-            </span>
+            </Link>
+            <ThemeToggle />
           </div>
         </header>
 
