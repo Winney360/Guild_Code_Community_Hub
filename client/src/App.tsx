@@ -12,6 +12,8 @@ import { CollaborationDetails } from './pages/CollaborationDetails.js';
 import { CommunityEvents } from './pages/CommunityEvents.js';
 import { EventDetails } from './pages/EventDetails.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
+import { DashboardLayout } from './layouts/DashboardLayout.js';
+import { DashboardOverview } from './pages/DashboardOverview.js';
 
 function App() {
   return (
@@ -37,8 +39,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           
-          {/* Protected Dashboard Route Placeholder */}
-          <Route path="/dashboard" element={<div className="p-8 text-center text-xl font-bold">Dashboard (Approved members only)</div>} />
+          {/* Protected Dashboard Routes wrapped in DashboardLayout */}
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardOverview />} />
+            <Route path="projects" element={<div className="p-8 text-center text-xl font-bold">My Projects (Under Construction)</div>} />
+            <Route path="collaborations" element={<div className="p-8 text-center text-xl font-bold">My Collaborations (Under Construction)</div>} />
+            <Route path="applications" element={<div className="p-8 text-center text-xl font-bold">Applications (Under Construction)</div>} />
+            <Route path="settings" element={<div className="p-8 text-center text-xl font-bold">Settings (Under Construction)</div>} />
+          </Route>
           
           {/* Fallback redirection */}
           <Route path="*" element={<Navigate to="/login" replace />} />
