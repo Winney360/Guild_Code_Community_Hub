@@ -22,6 +22,7 @@ import { ApplicationsDashboard } from './pages/ApplicationsDashboard.js';
 import { MyEvents } from './pages/MyEvents.js';
 import { EventForm } from './pages/EventForm.js';
 import { DashboardSettings } from './pages/DashboardSettings.js';
+import { ActivityDashboard } from './pages/ActivityDashboard.js';
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
             <Route path="events" element={<MyEvents />} />
             <Route path="events/new" element={<EventForm />} />
             <Route path="events/edit/:id" element={<EventForm />} />
+            <Route path="activity" element={<ActivityDashboard />} />
             <Route path="settings" element={<DashboardSettings />} />
           </Route>
           
