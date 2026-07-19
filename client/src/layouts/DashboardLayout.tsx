@@ -38,6 +38,10 @@ export const DashboardLayout: React.FC = () => {
     if (path.includes('/dashboard/events')) return 'Event Management';
     if (path.includes('/dashboard/activity')) return 'Notifications';
     if (path.includes('/dashboard/settings')) return 'Settings';
+    if (path.includes('/dashboard/admin/users')) return 'User Management';
+    if (path.includes('/dashboard/admin/moderation')) return 'Moderation Queue';
+    if (path.includes('/dashboard/admin/analytics')) return 'Analytics';
+    if (path.includes('/dashboard/admin')) return 'Admin Overview';
     return 'Overview';
   };
 
@@ -81,6 +85,25 @@ export const DashboardLayout: React.FC = () => {
             <Link to="/dashboard/settings" className={linkClass('/dashboard/settings')}>
               <span>⚙️</span> Settings
             </Link>
+
+            {/* Admin specific sidebar panel */}
+            {user?.role === 'admin' && (
+              <div className="pt-4 mt-4 border-t border-slate-100 space-y-1">
+                <span className="text-[9px] font-bold text-slate-400 uppercase px-4 block select-none mb-1">Admin Panel</span>
+                <Link to="/dashboard/admin" className={linkClass('/dashboard/admin')}>
+                  <span>🛡️</span> Admin Overview
+                </Link>
+                <Link to="/dashboard/admin/users" className={linkClass('/dashboard/admin/users')}>
+                  <span>👥</span> User Manager
+                </Link>
+                <Link to="/dashboard/admin/moderation" className={linkClass('/dashboard/admin/moderation')}>
+                  <span>⚠️</span> Mod Queue
+                </Link>
+                <Link to="/dashboard/admin/analytics" className={linkClass('/dashboard/admin/analytics')}>
+                  <span>📈</span> Platform Stats
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
 
