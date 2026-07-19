@@ -36,6 +36,7 @@ export const DashboardLayout: React.FC = () => {
     if (path.includes('/dashboard/events/new')) return 'Create Event';
     if (path.includes('/dashboard/events/edit')) return 'Edit Event';
     if (path.includes('/dashboard/events')) return 'Event Management';
+    if (path.includes('/dashboard/activity')) return 'Notifications';
     if (path.includes('/dashboard/settings')) return 'Settings';
     return 'Overview';
   };
@@ -73,6 +74,9 @@ export const DashboardLayout: React.FC = () => {
             </Link>
             <Link to="/dashboard/events" className={linkClass('/dashboard/events')}>
               <span>📅</span> Events
+            </Link>
+            <Link to="/dashboard/activity" className={linkClass('/dashboard/activity')}>
+              <span>🔔</span> Activity
             </Link>
             <Link to="/dashboard/settings" className={linkClass('/dashboard/settings')}>
               <span>⚙️</span> Settings
