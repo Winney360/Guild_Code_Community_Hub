@@ -1,0 +1,251 @@
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+interface CollaborationType {
+  _id: string;
+  title: string;
+  description: string;
+  byUser: {
+    _id: string;
+    fullName: string;
+    profilePicture?: string;
+  };
+  requiredSkills: string[];
+  techStack: string[];
+  commitment: string;
+  duration: string;
+  timezone: string;
+  rolesNeeded: string[];
+  status: 'open' | 'closed';
+  likes: string[];
+  views: number;
+  applicantsCount?: number;
+  createdAt: string;
+}
+
+export const CollaborationMarketplace: React.FC = () => {
+  const [collaborations, setCollaborations] = useState<CollaborationType[]>([]);
+  const [filteredCollabs, setFilteredCollabs] = useState<CollaborationType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Search filter state
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const fetchCollaborations = async () => {
+      try {
+        const res = await fetch('/api/collaborations');
+        if (res.ok) {
+          const data = await res.json();
+          setCollaborations(data.data);
+          setFilteredCollabs(data.data);
+        }
+      } catch (err) {
+        console.error('Error fetching collaborations:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCollaborations();
+  }, []);
+
+  // Filter application
+  useEffect(() => {
+    if (!search.trim()) {
+      setFilteredCollabs(collaborations);
+      return;
+    }
+
+    const q = search.toLowerCase();
+    const result = collaborations.filter(
+      (c) =>
+        c.title.toLowerCase().includes(q) ||
+        c.description.toLowerCase().includes(q) ||
+        c.requiredSkills.some((s) => s.toLowerCase().includes(q)) ||
+        c.techStack.some((t) => t.toLowerCase().includes(q))
+    );
+    setFilteredCollabs(result);
+  }, [search, collaborations]);
+
+  const getTimeElapsed = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    if (diffHours < 1) return 'Just now';
+    if (diffHours < 24) return `${diffHours}h ago`;
+    return `${Math.floor(diffHours / 24)}d ago`;
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
+      {/* Title Header */}
+      <div className="mb-10">
+        <h1 className="text-4xl font-extrabold tracking-tight mb-3">Collaboration Marketplace</h1>
+        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed">
+          Connect with world-class engineers, designers, and visionaries. Discover opportunities to build the next generation of decentralized infrastructure.
+        </p>
+      </div>
+
+      {/* Filter Bar Panel */}
+      <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Search Input */}
+        <div className="relative w-full sm:max-w-md">
+          <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            🔍
+          </span>
+          <input
+            type="text"
+            placeholder="Search skills, tech, or project titles..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+          />
+        </div>
+
+        {/* Info Stats indicators */}
+        <div className="flex items-center gap-3 shrink-0 text-[10px] font-bold">
+          <span className="px-3 py-1.5 bg-[#e6f7f8] text-[#006655] rounded-lg">
+            Active Now: {loading ? '...' : collaborations.length * 7 + 12}
+          </span>
+          <span className="px-3 py-1.5 bg-slate-50 border border-slate-250 text-slate-600 rounded-lg">
+            Matches: {loading ? '...' : filteredCollabs.length}
+          </span>
+        </div>
+      </div>
+
+      {/* Collaboration Opportunities Grid */}
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20 gap-4">
+          <svg className="animate-spin h-8 w-8 text-[#006655]" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+          <span className="text-xs text-[#5c7075] font-semibold">Loading opportunities...</span>
+        </div>
+      ) : filteredCollabs.length === 0 ? (
+        <div className="border border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white shadow-sm">
+          <span className="text-4xl block mb-4">🕸️</span>
+          <h3 className="font-bold text-base mb-1">No collaborations found</h3>
+          <p className="text-xs text-[#5c7075]">Try modifying your search or skills queries.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {filteredCollabs.map((collab, idx) => (
+            <div
+              key={collab._id}
+              className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[360px]"
+            >
+              <div>
+                {/* Header row: creator details */}
+                <div className="flex items-start justify-between gap-4 mb-4 select-none">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-slate-100 rounded-full overflow-hidden shrink-0 border border-slate-50">
+                      {collab.byUser && collab.byUser.profilePicture ? (
+                        <img
+                          src={collab.byUser.profilePicture}
+                          alt={collab.byUser.fullName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-sm">
+                          {collab.byUser ? collab.byUser.fullName.charAt(0).toUpperCase() : 'C'}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-base line-clamp-1">{collab.title}</h4>
+                      <p className="text-[10px] text-slate-400 font-semibold">
+                        By @{collab.byUser ? collab.byUser.fullName.toLowerCase().replace(/\s+/g, '') : 'member'} &bull; {getTimeElapsed(collab.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    {idx === 1 && (
+                      <span className="px-2 py-0.5 bg-[#e6f7f8] text-[#006655] text-[9px] font-bold rounded-md border border-[#006655]/10">
+                        Featured
+                      </span>
+                    )}
+                    <button className="text-slate-400 hover:text-slate-600 transition-colors">
+                      🔖
+                    </button>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-2 mb-4">
+                  {collab.description}
+                </p>
+
+                {/* Required Skills list */}
+                <div className="mb-4">
+                  <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Required Skills</span>
+                  <div className="flex flex-wrap gap-1">
+                    {collab.requiredSkills.map((skill) => (
+                      <span key={skill} className="px-2 py-0.5 bg-slate-50 border border-slate-150 text-[9px] text-[#5c7075] rounded font-semibold">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tech Stack list */}
+                <div className="mb-4">
+                  <span className="text-[9px] uppercase font-bold text-slate-400 block mb-1">Tech Stack</span>
+                  <div className="flex flex-wrap gap-1">
+                    {collab.techStack.map((tech) => (
+                      <span key={tech} className="px-2 py-0.5 bg-[#006655]/5 border border-[#006655]/15 text-[9px] text-[#006655] rounded font-semibold">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom footer section */}
+              <div className="border-t border-slate-50 pt-4 flex flex-col justify-between gap-4">
+                {/* Meta details row */}
+                <div className="flex justify-between items-center text-[10px] bg-slate-50/50 border border-slate-100 rounded-xl p-3 select-none">
+                  <div>
+                    <span className="text-slate-400 block text-[9px] font-bold uppercase mb-0.5">Commitment</span>
+                    <span className="font-extrabold text-[#091e22]">{collab.commitment}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-slate-400 block text-[9px] font-bold uppercase mb-0.5">Duration</span>
+                    <span className="font-extrabold text-[#091e22]">{collab.duration}</span>
+                  </div>
+                </div>
+
+                {/* Bottom engagement items */}
+                <div className="flex justify-between items-center text-[10px] text-[#5c7075] select-none font-semibold">
+                  <div className="flex gap-4">
+                    <span>❤️ {collab.likes ? collab.likes.length : 0}</span>
+                    <span>💬 {collab.applicantsCount || idx * 3 + 4}</span>
+                  </div>
+                  <Link
+                    to={`/collaborate/${collab._id}`}
+                    className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl transition-colors font-bold text-xs"
+                  >
+                    Apply Now
+                  </Link>
+                </div>
+              </div>
+
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Pagination Load more */}
+      {!loading && filteredCollabs.length > 0 && (
+        <div className="flex justify-center mt-10">
+          <button className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-2.5 px-6 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
+            Load More Opportunities <span>▼</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+export default CollaborationMarketplace;
