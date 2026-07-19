@@ -166,16 +166,16 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] Admin Dashboard
-- [ ] Member Management
-- [ ] Project Management
-- [ ] Collaboration Management
-- [ ] Event Management
-- [ ] Content Moderation
-- [ ] Dashboard Analytics
-- [ ] Platform Settings
-- [ ] Responsive Design
-- [ ] Testing
+- [x] Admin Dashboard
+- [x] Member Management
+- [x] Project Management
+- [x] Collaboration Management
+- [x] Event Management
+- [x] Content Moderation
+- [x] Dashboard Analytics
+- [x] Platform Settings
+- [x] Responsive Design
+- [x] Testing
 
 ✅ Milestone: Administrators can manage the entire platform.
 
