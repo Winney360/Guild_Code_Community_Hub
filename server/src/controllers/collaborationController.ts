@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { Collaboration } from '../models/Collaboration.js';
 import { Application as ApplicationModel } from '../models/Application.js';
+import { Notification } from '../models/Notification.js';
+import { User } from '../models/User.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 // @desc    Get all open collaborations
@@ -261,6 +263,19 @@ export const createApplication = async (req: AuthenticatedRequest, res: Response
       githubUsername,
       portfolioLink,
       answers,
+    });
+
+    // Create notification for collaboration listing owner
+    const applicantUser = await User.findById(userId);
+    const applicantName = applicantUser ? applicantUser.fullName : 'A member';
+
+    await Notification.create({
+      recipient: collab.byUser,
+      sender: userObjectId,
+      type: 'collaboration_request',
+      title: `New Applicant: ${collab.title}`,
+      message: `${applicantName} has applied for the ${role} position.`,
+      link: '/dashboard/applications',
     });
 
     res.status(201).json({ success: true, data: newApp });
