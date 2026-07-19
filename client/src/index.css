@@ -19,7 +19,8 @@ body {
 .dark body,
 .dark .min-h-screen,
 .dark .bg-slate-50\/50,
-.dark .bg-\[\#f8fafc\] {
+.dark .bg-\[\#f8fafc\],
+.dark .bg-slate-50\/30 {
   background-color: #0b1315 !important;
   color: #f1f5f9 !important;
 }
@@ -80,7 +81,8 @@ body {
 
 /* 6. Tabs, Badges & Pill selectors */
 .dark .bg-slate-100,
-.dark .bg-\[\#f8fafc\] {
+.dark .bg-\[\#f8fafc\],
+.dark .bg-\[\#f1f5f9\] {
   background-color: #1a292c !important;
 }
 
@@ -136,4 +138,31 @@ body {
 .dark .bg-red-50 {
   background-color: rgba(239, 68, 68, 0.1) !important;
   color: #f87171 !important;
+}
+
+/* 9. Premium Dark Mode Gradient Overrides */
+
+/* Hero banner inside Home.tsx */
+.dark .bg-gradient-to-b.from-\[\#e6f7f8\] {
+  background-image: linear-gradient(to bottom, #07191b, #091719, #0b1315) !important;
+}
+
+/* Event banner inside CommunityEvents.tsx */
+.dark .bg-gradient-to-br.from-\[\#e6f7f8\] {
+  background-image: linear-gradient(to bottom right, #07191b, #091719, #121e21) !important;
+}
+
+/* Workshop header inside EventDetails.tsx */
+.dark .bg-gradient-to-r.from-\[\#8be0eb\] {
+  background-image: linear-gradient(to right, #083c42, #0b4f57) !important;
+}
+
+/* Newsletter panel inside Home.tsx */
+.dark .bg-gradient-to-tr.from-\[\#3b93a2\] {
+  background-image: linear-gradient(to top right, #063d47, #13525e) !important;
+}
+
+/* Login/Signup illustration sidebars */
+.dark .bg-gradient-to-tr.from-\[\#3b93a2\].via-\[\#5fb9c9\] {
+  background-image: linear-gradient(to top right, #063d47, #13525e, #186877) !important;
 }
