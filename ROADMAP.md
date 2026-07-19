@@ -76,11 +76,11 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] Collaboration details page
 - [x] Events page
 - [x] Event details page
-- [ ] Search & filtering
+- [x] Search & filtering
 - [x] Public navigation
 - [x] Footer
 - [x] Responsive design
-- [ ] Public page testing
+- [x] Public page testing
 
 ✅ Milestone: Visitors can explore the Guild Code community.
 
