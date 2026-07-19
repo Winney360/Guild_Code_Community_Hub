@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.js';
 import { Login } from './pages/Login.js';
 import { Signup } from './pages/Signup.js';
@@ -27,6 +27,7 @@ import { AdminDashboard } from './pages/AdminDashboard.js';
 import { UserManagement } from './pages/UserManagement.js';
 import { ModerationQueue } from './pages/ModerationQueue.js';
 import { PlatformAnalytics } from './pages/PlatformAnalytics.js';
+import { PageNotFound } from './pages/PageNotFound.js';
 
 function App() {
   return (
@@ -75,8 +76,8 @@ function App() {
             <Route path="admin/analytics" element={<PlatformAnalytics />} />
           </Route>
           
-          {/* Fallback redirection */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Fallback redirection to 404 */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </AuthProvider>
