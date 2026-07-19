@@ -7,6 +7,7 @@ interface User {
   role: string;
   status: string;
   isActive: boolean;
+  profilePicture?: string;
 }
 
 interface AuthContextType {
