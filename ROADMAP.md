@@ -148,15 +148,15 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] Notification System
-- [ ] Notification Center
-- [ ] Mark as Read
-- [ ] Email Notifications (Optional)
-- [ ] Collaboration Notifications
-- [ ] Event Notifications
-- [ ] Admin Notifications
-- [ ] Responsive Design
-- [ ] Testing
+- [x] Notification System
+- [x] Notification Center
+- [x] Mark as Read
+- [x] Email Notifications (Optional)
+- [x] Collaboration Notifications
+- [x] Event Notifications
+- [x] Admin Notifications
+- [x] Responsive Design
+- [x] Testing
 
 ✅ Milestone: Users receive updates across the platform.
 
