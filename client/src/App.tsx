@@ -18,6 +18,7 @@ import { MyProjects } from './pages/MyProjects.js';
 import { ProjectForm } from './pages/ProjectForm.js';
 import { MyCollaborations } from './pages/MyCollaborations.js';
 import { CollaborationForm } from './pages/CollaborationForm.js';
+import { ApplicationsDashboard } from './pages/ApplicationsDashboard.js';
 
 function App() {
   return (
@@ -52,7 +53,7 @@ function App() {
             <Route path="collaborations" element={<MyCollaborations />} />
             <Route path="collaborations/new" element={<CollaborationForm />} />
             <Route path="collaborations/edit/:id" element={<CollaborationForm />} />
-            <Route path="applications" element={<div className="p-8 text-center text-xl font-bold">Applications (Under Construction)</div>} />
+            <Route path="applications" element={<ApplicationsDashboard />} />
             <Route path="settings" element={<div className="p-8 text-center text-xl font-bold">Settings (Under Construction)</div>} />
           </Route>
           
