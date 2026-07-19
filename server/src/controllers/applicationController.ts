@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Application as ApplicationModel } from '../models/Application.js';
 import { Collaboration } from '../models/Collaboration.js';
+import { Notification } from '../models/Notification.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 // @desc    Get dashboard applications (received on my requests and submitted by me)
@@ -80,6 +81,16 @@ export const updateApplicationStatus = async (req: AuthenticatedRequest, res: Re
 
     application.status = status;
     await application.save();
+
+    // Trigger notification for the applicant
+    await Notification.create({
+      recipient: application.applicant,
+      sender: collab.byUser,
+      type: 'application_update',
+      title: `Application Update: ${collab.title}`,
+      message: `Your application for the ${application.role} position has been ${status}.`,
+      link: '/dashboard/applications',
+    });
 
     res.status(200).json({ success: true, data: application });
   } catch (error: any) {
