@@ -46,18 +46,18 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] Configure design system
+- [x] Configure design system
 - [x] Build reusable layouts
 - [x] Build navigation components
-- [ ] Build form components
-- [ ] Build buttons
-- [ ] Build cards
-- [ ] Build tables
-- [ ] Build modals
-- [ ] Build alerts & notifications
-- [ ] Build loading & empty states
-- [ ] Build responsive components
-- [ ] Accessibility review
+- [x] Build form components
+- [x] Build buttons
+- [x] Build cards
+- [x] Build tables
+- [x] Build modals
+- [x] Build alerts & notifications
+- [x] Build loading & empty states
+- [x] Build responsive components
+- [x] Accessibility review
 
 ✅ Milestone: Reusable UI components are ready for the application.
 
