@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import { ThemeToggle } from './ThemeToggle.js';
 
 export const Navbar: React.FC = () => {
   const { user } = useAuth();
@@ -94,21 +95,28 @@ export const Navbar: React.FC = () => {
               </Link>
             </>
           )}
+          <ThemeToggle />
         </div>
 
-        {/* Hamburger Menu Toggle (Mobile) */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-[#5c7075] hover:text-[#091e22] focus:outline-none"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+        {/* Mobile Header Right wrapper */}
+        <div className="flex md:hidden items-center gap-3">
+          <div className="md:hidden">
+            <ThemeToggle />
+          </div>
+          {/* Hamburger Menu Toggle (Mobile) */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 text-[#5c7075] hover:text-[#091e22] focus:outline-none"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer */}
