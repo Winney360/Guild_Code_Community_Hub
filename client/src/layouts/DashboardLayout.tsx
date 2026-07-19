@@ -33,6 +33,9 @@ export const DashboardLayout: React.FC = () => {
     if (path.includes('/dashboard/collaborations/new')) return 'Create Collaboration';
     if (path.includes('/dashboard/collaborations')) return 'My Collaborations';
     if (path.includes('/dashboard/applications')) return 'Applications';
+    if (path.includes('/dashboard/events/new')) return 'Create Event';
+    if (path.includes('/dashboard/events/edit')) return 'Edit Event';
+    if (path.includes('/dashboard/events')) return 'Event Management';
     if (path.includes('/dashboard/settings')) return 'Settings';
     return 'Overview';
   };
@@ -67,6 +70,9 @@ export const DashboardLayout: React.FC = () => {
             </Link>
             <Link to="/dashboard/applications" className={linkClass('/dashboard/applications')}>
               <span>✉️</span> Applications
+            </Link>
+            <Link to="/dashboard/events" className={linkClass('/dashboard/events')}>
+              <span>📅</span> Events
             </Link>
             <Link to="/dashboard/settings" className={linkClass('/dashboard/settings')}>
               <span>⚙️</span> Settings
