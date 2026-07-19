@@ -16,6 +16,8 @@ import { DashboardLayout } from './layouts/DashboardLayout.js';
 import { DashboardOverview } from './pages/DashboardOverview.js';
 import { MyProjects } from './pages/MyProjects.js';
 import { ProjectForm } from './pages/ProjectForm.js';
+import { MyCollaborations } from './pages/MyCollaborations.js';
+import { CollaborationForm } from './pages/CollaborationForm.js';
 
 function App() {
   return (
@@ -47,7 +49,9 @@ function App() {
             <Route path="projects" element={<MyProjects />} />
             <Route path="projects/new" element={<ProjectForm />} />
             <Route path="projects/edit/:id" element={<ProjectForm />} />
-            <Route path="collaborations" element={<div className="p-8 text-center text-xl font-bold">My Collaborations (Under Construction)</div>} />
+            <Route path="collaborations" element={<MyCollaborations />} />
+            <Route path="collaborations/new" element={<CollaborationForm />} />
+            <Route path="collaborations/edit/:id" element={<CollaborationForm />} />
             <Route path="applications" element={<div className="p-8 text-center text-xl font-bold">Applications (Under Construction)</div>} />
             <Route path="settings" element={<div className="p-8 text-center text-xl font-bold">Settings (Under Construction)</div>} />
           </Route>
