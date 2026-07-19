@@ -90,17 +90,17 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] Project CRUD
-- [ ] Collaboration CRUD
-- [ ] Project likes & views
-- [ ] Collaboration applications
-- [ ] Applicant management
-- [ ] Project search & filters
-- [ ] Collaboration search & filters
-- [ ] Member content management
-- [ ] Permission management
-- [ ] Responsive design
-- [ ] Feature testing
+- [x] Project CRUD
+- [x] Collaboration CRUD
+- [x] Project likes & views
+- [x] Collaboration applications
+- [x] Applicant management
+- [x] Project search & filters
+- [x] Collaboration search & filters
+- [x] Member content management
+- [x] Permission management
+- [x] Responsive design
+- [x] Feature testing
 
 ✅ Milestone: Members can create and manage projects and collaborations.
 
