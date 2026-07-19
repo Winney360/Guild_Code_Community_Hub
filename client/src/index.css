@@ -80,10 +80,15 @@ body {
 }
 
 /* 6. Tabs, Badges & Pill selectors */
+.dark .bg-slate-50,
 .dark .bg-slate-100,
 .dark .bg-\[\#f8fafc\],
 .dark .bg-\[\#f1f5f9\] {
   background-color: #1a292c !important;
+}
+
+.dark .border-slate-150 {
+  border-color: #273b3e !important;
 }
 
 .dark .bg-slate-550 {
@@ -97,6 +102,10 @@ body {
 .dark .hover\:bg-white:hover {
   background-color: #1a292c !important;
   border-color: #273b3e !important;
+}
+
+.dark .hover\:text-\[\#091e22\]:hover {
+  color: #f1f5f9 !important;
 }
 
 /* 8. Specific UI elements adjustment */
