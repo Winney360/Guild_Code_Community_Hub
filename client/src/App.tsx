@@ -9,6 +9,8 @@ import { ProjectShowcase } from './pages/ProjectShowcase.js';
 import { ProjectDetails } from './pages/ProjectDetails.js';
 import { CollaborationMarketplace } from './pages/CollaborationMarketplace.js';
 import { CollaborationDetails } from './pages/CollaborationDetails.js';
+import { CommunityEvents } from './pages/CommunityEvents.js';
+import { EventDetails } from './pages/EventDetails.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
 
 function App() {
@@ -25,7 +27,8 @@ function App() {
             <Route path="/members/:id" element={<MemberProfile />} />
             <Route path="/collaborate" element={<CollaborationMarketplace />} />
             <Route path="/collaborate/:id" element={<CollaborationDetails />} />
-            <Route path="/events" element={<div className="p-8 text-center text-xl font-bold">Community Events (Under Construction)</div>} />
+            <Route path="/events" element={<CommunityEvents />} />
+            <Route path="/events/:id" element={<EventDetails />} />
             <Route path="/privacy" element={<div className="p-8 text-center text-xl font-bold">Privacy Policy</div>} />
             <Route path="/terms" element={<div className="p-8 text-center text-xl font-bold">Terms of Service</div>} />
           </Route>
