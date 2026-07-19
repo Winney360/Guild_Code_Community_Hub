@@ -1,6 +1,139 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
  :root {
       --text: #6b6375;
       --text-h: #08060d;
  }
+
+/* Global smooth dark mode transitions */
+body {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* 🌙 PREMIUM DARK MODE STYLING SYSTEM */
+
+/* 1. Global backgrounds */
+.dark,
+.dark body,
+.dark .min-h-screen,
+.dark .bg-slate-50\/50,
+.dark .bg-\[\#f8fafc\] {
+  background-color: #0b1315 !important;
+  color: #f1f5f9 !important;
+}
+
+/* 2. Card, Sidebar, Header and Navigation backgrounds */
+.dark .bg-white,
+.dark header,
+.dark aside,
+.dark nav,
+.dark .border-slate-100.bg-white,
+.dark .md\:hidden.bg-white {
+  background-color: #121e21 !important;
+  border-color: #1e2e30 !important;
+}
+
+/* 3. Global text coloring overrides */
+.dark .text-\[\#091e22\],
+.dark .text-slate-800,
+.dark .text-slate-900,
+.dark .text-slate-700,
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-\[\#5c7075\],
+.dark .text-slate-650,
+.dark .text-slate-500,
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* 4. Global Borders & Dividers */
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-slate-200\/50,
+.dark hr {
+  border-color: #1e2e30 !important;
+}
+
+/* 5. Inputs, Textareas, Selects */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #1a292c !important;
+  border-color: #273b3e !important;
+  color: #f1f5f9 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* 6. Tabs, Badges & Pill selectors */
+.dark .bg-slate-100,
+.dark .bg-\[\#f8fafc\] {
+  background-color: #1a292c !important;
+}
+
+.dark .bg-slate-550 {
+  color: #cbd5e1 !important;
+}
+
+/* 7. Hover effects */
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-100:hover,
+.dark .hover\:border-slate-200:hover,
+.dark .hover\:bg-white:hover {
+  background-color: #1a292c !important;
+  border-color: #273b3e !important;
+}
+
+/* 8. Specific UI elements adjustment */
+.dark .shadow-sm,
+.dark .shadow,
+.dark .shadow-md,
+.dark .shadow-xl {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark .border-dashed {
+  border-color: #273b3e !important;
+}
+
+.dark .bg-\[\#006655\]\/10 {
+  background-color: rgba(0, 102, 85, 0.2) !important;
+}
+
+.dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  color: #34d399 !important;
+}
+
+.dark .bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  color: #60a5fa !important;
+}
+
+.dark .bg-purple-50 {
+  background-color: rgba(168, 85, 247, 0.1) !important;
+  color: #c084fc !important;
+}
+
+.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+  color: #fbbf24 !important;
+}
+
+.dark .bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  color: #f87171 !important;
+}
