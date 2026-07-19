@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Event } from '../models/Event.js';
+import { Notification } from '../models/Notification.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 // @desc    Get all published events
@@ -195,6 +196,15 @@ export const registerForEvent = async (req: Request, res: Response): Promise<voi
 
     event.participants.push({ name, email });
     await event.save();
+
+    // Trigger notification for the event creator
+    await Notification.create({
+      recipient: event.createdBy,
+      type: 'event_update',
+      title: `New Registration: ${event.title}`,
+      message: `${name} (${email}) has registered for your upcoming event.`,
+      link: '/dashboard/events',
+    });
 
     res.status(200).json({
       success: true,
