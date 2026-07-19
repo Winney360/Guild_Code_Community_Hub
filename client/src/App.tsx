@@ -23,6 +23,10 @@ import { MyEvents } from './pages/MyEvents.js';
 import { EventForm } from './pages/EventForm.js';
 import { DashboardSettings } from './pages/DashboardSettings.js';
 import { ActivityDashboard } from './pages/ActivityDashboard.js';
+import { AdminDashboard } from './pages/AdminDashboard.js';
+import { UserManagement } from './pages/UserManagement.js';
+import { ModerationQueue } from './pages/ModerationQueue.js';
+import { PlatformAnalytics } from './pages/PlatformAnalytics.js';
 
 function App() {
   return (
@@ -63,6 +67,12 @@ function App() {
             <Route path="events/edit/:id" element={<EventForm />} />
             <Route path="activity" element={<ActivityDashboard />} />
             <Route path="settings" element={<DashboardSettings />} />
+            
+            {/* Admin specific panels */}
+            <Route path="admin" element={<AdminDashboard />} />
+            <Route path="admin/users" element={<UserManagement />} />
+            <Route path="admin/moderation" element={<ModerationQueue />} />
+            <Route path="admin/analytics" element={<PlatformAnalytics />} />
           </Route>
           
           {/* Fallback redirection */}
