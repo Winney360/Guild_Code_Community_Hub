@@ -74,8 +74,8 @@ A high-level roadmap for building the Guild Code Community Platform.
 - [x] Project details page
 - [x] Collaborations page
 - [x] Collaboration details page
-- [ ] Events page
-- [ ] Event details page
+- [x] Events page
+- [x] Event details page
 - [ ] Search & filtering
 - [x] Public navigation
 - [x] Footer
