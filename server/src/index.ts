@@ -8,6 +8,7 @@ import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
+import collaborationRoutes from './routes/collaborationRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -32,6 +33,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/collaborations', collaborationRoutes);
 
 // Health Check Route
 app.get('/api/health', (req, res) => {
