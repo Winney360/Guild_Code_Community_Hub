@@ -110,15 +110,15 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] Build Events CRUD
-- [ ] Create Event Registration
-- [ ] Event Attendance Management
-- [ ] Event Categories
-- [ ] Event Search & Filters
-- [ ] Upcoming Events Widget
-- [ ] Event Dashboard Statistics
-- [ ] Responsive Design
-- [ ] Testing
+- [x] Build Events CRUD
+- [x] Create Event Registration
+- [x] Event Attendance Management
+- [x] Event Categories
+- [x] Event Search & Filters
+- [x] Upcoming Events Widget
+- [x] Event Dashboard Statistics
+- [x] Responsive Design
+- [x] Testing
 
 ✅ Milestone: Members can create, discover and register for events.
 
