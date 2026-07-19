@@ -19,6 +19,8 @@ import { ProjectForm } from './pages/ProjectForm.js';
 import { MyCollaborations } from './pages/MyCollaborations.js';
 import { CollaborationForm } from './pages/CollaborationForm.js';
 import { ApplicationsDashboard } from './pages/ApplicationsDashboard.js';
+import { MyEvents } from './pages/MyEvents.js';
+import { EventForm } from './pages/EventForm.js';
 
 function App() {
   return (
@@ -54,6 +56,9 @@ function App() {
             <Route path="collaborations/new" element={<CollaborationForm />} />
             <Route path="collaborations/edit/:id" element={<CollaborationForm />} />
             <Route path="applications" element={<ApplicationsDashboard />} />
+            <Route path="events" element={<MyEvents />} />
+            <Route path="events/new" element={<EventForm />} />
+            <Route path="events/edit/:id" element={<EventForm />} />
             <Route path="settings" element={<div className="p-8 text-center text-xl font-bold">Settings (Under Construction)</div>} />
           </Route>
           
