@@ -128,17 +128,17 @@ A high-level roadmap for building the Guild Code Community Platform.
 
 ## Goals
 
-- [ ] Dashboard Overview
-- [ ] My Profile
-- [ ] Edit Profile
-- [ ] My Projects
-- [ ] My Collaborations
-- [ ] My Applications
-- [ ] My Events
-- [ ] Dashboard Statistics
-- [ ] Activity Feed
-- [ ] Responsive Design
-- [ ] Testing
+- [x] Dashboard Overview
+- [x] My Profile
+- [x] Edit Profile
+- [x] My Projects
+- [x] My Collaborations
+- [x] My Applications
+- [x] My Events
+- [x] Dashboard Statistics
+- [x] Activity Feed
+- [x] Responsive Design
+- [x] Testing
 
 ✅ Milestone: Members can manage everything from one dashboard.
 
