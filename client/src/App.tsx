@@ -6,6 +6,7 @@ import { Home } from './pages/Home.js';
 import { MembersDirectory } from './pages/MembersDirectory.js';
 import { MemberProfile } from './pages/MemberProfile.js';
 import { ProjectShowcase } from './pages/ProjectShowcase.js';
+import { ProjectDetails } from './pages/ProjectDetails.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<ProjectShowcase />} />
+            <Route path="/projects/:id" element={<ProjectDetails />} />
             <Route path="/members" element={<MembersDirectory />} />
             <Route path="/members/:id" element={<MemberProfile />} />
             <Route path="/collaborate" element={<div className="p-8 text-center text-xl font-bold">Ecosystem Collaboration (Under Construction)</div>} />
