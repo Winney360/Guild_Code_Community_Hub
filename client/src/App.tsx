@@ -14,6 +14,8 @@ import { EventDetails } from './pages/EventDetails.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
 import { DashboardLayout } from './layouts/DashboardLayout.js';
 import { DashboardOverview } from './pages/DashboardOverview.js';
+import { MyProjects } from './pages/MyProjects.js';
+import { ProjectForm } from './pages/ProjectForm.js';
 
 function App() {
   return (
@@ -42,7 +44,9 @@ function App() {
           {/* Protected Dashboard Routes wrapped in DashboardLayout */}
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardOverview />} />
-            <Route path="projects" element={<div className="p-8 text-center text-xl font-bold">My Projects (Under Construction)</div>} />
+            <Route path="projects" element={<MyProjects />} />
+            <Route path="projects/new" element={<ProjectForm />} />
+            <Route path="projects/edit/:id" element={<ProjectForm />} />
             <Route path="collaborations" element={<div className="p-8 text-center text-xl font-bold">My Collaborations (Under Construction)</div>} />
             <Route path="applications" element={<div className="p-8 text-center text-xl font-bold">Applications (Under Construction)</div>} />
             <Route path="settings" element={<div className="p-8 text-center text-xl font-bold">Settings (Under Construction)</div>} />
