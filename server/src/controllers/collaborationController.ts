@@ -19,6 +19,24 @@ export const getCollaborations = async (req: Request, res: Response): Promise<vo
   }
 };
 
+// @desc    Get current user's collaborations
+// @route   GET /api/collaborations/my
+// @access  Private (Registered members)
+export const getMyCollaborations = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const collaborations = await Collaboration.find({ byUser: userId }).sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count: collaborations.length, data: collaborations });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
 // @desc    Get single collaboration details
 // @route   GET /api/collaborations/:id
 // @access  Public
@@ -48,6 +66,104 @@ export const getCollaborationById = async (req: Request, res: Response): Promise
         applicantsCount,
       },
     });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
+// @desc    Create a new collaboration request
+// @route   POST /api/collaborations
+// @access  Private (Registered members)
+export const createCollaboration = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const { title, description, project, requiredSkills, techStack, commitment, duration, timezone, rolesNeeded } = req.body;
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const collab = await Collaboration.create({
+      title,
+      description,
+      project: project || null,
+      byUser: userId,
+      requiredSkills,
+      techStack,
+      commitment,
+      duration,
+      timezone,
+      rolesNeeded,
+    });
+
+    res.status(201).json({ success: true, data: collab });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message || 'Validation Error' });
+  }
+};
+
+// @desc    Update a collaboration request
+// @route   PATCH /api/collaborations/:id
+// @access  Private (Registered owner)
+export const updateCollaboration = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    let collab = await Collaboration.findById(req.params.id);
+    if (!collab) {
+      res.status(404).json({ message: 'Collaboration request not found' });
+      return;
+    }
+
+    // Authorization verification
+    if (collab.byUser.toString() !== userId) {
+      res.status(403).json({ message: 'Not authorized to update this collaboration request' });
+      return;
+    }
+
+    collab = await Collaboration.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({ success: true, data: collab });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
+// @desc    Delete a collaboration request
+// @route   DELETE /api/collaborations/:id
+// @access  Private (Registered owner)
+export const deleteCollaboration = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const collab = await Collaboration.findById(req.params.id);
+    if (!collab) {
+      res.status(404).json({ message: 'Collaboration request not found' });
+      return;
+    }
+
+    // Authorization verification
+    if (collab.byUser.toString() !== userId) {
+      res.status(403).json({ message: 'Not authorized to delete this collaboration request' });
+      return;
+    }
+
+    // Cascade delete: purge all applications submitted to this request
+    await ApplicationModel.deleteMany({ collaboration: collab._id });
+    await Collaboration.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ success: true, message: 'Collaboration request and applications deleted successfully' });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
