@@ -36,7 +36,7 @@ export const Home: React.FC = () => {
     <div className="font-sans antialiased text-[#091e22] bg-white">
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-[#e6f7f8] via-[#eef9fa] to-white pt-16 pb-20 px-6 relative overflow-hidden select-none">
-        <div className="max-w-5xl mx-auto text-center relative z-10">
+        <div className="max-w-7xl mx-auto text-center relative z-10">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
             <svg className="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
@@ -46,16 +46,16 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-6xl mx-auto">
             The Premier Collective for <br className="hidden md:block" />
             Guild Code Community, <br className="hidden md:block" />
             <span className="italic text-[#006655] font-serif pr-2">Elite</span>Developers.
           </h1>
 
           {/* Subtitle */}
-          <p className="text-[#5c7075] text-lg max-w-2xl mx-auto mb-8 leading-relaxed select-none">
-            A collaborative platform where developers, designers, and creators come together to learn, build, <br className="hidden md:block" />
-            and grow. Share your work, connect with peers, and be part of something amazing.
+          <p className="text-[#5c7075] text-lg max-w-4xl mx-auto mb-8 leading-relaxed select-none">
+            A collaborative platform where developers, designers, and creators come together to learn, build, and <br className="hidden md:block" />
+            grow. Share your work, connect with peers, and be part of something amazing.
           </p>
 
           {/* Active Members Avatar Pile (from designs/home-addition.png) */}
@@ -74,7 +74,7 @@ export const Home: React.FC = () => {
             {/* Active Members count details */}
             <div className="text-left font-bold">
               <div className="flex items-center gap-1 text-xs text-[#091e22]">
-                <span className="text-[#006655] text-sm">✨</span> 247+ Active Members
+                247+ Active Members
               </div>
               <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Join the community today</p>
             </div>
@@ -97,7 +97,7 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Live Stat Counters (Spec 4.1) */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-8 max-w-4xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-100">
+          <div className="bg-white border border-slate-100 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-100">
             <div className="flex flex-col items-center justify-center p-2">
               <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
                 {loading ? '...' : (stats.activeMembers > 0 ? `${stats.activeMembers}` : '2,400+')}
