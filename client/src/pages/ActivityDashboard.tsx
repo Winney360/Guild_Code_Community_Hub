@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 interface NotificationType {
   _id: string;
-  type: 'application_update' | 'project_mention' | 'system_announcement' | 'collaboration_request' | 'event_update';
+  type: 'application_received' | 'application_accepted' | 'application_rejected' | 'collab_closed' | 'application_update' | 'project_mention' | 'system_announcement' | 'collaboration_request' | 'event_update';
   title: string;
   message: string;
   link?: string;
-  isRead: boolean;
+  read: boolean;
   createdAt: string;
 }
 
@@ -44,13 +44,19 @@ export const ActivityDashboard: React.FC = () => {
 
     const result = notifications.filter((item) => {
       if (filterTab === 'applications') {
-        return item.type === 'application_update' || item.type === 'collaboration_request';
+        return (
+          item.type === 'application_update' ||
+          item.type === 'collaboration_request' ||
+          item.type === 'application_received' ||
+          item.type === 'application_accepted' ||
+          item.type === 'application_rejected'
+        );
       }
       if (filterTab === 'mentions') {
         return item.type === 'project_mention';
       }
       if (filterTab === 'system') {
-        return item.type === 'system_announcement' || item.type === 'event_update';
+        return item.type === 'system_announcement' || item.type === 'event_update' || item.type === 'collab_closed';
       }
       return true;
     });
@@ -65,7 +71,7 @@ export const ActivityDashboard: React.FC = () => {
       });
       if (res.ok) {
         // Update local state reactively
-        setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+        setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
       }
     } catch (err) {
       console.error(err);
@@ -80,7 +86,7 @@ export const ActivityDashboard: React.FC = () => {
       if (res.ok) {
         // Update local state
         setNotifications((prev) =>
-          prev.map((n) => (n._id === id ? { ...n, isRead: true } : n))
+          prev.map((n) => (n._id === id ? { ...n, read: true } : n))
         );
       }
     } catch (err) {
@@ -137,6 +143,30 @@ export const ActivityDashboard: React.FC = () => {
         badgeClass: 'bg-amber-50 text-amber-600 border-amber-100',
         iconClass: 'bg-amber-50 text-amber-600 border-amber-100',
       },
+      application_received: {
+        label: 'APPLICATION RECEIVED',
+        icon: '🤝',
+        badgeClass: 'bg-purple-50 text-purple-600 border-purple-100',
+        iconClass: 'bg-purple-50 text-purple-600 border-purple-100',
+      },
+      application_accepted: {
+        label: 'APPLICATION ACCEPTED',
+        icon: '🎉',
+        badgeClass: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+        iconClass: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+      },
+      application_rejected: {
+        label: 'APPLICATION REJECTED',
+        icon: '❌',
+        badgeClass: 'bg-red-50 text-red-600 border-red-100',
+        iconClass: 'bg-red-50 text-red-600 border-red-100',
+      },
+      collab_closed: {
+        label: 'COLLABORATION CLOSED',
+        icon: '🔒',
+        badgeClass: 'bg-slate-50 text-slate-600 border-slate-200',
+        iconClass: 'bg-slate-50 text-slate-650 border-slate-200',
+      },
     };
     return configs[type] || {
       label: 'ALERT',
@@ -169,7 +199,7 @@ export const ActivityDashboard: React.FC = () => {
         </div>
 
         {/* Mark all as read */}
-        {notifications.some((n) => !n.isRead) && (
+        {notifications.some((n) => !n.read) && (
           <button
             onClick={handleMarkAllAsRead}
             className="flex items-center gap-1 text-[#006655] hover:underline font-bold text-xs"
@@ -239,7 +269,7 @@ export const ActivityDashboard: React.FC = () => {
                 key={item._id}
                 onClick={() => handleMarkAsRead(item._id)}
                 className={`border border-slate-100 rounded-3xl p-6 shadow-sm flex gap-5 items-start bg-white transition-all cursor-pointer hover:border-slate-200 ${
-                  !item.isRead ? 'ring-1 ring-emerald-500/10' : ''
+                  !item.read ? 'ring-1 ring-emerald-500/10' : ''
                 }`}
               >
                 {/* Left Type Icon */}
@@ -255,7 +285,7 @@ export const ActivityDashboard: React.FC = () => {
                     </span>
                     <div className="flex items-center gap-3">
                       <span className="text-[10px] text-slate-400 font-semibold">{getTimeElapsed(item.createdAt)}</span>
-                      {!item.isRead && (
+                      {!item.read && (
                         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" title="Unread"></span>
                       )}
                     </div>
