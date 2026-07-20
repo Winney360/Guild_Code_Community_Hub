@@ -20,6 +20,7 @@ interface CollaborationType {
   likes: string[];
   views: number;
   applicantsCount?: number;
+  commentsCount?: number;
   createdAt: string;
 }
 
@@ -221,7 +222,7 @@ export const CollaborationMarketplace: React.FC = () => {
                 <div className="flex justify-between items-center text-[10px] text-[#5c7075] select-none font-semibold">
                   <div className="flex gap-4">
                     <span>❤️ {collab.likes ? collab.likes.length : 0}</span>
-                    <span>💬 {collab.applicantsCount || idx * 3 + 4}</span>
+                    <span>💬 {collab.commentsCount || 0}</span>
                   </div>
                   <Link
                     to={`/collaborate/${collab._id}`}
