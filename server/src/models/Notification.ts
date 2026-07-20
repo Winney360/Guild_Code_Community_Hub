@@ -1,18 +1,18 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface INotification extends Document {
-  recipient: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
   sender?: mongoose.Types.ObjectId;
-  type: 'application_update' | 'project_mention' | 'system_announcement' | 'collaboration_request' | 'event_update';
+  type: 'application_received' | 'application_accepted' | 'application_rejected' | 'collab_closed' | 'application_update' | 'project_mention' | 'system_announcement' | 'collaboration_request' | 'event_update';
   title: string;
   message: string;
   link?: string;
-  isRead: boolean;
+  read: boolean;
   createdAt: Date;
 }
 
 const NotificationSchema = new Schema<INotification>({
-  recipient: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
@@ -23,7 +23,7 @@ const NotificationSchema = new Schema<INotification>({
   },
   type: {
     type: String,
-    enum: ['application_update', 'project_mention', 'system_announcement', 'collaboration_request', 'event_update'],
+    enum: ['application_received', 'application_accepted', 'application_rejected', 'collab_closed', 'application_update', 'project_mention', 'system_announcement', 'collaboration_request', 'event_update'],
     required: true,
   },
   title: {
@@ -39,7 +39,7 @@ const NotificationSchema = new Schema<INotification>({
   link: {
     type: String,
   },
-  isRead: {
+  read: {
     type: Boolean,
     default: false,
   },
