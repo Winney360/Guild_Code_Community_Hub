@@ -55,8 +55,8 @@ export const DashboardLayout: React.FC = () => {
         <div>
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 mb-8">
-            <img src={heroLogo} alt="Logo" className="w-7 h-7 object-contain shrink-0 dark:hidden" />
-            <img src={heroDarkLogo} alt="Logo" className="w-7 h-7 object-contain shrink-0 hidden dark:block" />
+            <img src={heroLogo} alt="Logo" className="w-9 h-9 object-contain shrink-0 dark:hidden" />
+            <img src={heroDarkLogo} alt="Logo" className="w-9 h-9 object-contain shrink-0 hidden dark:block" />
             <span className="font-bold text-base tracking-tight text-[#091e22]">
               Guild <span className="text-[#006655]">Code</span>
             </span>
