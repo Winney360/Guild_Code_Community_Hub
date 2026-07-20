@@ -83,16 +83,16 @@ export const Home: React.FC = () => {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
             <Link
-              to="/signup"
+              to="/members"
               className="w-full sm:w-auto bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-sm"
             >
-              Apply to Join
+              Explore Members
             </Link>
             <Link
               to="/projects"
               className="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-[#006655] font-bold py-3.5 px-8 rounded-xl transition-all shadow-sm text-sm"
             >
-              Explore Ecosystem
+              View Projects
             </Link>
           </div>
 
