@@ -39,7 +39,9 @@ export const Home: React.FC = () => {
         <div className="max-w-5xl mx-auto text-center relative z-10">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
-            <span className="shrink-0 text-xs select-none">🏆</span>
+            <svg className="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-6.75a1.125 1.125 0 00-1.125 1.125v3.375m9 0H7.5m9-3.375a3.75 3.75 0 00-7.5 0M18.75 7.5h.75c.621 0 1.125.504 1.125 1.125v1.5c0 1.866-1.51 3.375-3.375 3.375h-.75m-10.5-6h-.75A3.375 3.375 0 002.25 10.125v1.5c0 1.866 1.51 3.375 3.375 3.375h.75M9 3.75h6" />
+            </svg>
             <span>Building Together Since 2024</span>
           </div>
 
