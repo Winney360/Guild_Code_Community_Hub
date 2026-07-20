@@ -84,9 +84,9 @@ export const updateApplicationStatus = async (req: AuthenticatedRequest, res: Re
 
     // Trigger notification for the applicant
     await Notification.create({
-      recipient: application.applicant,
+      userId: application.applicant,
       sender: collab.byUser,
-      type: 'application_update',
+      type: status === 'accepted' ? 'application_accepted' : 'application_rejected',
       title: `Application Update: ${collab.title}`,
       message: `Your application for the ${application.role} position has been ${status}.`,
       link: '/dashboard/applications',
