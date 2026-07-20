@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import heroLogo from '../assets/hero.png';
 
 interface Stats {
   activeMembers: number;
@@ -40,7 +39,7 @@ export const Home: React.FC = () => {
         <div className="max-w-5xl mx-auto text-center relative z-10">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
-            <img src={heroLogo} alt="Logo" className="w-4.5 h-4.5 object-contain shrink-0" />
+            <span className="shrink-0 text-xs select-none">🏆</span>
             <span>Building Together Since 2024</span>
           </div>
 
@@ -53,8 +52,7 @@ export const Home: React.FC = () => {
 
           {/* Subtitle */}
           <p className="text-[#5c7075] text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-            Join an exclusive ecosystem where top-tier engineers collaborate on groundbreaking projects,
-            share technical mastery, and push the boundaries of modern software.
+            A collaborative platform where developers, designers, and creators come together to learn, build, and grow. Share your work, connect with peers, and be part of something amazing.
           </p>
 
           {/* Action Buttons */}
