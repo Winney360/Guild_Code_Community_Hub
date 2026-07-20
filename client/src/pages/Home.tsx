@@ -53,9 +53,32 @@ export const Home: React.FC = () => {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-[#5c7075] text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-            A collaborative platform where developers, designers, and creators come together to learn, build, and grow. Share your work, connect with peers, and be part of something amazing.
+          <p className="text-[#5c7075] text-lg max-w-2xl mx-auto mb-8 leading-relaxed select-none">
+            A collaborative platform where developers, designers, and creators come together to learn, build, <br className="hidden md:block" />
+            and grow. Share your work, connect with peers, and be part of something amazing.
           </p>
+
+          {/* Active Members Avatar Pile (from designs/home-addition.png) */}
+          <div className="flex items-center justify-center gap-4 mb-10 select-none">
+            {/* Overlapping Rings */}
+            <div className="flex -space-x-3">
+              {['SC', 'MJ', 'ER', 'DK', 'AP', 'TA'].map((initial, idx) => (
+                <div
+                  key={idx}
+                  className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none"
+                >
+                  {initial}
+                </div>
+              ))}
+            </div>
+            {/* Active Members count details */}
+            <div className="text-left font-bold">
+              <div className="flex items-center gap-1 text-xs text-[#091e22]">
+                <span className="text-[#006655] text-sm">✨</span> 247+ Active Members
+              </div>
+              <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Join the community today</p>
+            </div>
+          </div>
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
