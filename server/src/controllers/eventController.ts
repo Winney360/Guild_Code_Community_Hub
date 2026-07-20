@@ -199,7 +199,7 @@ export const registerForEvent = async (req: Request, res: Response): Promise<voi
 
     // Trigger notification for the event creator
     await Notification.create({
-      recipient: event.createdBy,
+      userId: event.createdBy,
       type: 'event_update',
       title: `New Registration: ${event.title}`,
       message: `${name} (${email}) has registered for your upcoming event.`,
