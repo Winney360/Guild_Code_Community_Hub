@@ -57,7 +57,7 @@ export const Navbar: React.FC = () => {
           </div>
           <div className="relative">
             <Link to="/collaborate" className={linkClass('/collaborate')}>
-              Ecosystem
+              Collaboration
             </Link>
             {activeIndicator('/collaborate')}
           </div>
@@ -140,7 +140,7 @@ export const Navbar: React.FC = () => {
             onClick={() => setIsOpen(false)}
             className={`text-sm font-semibold ${isActive('/collaborate') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
           >
-            Ecosystem
+            Collaboration
           </Link>
           <Link
             to="/events"
