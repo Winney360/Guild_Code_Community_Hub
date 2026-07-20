@@ -2,6 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 
+interface CommentType {
+  _id: string;
+  userId: {
+    _id: string;
+    fullName: string;
+    profilePicture?: string;
+  };
+  collaborationId: string;
+  text: string;
+  createdAt: string;
+}
+
 interface CollaborationType {
   _id: string;
   title: string;
@@ -22,6 +34,7 @@ interface CollaborationType {
   views: number;
   applicantsCount?: number;
   createdAt: string;
+  comments?: CommentType[];
 }
 
 export const CollaborationDetails: React.FC = () => {
@@ -42,6 +55,12 @@ export const CollaborationDetails: React.FC = () => {
   const [submitError, setSubmitError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
+  // Comments state
+  const [comments, setComments] = useState<CommentType[]>([]);
+  const [commentText, setCommentText] = useState('');
+  const [commentError, setCommentError] = useState('');
+  const [commenting, setCommenting] = useState(false);
+
   useEffect(() => {
     const fetchCollab = async () => {
       try {
@@ -50,6 +69,7 @@ export const CollaborationDetails: React.FC = () => {
           const data = await res.json();
           setCollab(data.data);
           setLikesCount(data.data.likes.length);
+          setComments(data.data.comments || []);
           if (user) {
             setIsLiked(data.data.likes.includes(user._id));
           }
@@ -118,6 +138,55 @@ export const CollaborationDetails: React.FC = () => {
     } catch (err) {
       console.error('Error submitting application:', err);
       setSubmitError('Server connection issue. Try again later.');
+    }
+  };
+
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (!commentText.trim()) return;
+
+    setCommenting(true);
+    setCommentError('');
+    try {
+      const res = await fetch(`/api/collaborations/${id}/comments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: commentText }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setComments([...comments, data.data]);
+        setCommentText('');
+      } else {
+        setCommentError(data.message || 'Failed to post comment');
+      }
+    } catch (err) {
+      console.error('Error posting comment:', err);
+      setCommentError('Server connection error');
+    } finally {
+      setCommenting(false);
+    }
+  };
+
+  const handleCommentDelete = async (commentId: string) => {
+    if (!window.confirm('Are you sure you want to delete this comment?')) return;
+    try {
+      const res = await fetch(`/api/comments/${commentId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setComments(comments.filter((c) => c._id !== commentId));
+      } else {
+        alert(data.message || 'Failed to delete comment');
+      }
+    } catch (err) {
+      console.error('Error deleting comment:', err);
+      alert('Server connection error');
     }
   };
 
@@ -236,64 +305,93 @@ export const CollaborationDetails: React.FC = () => {
           {/* Discussion comments section */}
           <section className="bg-white border border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-extrabold text-lg">Discussion</h3>
-              <span className="text-[#5c7075] text-xs font-semibold cursor-pointer hover:underline">View all activity</span>
+              <h3 className="font-extrabold text-lg">Discussion ({comments.length})</h3>
             </div>
+
+            {commentError && (
+              <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-xs mb-4">
+                ⚠️ {commentError}
+              </div>
+            )}
 
             {/* Comments List */}
             <div className="space-y-6 mb-6">
-              {/* Comment 1 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-slate-100">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=50&h=50&fit=crop" alt="" />
+              {comments.length === 0 ? (
+                <div className="text-center py-8 text-xs text-[#5c7075] border border-dashed border-slate-100 rounded-2xl bg-slate-50/20 select-none">
+                  No comments yet. Start the discussion!
                 </div>
-                <div className="flex-grow">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-xs">Sarah Zhang</span>
-                    <span className="text-[10px] text-slate-400 font-semibold">2 hours ago</span>
-                  </div>
-                  <p className="text-xs text-[#5c7075] leading-relaxed">
-                    Are you planning on using Substrate for the consensus engine, or is this a custom implementation from the ground up? Curious about the migration path for existing storage nodes.
-                  </p>
-                  <div className="flex gap-4 mt-2 text-[10px] text-slate-400 select-none font-bold">
-                    <span className="cursor-pointer hover:text-slate-600">👍 4</span>
-                    <span className="cursor-pointer hover:text-slate-600">Reply</span>
-                  </div>
-                </div>
-              </div>
+              ) : (
+                comments.map((cmt) => {
+                  const isCommentOwnerOrAdmin =
+                    (collab.byUser && collab.byUser._id === user?._id) || user?.role === 'admin';
 
-              {/* Comment 2 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-slate-100">
-                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50&h=50&fit=crop" alt="" />
-                </div>
-                <div className="flex-grow">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-xs">Marcus V.</span>
-                    <span className="text-[10px] text-slate-400 font-semibold">5 hours ago</span>
-                  </div>
-                  <p className="text-xs text-[#5c7075] leading-relaxed">
-                    This looks incredibly promising. I've worked with libp2p on similar scale projects. Would love to know if the role is remote-only or if there are periodic syncs in SF?
-                  </p>
-                  <div className="flex gap-4 mt-2 text-[10px] text-slate-400 select-none font-bold">
-                    <span className="cursor-pointer hover:text-slate-600">👍 2</span>
-                    <span className="cursor-pointer hover:text-slate-600">Reply</span>
-                  </div>
-                </div>
-              </div>
+                  return (
+                    <div key={cmt._id} className="flex items-start gap-4 group">
+                      <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-slate-100">
+                        {cmt.userId && cmt.userId.profilePicture ? (
+                          <img src={cmt.userId.profilePicture} alt={cmt.userId.fullName} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-xs">
+                            {cmt.userId ? cmt.userId.fullName.charAt(0).toUpperCase() : 'U'}
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-grow">
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-xs">{cmt.userId ? cmt.userId.fullName : 'Guild Member'}</span>
+                            <span className="text-[10px] text-slate-400 font-semibold">
+                              {new Date(cmt.createdAt).toLocaleString()}
+                            </span>
+                          </div>
+                          {isCommentOwnerOrAdmin && (
+                            <button
+                              onClick={() => handleCommentDelete(cmt._id)}
+                              className="text-red-500 hover:text-red-700 text-[10px] font-bold transition-colors select-none"
+                              title="Delete comment"
+                            >
+                              🗑️ Delete
+                            </button>
+                          )}
+                        </div>
+                        <p className="text-xs text-[#5c7075] leading-relaxed">
+                          {cmt.text}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
 
             {/* Post comment input */}
-            <div className="flex gap-3 mt-8">
-              <input
-                type="text"
-                placeholder="Ask a question about this mission..."
-                className="flex-grow px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
-              />
-              <button className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm">
-                Post
-              </button>
-            </div>
+            {user ? (
+              <form onSubmit={handleCommentSubmit} className="flex gap-3 mt-8">
+                <input
+                  type="text"
+                  placeholder="Ask a question about this mission..."
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  disabled={commenting}
+                  className="flex-grow px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+                />
+                <button
+                  type="submit"
+                  disabled={commenting || !commentText.trim()}
+                  className="bg-[#006655] hover:bg-[#004d40] disabled:bg-slate-200 disabled:cursor-not-allowed text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm transition-all"
+                >
+                  {commenting ? 'Posting...' : 'Post'}
+                </button>
+              </form>
+            ) : (
+              <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl text-center text-xs text-[#5c7075] mt-8 select-none">
+                Please{' '}
+                <Link to="/login" className="text-[#006655] font-bold hover:underline">
+                  sign in
+                </Link>{' '}
+                to join the discussion.
+              </div>
+            )}
           </section>
         </div>
 
