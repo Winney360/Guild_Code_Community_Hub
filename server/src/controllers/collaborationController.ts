@@ -5,6 +5,7 @@ import { Application as ApplicationModel } from '../models/Application.js';
 import { Notification } from '../models/Notification.js';
 import { User } from '../models/User.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
+import { Comment } from '../models/Comment.js';
 
 // @desc    Get all open collaborations
 // @route   GET /api/collaborations
@@ -15,7 +16,19 @@ export const getCollaborations = async (req: Request, res: Response): Promise<vo
       .populate('byUser', 'fullName profilePicture')
       .sort({ createdAt: -1 });
 
-    res.status(200).json({ success: true, count: collaborations.length, data: collaborations });
+    const updatedCollaborations = await Promise.all(
+      collaborations.map(async (collab) => {
+        const commentsCount = await Comment.countDocuments({ collaborationId: collab._id });
+        const applicantsCount = await ApplicationModel.countDocuments({ collaboration: collab._id });
+        return {
+          ...collab.toObject(),
+          commentsCount,
+          applicantsCount,
+        };
+      })
+    );
+
+    res.status(200).json({ success: true, count: updatedCollaborations.length, data: updatedCollaborations });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
@@ -33,7 +46,19 @@ export const getMyCollaborations = async (req: AuthenticatedRequest, res: Respon
     }
 
     const collaborations = await Collaboration.find({ byUser: userId }).sort({ createdAt: -1 });
-    res.status(200).json({ success: true, count: collaborations.length, data: collaborations });
+    const updatedCollaborations = await Promise.all(
+      collaborations.map(async (collab) => {
+        const commentsCount = await Comment.countDocuments({ collaborationId: collab._id });
+        const applicantsCount = await ApplicationModel.countDocuments({ collaboration: collab._id });
+        return {
+          ...collab.toObject(),
+          commentsCount,
+          applicantsCount,
+        };
+      })
+    );
+
+    res.status(200).json({ success: true, count: updatedCollaborations.length, data: updatedCollaborations });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
@@ -61,11 +86,16 @@ export const getCollaborationById = async (req: Request, res: Response): Promise
       collaboration: collaboration._id,
     });
 
+    const comments = await Comment.find({ collaborationId: collaboration._id })
+      .populate('userId', 'fullName profilePicture')
+      .sort({ createdAt: 1 });
+
     res.status(200).json({
       success: true,
       data: {
         ...collaboration.toObject(),
         applicantsCount,
+        comments,
       },
     });
   } catch (error: any) {
@@ -276,9 +306,9 @@ export const createApplication = async (req: AuthenticatedRequest, res: Response
     const applicantName = applicantUser ? applicantUser.fullName : 'A member';
 
     await Notification.create({
-      recipient: collab.byUser,
+      userId: collab.byUser,
       sender: userObjectId,
-      type: 'collaboration_request',
+      type: 'application_received',
       title: `New Applicant: ${collab.title}`,
       message: `${applicantName} has applied for the ${role} position.`,
       link: '/dashboard/applications',
