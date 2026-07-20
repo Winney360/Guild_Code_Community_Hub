@@ -13,7 +13,7 @@ export const getNotifications = async (req: AuthenticatedRequest, res: Response)
       return;
     }
 
-    const notifications = await Notification.find({ recipient: userId })
+    const notifications = await Notification.find({ userId: userId })
       .populate('sender', 'fullName profilePicture')
       .sort({ createdAt: -1 });
 
@@ -44,12 +44,12 @@ export const markAsRead = async (req: AuthenticatedRequest, res: Response): Prom
       return;
     }
 
-    if (notification.recipient.toString() !== userId) {
+    if (notification.userId.toString() !== userId) {
       res.status(403).json({ message: 'Not authorized to modify this notification' });
       return;
     }
 
-    notification.isRead = true;
+    notification.read = true;
     await notification.save();
 
     res.status(200).json({ success: true, data: notification });
@@ -70,8 +70,8 @@ export const markAllAsRead = async (req: AuthenticatedRequest, res: Response): P
     }
 
     await Notification.updateMany(
-      { recipient: userId, isRead: false },
-      { $set: { isRead: true } }
+      { userId: userId, read: false },
+      { $set: { read: true } }
     );
 
     res.status(200).json({ success: true, message: 'All notifications marked as read' });
