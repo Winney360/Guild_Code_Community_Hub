@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import heroLogo from '../assets/hero.png';
+import heroDarkLogo from '../assets/hero-dark.png';
 
 export const Footer: React.FC = () => {
   return (
@@ -8,7 +9,8 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left Side: Brand Logo & Copyright */}
         <div className="flex items-center gap-3">
-          <img src={heroLogo} alt="Logo" className="w-8 h-8 object-contain shrink-0" />
+          <img src={heroLogo} alt="Logo" className="w-8 h-8 object-contain shrink-0 dark:hidden" />
+          <img src={heroDarkLogo} alt="Logo" className="w-8 h-8 object-contain shrink-0 hidden dark:block" />
           <div className="flex flex-col items-center md:items-start gap-0.5">
             <span className="font-bold text-sm text-[#091e22] tracking-tight">Guild Code</span>
             <span className="text-xs text-[#5c7075]">
