@@ -42,12 +42,13 @@ export const Home: React.FC = () => {
             <svg className="w-3.5 h-3.5 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span>Building together since 2024</span>
+            <span>Building Together Since 2024</span>
           </div>
 
           {/* Title */}
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
             The Premier Collective for <br className="hidden md:block" />
+            Guild Code Community, <br className="hidden md:block" />
             <span className="italic text-[#006655] font-serif pr-2">Elite</span>Developers.
           </h1>
 
