@@ -9,6 +9,7 @@ import {
   toggleCollaborationLike,
   createApplication,
 } from '../controllers/collaborationController.js';
+import { createComment } from '../controllers/commentController.js';
 import { protect } from '../middlewares/authMiddleware.js';
 
 const router = Router();
@@ -21,5 +22,6 @@ router.patch('/:id', protect, updateCollaboration);
 router.delete('/:id', protect, deleteCollaboration);
 router.post('/:id/like', protect, toggleCollaborationLike);
 router.post('/:id/apply', protect, createApplication);
+router.post('/:id/comments', protect, createComment);
 
 export default router;
