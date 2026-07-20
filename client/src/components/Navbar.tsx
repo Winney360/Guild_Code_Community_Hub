@@ -34,8 +34,8 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Left Side: Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <img src={heroLogo} alt="Logo" className="w-8 h-8 object-contain shrink-0 dark:hidden" />
-          <img src={heroDarkLogo} alt="Logo" className="w-8 h-8 object-contain shrink-0 hidden dark:block" />
+          <img src={heroLogo} alt="Logo" className="w-10 h-10 object-contain shrink-0 dark:hidden" />
+          <img src={heroDarkLogo} alt="Logo" className="w-10 h-10 object-contain shrink-0 hidden dark:block" />
           <span className="font-bold text-lg tracking-tight text-[#091e22]">
             Guild <span className="text-[#006655]">Code</span>
           </span>
