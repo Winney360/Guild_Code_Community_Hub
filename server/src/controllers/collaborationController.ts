@@ -85,6 +85,12 @@ export const createCollaboration = async (req: AuthenticatedRequest, res: Respon
       return;
     }
 
+    const activeCount = await Collaboration.countDocuments({ byUser: userId, status: 'open' });
+    if (activeCount >= 3) {
+      res.status(400).json({ message: 'Maximum of 3 active collaboration posts reached.' });
+      return;
+    }
+
     const collab = await Collaboration.create({
       title,
       description,
