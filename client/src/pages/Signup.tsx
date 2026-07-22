@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import signBg from '../assets/sign.png';
 
 export const Signup: React.FC = () => {
-  const { signup } = useAuth();
+  const { signup, loginWithOAuth } = useAuth();
+  const navigate = useNavigate();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -15,6 +16,24 @@ export const Signup: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleOAuth = async (provider: 'google' | 'github') => {
+    setError('');
+    setSuccessMessage('');
+    setLoading(true);
+    try {
+      const result = await loginWithOAuth(provider);
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setError(result.message || 'OAuth registration failed');
+      }
+    } catch (err) {
+      setError('An error occurred during authentication.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const isEmailValid = (val: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -286,7 +305,7 @@ export const Signup: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"
-              onClick={() => setError('Google authentication is not configured for this workspace. Please sign up with your email and password.')}
+              onClick={() => handleOAuth('google')}
               className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-semibold"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -311,7 +330,7 @@ export const Signup: React.FC = () => {
             </button>
             <button
               type="button"
-              onClick={() => setError('GitHub authentication is not configured for this workspace. Please sign up with your email and password.')}
+              onClick={() => handleOAuth('github')}
               className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-semibold"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
