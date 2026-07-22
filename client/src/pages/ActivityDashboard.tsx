@@ -112,65 +112,101 @@ export const ActivityDashboard: React.FC = () => {
   };
 
   const getNotificationConfig = (type: string) => {
-    const configs: Record<string, { label: string; icon: string; badgeClass: string; iconClass: string }> = {
+    const configs: Record<string, { label: string; icon: React.ReactNode; badgeClass: string; iconClass: string }> = {
       project_mention: {
         label: 'PROJECT MENTION',
-        icon: '@',
+        icon: <span className="text-xs font-extrabold select-none">@</span>,
         badgeClass: 'bg-emerald-50 text-emerald-600 border-emerald-100',
         iconClass: 'bg-emerald-50 text-emerald-600 border-emerald-100',
       },
       application_update: {
         label: 'APPLICATION UPDATE',
-        icon: '↑',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
+          </svg>
+        ),
         badgeClass: 'bg-blue-50 text-blue-600 border-blue-100',
         iconClass: 'bg-blue-50 text-blue-600 border-blue-100',
       },
       collaboration_request: {
         label: 'COLLABORATION REQUEST',
-        icon: '🤝',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+          </svg>
+        ),
         badgeClass: 'bg-purple-50 text-purple-600 border-purple-100',
         iconClass: 'bg-purple-50 text-purple-600 border-purple-100',
       },
       system_announcement: {
         label: 'SYSTEM ANNOUNCEMENT',
-        icon: '📢',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+          </svg>
+        ),
         badgeClass: 'bg-slate-50 text-slate-600 border-slate-200',
         iconClass: 'bg-slate-50 text-slate-650 border-slate-200',
       },
       event_update: {
         label: 'EVENT UPDATE',
-        icon: '📅',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          </svg>
+        ),
         badgeClass: 'bg-amber-50 text-amber-600 border-amber-100',
         iconClass: 'bg-amber-50 text-amber-600 border-amber-100',
       },
       application_received: {
         label: 'APPLICATION RECEIVED',
-        icon: '🤝',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+          </svg>
+        ),
         badgeClass: 'bg-purple-50 text-purple-600 border-purple-100',
         iconClass: 'bg-purple-50 text-purple-600 border-purple-100',
       },
       application_accepted: {
         label: 'APPLICATION ACCEPTED',
-        icon: '🎉',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0110 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+          </svg>
+        ),
         badgeClass: 'bg-emerald-50 text-emerald-600 border-emerald-100',
         iconClass: 'bg-emerald-50 text-emerald-600 border-emerald-100',
       },
       application_rejected: {
         label: 'APPLICATION REJECTED',
-        icon: '❌',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        ),
         badgeClass: 'bg-red-50 text-red-600 border-red-100',
         iconClass: 'bg-red-50 text-red-600 border-red-100',
       },
       collab_closed: {
         label: 'COLLABORATION CLOSED',
-        icon: '🔒',
+        icon: (
+          <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+        ),
         badgeClass: 'bg-slate-50 text-slate-600 border-slate-200',
         iconClass: 'bg-slate-50 text-slate-650 border-slate-200',
       },
     };
     return configs[type] || {
       label: 'ALERT',
-      icon: '🔔',
+      icon: (
+        <svg className="w-4.5 h-4.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+        </svg>
+      ),
       badgeClass: 'bg-slate-50 text-slate-600 border-slate-200',
       iconClass: 'bg-slate-50 text-slate-600 border-slate-200',
     };
@@ -202,9 +238,12 @@ export const ActivityDashboard: React.FC = () => {
         {notifications.some((n) => !n.read) && (
           <button
             onClick={handleMarkAllAsRead}
-            className="flex items-center gap-1 text-[#006655] hover:underline font-bold text-xs"
+            className="flex items-center gap-1.5 text-[#006655] hover:underline font-bold text-xs"
           >
-            <span>✓</span> Mark all as read
+            <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span>Mark all as read</span>
           </button>
         )}
       </div>
@@ -253,10 +292,13 @@ export const ActivityDashboard: React.FC = () => {
         </button>
       </div>
 
-      {/* Notification List cards */}
       {filteredNotifications.length === 0 ? (
-        <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm select-none">
-          <span className="text-4xl block mb-4">🔔</span>
+        <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm select-none flex flex-col items-center">
+          <div className="bg-slate-50 text-slate-400 p-4 rounded-full border border-slate-100 mb-4">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+            </svg>
+          </div>
           <h3 className="font-extrabold text-base mb-1">All caught up!</h3>
           <p className="text-xs text-[#5c7075]">You have no notifications in this category.</p>
         </div>
