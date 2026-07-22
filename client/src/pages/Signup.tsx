@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import signBg from '../assets/sign.png';
 
 export const Signup: React.FC = () => {
   const { signup } = useAuth();
@@ -59,10 +60,16 @@ export const Signup: React.FC = () => {
   return (
     <div className="min-h-screen flex font-sans antialiased text-[#091e22]">
       {/* Left side: Premium illustration & Info panel */}
-      <div className="hidden md:flex md:w-1/2 bg-gradient-to-tr from-[#3b93a2] via-[#5fb9c9] to-[#92e2eb] flex-col justify-between p-12 relative overflow-hidden select-none">
+      <div
+        className="hidden md:flex md:w-1/2 flex-col justify-between p-12 relative overflow-hidden select-none bg-cover bg-center text-white"
+        style={{ backgroundImage: `url(${signBg})` }}
+      >
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-[#091e22]/50 backdrop-blur-[1px] z-0"></div>
+
         {/* Top brand logo */}
-        <div className="flex items-center gap-3 text-white">
-          <div className="bg-white/20 backdrop-blur-md border border-white/30 p-2 rounded-lg flex items-center justify-center">
+        <div className="flex items-center gap-3 relative z-10">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-lg flex items-center justify-center">
             <svg
               className="w-6 h-6 text-white"
               fill="none"
@@ -77,60 +84,21 @@ export const Signup: React.FC = () => {
               />
             </svg>
           </div>
-          <span className="font-semibold text-xl tracking-tight">Guild Code</span>
+          <span className="font-semibold text-xl tracking-tight text-white">Guild Code</span>
         </div>
 
-        {/* Center Illustration - Browser/Editor mockup (Glassmorphic) */}
-        <div className="my-auto max-w-[440px] mx-auto w-full">
-          <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl p-6 shadow-2xl relative aspect-[4/3] flex flex-col justify-between">
-            {/* Browser top-bar */}
-            <div className="flex justify-between items-center pb-4 border-b border-white/10">
-              <div className="flex gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-red-400/80"></span>
-                <span className="w-3 h-3 rounded-full bg-yellow-400/80"></span>
-                <span className="w-3 h-3 rounded-full bg-green-400/80"></span>
-              </div>
-              <div className="h-4 w-28 bg-white/20 rounded"></div>
-            </div>
-
-            {/* Central icon container */}
-            <div className="flex-grow flex items-center justify-center">
-              <div className="bg-white/10 p-4 rounded-xl border border-white/15">
-                <svg
-                  className="w-10 h-10 text-white/80"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            {/* Bottom mockup layout */}
-            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10">
-              <div className="h-10 bg-white/15 rounded-lg"></div>
-              <div className="h-10 bg-white/15 rounded-lg"></div>
-              <div className="h-10 bg-white/15 rounded-lg"></div>
-            </div>
-          </div>
-
-          {/* Slogans */}
-          <div className="text-center mt-8 text-white">
-            <h3 className="font-semibold text-lg mb-2">Engineering the future together.</h3>
-            <p className="text-white/80 text-sm leading-relaxed max-w-sm mx-auto">
-              Join a verified collective of high-caliber developers building the next generation of open infrastructure.
-            </p>
-          </div>
+        {/* Center slogans */}
+        <div className="my-auto max-w-[440px] mx-auto w-full relative z-10 text-center">
+          <h3 className="font-extrabold text-2xl mb-3 tracking-tight text-white drop-shadow-md">
+            Engineering the future together.
+          </h3>
+          <p className="text-white/90 text-sm leading-relaxed max-w-sm mx-auto drop-shadow-sm font-medium">
+            Join a verified collective of high-caliber developers building the next generation of open infrastructure.
+          </p>
         </div>
 
         {/* Footer info */}
-        <div className="text-white/60 text-xs">
+        <div className="relative z-10 text-white/70 text-xs">
           &copy; 2024 Guild Code Ecosystem. Built for developers.
         </div>
       </div>
