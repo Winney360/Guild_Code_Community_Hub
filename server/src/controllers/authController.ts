@@ -157,3 +157,65 @@ export const getMe = async (req: AuthenticatedRequest, res: Response): Promise<v
     res.status(500).json({ message: error.message || 'Server Error' });
   }
 };
+
+// @desc    Mock OAuth login/signup
+// @route   POST /api/auth/oauth-mock
+// @access  Public
+export const oauthMock = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { provider } = req.body;
+    if (!provider || (provider !== 'google' && provider !== 'github')) {
+      res.status(400).json({ message: 'Invalid provider' });
+      return;
+    }
+
+    const email = `${provider}-tester@guildcode.com`;
+    const fullName = provider === 'google' ? 'Google Tester' : 'GitHub Tester';
+
+    // Find or create user
+    let user = await User.findOne({ email });
+    if (!user) {
+      // Create user pre-approved and active
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('oauth_mock_password_secure_123', salt);
+
+      user = await User.create({
+        fullName,
+        email,
+        password: hashedPassword,
+        status: 'active',
+        isActive: true,
+        joinDate: new Date(),
+        role: 'member',
+      });
+    } else {
+      // Ensure user is active and approved if already exists
+      if (user.status === 'suspended') {
+        res.status(403).json({ message: 'Your account has been suspended' });
+        return;
+      }
+      if (user.status !== 'active') {
+        user.status = 'active';
+        user.isActive = true;
+        await user.save();
+      }
+    }
+
+    // Generate token and set cookie
+    sendTokenCookie(user._id.toString(), user.role, res);
+
+    res.status(200).json({
+      success: true,
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+        status: user.status,
+        isActive: user.isActive,
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
