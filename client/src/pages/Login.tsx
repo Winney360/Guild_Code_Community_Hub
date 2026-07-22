@@ -207,6 +207,7 @@ export const Login: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"
+              onClick={() => setError('Google authentication is not configured for this workspace. Please sign in with your email and password.')}
               className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-semibold"
             >
               {/* Google logo SVG */}
@@ -232,6 +233,7 @@ export const Login: React.FC = () => {
             </button>
             <button
               type="button"
+              onClick={() => setError('GitHub authentication is not configured for this workspace. Please sign in with your email and password.')}
               className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-semibold"
             >
               {/* GitHub logo SVG */}
