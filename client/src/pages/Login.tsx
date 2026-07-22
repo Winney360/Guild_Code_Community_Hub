@@ -10,6 +10,12 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const isEmailValid = (val: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(val);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,6 +152,11 @@ export const Login: React.FC = () => {
                 placeholder="name@company.com"
                 className="w-full px-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
               />
+              {email && !isEmailValid(email) && (
+                <p className="text-[10px] text-red-500 font-bold mt-1.5 ml-1 animate-pulse select-none">
+                  ⚠️ Please enter a valid email address (e.g. name@domain.com)
+                </p>
+              )}
             </div>
 
             <div>
@@ -160,15 +171,30 @@ export const Login: React.FC = () => {
                   Forgot password?
                 </a>
               </div>
-              <input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full pl-4 pr-10 py-3 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#006655] transition-colors focus:outline-none select-none text-sm"
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
+              {password && password.length < 6 && (
+                <p className="text-[10px] text-red-500 font-bold mt-1.5 ml-1 animate-pulse select-none">
+                  ⚠️ Password must be at least 6 characters long
+                </p>
+              )}
             </div>
 
             <button
