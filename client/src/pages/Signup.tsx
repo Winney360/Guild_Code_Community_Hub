@@ -12,6 +12,13 @@ export const Signup: React.FC = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const isEmailValid = (val: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(val);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -193,36 +200,71 @@ export const Signup: React.FC = () => {
                 placeholder="name@company.com"
                 className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
               />
+              {email && !isEmailValid(email) && (
+                <p className="text-[10px] text-red-500 font-bold mt-1.5 ml-1 animate-pulse select-none">
+                  ⚠️ Please enter a valid email address (e.g. name@domain.com)
+                </p>
+              )}
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-semibold mb-1.5">
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Min. 6 characters"
-                className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Min. 6 characters"
+                  className="w-full pl-4 pr-10 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#006655] transition-colors focus:outline-none select-none text-sm"
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
+              {password && password.length < 6 && (
+                <p className="text-[10px] text-red-500 font-bold mt-1.5 ml-1 animate-pulse select-none">
+                  ⚠️ Password must be at least 6 characters long
+                </p>
+              )}
             </div>
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-1.5">
                 Confirm Password
               </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Re-enter password"
-                className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter password"
+                  className="w-full pl-4 pr-10 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#006655] transition-colors focus:outline-none select-none text-sm"
+                  title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirmPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
+              {confirmPassword && password !== confirmPassword && (
+                <p className="text-[10px] text-red-500 font-bold mt-1.5 ml-1 animate-pulse select-none">
+                  ⚠️ Passwords do not match
+                </p>
+              )}
             </div>
 
             <button
