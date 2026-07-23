@@ -269,7 +269,12 @@ export const DashboardSettings: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Bio</label>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-[10px] font-bold text-[#5c7075] block">Bio</label>
+                  <span className="text-[9px] font-bold text-slate-400 select-none">
+                    {bio.length}/250
+                  </span>
+                </div>
                 <textarea
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
