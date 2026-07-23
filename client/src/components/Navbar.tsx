@@ -42,34 +42,49 @@ export const Navbar: React.FC = () => {
         </Link>
 
         {/* Center: Navigation Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           <div className="relative">
-            <Link to="/" className={linkClass('/')}>
-              Home
+            <Link to="/" className={`${linkClass('/')} flex items-center gap-1.5`}>
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
+              <span>Home</span>
             </Link>
             {activeIndicator('/')}
           </div>
           <div className="relative">
-            <Link to="/projects" className={linkClass('/projects')}>
-              Projects
+            <Link to="/projects" className={`${linkClass('/projects')} flex items-center gap-1.5`}>
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+              </svg>
+              <span>Projects</span>
             </Link>
             {activeIndicator('/projects')}
           </div>
           <div className="relative">
-            <Link to="/members" className={linkClass('/members')}>
-              Members
+            <Link to="/members" className={`${linkClass('/members')} flex items-center gap-1.5`}>
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+              </svg>
+              <span>Members</span>
             </Link>
             {activeIndicator('/members')}
           </div>
           <div className="relative">
-            <Link to="/collaborate" className={linkClass('/collaborate')}>
-              Collaboration
+            <Link to="/collaborate" className={`${linkClass('/collaborate')} flex items-center gap-1.5`}>
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641l-.318 1.236c-.125.484.348.908.829.724l3.063-1.177c.394-.152.825-.102 1.206.11a9.704 9.704 0 003.361.386z" />
+              </svg>
+              <span>Collaboration</span>
             </Link>
             {activeIndicator('/collaborate')}
           </div>
           <div className="relative">
-            <Link to="/events" className={linkClass('/events')}>
-              Events
+            <Link to="/events" className={`${linkClass('/events')} flex items-center gap-1.5`}>
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+              </svg>
+              <span>Events</span>
             </Link>
             {activeIndicator('/events')}
           </div>
@@ -130,37 +145,52 @@ export const Navbar: React.FC = () => {
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
-            className={`text-sm font-semibold ${isActive('/') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
+            className={`text-sm font-semibold flex items-center gap-2 ${isActive('/') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
           >
-            Home
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            <span>Home</span>
           </Link>
           <Link
             to="/projects"
             onClick={() => setIsOpen(false)}
-            className={`text-sm font-semibold ${isActive('/projects') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
+            className={`text-sm font-semibold flex items-center gap-2 ${isActive('/projects') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
           >
-            Projects
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+            </svg>
+            <span>Projects</span>
           </Link>
           <Link
             to="/members"
             onClick={() => setIsOpen(false)}
-            className={`text-sm font-semibold ${isActive('/members') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
+            className={`text-sm font-semibold flex items-center gap-2 ${isActive('/members') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
           >
-            Members
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
+            <span>Members</span>
           </Link>
           <Link
             to="/collaborate"
             onClick={() => setIsOpen(false)}
-            className={`text-sm font-semibold ${isActive('/collaborate') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
+            className={`text-sm font-semibold flex items-center gap-2 ${isActive('/collaborate') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
           >
-            Collaboration
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641l-.318 1.236c-.125.484.348.908.829.724l3.063-1.177c.394-.152.825-.102 1.206.11a9.704 9.704 0 003.361.386z" />
+            </svg>
+            <span>Collaboration</span>
           </Link>
           <Link
             to="/events"
             onClick={() => setIsOpen(false)}
-            className={`text-sm font-semibold ${isActive('/events') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
+            className={`text-sm font-semibold flex items-center gap-2 ${isActive('/events') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
           >
-            Events
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+            <span>Events</span>
           </Link>
 
           <hr className="border-slate-100 my-1" />
