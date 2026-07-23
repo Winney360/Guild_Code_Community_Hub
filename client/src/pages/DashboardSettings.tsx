@@ -32,6 +32,14 @@ export const DashboardSettings: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const triggerToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
+  };
 
   useEffect(() => {
     // Populate form with current user details
@@ -93,6 +101,7 @@ export const DashboardSettings: React.FC = () => {
         setError(data.message || 'Could not update profile');
       } else {
         setSuccess(true);
+        triggerToast('Profile updated successfully!');
       }
     } catch (err) {
       console.error(err);
@@ -126,6 +135,7 @@ export const DashboardSettings: React.FC = () => {
         setError(data.message || 'Could not update skills');
       } else {
         setSuccess(true);
+        triggerToast('Skills configuration updated!');
       }
     } catch (err) {
       console.error(err);
@@ -159,6 +169,7 @@ export const DashboardSettings: React.FC = () => {
         setError(data.message || 'Could not update password');
       } else {
         setSuccess(true);
+        triggerToast('Password successfully changed!');
         setOldPassword('');
         setNewPassword('');
         setConfirmPassword('');
@@ -321,7 +332,6 @@ export const DashboardSettings: React.FC = () => {
             {/* Save Buttons row */}
             <div className="flex justify-end gap-3 select-none">
               {error && <span className="text-red-500 text-xs self-center">⚠️ {error}</span>}
-              {success && <span className="text-green-600 text-xs self-center">✅ Profile updated successfully!</span>}
               <button
                 type="submit"
                 disabled={loading}
@@ -402,7 +412,6 @@ export const DashboardSettings: React.FC = () => {
 
           <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
             {error && <span className="text-red-500 text-xs self-center">⚠️ {error}</span>}
-            {success && <span className="text-green-600 text-xs self-center">✅ Skills configuration updated!</span>}
             <button
               type="submit"
               disabled={loading}
@@ -459,7 +468,6 @@ export const DashboardSettings: React.FC = () => {
 
           <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
             {error && <span className="text-red-500 text-xs self-center">⚠️ {error}</span>}
-            {success && <span className="text-green-600 text-xs self-center">✅ Password successfully changed!</span>}
             <button
               type="submit"
               disabled={loading}
@@ -509,13 +517,24 @@ export const DashboardSettings: React.FC = () => {
 
           <div className="flex justify-end pt-4 border-t border-slate-50">
             <button
-              onClick={() => { setSuccess(true); setTimeout(() => setSuccess(false), 2000); }}
+              onClick={() => { setSuccess(true); triggerToast('Notification preferences updated!'); }}
               className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm"
             >
               Save Preferences
             </button>
           </div>
-          {success && <p className="text-green-600 text-xs text-right mt-2">✅ Notification preferences updated!</p>}
+        </div>
+      )}
+
+      {success && <span className="sr-only">Success</span>}
+      {toastMessage && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2.5 bg-white border border-slate-100 text-[#091e22] px-5 py-3 rounded-2xl shadow-xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
+          <div className="w-5 h-5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center shrink-0">
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+          <span>{toastMessage}</span>
         </div>
       )}
 
