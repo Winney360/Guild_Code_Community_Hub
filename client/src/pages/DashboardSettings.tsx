@@ -105,11 +105,18 @@ export const DashboardSettings: React.FC = () => {
     reader.readAsDataURL(file);
   };
 
+  const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
+
   const handleRemovePhoto = () => {
+    setShowRemoveConfirmModal(true);
+  };
+
+  const confirmRemovePhoto = () => {
     setProfilePicture('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    setShowRemoveConfirmModal(false);
   };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
@@ -607,6 +614,39 @@ export const DashboardSettings: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
+        </div>
+      )}
+
+      {/* Confirmation Modal for Profile Photo Removal */}
+      {showRemoveConfirmModal && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+            <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center mb-4 mx-auto">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </div>
+            <h3 className="text-center font-extrabold text-base text-[#091e22] mb-2">Remove Profile Photo?</h3>
+            <p className="text-center text-xs text-[#5c7075] mb-6 leading-relaxed">
+              Are you sure you want to remove your profile photo? Your initials will be displayed instead.
+            </p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowRemoveConfirmModal(false)}
+                className="flex-1 bg-slate-100 hover:bg-slate-200 text-[#091e22] font-bold py-2.5 px-4 rounded-xl text-xs transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmRemovePhoto}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-sm cursor-pointer"
+              >
+                Yes, Remove
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
