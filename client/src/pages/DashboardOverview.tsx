@@ -1,9 +1,98 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 
+interface DashboardStats {
+  activeProjects: number;
+  openCollaborations: number;
+  newApplications: number;
+  profileViews: number;
+}
+
+interface NotificationItem {
+  _id: string;
+  type: string;
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+}
+
 export const DashboardOverview: React.FC = () => {
   const { user } = useAuth();
+  const [stats, setStats] = useState<DashboardStats>({
+    activeProjects: 0,
+    openCollaborations: 0,
+    newApplications: 0,
+    profileViews: 0,
+  });
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchDashboardData = async () => {
+    try {
+      // Fetch user stats
+      const statsRes = await fetch('/api/stats/dashboard');
+      if (statsRes.ok) {
+        const statsData = await statsRes.json();
+        setStats(statsData.stats);
+      }
+
+      // Fetch user notifications
+      const notificationsRes = await fetch('/api/notifications');
+      if (notificationsRes.ok) {
+        const notificationsData = await notificationsRes.json();
+        setNotifications(notificationsData.data || []);
+      }
+    } catch (err) {
+      console.error('Error fetching member dashboard data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      const res = await fetch('/api/notifications/read-all', {
+        method: 'PATCH',
+      });
+      if (res.ok) {
+        // Refresh lists
+        await fetchDashboardData();
+      }
+    } catch (err) {
+      console.error('Error marking notifications as read:', err);
+    }
+  };
+
+  const getTimeElapsed = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMin = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMin / 60);
+
+    if (diffMin < 1) return 'Just now';
+    if (diffMin < 60) return `${diffMin}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] select-none">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#006655] mb-4"></div>
+        <p className="text-xs text-[#5c7075] font-semibold">Loading dashboard overview...</p>
+      </div>
+    );
+  }
+
+  const unreadNotifications = notifications.filter((n) => !n.read);
+  const recentActivities = notifications.slice(0, 4);
 
   return (
     <div className="space-y-8 font-sans text-[#091e22]">
@@ -23,10 +112,10 @@ export const DashboardOverview: React.FC = () => {
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <span className="text-lg bg-emerald-50 text-emerald-600 p-2 rounded-xl">📊</span>
-            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">+12%</span>
+            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">Live DB</span>
           </div>
           <div>
-            <span className="text-2xl font-extrabold block leading-tight">24</span>
+            <span className="text-2xl font-extrabold block leading-tight">{stats.activeProjects}</span>
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Active Projects</span>
           </div>
         </div>
@@ -35,10 +124,10 @@ export const DashboardOverview: React.FC = () => {
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <span className="text-lg bg-teal-50 text-teal-600 p-2 rounded-xl">🤝</span>
-            <span className="text-[10px] font-bold text-[#5c7075] bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-full">Steady</span>
+            <span className="text-[10px] font-bold text-teal-600 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-full">Open</span>
           </div>
           <div>
-            <span className="text-2xl font-extrabold block leading-tight">08</span>
+            <span className="text-2xl font-extrabold block leading-tight">{stats.openCollaborations}</span>
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Open Collaborations</span>
           </div>
         </div>
@@ -47,11 +136,13 @@ export const DashboardOverview: React.FC = () => {
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <span className="text-lg bg-blue-50 text-blue-600 p-2 rounded-xl">✉️</span>
-            <span className="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">+4 new</span>
+            <span className={`text-[10px] font-bold border px-2 py-0.5 rounded-full ${stats.newApplications > 0 ? 'text-blue-600 bg-blue-50 border-blue-100' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
+              {stats.newApplications > 0 ? `+${stats.newApplications} new` : 'no actions'}
+            </span>
           </div>
           <div>
-            <span className="text-2xl font-extrabold block leading-tight">15</span>
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">New Applications</span>
+            <span className="text-2xl font-extrabold block leading-tight">{stats.newApplications}</span>
+            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Pending Applications</span>
           </div>
         </div>
 
@@ -59,136 +150,89 @@ export const DashboardOverview: React.FC = () => {
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <span className="text-lg bg-rose-50 text-rose-600 p-2 rounded-xl">👁️</span>
-            <span className="text-[10px] font-bold text-rose-500 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">-2%</span>
+            <span className="text-[10px] font-bold text-rose-500 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">Project Traffic</span>
           </div>
           <div>
-            <span className="text-2xl font-extrabold block leading-tight">1.2k</span>
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Profile Views</span>
+            <span className="text-2xl font-extrabold block leading-tight">{stats.profileViews}</span>
+            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Project Views</span>
           </div>
         </div>
       </div>
 
       {/* 2. Main Content Split Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Left Column: Recent Activity (takes 8 columns) */}
+        {/* Left Column: Recent Activity */}
         <div className="lg:col-span-8 flex flex-col gap-6">
           <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6 select-none">
               <h3 className="font-extrabold text-base">Recent Activity</h3>
-              <a href="#activities" className="text-[#006655] hover:underline text-xs font-semibold">View All</a>
+              <Link to="/dashboard/activity" className="text-[#006655] hover:underline text-xs font-semibold">View All</Link>
             </div>
 
             {/* Activity Timeline List */}
             <div className="space-y-6">
-              {/* Activity item 1 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center text-xs shrink-0 select-none">
-                  📁
-                </div>
-                <div className="flex-grow">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-bold text-xs text-[#091e22]">
-                      Project Update: <span className="text-[#006655] font-semibold hover:underline cursor-pointer">NeuralMesh-v2</span>
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-semibold select-none">2h ago</span>
+              {recentActivities.length > 0 ? (
+                recentActivities.map((act) => (
+                  <div key={act._id} className="flex items-start gap-4">
+                    <div className="w-8 h-8 rounded-xl bg-[#006655]/10 text-[#006655] border border-[#006655]/20 flex items-center justify-center text-xs shrink-0 select-none font-bold">
+                      🔔
+                    </div>
+                    <div className="flex-grow min-w-0">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-bold text-xs text-[#091e22] truncate pr-2">
+                          {act.title}
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-semibold select-none shrink-0">
+                          {getTimeElapsed(act.createdAt)}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#5c7075] leading-relaxed">
+                        {act.message}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-xs text-[#5c7075] leading-relaxed mb-2">
-                    Successfully merged pull request #42: Implementing real-time GPU acceleration layers for decentralized compute.
-                  </p>
-                  <div className="flex gap-1 select-none">
-                    <span className="px-1.5 py-0.5 bg-slate-50 border border-slate-150 text-[9px] text-slate-400 font-bold rounded">RUST</span>
-                    <span className="px-1.5 py-0.5 bg-slate-50 border border-slate-150 text-[9px] text-slate-400 font-bold rounded">WASM</span>
-                  </div>
+                ))
+              ) : (
+                <div className="py-8 text-center select-none">
+                  <p className="text-xs text-slate-400 font-semibold">No recent activity logged in your account.</p>
                 </div>
-              </div>
-
-              {/* Activity item 2 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xs shrink-0 select-none">
-                  💬
-                </div>
-                <div className="flex-grow">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-bold text-xs text-[#091e22]">
-                      New Message from <span className="text-[#006655] font-semibold hover:underline cursor-pointer">Sarah Jenkins</span>
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-semibold select-none">5h ago</span>
-                  </div>
-                  <p className="text-xs text-[#5c7075] leading-relaxed">
-                    "Hey! I saw your recent work on the Guild Code API. Would love to discuss a potential collab on the core-engine..."
-                  </p>
-                </div>
-              </div>
-
-              {/* Activity item 3 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center text-xs shrink-0 select-none">
-                  🛡️
-                </div>
-                <div className="flex-grow">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-bold text-xs text-[#091e22]">Application Status Change</span>
-                    <span className="text-[10px] text-slate-400 font-semibold select-none">1d ago</span>
-                  </div>
-                  <p className="text-xs text-[#5c7075] leading-relaxed">
-                    Your application for <span className="font-bold">Lead Systems Architect</span> at Nebula Systems has been moved to <span className="text-emerald-600 font-semibold">Shortlisted</span>.
-                  </p>
-                </div>
-              </div>
-
-              {/* Activity item 4 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center text-xs shrink-0 select-none">
-                  🚀
-                </div>
-                <div className="flex-grow">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-bold text-xs text-[#091e22]">New Ecosystem Launch</span>
-                    <span className="text-[10px] text-slate-400 font-semibold select-none">2d ago</span>
-                  </div>
-                  <p className="text-xs text-[#5c7075] leading-relaxed">
-                    Guild Code officially launched the <span className="font-bold">Z-Protocol Alpha</span>. Join the first wave of validators.
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
 
-            {/* Load more */}
-            <button className="w-full text-center border border-slate-100 py-2.5 rounded-xl text-xs text-slate-500 font-semibold bg-slate-50/30 hover:bg-slate-50 transition-colors mt-8 select-none">
-              Load More Activity
-            </button>
+            {/* View Full History redirect link */}
+            <Link to="/dashboard/activity" className="w-full text-center border border-slate-100 py-2.5 rounded-xl text-xs text-slate-500 font-semibold bg-slate-50/30 hover:bg-slate-50 transition-colors mt-8 select-none block">
+              View Activity Feed
+            </Link>
           </div>
         </div>
 
-        {/* Right Column: Quick Actions & Notifications (takes 4 columns) */}
+        {/* Right Column: Quick Actions & Notifications */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          
           {/* Quick Actions Card */}
           <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
             <h3 className="font-extrabold text-base mb-6 select-none">Quick Actions</h3>
             <div className="space-y-3">
               {/* Action 1 */}
               <Link
-                to="/dashboard/projects/new"
+                to="/dashboard/projects"
                 className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors"
               >
-                <span className="text-base bg-emerald-50 text-emerald-600 p-2 rounded-xl select-none">➕</span>
+                <span className="text-base bg-emerald-50 text-emerald-600 p-2 rounded-xl select-none">📁</span>
                 <div>
-                  <h4 className="font-bold text-xs">Create Project</h4>
-                  <p className="text-[9px] text-[#5c7075] mt-0.5">Launch a new build</p>
+                  <h4 className="font-bold text-xs">My Projects Showcase</h4>
+                  <p className="text-[9px] text-[#5c7075] mt-0.5">Manage details & links</p>
                 </div>
               </Link>
 
               {/* Action 2 */}
               <Link
-                to="/dashboard/collaborations/new"
+                to="/dashboard/collaborations"
                 className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors"
               >
                 <span className="text-base bg-teal-50 text-teal-600 p-2 rounded-xl select-none">📢</span>
                 <div>
-                  <h4 className="font-bold text-xs">Post Collaboration</h4>
-                  <p className="text-[9px] text-[#5c7075] mt-0.5">Find team members</p>
+                  <h4 className="font-bold text-xs">Manage Collabs</h4>
+                  <p className="text-[9px] text-[#5c7075] mt-0.5">Close or check requests</p>
                 </div>
               </Link>
 
@@ -200,7 +244,7 @@ export const DashboardOverview: React.FC = () => {
                 <span className="text-base bg-blue-50 text-blue-600 p-2 rounded-xl select-none">👥</span>
                 <div>
                   <h4 className="font-bold text-xs">Browse Members</h4>
-                  <p className="text-[9px] text-[#5c7075] mt-0.5">Connect with devs</p>
+                  <p className="text-[9px] text-[#5c7075] mt-0.5">Connect with developers</p>
                 </div>
               </Link>
             </div>
@@ -209,59 +253,35 @@ export const DashboardOverview: React.FC = () => {
           {/* Notifications Card */}
           <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6 select-none">
-              <h3 className="font-extrabold text-base">Notifications</h3>
+              <h3 className="font-extrabold text-base">Unread Alerts</h3>
               <span className="w-5 h-5 bg-[#006655] text-white flex items-center justify-center text-[10px] font-bold rounded-full">
-                3
+                {unreadNotifications.length}
               </span>
             </div>
 
             <div className="space-y-4 mb-6">
-              {/* Notification 1 */}
-              <div className="p-3 bg-emerald-50/40 border border-emerald-100/50 rounded-2xl text-[11px] leading-relaxed">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-bold text-emerald-800 flex items-center gap-1">🟢 System Maintenance</span>
-                </div>
-                <p className="text-[#5c7075]">API will be down for 20 mins at 02:00 UTC.</p>
-              </div>
-
-              {/* Notification 2 */}
-              <div className="text-[11px] leading-relaxed py-1 border-b border-slate-50">
-                <span className="font-bold block text-slate-800">👤 New Follower</span>
-                <p className="text-[#5c7075] mt-0.5">Marcus Lin started following your work.</p>
-              </div>
-
-              {/* Notification 3 */}
-              <div className="text-[11px] leading-relaxed py-1 border-b border-slate-50">
-                <span className="font-bold block text-slate-800">⭐ Project Starred</span>
-                <p className="text-[#5c7075] mt-0.5">Your project 'Vortex-UI' received 50 stars!</p>
-              </div>
-
-              {/* Notification 4 */}
-              <div className="text-[11px] leading-relaxed py-1">
-                <span className="font-bold block text-slate-800">📄 Docs Updated</span>
-                <p className="text-[#5c7075] mt-0.5">View the latest changes to the Guild CLI.</p>
-              </div>
+              {unreadNotifications.length > 0 ? (
+                unreadNotifications.slice(0, 4).map((n) => (
+                  <div key={n._id} className="text-[11px] leading-relaxed py-1.5 border-b border-slate-50 last:border-0 min-w-0">
+                    <span className="font-bold block text-slate-800 truncate">{n.title}</span>
+                    <p className="text-[#5c7075] mt-0.5 line-clamp-2">{n.message}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-[11px] text-slate-400 text-center py-6 font-semibold select-none">No unread notifications.</p>
+              )}
             </div>
 
-            <button className="w-full text-center text-xs font-bold text-[#006655] hover:underline pt-2 select-none">
-              Mark all as read
-            </button>
+            {unreadNotifications.length > 0 && (
+              <button onClick={handleMarkAllAsRead} className="w-full text-center text-xs font-bold text-[#006655] hover:underline pt-2 select-none">
+                Mark all as read
+              </button>
+            )}
           </div>
-
-          {/* Referral Banner card */}
-          <div className="bg-gradient-to-br from-[#006655] to-[#004d40] rounded-3xl p-6 text-white text-center shadow-sm select-none">
-            <span className="text-[10px] font-bold uppercase tracking-wider block text-teal-300 mb-1">Guild Ecosystem</span>
-            <h4 className="font-bold text-sm mb-4 leading-relaxed">Upgrade to Pro for limitless project slots.</h4>
-            <button className="bg-white text-[#006655] hover:bg-slate-50 font-bold py-2 px-6 rounded-xl text-xs transition-colors shadow-sm">
-              Go Premium
-            </button>
-          </div>
-
         </div>
-
       </div>
-
     </div>
   );
 };
+
 export default DashboardOverview;
