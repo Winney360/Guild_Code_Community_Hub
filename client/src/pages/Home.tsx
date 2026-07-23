@@ -74,9 +74,9 @@ export const Home: React.FC = () => {
             {/* Active Members count details */}
             <div className="text-left font-bold">
               <div className="flex items-center gap-1 text-xs text-[#091e22]">
-                247+ Active Members
+                {loading ? '...' : stats.activeMembers} Active Members
               </div>
-              <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Join the community today</p>
+              <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Explore the community today</p>
             </div>
           </div>
 
@@ -100,22 +100,22 @@ export const Home: React.FC = () => {
           <div className="bg-white border border-slate-100 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-100">
             <div className="flex flex-col items-center justify-center p-2">
               <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                {loading ? '...' : (stats.activeMembers > 0 ? `${stats.activeMembers}` : '2,400+')}
+                {loading ? '...' : stats.activeMembers}
               </span>
               <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Active Members</span>
             </div>
             <div className="flex flex-col items-center justify-center p-2">
               <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                {loading ? '...' : (stats.projectsShared > 0 ? `${stats.projectsShared}` : '850+')}
+                {loading ? '...' : stats.projectsShared}
               </span>
               <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Open Projects</span>
             </div>
             <div className="flex flex-col items-center justify-center p-2">
               <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                {loading ? '...' : (stats.upcomingEvents > 0 ? `${stats.upcomingEvents}` : '12M+')}
+                {loading ? '...' : stats.upcomingEvents}
               </span>
               <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">
-                {stats.upcomingEvents > 0 ? 'Upcoming Sessions' : 'Lines of Code'}
+                Upcoming Sessions
               </span>
             </div>
           </div>
