@@ -7,29 +7,53 @@ interface Stats {
   upcomingEvents: number;
 }
 
+interface Member {
+  _id: string;
+  fullName: string;
+  profilePicture?: string;
+}
+
 export const Home: React.FC = () => {
   const [stats, setStats] = useState<Stats>({
     activeMembers: 0,
     projectsShared: 0,
     upcomingEvents: 0,
   });
+  const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fallbackInitials = ['SC', 'MJ', 'ER', 'DK', 'AP', 'TA'];
+
+  const getInitials = (name: string) => {
+    if (!name) return '';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return parts[0].substring(0, 2).toUpperCase();
+  };
+
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchStatsAndMembers = async () => {
       try {
-        const res = await fetch('/api/stats');
-        if (res.ok) {
-          const data = await res.json();
-          setStats(data.stats);
+        const statsRes = await fetch('/api/stats');
+        if (statsRes.ok) {
+          const statsData = await statsRes.json();
+          setStats(statsData.stats);
+        }
+
+        const membersRes = await fetch('/api/users');
+        if (membersRes.ok) {
+          const membersData = await membersRes.json();
+          setMembers(membersData.data || []);
         }
       } catch (err) {
-        console.error('Error fetching stats:', err);
+        console.error('Error fetching landing data:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchStats();
+    fetchStatsAndMembers();
   }, []);
 
   return (
@@ -47,7 +71,7 @@ export const Home: React.FC = () => {
 
           {/* Title */}
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-6xl mx-auto">
-            Welcome to Guild Code, <br className="hidden md:block" />
+            Welcome to <span className="text-[#006655] font-serif italic pr-1">Guild Code</span>, <br className="hidden md:block" />
             The Community of <span className="italic text-[#006655] font-serif pr-2">Elite</span>Developers.
           </h1>
 
@@ -61,14 +85,34 @@ export const Home: React.FC = () => {
           <div className="flex items-center justify-center gap-4 mb-10 select-none">
             {/* Overlapping Rings */}
             <div className="flex -space-x-3">
-              {['SC', 'MJ', 'ER', 'DK', 'AP', 'TA'].map((initial, idx) => (
-                <div
-                  key={idx}
-                  className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none"
-                >
-                  {initial}
-                </div>
-              ))}
+              {members.length > 0 ? (
+                members.slice(0, 6).map((member) => (
+                  <div
+                    key={member._id}
+                    className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0"
+                    title={member.fullName}
+                  >
+                    {member.profilePicture ? (
+                      <img
+                        src={member.profilePicture}
+                        alt={member.fullName}
+                        className="w-full h-full object-cover select-none"
+                      />
+                    ) : (
+                      getInitials(member.fullName)
+                    )}
+                  </div>
+                ))
+              ) : (
+                fallbackInitials.map((initial, idx) => (
+                  <div
+                    key={idx}
+                    className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none shrink-0"
+                  >
+                    {initial}
+                  </div>
+                ))
+              )}
             </div>
             {/* Active Members count details */}
             <div className="text-left font-bold">
