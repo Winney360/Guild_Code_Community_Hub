@@ -82,36 +82,38 @@ export const Home: React.FC = () => {
 
           {/* Active Members Avatar Pile (from designs/home-addition.png) */}
           <div className="flex items-center justify-center gap-4 mb-10 select-none">
-            {/* Overlapping Rings */}
-            <div className="flex -space-x-3">
-              {members.length > 0 ? (
-                members.slice(0, 6).map((member) => (
-                  <div
-                    key={member._id}
-                    className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0"
-                    title={member.fullName}
-                  >
-                    {member.profilePicture ? (
-                      <img
-                        src={member.profilePicture}
-                        alt={member.fullName}
-                        className="w-full h-full object-cover select-none"
-                      />
-                    ) : (
-                      getInitials(member.fullName)
-                    )}
-                  </div>
-                ))
-              ) : (
-                fallbackInitials.map((initial, idx) => (
-                  <div
-                    key={idx}
-                    className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none shrink-0"
-                  >
-                    {initial}
-                  </div>
-                ))
-              )}
+            {/* Overlapping Rings (Scrollable, Max 6 Display viewport) */}
+            <div className="max-w-[160px] overflow-x-auto scrollbar-none py-1 px-0.5">
+              <div className="flex -space-x-3 pr-3">
+                {members.length > 0 ? (
+                  members.map((member) => (
+                    <div
+                      key={member._id}
+                      className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0"
+                      title={member.fullName}
+                    >
+                      {member.profilePicture ? (
+                        <img
+                          src={member.profilePicture}
+                          alt={member.fullName}
+                          className="w-full h-full object-cover select-none"
+                        />
+                      ) : (
+                        getInitials(member.fullName)
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  fallbackInitials.map((initial, idx) => (
+                    <div
+                      key={idx}
+                      className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none shrink-0"
+                    >
+                      {initial}
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
             {/* Active Members count details */}
             <div className="text-left font-bold">
