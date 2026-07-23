@@ -76,8 +76,8 @@ export const Home: React.FC = () => {
 
           {/* Subtitle */}
           <p className="text-[#5c7075] text-lg max-w-4xl mx-auto mb-8 leading-relaxed select-none">
-            A collaborative platform where developers, designers, and creators come together to learn, build, and <br className="hidden md:block" />
-            grow. Share your work, connect with peers, and be part of something amazing.
+            A collaborative platform where developers, designers, and creators come together to learn, build, and grow. <br className="hidden md:block" />
+            Share your work, connect with peers, and be part of something amazing.
           </p>
 
           {/* Active Members Avatar Pile (from designs/home-addition.png) */}
