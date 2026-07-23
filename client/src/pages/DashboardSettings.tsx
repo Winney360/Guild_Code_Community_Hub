@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext.js';
+import { ImageCropModal } from '../components/ImageCropModal.js';
 
 export const DashboardSettings: React.FC = () => {
   const { user } = useAuth();
@@ -81,6 +82,18 @@ export const DashboardSettings: React.FC = () => {
     fetchProfile();
   }, [user]);
 
+  const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
+  const [showCropModal, setShowCropModal] = useState(false);
+
+  const getInitials = (name: string) => {
+    if (!name) return '';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return parts[0].substring(0, 2).toUpperCase();
+  };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -90,15 +103,16 @@ export const DashboardSettings: React.FC = () => {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Image size should be less than 5MB');
+    if (file.size > 10 * 1024 * 1024) {
+      setError('Image size should be less than 10MB');
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (event) => {
       if (event.target?.result) {
-        setProfilePicture(event.target.result as string);
+        setTempImageSrc(event.target.result as string);
+        setShowCropModal(true);
         setError('');
       }
     };
@@ -400,13 +414,13 @@ export const DashboardSettings: React.FC = () => {
             <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm text-center flex flex-col items-center">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6 block select-none">Profile Photo</span>
               
-              <div className="relative w-24 h-24 rounded-full overflow-hidden bg-slate-150 mb-6 border border-slate-100">
+              <div className="relative w-24 h-24 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] mb-6 border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none">
                 {profilePicture ? (
-                  <img src={profilePicture} alt="" className="w-full h-full object-cover" />
+                  <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-slate-400">
-                    {fullName.charAt(0).toUpperCase()}
-                  </div>
+                  <span className="text-2xl font-black text-[#006655] tracking-wider">
+                    {getInitials(fullName)}
+                  </span>
                 )}
               </div>
 
@@ -648,6 +662,22 @@ export const DashboardSettings: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Interactive Image Crop & Adjust Modal */}
+      {showCropModal && tempImageSrc && (
+        <ImageCropModal
+          imageSrc={tempImageSrc}
+          onClose={() => {
+            setShowCropModal(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+          }}
+          onCropComplete={(croppedDataUrl) => {
+            setProfilePicture(croppedDataUrl);
+            setShowCropModal(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+          }}
+        />
       )}
 
     </div>
