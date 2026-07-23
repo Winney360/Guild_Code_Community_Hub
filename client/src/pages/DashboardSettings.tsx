@@ -34,12 +34,26 @@ export const DashboardSettings: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastTimer, setToastTimer] = useState<any>(null);
 
   const triggerToast = (msg: string) => {
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+    }
     setToastMessage(msg);
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setToastMessage(null);
-    }, 3000);
+      setToastTimer(null);
+    }, 5000); // 5 seconds duration
+    setToastTimer(timer);
+  };
+
+  const cancelToast = () => {
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+      setToastTimer(null);
+    }
+    setToastMessage(null);
   };
 
   useEffect(() => {
@@ -577,13 +591,22 @@ export const DashboardSettings: React.FC = () => {
 
       {success && <span className="sr-only">Success</span>}
       {toastMessage && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2.5 bg-white border border-slate-100 text-[#091e22] px-5 py-3 rounded-2xl shadow-xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-white border border-slate-100 text-[#091e22] px-5 py-3 rounded-2xl shadow-xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
           <div className="w-5 h-5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center shrink-0">
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3.5}>
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
           </div>
-          <span>{toastMessage}</span>
+          <span className="mr-2">{toastMessage}</span>
+          <button 
+            onClick={cancelToast}
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors shrink-0 p-0.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
+            title="Dismiss alert"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
       )}
 
