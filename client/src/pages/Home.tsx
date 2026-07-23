@@ -11,6 +11,11 @@ interface Member {
   _id: string;
   fullName: string;
   profilePicture?: string;
+  role?: string;
+  specializations?: string[];
+  skills?: string[];
+  github?: string;
+  projectCount?: number;
 }
 
 export const Home: React.FC = () => {
@@ -21,8 +26,6 @@ export const Home: React.FC = () => {
   });
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const fallbackInitials = ['SC', 'MJ', 'ER', 'DK', 'AP', 'TA'];
 
   const getInitials = (name: string) => {
     if (!name) return '';
@@ -82,11 +85,11 @@ export const Home: React.FC = () => {
 
           {/* Active Members Avatar Pile (from designs/home-addition.png) */}
           <div className="flex items-center justify-center gap-4 mb-10 select-none">
-            {/* Overlapping Rings (Scrollable, Max 6 Display viewport) */}
-            <div className="max-w-[160px] overflow-x-auto scrollbar-none py-1 px-0.5">
-              <div className="flex -space-x-3 pr-3">
-                {members.length > 0 ? (
-                  members.map((member) => (
+            {/* Overlapping Rings (Scrollable, Max 6 Display viewport, rendering only actual DB members) */}
+            {members.length > 0 && (
+              <div className="max-w-[160px] overflow-x-auto scrollbar-none py-1 px-0.5">
+                <div className="flex -space-x-3 pr-3">
+                  {members.map((member) => (
                     <div
                       key={member._id}
                       className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0"
@@ -102,19 +105,10 @@ export const Home: React.FC = () => {
                         getInitials(member.fullName)
                       )}
                     </div>
-                  ))
-                ) : (
-                  fallbackInitials.map((initial, idx) => (
-                    <div
-                      key={idx}
-                      className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none shrink-0"
-                    >
-                      {initial}
-                    </div>
-                  ))
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
             {/* Active Members count details */}
             <div className="text-left font-bold">
               <div className="flex items-center gap-1 text-xs text-[#091e22]">
@@ -184,103 +178,112 @@ export const Home: React.FC = () => {
         </div>
 
         {/* Members Cards Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Developer Card 1 */}
-          <div className="border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Elena Vance" className="w-full h-full object-cover" />
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="border border-slate-100 rounded-2xl p-5 bg-white h-56 animate-pulse flex flex-col justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-slate-200 rounded-full shrink-0"></div>
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 bg-slate-200 rounded w-3/4"></div>
+                    <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+                <div className="flex gap-2 my-4">
+                  <div className="h-4 bg-slate-200 rounded w-12"></div>
+                  <div className="h-4 bg-slate-200 rounded w-12"></div>
+                  <div className="h-4 bg-slate-200 rounded w-12"></div>
+                </div>
+                <div className="border-t border-slate-50 pt-3 flex justify-between">
+                  <div className="h-3 bg-slate-200 rounded w-8"></div>
+                  <div className="h-3 bg-slate-200 rounded w-16"></div>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold text-sm">Elena Vance</h4>
-                <p className="text-xs text-[#5c7075]">Systems Architect</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5 my-4">
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">Rust</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">Wasm</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">Kits</span>
-            </div>
-            <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-auto text-xs text-[#5c7075]">
-              <a href="#github" className="hover:text-[#091e22]">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" /></svg>
-              </a>
-              <span>42 Projects</span>
-            </div>
+            ))}
           </div>
+        ) : members.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {members.slice(0, 4).map((member) => {
+              const primaryRole = member.specializations && member.specializations.length > 0
+                ? member.specializations[0]
+                : (member.role === 'admin' ? 'Admin / Lead' : 'Community Member');
+              const displaySkills = member.skills && member.skills.length > 0
+                ? member.skills.slice(0, 3)
+                : (member.specializations ? member.specializations.slice(0, 3) : []);
 
-          {/* Developer Card 2 */}
-          <div className="border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Marcus Chen" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm">Marcus Chen</h4>
-                <p className="text-xs text-[#5c7075]">AI Specialist</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5 my-4">
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">Python</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">PyTorch</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">CUDA</span>
-            </div>
-            <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-auto text-xs text-[#5c7075]">
-              <a href="#github" className="hover:text-[#091e22]">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" /></svg>
-              </a>
-              <span>16 Projects</span>
-            </div>
-          </div>
+              return (
+                <div
+                  key={member._id}
+                  className="border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56"
+                >
+                  <div className="flex items-center gap-4">
+                    <Link to={`/members/${member._id}`} className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[#006655]">
+                      {member.profilePicture ? (
+                        <img
+                          src={member.profilePicture}
+                          alt={member.fullName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span>{getInitials(member.fullName)}</span>
+                      )}
+                    </Link>
+                    <div className="min-w-0 flex-1">
+                      <Link to={`/members/${member._id}`} className="font-bold text-sm hover:text-[#006655] truncate block">
+                        {member.fullName}
+                      </Link>
+                      <p className="text-xs text-[#5c7075] truncate">{primaryRole}</p>
+                    </div>
+                  </div>
 
-          {/* Developer Card 3 */}
-          <div className="border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="Sasha Bloom" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm">Sasha Bloom</h4>
-                <p className="text-xs text-[#5c7075]">Frontend Lead</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5 my-4">
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">TypeScript</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">React</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">Three.js</span>
-            </div>
-            <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-auto text-xs text-[#5c7075]">
-              <a href="#github" className="hover:text-[#091e22]">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" /></svg>
-              </a>
-              <span>31 Projects</span>
-            </div>
-          </div>
+                  <div className="flex flex-wrap gap-1.5 my-4">
+                    {displaySkills.length > 0 ? (
+                      displaySkills.map((skill, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold truncate max-w-[90px]"
+                        >
+                          {skill}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">
+                        Builder
+                      </span>
+                    )}
+                  </div>
 
-          {/* Developer Card 4 */}
-          <div className="border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt="David Miller" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm">David Miller</h4>
-                <p className="text-xs text-[#5c7075]">Security Engineer</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5 my-4">
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">Go</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">Solidity</span>
-              <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">C++</span>
-            </div>
-            <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-auto text-xs text-[#5c7075]">
-              <a href="#github" className="hover:text-[#091e22]">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" /></svg>
-              </a>
-              <span>25 Projects</span>
-            </div>
+                  <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-auto text-xs text-[#5c7075]">
+                    {member.github ? (
+                      <a
+                        href={member.github.startsWith('http') ? member.github : `https://${member.github}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-[#091e22]"
+                        title="GitHub Profile"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <Link to={`/members/${member._id}`} className="hover:text-[#091e22]">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </Link>
+                    )}
+                    <span>{member.projectCount ?? 0} {member.projectCount === 1 ? 'Project' : 'Projects'}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
+        ) : (
+          <div className="text-center py-12 bg-slate-50 border border-slate-100 rounded-2xl">
+            <p className="text-[#5c7075] text-sm">No active members found yet. Be the first to join!</p>
+          </div>
+        )}
       </section>
 
       {/* Innovation in Action Section (Featured Projects Grid) */}
