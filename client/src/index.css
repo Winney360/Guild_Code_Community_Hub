@@ -175,3 +175,12 @@ body {
 .dark .bg-gradient-to-tr.from-\[\#3b93a2\].via-\[\#5fb9c9\] {
   background-image: linear-gradient(to top right, #063d47, #13525e, #186877) !important;
 }
+
+/* 10. Utility: Hide Scrollbars */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
