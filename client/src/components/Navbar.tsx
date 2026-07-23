@@ -44,6 +44,12 @@ export const Navbar: React.FC = () => {
         {/* Center: Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
           <div className="relative">
+            <Link to="/" className={linkClass('/')}>
+              Home
+            </Link>
+            {activeIndicator('/')}
+          </div>
+          <div className="relative">
             <Link to="/projects" className={linkClass('/projects')}>
               Projects
             </Link>
@@ -121,6 +127,13 @@ export const Navbar: React.FC = () => {
       {/* Mobile Drawer */}
       {isOpen && (
         <div className="md:hidden border-t border-slate-100 bg-white px-6 py-4 flex flex-col gap-4 animate-fadeIn">
+          <Link
+            to="/"
+            onClick={() => setIsOpen(false)}
+            className={`text-sm font-semibold ${isActive('/') ? 'text-[#006655]' : 'text-[#5c7075]'}`}
+          >
+            Home
+          </Link>
           <Link
             to="/projects"
             onClick={() => setIsOpen(false)}
