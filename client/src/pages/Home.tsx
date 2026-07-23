@@ -69,10 +69,9 @@ export const Home: React.FC = () => {
             <span>Building Together Since 2024</span>
           </div>
 
-          {/* Title */}
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-6xl mx-auto">
             Welcome to <span className="text-[#006655] font-serif italic pr-1">Guild Code</span>, <br className="hidden md:block" />
-            The Community of <span className="italic text-[#006655] font-serif pr-2">Elite</span>Developers.
+            Ecosystem for <span className="italic text-[#006655] font-serif pr-2">Elite</span> Builders & Founders.
           </h1>
 
           {/* Subtitle */}
