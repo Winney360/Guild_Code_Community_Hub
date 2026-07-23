@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext.js';
 
 export const DashboardSettings: React.FC = () => {
   const { user } = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Tabs
   const [activeTab, setActiveTab] = useState<'profile' | 'skills' | 'account' | 'notifications'>('profile');
@@ -65,6 +66,37 @@ export const DashboardSettings: React.FC = () => {
     };
     fetchProfile();
   }, [user]);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file (PNG, JPG, WEBP, etc.)');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size should be less than 5MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        setProfilePicture(event.target.result as string);
+        setError('');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemovePhoto = () => {
+    setProfilePicture('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -357,25 +389,42 @@ export const DashboardSettings: React.FC = () => {
                 )}
               </div>
 
-              <div className="w-full space-y-3">
-                <input
-                  type="url"
-                  placeholder="Paste Profile Photo URL"
-                  value={profilePicture}
-                  onChange={(e) => setProfilePicture(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-[10px] focus:outline-none"
-                />
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/png, image/jpeg, image/jpg, image/webp, image/gif"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+
+              <div className="w-full space-y-2.5">
                 <button
                   type="button"
-                  onClick={() => setProfilePicture('')}
-                  className="text-red-500 hover:underline text-[10px] font-semibold block mx-auto select-none"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full bg-[#006655] hover:bg-[#004d40] text-white py-2 px-4 rounded-xl font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  Remove
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                  </svg>
+                  <span>{profilePicture ? 'Upload New Photo' : 'Upload Photo'}</span>
                 </button>
+
+                {profilePicture && (
+                  <button
+                    type="button"
+                    onClick={handleRemovePhoto}
+                    className="w-full bg-slate-50 hover:bg-red-50 text-red-600 border border-slate-200 hover:border-red-200 py-2 px-4 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer select-none"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    <span>Remove Photo</span>
+                  </button>
+                )}
               </div>
 
-              <span className="text-[9px] text-[#5c7075] mt-6 select-none leading-relaxed">
-                PNG or JPG format. Make sure the URL points to a valid image address.
+              <span className="text-[9px] text-[#5c7075] mt-4 select-none leading-relaxed">
+                PNG, JPG, WEBP or GIF format. Max file size 5MB.
               </span>
             </div>
 
