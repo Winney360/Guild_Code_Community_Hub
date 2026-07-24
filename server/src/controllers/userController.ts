@@ -35,9 +35,9 @@ export const getUsers = async (req: AuthenticatedRequest, res: Response): Promis
 // @access  Public
 export const getUserById = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const user = await User.findOne({ _id: req.params.id, isActive: true, status: 'active' });
+    const user = await User.findById(req.params.id);
     if (!user) {
-      res.status(404).json({ message: 'Member profile not found or inactive' });
+      res.status(404).json({ message: 'Member profile not found' });
       return;
     }
     res.status(200).json({ success: true, data: user });
