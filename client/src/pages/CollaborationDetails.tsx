@@ -204,8 +204,12 @@ export const CollaborationDetails: React.FC = () => {
 
   if (!collab) {
     return (
-      <div className="max-w-md mx-auto my-20 p-8 border border-dashed border-slate-200 rounded-2xl text-center bg-white shadow-sm">
-        <span className="text-4xl block mb-4">🕸️</span>
+      <div className="max-w-md mx-auto my-20 p-8 border border-dashed border-slate-200 rounded-2xl text-center bg-white shadow-sm flex flex-col items-center justify-center">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+          </svg>
+        </div>
         <h3 className="font-bold text-base mb-1">Collaboration not found</h3>
         <p className="text-xs text-[#5c7075] mb-6">The collaboration request you are looking for does not exist or has been closed.</p>
         <Link to="/collaborate" className="bg-[#006655] hover:bg-[#004d40] text-white font-bold py-2 px-5 rounded-xl text-xs transition-colors shadow-sm">
@@ -275,7 +279,12 @@ export const CollaborationDetails: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 select-none">
             {/* Tech Stack */}
             <div className="bg-white border border-slate-100 p-6 rounded-3xl shadow-sm">
-              <h3 className="font-extrabold text-sm mb-4">🛠️ Tech Stack</h3>
+              <h3 className="font-extrabold text-sm mb-4 flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                Tech Stack
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {collab.techStack.map((tech) => (
                   <span key={tech} className="px-3 py-1 bg-slate-50 border border-slate-150 text-[#5c7075] text-[10px] rounded-lg font-semibold">
@@ -287,7 +296,12 @@ export const CollaborationDetails: React.FC = () => {
 
             {/* Commitment Details */}
             <div className="bg-white border border-slate-100 p-6 rounded-3xl shadow-sm text-xs font-semibold">
-              <h3 className="font-extrabold text-sm mb-4">⏰ Commitment</h3>
+              <h3 className="font-extrabold text-sm mb-4 flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Commitment
+              </h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1 border-b border-slate-50">
                   <span className="text-[#5c7075]">Weekly Hours</span>
@@ -312,8 +326,11 @@ export const CollaborationDetails: React.FC = () => {
             </div>
 
             {commentError && (
-              <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-xs mb-4">
-                ⚠️ {commentError}
+              <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-xs mb-4 flex items-center gap-2">
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span>{commentError}</span>
               </div>
             )}
 
@@ -350,10 +367,13 @@ export const CollaborationDetails: React.FC = () => {
                           {isCommentOwnerOrAdmin && (
                             <button
                               onClick={() => handleCommentDelete(cmt._id)}
-                              className="text-red-500 hover:text-red-700 text-[10px] font-bold transition-colors select-none"
+                              className="text-red-500 hover:text-red-700 text-[10px] font-bold transition-colors select-none flex items-center gap-1"
                               title="Delete comment"
                             >
-                              🗑️ Delete
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                              Delete
                             </button>
                           )}
                         </div>
