@@ -83,19 +83,20 @@ export const Home: React.FC = () => {
             Share your work, connect with peers, and be part of something amazing.
           </p>
 
-          {/* Active Members Avatar Pile (from designs/home-addition.png) */}
+          {/* Active Members Avatar Pile */}
           <div className="flex items-center justify-center gap-4 mb-10 select-none">
-            {/* Overlapping Rings (Scrollable, Max 6 Display viewport, rendering only actual DB members) */}
+            {/* Overlapping Rings (Rendering actual DB members) */}
             {members.length > 0 && (
-              <div className="max-w-[160px] overflow-x-auto scrollbar-none py-1 px-0.5">
-                <div className="flex -space-x-3 pr-3">
-                  {members.map((member) => (
-                    <div
+              <div className="flex items-center">
+                <div className="flex -space-x-3 py-1 px-0.5">
+                  {members.slice(0, 6).map((member) => (
+                    <Link
                       key={member._id}
-                      className="w-9 h-9 rounded-full border border-[#006655] bg-white flex items-center justify-center text-[10px] font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0"
+                      to={`/members/${member._id}`}
+                      className="w-10 h-10 rounded-full border-2 border-white bg-[#e6f7f8] flex items-center justify-center text-xs font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0 hover:z-10 hover:scale-110 transition-transform"
                       title={member.fullName}
                     >
-                      {member.profilePicture ? (
+                      {member.profilePicture && member.profilePicture.trim() !== '' ? (
                         <img
                           src={member.profilePicture}
                           alt={member.fullName}
@@ -104,7 +105,7 @@ export const Home: React.FC = () => {
                       ) : (
                         getInitials(member.fullName)
                       )}
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -112,7 +113,7 @@ export const Home: React.FC = () => {
             {/* Active Members count details */}
             <div className="text-left font-bold">
               <div className="flex items-center gap-1 text-xs text-[#091e22]">
-                {loading ? '...' : stats.activeMembers} Active Members
+                {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)} Active Members
               </div>
               <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Explore the community today</p>
             </div>
@@ -138,7 +139,7 @@ export const Home: React.FC = () => {
           <div className="bg-white border border-slate-100 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-100">
             <div className="flex flex-col items-center justify-center p-2">
               <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                {loading ? '...' : stats.activeMembers}
+                {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
               </span>
               <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Active Members</span>
             </div>
