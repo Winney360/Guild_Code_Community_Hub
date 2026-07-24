@@ -149,9 +149,19 @@ export const AdminDashboard: React.FC = () => {
             <span className="text-2xl font-extrabold block leading-tight">
               {stats.totalCollaborations + stats.totalEvents}
             </span>
-            <div className="flex gap-3 text-[9px] text-slate-400 font-semibold mt-2">
-              <span>🤝 {stats.totalCollaborations} Collabs</span>
-              <span>📅 {stats.totalEvents} Events</span>
+            <div className="flex gap-3 text-[9px] text-slate-400 font-semibold mt-2 items-center">
+              <span className="flex items-center gap-1">
+                <svg className="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                </svg>
+                {stats.totalCollaborations} Collabs
+              </span>
+              <span className="flex items-center gap-1">
+                <svg className="w-3 h-3 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {stats.totalEvents} Events
+              </span>
             </div>
           </div>
         </div>
@@ -297,7 +307,11 @@ export const AdminDashboard: React.FC = () => {
               {recentMembers.length > 0 ? (
                 recentMembers.map((member) => (
                   <div key={member._id} className="flex gap-3 text-[10px] leading-relaxed pb-3 border-b border-slate-50">
-                    <span className="text-emerald-500">✔️</span>
+                    <div className="w-4 h-4 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </div>
                     <div>
                       <span className="font-bold text-[#091e22] block">{member.fullName} signed up</span>
                       <span className="text-slate-400">
