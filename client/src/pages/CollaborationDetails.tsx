@@ -220,7 +220,10 @@ export const CollaborationDetails: React.FC = () => {
       {/* 1. Header Info Row */}
       <div className="mb-8">
         <div className="flex items-center gap-1.5 text-xs text-[#006655] font-bold mb-3 select-none">
-          <span>🚀</span> Active Collaboration Request
+          <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Active Collaboration Request
         </div>
         <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
           {collab.title}
@@ -460,13 +463,19 @@ export const CollaborationDetails: React.FC = () => {
 
               {/* Status feedback alerts */}
               {submitError && (
-                <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-[10px] leading-relaxed">
-                  ⚠️ {submitError}
+                <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-[10px] leading-relaxed flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span>{submitError}</span>
                 </div>
               )}
               {submitSuccess && (
-                <div className="bg-green-50 text-green-700 border border-green-150 p-3 rounded-xl text-[10px] leading-relaxed">
-                  ✅ Application submitted successfully! The creator will review your profile.
+                <div className="bg-green-50 text-green-700 border border-green-150 p-3 rounded-xl text-[10px] leading-relaxed flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Application submitted successfully! The creator will review your profile.</span>
                 </div>
               )}
 
@@ -475,7 +484,10 @@ export const CollaborationDetails: React.FC = () => {
                 type="submit"
                 className="w-full bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-4 rounded-xl text-xs transition-all shadow-sm font-bold flex items-center justify-center gap-1.5"
               >
-                <span>🚀</span> Submit Application
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+                Submit Application
               </button>
             </form>
 
@@ -509,7 +521,9 @@ export const CollaborationDetails: React.FC = () => {
                 : 'bg-white border border-slate-200 hover:bg-slate-50 text-slate-700'
             }`}
           >
-            <span>{isLiked ? '❤️' : '🤍'}</span>
+            <svg className="w-4 h-4" fill={isLiked ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
             {isLiked ? 'Liked Request' : 'Like Collaboration'}
           </button>
         </div>
