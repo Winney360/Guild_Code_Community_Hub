@@ -106,10 +106,17 @@ export const MemberProfile: React.FC = () => {
           {/* Footer of card */}
           <div className="flex flex-wrap justify-center md:justify-start gap-6 text-xs text-[#5c7075] font-semibold">
             <span className="flex items-center gap-1.5">
-              <span>📍</span> {member.location || 'San Francisco, CA'}
+              <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {member.location || 'San Francisco, CA'}
             </span>
             <span className="flex items-center gap-1.5">
-              <span>📅</span> {formatJoinDate(member.joinDate)}
+              <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {formatJoinDate(member.joinDate)}
             </span>
           </div>
         </div>
@@ -179,7 +186,12 @@ export const MemberProfile: React.FC = () => {
         <div className="lg:col-span-8 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
           <div className="flex justify-between items-center mb-6">
             <h3 className="font-bold text-lg">Technical Proficiency</h3>
-            <span className="text-[#006655] text-sm">🛡️ Verified</span>
+            <span className="text-[#006655] text-xs font-bold flex items-center gap-1 bg-[#e6f7f8] px-2.5 py-1 rounded-lg">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              Verified
+            </span>
           </div>
 
           {/* Skill progress bars grid */}
@@ -283,7 +295,12 @@ export const MemberProfile: React.FC = () => {
               </div>
             </div>
             <div className="px-4 pb-4 flex justify-between items-center text-[10px] text-[#5c7075] font-semibold">
-              <span>⭐ 2.4k</span>
+              <span className="flex items-center gap-1">
+                <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                2.4k
+              </span>
               <span>Rust / WASM</span>
             </div>
           </div>
@@ -301,7 +318,12 @@ export const MemberProfile: React.FC = () => {
               </div>
             </div>
             <div className="px-4 pb-4 flex justify-between items-center text-[10px] text-[#5c7075] font-semibold">
-              <span>⭐ 840</span>
+              <span className="flex items-center gap-1">
+                <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                840
+              </span>
               <span>Go / Node.js</span>
             </div>
           </div>
@@ -319,7 +341,12 @@ export const MemberProfile: React.FC = () => {
               </div>
             </div>
             <div className="px-4 pb-4 flex justify-between items-center text-[10px] text-[#5c7075] font-semibold">
-              <span>⭐ 1.1k</span>
+              <span className="flex items-center gap-1">
+                <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                1.1k
+              </span>
               <span>TypeScript</span>
             </div>
           </div>
@@ -395,7 +422,13 @@ export const MemberProfile: React.FC = () => {
               <div>
                 <h4 className="font-bold text-sm text-[#091e22]">Guild Developer Summit 2024</h4>
                 <p className="text-[10px] text-[#5c7075] mt-0.5">Keynote Speaker: "The Future of WASM"</p>
-                <p className="text-[9px] text-slate-400 font-bold mt-1">📍 San Francisco, Digital Arts Center</p>
+                <p className="text-[9px] text-slate-400 font-bold mt-1 flex items-center gap-1">
+                  <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  San Francisco, Digital Arts Center
+                </p>
               </div>
             </div>
 
@@ -408,7 +441,12 @@ export const MemberProfile: React.FC = () => {
               <div>
                 <h4 className="font-bold text-sm text-[#091e22]">Rust Berlin Meetup</h4>
                 <p className="text-[10px] text-[#5c7075] mt-0.5">Panel Discussion on Safety Systems</p>
-                <p className="text-[9px] text-slate-400 font-bold mt-1">📹 Virtual Session</p>
+                <p className="text-[9px] text-slate-400 font-bold mt-1 flex items-center gap-1">
+                  <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  Virtual Session
+                </p>
               </div>
             </div>
           </div>
