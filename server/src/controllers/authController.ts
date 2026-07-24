@@ -108,6 +108,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         role: user.role,
         status: user.status,
         isActive: user.isActive,
+        profilePicture: user.profilePicture || '',
       },
     });
   } catch (error: any) {
@@ -213,6 +214,7 @@ export const oauthMock = async (req: Request, res: Response): Promise<void> => {
         role: user.role,
         status: user.status,
         isActive: user.isActive,
+        profilePicture: user.profilePicture || '',
       },
     });
   } catch (error: any) {
