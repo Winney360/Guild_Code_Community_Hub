@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext.js';
 import { ImageCropModal } from '../components/ImageCropModal.js';
 
 export const DashboardSettings: React.FC = () => {
-  const { user } = useAuth();
+  const { user, checkAuth } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Tabs
@@ -169,6 +169,9 @@ export const DashboardSettings: React.FC = () => {
       } else {
         setSuccess(true);
         triggerToast('Profile updated successfully!');
+        if (checkAuth) {
+          await checkAuth();
+        }
       }
     } catch (err) {
       console.error(err);
