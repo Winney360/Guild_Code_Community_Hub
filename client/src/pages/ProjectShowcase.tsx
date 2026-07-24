@@ -106,7 +106,9 @@ export const ProjectShowcase: React.FC = () => {
         {/* Search */}
         <div className="md:col-span-5 relative">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-            🔍
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
           </span>
           <input
             type="text"
