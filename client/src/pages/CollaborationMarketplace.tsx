@@ -93,7 +93,9 @@ export const CollaborationMarketplace: React.FC = () => {
         {/* Search Input */}
         <div className="relative w-full sm:max-w-md">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-            🔍
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
           </span>
           <input
             type="text"
@@ -125,8 +127,12 @@ export const CollaborationMarketplace: React.FC = () => {
           <span className="text-xs text-[#5c7075] font-semibold">Loading opportunities...</span>
         </div>
       ) : filteredCollabs.length === 0 ? (
-        <div className="border border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white shadow-sm">
-          <span className="text-4xl block mb-4">🕸️</span>
+        <div className="border border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
+          </div>
           <h3 className="font-bold text-base mb-1">No collaborations found</h3>
           <p className="text-xs text-[#5c7075]">Try modifying your search or skills queries.</p>
         </div>
@@ -168,8 +174,10 @@ export const CollaborationMarketplace: React.FC = () => {
                         Featured
                       </span>
                     )}
-                    <button className="text-slate-400 hover:text-slate-600 transition-colors">
-                      🔖
+                    <button className="text-slate-400 hover:text-slate-600 transition-colors" title="Bookmark collaboration">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
                     </button>
                   </div>
                 </div>
