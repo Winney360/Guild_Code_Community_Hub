@@ -217,8 +217,12 @@ export const MembersDirectory: React.FC = () => {
           <span className="text-xs text-[#5c7075] font-semibold">Loading members...</span>
         </div>
       ) : filteredMembers.length === 0 ? (
-        <div className="border border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white shadow-sm">
-          <span className="text-4xl block mb-4">👥</span>
+        <div className="border border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
           <h3 className="font-bold text-base mb-1">No members found</h3>
           <p className="text-xs text-[#5c7075]">Try refining your search query or filters.</p>
         </div>
@@ -229,66 +233,51 @@ export const MembersDirectory: React.FC = () => {
             return (
               <div
                 key={member._id}
-                className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[310px]"
+                className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
               >
                 <div>
-                  {/* Top user row */}
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0 border border-slate-50">
-                        {member.profilePicture ? (
-                          <img
-                            src={member.profilePicture}
-                            alt={member.fullName}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center text-sm font-bold text-[#006655]">
-                            {member.fullName.charAt(0).toUpperCase()}
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <Link to={`/members/${member._id}`}>
-                          <h4 className="font-bold text-base line-clamp-1 hover:text-[#006655] transition-colors">{member.fullName}</h4>
-                        </Link>
-                        <p className="text-xs text-[#5c7075] line-clamp-1">
-                          {member.specializations.join(', ') || 'Developer'}
-                        </p>
-                      </div>
+                  {/* Top bar: Avatar + Badge */}
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="w-14 h-14 rounded-full overflow-hidden bg-slate-100 border-2 border-white shadow-sm shrink-0">
+                      {member.profilePicture ? (
+                        <img src={member.profilePicture} alt={member.fullName} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-lg">
+                          {member.fullName ? member.fullName.charAt(0).toUpperCase() : 'G'}
+                        </div>
+                      )}
                     </div>
-
-                    {/* Status Badge */}
                     <span className={`px-2 py-0.5 border text-[9px] font-bold rounded-full ${badge.bg} shrink-0`}>
                       {badge.label}
                     </span>
                   </div>
 
-                  {/* Bio */}
-                  <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-3 mb-4 h-15">
-                    {member.bio || 'No description provided by the member yet.'}
+                  {/* Name + Role */}
+                  <Link to={`/members/${member._id}`} className="hover:underline">
+                    <h3 className="font-bold text-base text-[#091e22] hover:text-[#006655] transition-colors">{member.fullName}</h3>
+                  </Link>
+                  <p className="text-xs font-semibold text-[#006655] mb-2">{member.specializations[0] || 'Member'}</p>
+                  <p className="text-xs text-[#5c7075] line-clamp-2 leading-relaxed mb-4">
+                    {member.bio || 'Guild member contributing to open-source developer tooling and scalable backend architecture.'}
                   </p>
 
                   {/* Skills tags */}
-                  <div className="flex flex-wrap gap-1 mb-4 h-14 overflow-hidden content-start">
-                    {member.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-2 py-0.5 bg-slate-50 border border-slate-150 text-[10px] text-slate-500 rounded font-semibold"
-                      >
-                        #{skill}
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {member.skills.slice(0, 3).map((skill) => (
+                      <span key={skill} className="px-2 py-0.5 bg-slate-50 border border-slate-150 text-[10px] text-slate-500 rounded font-semibold">
+                        {skill}
                       </span>
                     ))}
                   </div>
                 </div>
 
                 {/* Footer details */}
-                <div className="flex items-center justify-between border-t border-slate-50 pt-4 text-[10px] text-[#5c7075] select-none">
-                  {/* Links */}
-                  <div className="flex items-center gap-3 shrink-0">
+                <div className="pt-4 border-t border-slate-50 flex items-center justify-between text-xs text-[#5c7075] select-none">
+                  {/* Links / Stats */}
+                  <div className="flex items-center gap-3">
                     {member.github && (
                       <a href={member.github} target="_blank" rel="noreferrer" className="hover:text-[#091e22]">
-                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" /></svg>
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
                       </a>
                     )}
                     {member.linkedin && (
@@ -301,7 +290,13 @@ export const MembersDirectory: React.FC = () => {
 
                   {/* Location & Date */}
                   <div className="flex flex-col items-end gap-0.5 text-[9px] font-bold text-slate-400">
-                    <span>📍 {member.location || 'Remote'}</span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      {member.location || 'Remote'}
+                    </span>
                     <span>{formatDate(member.joinDate)}</span>
                   </div>
                 </div>
