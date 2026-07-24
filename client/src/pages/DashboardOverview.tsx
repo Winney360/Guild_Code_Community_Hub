@@ -111,7 +111,11 @@ export const DashboardOverview: React.FC = () => {
         {/* Card 1 */}
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
-            <span className="text-lg bg-emerald-50 text-emerald-600 p-2 rounded-xl">📊</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">Live DB</span>
           </div>
           <div>
@@ -123,7 +127,11 @@ export const DashboardOverview: React.FC = () => {
         {/* Card 2 */}
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
-            <span className="text-lg bg-teal-50 text-teal-600 p-2 rounded-xl">🤝</span>
+            <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+              </svg>
+            </div>
             <span className="text-[10px] font-bold text-teal-600 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-full">Open</span>
           </div>
           <div>
@@ -135,7 +143,11 @@ export const DashboardOverview: React.FC = () => {
         {/* Card 3 */}
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
-            <span className="text-lg bg-blue-50 text-blue-600 p-2 rounded-xl">✉️</span>
+            <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
             <span className={`text-[10px] font-bold border px-2 py-0.5 rounded-full ${stats.newApplications > 0 ? 'text-blue-600 bg-blue-50 border-blue-100' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
               {stats.newApplications > 0 ? `+${stats.newApplications} new` : 'no actions'}
             </span>
@@ -149,7 +161,12 @@ export const DashboardOverview: React.FC = () => {
         {/* Card 4 */}
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
-            <span className="text-lg bg-rose-50 text-rose-600 p-2 rounded-xl">👁️</span>
+            <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </div>
             <span className="text-[10px] font-bold text-rose-500 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">Project Traffic</span>
           </div>
           <div>
@@ -174,8 +191,10 @@ export const DashboardOverview: React.FC = () => {
               {recentActivities.length > 0 ? (
                 recentActivities.map((act) => (
                   <div key={act._id} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-xl bg-[#006655]/10 text-[#006655] border border-[#006655]/20 flex items-center justify-center text-xs shrink-0 select-none font-bold">
-                      🔔
+                    <div className="w-8 h-8 rounded-xl bg-[#006655]/10 text-[#006655] border border-[#006655]/20 flex items-center justify-center shrink-0 select-none">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
                     </div>
                     <div className="flex-grow min-w-0">
                       <div className="flex justify-between items-center mb-1">
@@ -215,9 +234,13 @@ export const DashboardOverview: React.FC = () => {
               {/* Action 1 */}
               <Link
                 to="/dashboard/projects"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors"
+                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors group"
               >
-                <span className="text-base bg-emerald-50 text-emerald-600 p-2 rounded-xl select-none">📁</span>
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+                </div>
                 <div>
                   <h4 className="font-bold text-xs">My Projects Showcase</h4>
                   <p className="text-[9px] text-[#5c7075] mt-0.5">Manage details & links</p>
@@ -227,9 +250,13 @@ export const DashboardOverview: React.FC = () => {
               {/* Action 2 */}
               <Link
                 to="/dashboard/collaborations"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors"
+                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors group"
               >
-                <span className="text-base bg-teal-50 text-teal-600 p-2 rounded-xl select-none">📢</span>
+                <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A2.5 2.5 0 013 11.2 2.5 2.5 0 015.436 8.72M18 13l2.25 2.25M18 7l2.25-2.25" />
+                  </svg>
+                </div>
                 <div>
                   <h4 className="font-bold text-xs">Manage Collabs</h4>
                   <p className="text-[9px] text-[#5c7075] mt-0.5">Close or check requests</p>
@@ -239,9 +266,13 @@ export const DashboardOverview: React.FC = () => {
               {/* Action 3 */}
               <Link
                 to="/members"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors"
+                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors group"
               >
-                <span className="text-base bg-blue-50 text-blue-600 p-2 rounded-xl select-none">👥</span>
+                <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
                 <div>
                   <h4 className="font-bold text-xs">Browse Members</h4>
                   <p className="text-[9px] text-[#5c7075] mt-0.5">Connect with developers</p>
