@@ -97,8 +97,10 @@ export const MyCollaborations: React.FC = () => {
       {collabs.length === 0 ? (
         // Empty State
         <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center">
-          <div className="w-20 h-20 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center text-4xl mb-4 select-none">
-            🤝
+          <div className="w-16 h-16 bg-teal-50 text-teal-700 border border-teal-100 rounded-full flex items-center justify-center mb-4 select-none">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
           </div>
           <h3 className="font-extrabold text-base mb-1">Post Collaboration</h3>
           <p className="text-xs text-[#5c7075] max-w-xs mb-6">Find developers, designers, and visionaries to join your projects. Outline required skills and schedules.</p>
