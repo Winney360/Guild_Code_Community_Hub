@@ -192,8 +192,11 @@ export const CommunityEvents: React.FC = () => {
 
                 {/* Footer registration row */}
                 <div className="border-t border-slate-50 pt-4 mt-auto flex items-center justify-between text-[10px] text-[#5c7075] select-none font-semibold">
-                  <span>
-                    👥 {event.participants ? event.participants.length : 0} registered
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    {event.participants ? event.participants.length : 0} registered
                   </span>
                   <Link
                     to={`/events/${event._id}`}
@@ -207,7 +210,11 @@ export const CommunityEvents: React.FC = () => {
 
             {/* Custom Static Card: Host Your Own Event */}
             <div className="border border-dashed border-slate-200 rounded-3xl p-6 bg-slate-50/20 text-center flex flex-col items-center justify-center h-[360px]">
-              <span className="text-3xl block mb-4">📅</span>
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
               <h3 className="font-bold text-base mb-1">Host Your Own Event?</h3>
               <p className="text-xs text-[#5c7075] max-w-xs mb-6">
                 Submit a proposal to share your expertise or coordinate a local meet with the Guild Code community.
