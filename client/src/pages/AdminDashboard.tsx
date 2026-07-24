@@ -122,22 +122,25 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <Link
+          to="/dashboard/admin/users?status=pending"
+          className="border border-slate-100 bg-white hover:border-amber-200 hover:shadow-md transition-all rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32 group cursor-pointer"
+        >
           <div className="flex justify-between items-center">
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Pending Reviews</span>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${stats.pendingReviews > 0 ? 'text-red-500 bg-red-50' : 'text-slate-500 bg-slate-100'}`}>
+            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider group-hover:text-amber-700">Pending Approvals</span>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${stats.pendingReviews > 0 ? 'text-amber-700 bg-amber-50 border border-amber-200' : 'text-slate-500 bg-slate-100'}`}>
               {stats.pendingReviews > 0 ? 'Requires Action' : 'Cleared'}
             </span>
           </div>
           <div>
             <span className="text-2xl font-extrabold block leading-tight">{stats.pendingReviews}</span>
             <div className="flex gap-2 mt-2">
-              <span className={`px-1.5 py-0.5 text-[8px] font-extrabold rounded uppercase ${stats.pendingReviews > 0 ? 'bg-red-50 text-red-500' : 'bg-slate-50 text-slate-400'}`}>
-                {stats.pendingReviews} User Approvals
+              <span className={`px-1.5 py-0.5 text-[8px] font-extrabold rounded uppercase ${stats.pendingReviews > 0 ? 'bg-amber-100 text-amber-800' : 'bg-slate-50 text-slate-400'}`}>
+                {stats.pendingReviews} User Approvals →
               </span>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Card 4 */}
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
