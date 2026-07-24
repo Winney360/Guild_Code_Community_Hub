@@ -11,10 +11,9 @@ import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 // @access  Public
 export const getPlatformStats = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Spec 4.1: Active Members (role = 'member' and isActive = true)
+    // Spec 4.1: Active Members (isActive = true and status = 'active')
     const activeMembersCount = await User.countDocuments({
-      isActive: true,
-      role: 'member',
+      $or: [{ isActive: true }, { status: 'active' }],
     });
 
     // Spec 4.1: Projects Shared (isVisible = true)
