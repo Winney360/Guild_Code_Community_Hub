@@ -143,7 +143,11 @@ export const MyEvents: React.FC = () => {
         {/* Search & Filter Header bar */}
         <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="relative w-full sm:max-w-xs">
-            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">🔍</span>
+            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
             <input
               type="text"
               placeholder="Search events..."
@@ -220,8 +224,11 @@ export const MyEvents: React.FC = () => {
 
                   {/* Actions */}
                   <td className="p-4 pr-6 text-right select-none">
-                    <Link to={`/dashboard/events/edit/${event._id}`} className="text-slate-400 hover:text-[#006655] font-bold text-xs" title="Edit">
-                      ✏️ Edit
+                    <Link to={`/dashboard/events/edit/${event._id}`} className="text-slate-400 hover:text-[#006655] font-bold text-xs inline-flex items-center gap-1" title="Edit event">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                      Edit
                     </Link>
                   </td>
                 </tr>
