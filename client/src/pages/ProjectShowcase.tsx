@@ -169,8 +169,12 @@ export const ProjectShowcase: React.FC = () => {
           <span className="text-xs text-[#5c7075] font-semibold">Loading showcase...</span>
         </div>
       ) : filteredProjects.length === 0 ? (
-        <div className="border border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white shadow-sm">
-          <span className="text-4xl block mb-4">🚀</span>
+        <div className="border border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.605 15.12a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
           <h3 className="font-bold text-base mb-1">No projects found</h3>
           <p className="text-xs text-[#5c7075]">Try adjusting your search queries or category filters.</p>
         </div>
@@ -202,8 +206,10 @@ export const ProjectShowcase: React.FC = () => {
                       <h3 className="font-bold text-base text-[#091e22] line-clamp-1 hover:text-[#006655] transition-colors">{project.title}</h3>
                     </Link>
                     {/* Bookmark dummy */}
-                    <button className="text-slate-400 hover:text-slate-600 transition-colors">
-                      🔖
+                    <button className="text-slate-400 hover:text-slate-600 transition-colors" title="Bookmark project">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
                     </button>
                   </div>
                   <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-2 mb-4 h-9">
@@ -242,8 +248,19 @@ export const ProjectShowcase: React.FC = () => {
 
                 {/* Likes / Views count */}
                 <div className="flex items-center gap-3 font-semibold">
-                  <span className="flex items-center gap-0.5">❤️ {project.likes ? project.likes.length : 0}</span>
-                  <span className="flex items-center gap-0.5">👁️ {project.views || 0}</span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    {project.likes ? project.likes.length : 0}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    {project.views || 0}
+                  </span>
                 </div>
               </div>
 
