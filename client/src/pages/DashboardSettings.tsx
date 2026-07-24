@@ -373,7 +373,11 @@ export const DashboardSettings: React.FC = () => {
               
               <div className="space-y-3">
                 <div className="flex gap-2">
-                  <span className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-xs select-none w-10 text-center">💻</span>
+                  <div className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-slate-400 w-10 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                  </div>
                   <input
                     type="url"
                     placeholder="GitHub URL"
@@ -384,7 +388,11 @@ export const DashboardSettings: React.FC = () => {
                 </div>
 
                 <div className="flex gap-2">
-                  <span className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-xs select-none w-10 text-center">🔗</span>
+                  <div className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-slate-400 w-10 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                  </div>
                   <input
                     type="url"
                     placeholder="LinkedIn or Portfolio Website"
@@ -398,7 +406,14 @@ export const DashboardSettings: React.FC = () => {
 
             {/* Save Buttons row */}
             <div className="flex justify-end gap-3 select-none">
-              {error && <span className="text-red-500 text-xs self-center">⚠️ {error}</span>}
+              {error && (
+                <span className="text-red-500 text-xs self-center flex items-center gap-1">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  {error}
+                </span>
+              )}
               <button
                 type="submit"
                 disabled={loading}
@@ -499,7 +514,14 @@ export const DashboardSettings: React.FC = () => {
           </div>
 
           <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
-            {error && <span className="text-red-500 text-xs self-center">⚠️ {error}</span>}
+            {error && (
+              <span className="text-red-500 text-xs self-center flex items-center gap-1">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                {error}
+              </span>
+            )}
             <button
               type="submit"
               disabled={loading}
@@ -555,7 +577,14 @@ export const DashboardSettings: React.FC = () => {
           </div>
 
           <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
-            {error && <span className="text-red-500 text-xs self-center">⚠️ {error}</span>}
+            {error && (
+              <span className="text-red-500 text-xs self-center flex items-center gap-1">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                {error}
+              </span>
+            )}
             <button
               type="submit"
               disabled={loading}
