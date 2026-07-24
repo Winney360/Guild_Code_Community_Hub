@@ -144,8 +144,12 @@ export const ApplicationsDashboard: React.FC = () => {
       {activeTab === 'received' && (
         <div className="space-y-6">
           {received.length === 0 ? (
-            <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm">
-              <span className="text-4xl block mb-4">✉️</span>
+            <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
               <h3 className="font-extrabold text-base mb-1">No applications received</h3>
               <p className="text-xs text-[#5c7075]">Developer applications on your collaboration posts will show up here.</p>
             </div>
