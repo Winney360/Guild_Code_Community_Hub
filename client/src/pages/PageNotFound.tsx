@@ -28,8 +28,11 @@ export const PageNotFound: React.FC = () => {
         
         {/* Left column (Info & CLI) */}
         <div className="max-w-md space-y-6">
-          <span className="inline-flex items-center px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-[10px] font-bold text-[#006655] select-none">
-            ⏰ HTTP_STATUS_CODE: 404
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-[10px] font-bold text-[#006655] select-none">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            HTTP_STATUS_CODE: 404
           </span>
           <h1 className="text-5xl font-extrabold tracking-tight leading-tight select-none">
             Lost in the <br />
@@ -44,13 +47,19 @@ export const PageNotFound: React.FC = () => {
               to="/"
               className="bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-6 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
             >
-              🏠 Return Home
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Return Home
             </Link>
             <Link
               to="/dashboard"
               className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 px-6 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
             >
-              📊 Go to Dashboard
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              Go to Dashboard
             </Link>
           </div>
 
@@ -78,11 +87,18 @@ export const PageNotFound: React.FC = () => {
           {/* Main Card */}
           <div className="border border-slate-100 bg-white rounded-3xl p-8 shadow-xl w-full flex flex-col items-center text-center relative z-20">
             <div className="w-full flex justify-between items-center text-[10px] text-slate-400 font-bold border-b border-slate-50 pb-4 mb-8 select-none">
-              <span>⛓️ broken_logic.ts</span>
+              <span className="flex items-center gap-1">
+                <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                broken_logic.ts
+              </span>
             </div>
 
-            <div className="w-20 h-20 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-4xl mb-6 select-none relative">
-              🔗
+            <div className="w-20 h-20 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 mb-6 select-none relative">
+              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
               <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white rounded-full text-[9px] flex items-center justify-center font-bold">!</span>
             </div>
 
