@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface UserType {
   _id: string;
@@ -11,12 +12,27 @@ interface UserType {
 }
 
 export const UserManagement: React.FC = () => {
+  const location = useLocation();
   const [users, setUsers] = useState<UserType[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'pending' | 'suspended'>('all');
+  
+  // Read initial filter from URL params (e.g. ?status=pending)
+  const queryParams = new URLSearchParams(location.search);
+  const urlStatus = queryParams.get('status');
+  const initialFilter = (urlStatus === 'pending' || urlStatus === 'active' || urlStatus === 'suspended')
+    ? urlStatus
+    : 'all';
+
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'pending' | 'suspended'>(initialFilter);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (urlStatus === 'pending' || urlStatus === 'active' || urlStatus === 'suspended') {
+      setStatusFilter(urlStatus);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -169,6 +185,8 @@ export const UserManagement: React.FC = () => {
     );
   }
 
+  const pendingUsersCount = users.filter((u) => u.status === 'pending').length;
+
   return (
     <div className="space-y-8 font-sans text-[#091e22]">
       
@@ -176,13 +194,40 @@ export const UserManagement: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">User Management</h1>
-          <p className="text-xs text-[#5c7075] uppercase tracking-wider font-bold">Total Members: {users.length}</p>
+          <p className="text-xs text-[#5c7075] uppercase tracking-wider font-bold">
+            Total Members: {users.length} {pendingUsersCount > 0 && `• (${pendingUsersCount} Pending Approval)`}
+          </p>
         </div>
 
         <button className="bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-6 rounded-xl font-bold text-xs transition-colors shadow-sm select-none">
           + Invite User
         </button>
       </div>
+
+      {/* Pending Approvals Notice Banner */}
+      {pendingUsersCount > 0 && (
+        <div className="bg-amber-50 border border-amber-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 select-none shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div>
+              <h4 className="font-extrabold text-sm text-amber-900">
+                {pendingUsersCount} Pending Account{pendingUsersCount > 1 ? 's' : ''} Awaiting Admin Approval
+              </h4>
+              <p className="text-xs text-amber-700">Review new user registrations and grant them active access to the community hub.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setStatusFilter('pending')}
+            className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors shadow-sm shrink-0"
+          >
+            Review Pending ({pendingUsersCount})
+          </button>
+        </div>
+      )}
 
       {/* Main Table view wrapper */}
       <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden">
@@ -195,25 +240,28 @@ export const UserManagement: React.FC = () => {
               onClick={() => setStatusFilter('all')}
               className={`px-3 py-1.5 rounded-lg ${statusFilter === 'all' ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500'}`}
             >
-              All Users
+              All Users ({users.length})
             </button>
             <button
               onClick={() => setStatusFilter('active')}
               className={`px-3 py-1.5 rounded-lg ${statusFilter === 'active' ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500'}`}
             >
-              Active
+              Active ({users.filter(u => u.status === 'active').length})
             </button>
             <button
               onClick={() => setStatusFilter('pending')}
-              className={`px-3 py-1.5 rounded-lg ${statusFilter === 'pending' ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500'}`}
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 ${statusFilter === 'pending' ? 'bg-amber-500 text-white shadow-sm' : 'text-amber-700 bg-amber-50/60'}`}
             >
-              Pending
+              <span>Pending</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[8px] ${statusFilter === 'pending' ? 'bg-white text-amber-600' : 'bg-amber-200 text-amber-800'}`}>
+                {pendingUsersCount}
+              </span>
             </button>
             <button
               onClick={() => setStatusFilter('suspended')}
               className={`px-3 py-1.5 rounded-lg ${statusFilter === 'suspended' ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500'}`}
             >
-              Suspended
+              Suspended ({users.filter(u => u.status === 'suspended').length})
             </button>
           </div>
 
