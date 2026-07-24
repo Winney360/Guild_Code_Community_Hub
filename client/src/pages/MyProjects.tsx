@@ -106,8 +106,10 @@ export const MyProjects: React.FC = () => {
       {projects.length === 0 ? (
         // Empty State (mocking designs/myProjects-emptyState.png layout)
         <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center">
-          <div className="w-20 h-20 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center text-4xl mb-4 select-none">
-            📁
+          <div className="w-16 h-16 bg-emerald-50 text-[#006655] border border-emerald-100 rounded-full flex items-center justify-center mb-4 select-none">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+            </svg>
           </div>
           <h3 className="font-extrabold text-base mb-1">New Project</h3>
           <p className="text-xs text-[#5c7075] max-w-xs mb-6">Start building your next big idea. Upload screenshots, wireframes, and documentation.</p>
