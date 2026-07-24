@@ -94,8 +94,12 @@ export const ProjectDetails: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="max-w-md mx-auto my-20 p-8 border border-dashed border-slate-200 rounded-2xl text-center bg-white shadow-sm">
-        <span className="text-4xl block mb-4">🛸</span>
+      <div className="max-w-md mx-auto my-20 p-8 border border-dashed border-slate-200 rounded-2xl text-center bg-white shadow-sm flex flex-col items-center justify-center">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
         <h3 className="font-bold text-base mb-1">Project not found</h3>
         <p className="text-xs text-[#5c7075] mb-6">The project you are looking for does not exist or has been hidden.</p>
         <Link to="/projects" className="bg-[#006655] hover:bg-[#004d40] text-white font-bold py-2 px-5 rounded-xl text-xs transition-colors shadow-sm">
@@ -139,7 +143,10 @@ export const ProjectDetails: React.FC = () => {
             rel="noreferrer"
             className="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm text-xs"
           >
-            <span>🔗</span> Live Demo
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+            Live Demo
           </a>
           <a
             href={project.links?.github || '#github'}
@@ -147,7 +154,10 @@ export const ProjectDetails: React.FC = () => {
             rel="noreferrer"
             className="flex items-center gap-2 bg-[#006655] hover:bg-[#004d40] text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm text-xs"
           >
-            <span>💻</span> View GitHub
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+            View GitHub
           </a>
         </div>
       </div>
