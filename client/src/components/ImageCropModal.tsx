@@ -19,9 +19,10 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Reset position when zoom changes or image changes
+  // Reset position & zoom when image changes
   useEffect(() => {
     setPosition({ x: 0, y: 0 });
+    setZoom(1);
   }, [imageSrc]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -69,8 +70,8 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
   // Wheel zoom inside crop area
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
-    const zoomDelta = e.deltaY > 0 ? -0.1 : 0.1;
-    setZoom((prev) => Math.min(Math.max(prev + zoomDelta, 1), 3));
+    const zoomDelta = e.deltaY > 0 ? -0.05 : 0.05;
+    setZoom((prev) => Math.min(Math.max(prev + zoomDelta, 0.5), 3));
   };
 
   const handleSaveCrop = () => {
@@ -95,8 +96,8 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
     ctx.closePath();
     ctx.clip();
 
-    // Fill background with white
-    ctx.fillStyle = '#ffffff';
+    // Fill background with light neutral tone
+    ctx.fillStyle = '#f8fafc';
     ctx.fillRect(0, 0, size, size);
 
     // Translate to canvas center and apply zoom & pan offsets
@@ -106,20 +107,20 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
     ctx.translate(size / 2 + position.x * scaleFactor, size / 2 + position.y * scaleFactor);
     ctx.scale(zoom, zoom);
 
-    // Calculate dimensions to cover viewport
+    // Calculate dimensions to preserve full original photo aspect ratio (no forced cropping)
     const aspect = img.naturalWidth / img.naturalHeight;
-    let renderWidth = size;
-    let renderHeight = size;
+    let baseWidth = size;
+    let baseHeight = size;
 
     if (aspect > 1) {
-      renderWidth = size * aspect;
-      renderHeight = size;
+      baseWidth = size;
+      baseHeight = size / aspect;
     } else {
-      renderWidth = size;
-      renderHeight = size / aspect;
+      baseWidth = size * aspect;
+      baseHeight = size;
     }
 
-    ctx.drawImage(img, -renderWidth / 2, -renderHeight / 2, renderWidth, renderHeight);
+    ctx.drawImage(img, -baseWidth / 2, -baseHeight / 2, baseWidth, baseHeight);
     ctx.restore();
 
     const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.92);
@@ -132,7 +133,10 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
         
         {/* Modal Header */}
         <div className="w-full flex justify-between items-center mb-6">
-          <h3 className="font-extrabold text-base text-[#091e22] dark:text-[#f1f5f9]">Adjust Profile Photo</h3>
+          <div>
+            <h3 className="font-extrabold text-base text-[#091e22] dark:text-[#f1f5f9]">Adjust Profile Photo</h3>
+            <p className="text-[11px] text-[#5c7075] dark:text-slate-400 font-normal">Full picture loaded. Position & scale to fit circle.</p>
+          </div>
           <button
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -143,7 +147,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
           </button>
         </div>
 
-        {/* Circular Crop Viewport */}
+        {/* Circular Viewport Container */}
         <div
           ref={containerRef}
           onMouseDown={handleMouseDown}
@@ -158,10 +162,10 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
             isDragging ? 'grabbing' : 'grab'
           } flex items-center justify-center touch-none mb-6`}
         >
-          {/* Guide Overlay Grid Lines */}
-          <div className="absolute inset-0 border border-white/20 rounded-full pointer-events-none z-10" />
+          {/* Guide Overlay Ring */}
+          <div className="absolute inset-0 border border-white/30 rounded-full pointer-events-none z-10" />
 
-          {/* Rendered Drag/Zoom Image */}
+          {/* Full Unclipped Image */}
           <img
             ref={imageRef}
             src={imageSrc}
@@ -170,11 +174,9 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
             style={{
               transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
               transition: isDragging ? 'none' : 'transform 0.05s ease-out',
-              maxWidth: 'none',
-              maxHeight: 'none',
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
             }}
             className="pointer-events-none select-none"
           />
@@ -184,25 +186,26 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
           <svg className="w-3.5 h-3.5 text-[#006655] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
           </svg>
-          <span>Drag to position • Scroll or slider to zoom</span>
+          <span>Drag to move • Scroll or slider to scale</span>
         </p>
 
-        {/* Zoom Controls Slider */}
+        {/* Scale & Zoom Slider */}
         <div className="w-full space-y-2 mb-6 bg-slate-50 dark:bg-[#1a292c] p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
           <div className="flex justify-between items-center text-xs font-bold text-[#5c7075] dark:text-slate-300">
-            <span>Zoom</span>
+            <span>Photo Scale</span>
             <span>{Math.round(zoom * 100)}%</span>
           </div>
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setZoom((z) => Math.max(z - 0.1, 1))}
-              className="text-slate-500 hover:text-[#006655] font-bold text-base select-none px-1"
+              type="button"
+              onClick={() => setZoom((z) => Math.max(z - 0.1, 0.5))}
+              className="text-slate-500 hover:text-[#006655] font-bold text-base select-none px-1.5 py-0.5 rounded hover:bg-slate-200/50"
             >
               -
             </button>
             <input
               type="range"
-              min="1"
+              min="0.5"
               max="3"
               step="0.05"
               value={zoom}
@@ -210,8 +213,9 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
               className="w-full accent-[#006655] cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg"
             />
             <button
+              type="button"
               onClick={() => setZoom((z) => Math.min(z + 0.1, 3))}
-              className="text-slate-500 hover:text-[#006655] font-bold text-base select-none px-1"
+              className="text-slate-500 hover:text-[#006655] font-bold text-base select-none px-1.5 py-0.5 rounded hover:bg-slate-200/50"
             >
               +
             </button>
