@@ -121,12 +121,30 @@ export const DashboardSettings: React.FC = () => {
 
   const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
 
+  const autoSavePhoto = async (newPhotoUrl: string) => {
+    if (!user?._id) return;
+    setProfilePicture(newPhotoUrl);
+    try {
+      const res = await fetch(`/api/users/${user._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profilePicture: newPhotoUrl }),
+      });
+      if (res.ok) {
+        triggerToast(newPhotoUrl ? 'Profile photo updated and saved!' : 'Profile photo removed!');
+        if (checkAuth) await checkAuth();
+      }
+    } catch (err) {
+      console.error('Error auto-saving photo:', err);
+    }
+  };
+
   const handleRemovePhoto = () => {
     setShowRemoveConfirmModal(true);
   };
 
   const confirmRemovePhoto = () => {
-    setProfilePicture('');
+    autoSavePhoto('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -709,7 +727,7 @@ export const DashboardSettings: React.FC = () => {
             if (fileInputRef.current) fileInputRef.current.value = '';
           }}
           onCropComplete={(croppedDataUrl) => {
-            setProfilePicture(croppedDataUrl);
+            autoSavePhoto(croppedDataUrl);
             setShowCropModal(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
           }}
