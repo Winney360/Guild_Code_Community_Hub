@@ -316,9 +316,20 @@ export const Home: React.FC = () => {
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="text-xl font-bold text-[#091e22]">Aether Mesh Protocol</h3>
-                    <div className="flex gap-4 text-xs text-[#5c7075]">
-                      <span className="flex items-center gap-1">❤️ 1.2k</span>
-                      <span className="flex items-center gap-1">👁️ 8.4k</span>
+                    <div className="flex gap-4 text-xs text-[#5c7075] items-center">
+                      <span className="flex items-center gap-1">
+                        <svg className="w-3.5 h-3.5 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                        1.2k
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        8.4k
+                      </span>
                     </div>
                   </div>
                   <p className="text-sm text-[#5c7075] mb-6 leading-relaxed">
@@ -430,7 +441,12 @@ export const Home: React.FC = () => {
                   <p className="text-xs text-[#5c7075] mt-1">Analyzing complex pointer patterns and the borrow checker in large-scale systems.</p>
                 </div>
               </div>
-              <span className="text-xs font-semibold text-[#5c7075] shrink-0">👥 120 attending</span>
+              <span className="text-xs font-semibold text-[#5c7075] shrink-0 flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                120 attending
+              </span>
             </div>
 
             {/* Event Card 2 */}
@@ -450,7 +466,12 @@ export const Home: React.FC = () => {
                   <p className="text-xs text-[#5c7075] mt-1">Special guest talk on autonomous LLM agents and the next evolution of dev tools.</p>
                 </div>
               </div>
-              <span className="text-xs font-semibold text-[#5c7075] shrink-0">👥 450 attending</span>
+              <span className="text-xs font-semibold text-[#5c7075] shrink-0 flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                450 attending
+              </span>
             </div>
           </div>
         </div>
@@ -469,7 +490,9 @@ export const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-slate-800 border border-slate-700/50 p-8 rounded-3xl">
               <div className="bg-[#006655]/20 p-3 rounded-2xl w-fit text-[#00e676] mb-6">
-                🛡️
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
               </div>
               <h4 className="font-bold text-lg mb-3">Vetted Entry</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -479,7 +502,9 @@ export const Home: React.FC = () => {
 
             <div className="bg-slate-800 border border-slate-700/50 p-8 rounded-3xl">
               <div className="bg-[#006655]/20 p-3 rounded-2xl w-fit text-[#00e676] mb-6">
-                🕸️
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                </svg>
               </div>
               <h4 className="font-bold text-lg mb-3">Collaborative Nodes</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -489,7 +514,9 @@ export const Home: React.FC = () => {
 
             <div className="bg-slate-800 border border-slate-700/50 p-8 rounded-3xl">
               <div className="bg-[#006655]/20 p-3 rounded-2xl w-fit text-[#00e676] mb-6">
-                💎
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
               </div>
               <h4 className="font-bold text-lg mb-3">Reward Tiers</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
