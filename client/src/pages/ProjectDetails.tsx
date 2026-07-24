@@ -182,7 +182,11 @@ export const ProjectDetails: React.FC = () => {
             <h4 className="font-bold text-sm text-[#5c7075] uppercase tracking-wider mb-4">Key Features</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-5 border border-slate-100 bg-slate-50/30 rounded-2xl flex items-start gap-4">
-                <span className="text-xl bg-[#e6f7f8] text-[#006655] p-2 rounded-xl">⚡</span>
+                <div className="w-8 h-8 rounded-xl bg-[#e6f7f8] text-[#006655] flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
                 <div>
                   <h5 className="font-bold text-xs mb-1">Sub-ms Latency</h5>
                   <p className="text-[11px] text-[#5c7075] leading-relaxed">Optimized engine core for high-speed execution.</p>
@@ -190,7 +194,11 @@ export const ProjectDetails: React.FC = () => {
               </div>
 
               <div className="p-5 border border-slate-100 bg-slate-50/30 rounded-2xl flex items-start gap-4">
-                <span className="text-xl bg-[#e6f7f8] text-[#006655] p-2 rounded-xl">🛡️</span>
+                <div className="w-8 h-8 rounded-xl bg-[#e6f7f8] text-[#006655] flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
                 <div>
                   <h5 className="font-bold text-xs mb-1">End-to-End Encryption</h5>
                   <p className="text-[11px] text-[#5c7075] leading-relaxed">Secure computation pathways for private data.</p>
@@ -292,7 +300,9 @@ export const ProjectDetails: React.FC = () => {
                   : 'bg-[#006655] hover:bg-[#004d40] text-white'
               }`}
             >
-              <span>{isLiked ? '❤️' : '🤍'}</span>
+              <svg className="w-4 h-4" fill={isLiked ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
               {isLiked ? 'Liked Project' : 'Like Project'}
             </button>
           </div>
@@ -306,7 +316,11 @@ export const ProjectDetails: React.FC = () => {
               rel="noreferrer"
               className="p-4 border border-slate-150 bg-slate-50/20 rounded-2xl flex items-center gap-4 hover:bg-slate-50 transition-colors"
             >
-              <span className="text-xl bg-orange-50 text-orange-500 p-2 rounded-xl select-none">🎨</span>
+              <div className="w-8 h-8 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+              </div>
               <div>
                 <h5 className="font-bold text-xs mb-0.5">Figma File</h5>
                 <p className="text-[10px] text-[#5c7075]">Design System & Screens</p>
