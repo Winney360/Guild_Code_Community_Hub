@@ -6,24 +6,24 @@ import bcrypt from 'bcryptjs';
 dotenv.config();
 
 const runTest = async () => {
-  console.log('🧪 Starting Authentication & Authorization Flow Tests...\n');
+  console.log('Starting Authentication & Authorization Flow Tests...\n');
 
   // Connect to DB
   const uri = process.env.MONGODB_URI;
   if (!uri) {
-    console.error('❌ MONGODB_URI is not defined in env');
+    console.error('MONGODB_URI is not defined in env');
     process.exit(1);
   }
 
   await mongoose.connect(uri);
-  console.log('🔌 Connected to MongoDB');
+  console.log('Connected to MongoDB');
 
   const testEmail = 'test_developer@guildcode.com';
 
   try {
     // 0. Cleanup existing test user
     await User.deleteMany({ email: testEmail });
-    console.log('🧹 Cleaned up previous test runs');
+    console.log('Cleaned up previous test runs');
 
     // 1. Test Signup (Spec 3.2 - Step 1)
     console.log('\n--- 1. Testing Signup Flow ---');
@@ -39,7 +39,7 @@ const runTest = async () => {
       joinDate: null,
     });
 
-    console.log('✅ User created successfully');
+    console.log('[PASS] User created successfully');
     console.log(`   fullName: ${newUser.fullName}`);
     console.log(`   status: ${newUser.status} (expected: pending)`);
     console.log(`   isActive: ${newUser.isActive} (expected: false)`);
@@ -54,9 +54,9 @@ const runTest = async () => {
     if (!isPasswordCorrect) throw new Error('Password mismatch');
 
     if (pendingUser.status === 'pending' || !pendingUser.isActive) {
-      console.log('✅ PASS: Login blocked for pending user (returns 403 "Awaiting admin approval")');
+      console.log('[PASS] Login blocked for pending user (returns 403 "Awaiting admin approval")');
     } else {
-      console.error('❌ FAIL: Login should be blocked for pending user');
+      console.error('[FAIL] Login should be blocked for pending user');
     }
 
     // 3. Test Admin Approval Flow (Spec 3.2 - Steps 3, 4, 5)
@@ -69,7 +69,7 @@ const runTest = async () => {
     const approvedUser = await User.findOne({ email: testEmail });
     if (!approvedUser) throw new Error('Approved user not found');
 
-    console.log('✅ User approved successfully');
+    console.log('[PASS] User approved successfully');
     console.log(`   status: ${approvedUser.status} (expected: active)`);
     console.log(`   isActive: ${approvedUser.isActive} (expected: true)`);
     console.log(`   joinDate: ${approvedUser.joinDate} (expected: Date object)`);
@@ -77,9 +77,9 @@ const runTest = async () => {
     // 4. Test Login with Active Account (Spec 3.2 - Step 5)
     console.log('\n--- 4. Testing Login Guard (Active Account) ---');
     if (approvedUser.status === 'active' && approvedUser.isActive) {
-      console.log('✅ PASS: Login allowed for active approved user (returns 200 and issues JWT)');
+      console.log('[PASS] Login allowed for active approved user (returns 200 and issues JWT)');
     } else {
-      console.error('❌ FAIL: Login should be allowed for active user');
+      console.error('[FAIL] Login should be allowed for active user');
     }
 
     // 5. Test Suspended Account Login Guard (Spec 3.3)
@@ -91,9 +91,9 @@ const runTest = async () => {
     if (!suspendedUser) throw new Error('Suspended user not found');
 
     if (suspendedUser.status === 'suspended') {
-      console.log('✅ PASS: Login blocked for suspended user (returns 403 "Account suspended")');
+      console.log('[PASS] Login blocked for suspended user (returns 403 "Account suspended")');
     } else {
-      console.error('❌ FAIL: Login should be blocked for suspended user');
+      console.error('[FAIL] Login should be blocked for suspended user');
     }
 
     // 6. Test Hard Delete Cascade (Spec 9.2)
@@ -103,18 +103,18 @@ const runTest = async () => {
     const deletedUser = await User.findOne({ email: testEmail });
 
     if (!deletedUser) {
-      console.log('✅ PASS: User record hard deleted');
+      console.log('[PASS] User record hard deleted');
     } else {
-      console.error('❌ FAIL: User was not deleted');
+      console.error('[FAIL] User was not deleted');
     }
 
-    console.log('\n🎉 All authentication database flow tests completed successfully!');
+    console.log('\nAll authentication database flow tests completed successfully!');
 
   } catch (error) {
-    console.error('❌ Test failed with error:', error);
+    console.error('[FAIL] Test failed with error:', error);
   } finally {
     await mongoose.disconnect();
-    console.log('\n🔌 Disconnected from MongoDB');
+    console.log('\nDisconnected from MongoDB');
   }
 };
 
