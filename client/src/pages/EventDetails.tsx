@@ -105,8 +105,12 @@ export const EventDetails: React.FC = () => {
 
   if (!event) {
     return (
-      <div className="max-w-md mx-auto my-20 p-8 border border-dashed border-slate-200 rounded-2xl text-center bg-white shadow-sm">
-        <span className="text-4xl block mb-4">📅</span>
+      <div className="max-w-md mx-auto my-20 p-8 border border-dashed border-slate-200 rounded-2xl text-center bg-white shadow-sm flex flex-col items-center justify-center">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
         <h3 className="font-bold text-base mb-1">Event not found</h3>
         <p className="text-xs text-[#5c7075] mb-6">The event you are looking for does not exist or has been cancelled.</p>
         <Link to="/events" className="bg-[#006655] hover:bg-[#004d40] text-white font-bold py-2 px-5 rounded-xl text-xs transition-colors shadow-sm">
@@ -145,10 +149,16 @@ export const EventDetails: React.FC = () => {
 
             <div className="flex flex-wrap gap-4 text-xs font-semibold">
               <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-xl shadow-sm">
-                <span>📅</span> Date: {formatEventDate(event.date)}
+                <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Date: {formatEventDate(event.date)}
               </div>
               <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-xl shadow-sm">
-                <span>⏰</span> Time: {event.time}
+                <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Time: {event.time}
               </div>
             </div>
           </div>
@@ -175,7 +185,10 @@ export const EventDetails: React.FC = () => {
               </div>
             </div>
             <button className="w-full bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-4 rounded-xl text-xs transition-all font-bold flex items-center justify-center gap-1.5 shadow-sm">
-              <span>📅</span> Add to Calendar
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Add to Calendar
             </button>
           </div>
 
@@ -326,13 +339,19 @@ export const EventDetails: React.FC = () => {
 
                 {/* Alert statuses */}
                 {submitError && (
-                  <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-[10px] leading-relaxed">
-                    ⚠️ {submitError}
+                  <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-[10px] leading-relaxed flex items-center gap-2">
+                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span>{submitError}</span>
                   </div>
                 )}
                 {submitSuccess && (
-                  <div className="bg-green-50 text-green-700 border border-green-150 p-3 rounded-xl text-[10px] leading-relaxed">
-                    ✅ Registration completed successfully! Check your inbox for summit instructions.
+                  <div className="bg-green-50 text-green-700 border border-green-150 p-3 rounded-xl text-[10px] leading-relaxed flex items-center gap-2">
+                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Registration completed successfully! Check your inbox for summit instructions.</span>
                   </div>
                 )}
 
