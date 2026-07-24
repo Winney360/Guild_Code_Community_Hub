@@ -189,10 +189,16 @@ export const ApplicationsDashboard: React.FC = () => {
                   <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-50 text-xs font-semibold">
                     <div className="flex items-center gap-4">
                       <a href={app.portfolioLink} target="_blank" rel="noreferrer" className="text-[#006655] hover:underline flex items-center gap-1">
-                        <span>🔗</span> Portfolio / LinkedIn
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        Portfolio / LinkedIn
                       </a>
                       <a href={`https://github.com/${app.githubUsername}`} target="_blank" rel="noreferrer" className="text-[#006655] hover:underline flex items-center gap-1">
-                        <span>💻</span> GitHub: @{app.githubUsername}
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                        GitHub: @{app.githubUsername}
                       </a>
                     </div>
 
@@ -229,8 +235,12 @@ export const ApplicationsDashboard: React.FC = () => {
       {activeTab === 'submitted' && (
         <div className="space-y-6">
           {submitted.length === 0 ? (
-            <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm select-none">
-              <span className="text-4xl block mb-4">✉️</span>
+            <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center select-none">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
               <h3 className="font-extrabold text-base mb-1">No applications submitted</h3>
               <p className="text-xs text-[#5c7075]">When you apply to other members' collaboration posts, they will show up here.</p>
             </div>
