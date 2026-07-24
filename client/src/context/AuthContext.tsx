@@ -23,7 +23,14 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const saved = localStorage.getItem('guild_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState<boolean>(true);
 
   const checkAuth = async () => {
@@ -32,11 +39,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res.ok) {
         const data = await res.json();
         setUser(data.user);
+        if (data.user) {
+          localStorage.setItem('guild_user', JSON.stringify(data.user));
+        } else {
+          localStorage.removeItem('guild_user');
+        }
       } else {
         setUser(null);
+        localStorage.removeItem('guild_user');
       }
     } catch (err) {
       setUser(null);
+      localStorage.removeItem('guild_user');
     } finally {
       setLoading(false);
     }
@@ -109,6 +123,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Logout error', err);
     } finally {
       setUser(null);
+      localStorage.removeItem('guild_user');
     }
   };
 
