@@ -82,7 +82,11 @@ export const MyCollaborations: React.FC = () => {
 
         {/* Search */}
         <div className="relative w-full sm:max-w-xs">
-          <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">🔍</span>
+          <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
           <input
             type="text"
             placeholder="Search collaborations..."
@@ -106,7 +110,7 @@ export const MyCollaborations: React.FC = () => {
           <p className="text-xs text-[#5c7075] max-w-xs mb-6">Find developers, designers, and visionaries to join your projects. Outline required skills and schedules.</p>
           <Link
             to="/dashboard/collaborations/new"
-            className="bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-6 rounded-xl font-bold text-xs transition-colors shadow-sm"
+            className="bg-[#006655] hover:bg-[#004d40] text-[#ffffff] py-2.5 px-6 rounded-xl font-bold text-xs transition-colors shadow-sm"
           >
             Post Collaboration
           </Link>
@@ -126,8 +130,10 @@ export const MyCollaborations: React.FC = () => {
                     <span className={`px-2.5 py-0.5 border text-[9px] font-bold rounded-lg ${getStatusStyle(collab.status)}`}>
                       {collab.status.toUpperCase()}
                     </span>
-                    <Link to={`/dashboard/collaborations/edit/${collab._id}`} className="text-slate-400 hover:text-[#006655] text-xs">
-                      ✏️
+                    <Link to={`/dashboard/collaborations/edit/${collab._id}`} className="text-slate-400 hover:text-[#006655] text-xs" title="Edit collaboration">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
                     </Link>
                   </div>
                 </div>
