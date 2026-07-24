@@ -173,7 +173,7 @@ export const DashboardLayout: React.FC = () => {
             </div>
             <button
               onClick={handleLogout}
-              className="text-slate-400 hover:text-red-500 text-sm p-1.5 hover:bg-slate-50 rounded-lg transition-colors shrink-0 flex items-center justify-center"
+              className="text-red-500 hover:text-red-600 text-sm p-1.5 hover:bg-red-50 rounded-lg transition-colors shrink-0 flex items-center justify-center"
               title="Logout"
             >
               <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
