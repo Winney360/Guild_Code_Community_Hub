@@ -37,6 +37,7 @@ export const DashboardSettings: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastTimer, setToastTimer] = useState<any>(null);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [showPhotoDropdown, setShowPhotoDropdown] = useState(false);
 
   const triggerToast = (msg: string) => {
     if (toastTimer) {
@@ -276,12 +277,71 @@ export const DashboardSettings: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Title */}
-      <div className="flex justify-between items-center select-none">
+      <div className="flex justify-between items-start select-none">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">Settings</h1>
           <p className="text-xs text-[#5c7075]">Manage your account and profile preferences.</p>
         </div>
+
+        {/* Global profile picture at top right */}
+        <div className="relative">
+          <button 
+            onClick={() => setShowPhotoDropdown(!showPhotoDropdown)}
+            className="relative w-12 h-12 rounded-full overflow-hidden bg-[#e6f7f8] border-2 border-[#006655]/20 hover:border-[#006655] shadow-sm select-none cursor-pointer flex items-center justify-center transition-all hover:scale-105"
+            title="Manage profile photo"
+          >
+            {profilePicture ? (
+              <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-sm font-black text-[#006655] tracking-wider">
+                {getInitials(fullName)}
+              </span>
+            )}
+          </button>
+          
+          {showPhotoDropdown && (
+            <>
+              {/* Backdrop to close dropdown on click outside */}
+              <div 
+                className="fixed inset-0 z-40" 
+                onClick={() => setShowPhotoDropdown(false)} 
+              />
+              {/* Dropdown Popover */}
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 p-2 font-sans select-none animate-slide-in">
+                <button
+                  onClick={() => { setShowPhotoDropdown(false); fileInputRef.current?.click(); }}
+                  className="w-full text-left px-3 py-2 text-xs font-bold text-slate-700 hover:bg-[#006655]/10 hover:text-[#006655] rounded-xl transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                  </svg>
+                  Upload Photo
+                </button>
+                {profilePicture && (
+                  <button
+                    onClick={() => { setShowPhotoDropdown(false); handleRemovePhoto(); }}
+                    className="w-full text-left px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Remove Photo
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
+
+      {/* Hidden Global file input for profile picture management */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept="image/png, image/jpeg, image/jpg, image/webp, image/gif"
+        onChange={handleImageUpload}
+        className="hidden"
+      />
 
       {/* Tabs list (matching MemberDashboard-Settings.png) */}
       <div className="flex border-b border-slate-100 select-none">
@@ -331,322 +391,226 @@ export const DashboardSettings: React.FC = () => {
       {activeTab === 'profile' && (
         !isEditingProfile ? (
           /* Read-Only Details Mode */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
-            {/* Personal Info & Socials (8 cols) */}
-            <div className="lg:col-span-8 space-y-6">
-              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm space-y-6">
-                <div className="flex justify-between items-center border-b border-slate-50 pb-4 mb-2 select-none">
-                  <div>
-                    <h3 className="font-extrabold text-sm text-[#091e22]">Personal Information</h3>
-                    <p className="text-[10px] text-slate-400">Your profile details as visible to the community.</p>
-                  </div>
-                  <button
-                    onClick={() => { setError(''); setSuccess(false); setIsEditingProfile(true); }}
-                    className="bg-[#006655]/10 hover:bg-[#006655]/20 text-[#006655] px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-2.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
-                    <span>Edit Profile</span>
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Full Name</span>
-                    <span className="text-xs font-bold text-[#091e22]">{fullName || 'Not specified'}</span>
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Job Title</span>
-                    <span className="text-xs font-bold text-[#091e22]">{jobTitle || 'Not specified'}</span>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Location</span>
-                    <span className="text-xs font-bold text-[#091e22]">{location || 'Not specified'}</span>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Bio</span>
-                    <p className="text-xs font-medium text-[#5c7075] leading-relaxed whitespace-pre-line bg-[#f8fafc] border border-slate-100 p-4 rounded-2xl">
-                      {bio || 'No bio description provided yet.'}
-                    </p>
-                  </div>
-                </div>
+          <div className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+            <div className="flex justify-between items-center border-b border-slate-50 pb-4 mb-2 select-none">
+              <div>
+                <h3 className="font-extrabold text-sm text-[#091e22]">Personal Information</h3>
+                <p className="text-[10px] text-slate-400">Your profile details as visible to the community.</p>
               </div>
+              <button
+                onClick={() => { setError(''); setSuccess(false); setIsEditingProfile(true); }}
+                className="bg-[#006655]/10 hover:bg-[#006655]/20 text-[#006655] px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-2.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                <span>Edit Profile</span>
+              </button>
+            </div>
 
-              {/* Read-Only Socials */}
-              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm space-y-4">
-                <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Social Links</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {github ? (
-                    <a
-                      href={github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-150 rounded-2xl transition-colors font-bold text-xs"
-                    >
-                      <span className="text-base select-none">🔗</span>
-                      <div className="min-w-0 flex-grow">
-                        <span className="text-[8px] font-bold text-slate-400 block uppercase tracking-wider select-none">GitHub Profile</span>
-                        <span className="text-xs text-[#006655] hover:underline truncate block">{github.replace(/^https?:\/\/(www\.)?/, '')}</span>
-                      </div>
-                    </a>
-                  ) : (
-                    <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-slate-100 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
-                      <span>🔗</span>
-                      <span>GitHub link not configured</span>
-                    </div>
-                  )}
-
-                  {linkedin ? (
-                    <a
-                      href={linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-150 rounded-2xl transition-colors font-bold text-xs"
-                    >
-                      <span className="text-base select-none">🔗</span>
-                      <div className="min-w-0 flex-grow">
-                        <span className="text-[8px] font-bold text-slate-400 block uppercase tracking-wider select-none">LinkedIn / Website</span>
-                        <span className="text-xs text-[#006655] hover:underline truncate block">{linkedin.replace(/^https?:\/\/(www\.)?/, '')}</span>
-                      </div>
-                    </a>
-                  ) : (
-                    <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-slate-100 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
-                      <span>🔗</span>
-                      <span>LinkedIn/Website not configured</span>
-                    </div>
-                  )}
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Full Name</span>
+                <span className="text-xs font-bold text-[#091e22]">{fullName || 'Not specified'}</span>
+              </div>
+              <div>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Job Title</span>
+                <span className="text-xs font-bold text-[#091e22]">{jobTitle || 'Not specified'}</span>
+              </div>
+              <div className="sm:col-span-2">
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Location</span>
+                <span className="text-xs font-bold text-[#091e22]">{location || 'Not specified'}</span>
+              </div>
+              <div className="sm:col-span-2">
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Bio</span>
+                <p className="text-xs font-medium text-[#5c7075] leading-relaxed whitespace-pre-line bg-[#f8fafc] border border-slate-100 p-4 rounded-2xl">
+                  {bio || 'No bio description provided yet.'}
+                </p>
               </div>
             </div>
 
-            {/* Profile photo sidebar (4 cols) */}
-            <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm text-center flex flex-col items-center select-none">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6 block">Profile Photo</span>
-                <div className="relative w-24 h-24 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] border-2 border-[#006655]/20 flex items-center justify-center shadow-sm">
-                  {profilePicture ? (
-                    <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-2xl font-black text-[#006655] tracking-wider">
-                      {getInitials(fullName)}
-                    </span>
-                  )}
-                </div>
-                <span className="text-[10px] font-bold text-[#006655] mt-4 block">Active Avatar</span>
-              </div>
+            {/* Read-Only Socials */}
+            <div className="border-t border-slate-50 pt-6 space-y-4">
+              <h3 className="font-extrabold text-xs text-slate-400 uppercase tracking-wider select-none">Social Profiles</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {github ? (
+                  <a
+                    href={github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-150 rounded-2xl transition-colors font-bold text-xs"
+                  >
+                    <span className="text-base select-none">🔗</span>
+                    <div className="min-w-0 flex-grow">
+                      <span className="text-[8px] font-bold text-slate-400 block uppercase tracking-wider select-none">GitHub Profile</span>
+                      <span className="text-xs text-[#006655] hover:underline truncate block">{github.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                    </div>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-slate-100 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
+                    <span>🔗</span>
+                    <span>GitHub link not configured</span>
+                  </div>
+                )}
 
-              {/* Verified member box */}
-              <div className="border border-slate-100 bg-emerald-50/20 rounded-3xl p-6 select-none flex items-start gap-4">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs text-emerald-800">Verified Member</h4>
-                  <p className="text-[10px] text-[#5c7075] leading-relaxed mt-1">
-                    Your identity has been verified. You have access to exclusive ecosystem rewards.
-                  </p>
-                </div>
+                {linkedin ? (
+                  <a
+                    href={linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-150 rounded-2xl transition-colors font-bold text-xs"
+                  >
+                    <span className="text-base select-none">🔗</span>
+                    <div className="min-w-0 flex-grow">
+                      <span className="text-[8px] font-bold text-slate-400 block uppercase tracking-wider select-none">LinkedIn / Website</span>
+                      <span className="text-xs text-[#006655] hover:underline truncate block">{linkedin.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                    </div>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-slate-100 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
+                    <span>🔗</span>
+                    <span>LinkedIn/Website not configured</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Verified member box */}
+            <div className="border border-slate-100 bg-emerald-50/20 rounded-3xl p-6 select-none flex items-start gap-4">
+              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-extrabold text-xs text-emerald-800">Verified Member</h4>
+                <p className="text-[10px] text-[#5c7075] leading-relaxed mt-1">
+                  Your identity has been verified. You have access to exclusive ecosystem rewards.
+                </p>
               </div>
             </div>
           </div>
         ) : (
           /* Editable Form Mode */
-          <form onSubmit={handleSaveProfile} className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
-            {/* Personal Info & Socials (8 cols) */}
-            <div className="lg:col-span-8 space-y-6">
-              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm space-y-4">
-                <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Personal Information</h3>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Job Title</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Senior Backend Engineer"
-                      value={jobTitle}
-                      onChange={(e) => setJobTitle(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                    />
-                  </div>
-                </div>
-
+          <form onSubmit={handleSaveProfile} className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+            <div>
+              <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Personal Information</h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                 <div>
-                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Location</label>
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
                   <input
                     type="text"
-                    placeholder="e.g. San Francisco, CA"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                     className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
                   />
                 </div>
-
                 <div>
-                  <div className="flex justify-between items-center mb-1">
-                    <label className="text-[10px] font-bold text-[#5c7075] block">Bio</label>
-                    <span className="text-[9px] font-bold text-slate-400 select-none">
-                      {bio.length}/250
-                    </span>
-                  </div>
-                  <textarea
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                    maxLength={250}
-                    rows={4}
-                    placeholder="Tell the community about yourself..."
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Job Title</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Senior Backend Engineer"
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
                     className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
                   />
-                  <span className="text-[9px] text-slate-400 block mt-1 select-none">
-                    Brief description for your profile. Maximum 250 characters.
-                  </span>
                 </div>
               </div>
 
-              {/* Social Links */}
-              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm space-y-4">
-                <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Social Links</h3>
-                
-                <div className="space-y-3">
-                  <div className="flex gap-2">
-                    <div className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-slate-400 w-10 flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                      </svg>
-                    </div>
-                    <input
-                      type="url"
-                      placeholder="GitHub URL"
-                      value={github}
-                      onChange={(e) => setGithub(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="flex gap-2">
-                    <div className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-slate-400 w-10 flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                      </svg>
-                    </div>
-                    <input
-                      type="url"
-                      placeholder="LinkedIn or Portfolio Website"
-                      value={linkedin}
-                      onChange={(e) => setLinkedin(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                    />
-                  </div>
-                </div>
+              <div className="mt-4">
+                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Location</label>
+                <input
+                  type="text"
+                  placeholder="e.g. San Francisco, CA"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                />
               </div>
 
-              {/* Save Buttons row */}
-              <div className="flex justify-end gap-3 select-none">
-                {error && (
-                  <span className="text-red-500 text-xs self-center flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    {error}
+              <div className="mt-4">
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-[10px] font-bold text-[#5c7075] block">Bio</label>
+                  <span className="text-[9px] font-bold text-slate-400 select-none">
+                    {bio.length}/250
                   </span>
-                )}
-                <button
-                  type="button"
-                  onClick={() => { setError(''); setIsEditingProfile(false); }}
-                  className="bg-slate-50 hover:bg-slate-100 text-[#5c7075] hover:text-[#091e22] py-2.5 px-6 rounded-xl font-bold text-xs border border-slate-200 transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-6 rounded-xl font-bold text-xs shadow-sm transition-colors cursor-pointer"
-                >
-                  {loading ? 'Saving...' : 'Save Changes'}
-                </button>
+                </div>
+                <textarea
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  maxLength={250}
+                  rows={4}
+                  placeholder="Tell the community about yourself..."
+                  className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                />
+                <span className="text-[9px] text-slate-400 block mt-1 select-none">
+                  Brief description for your profile. Maximum 250 characters.
+                </span>
               </div>
             </div>
 
-            {/* Profile photo sidebar (4 cols) */}
-            <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm text-center flex flex-col items-center">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6 block select-none">Profile Photo</span>
-                
-                <div className="relative w-24 h-24 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] mb-6 border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none">
-                  {profilePicture ? (
-                    <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-2xl font-black text-[#006655] tracking-wider">
-                      {getInitials(fullName)}
-                    </span>
-                  )}
-                </div>
-
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  accept="image/png, image/jpeg, image/jpg, image/webp, image/gif"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-
-                <div className="w-full space-y-2.5">
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full bg-[#006655] hover:bg-[#004d40] text-white py-2 px-4 rounded-xl font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                  >
+            {/* Social Links */}
+            <div className="border-t border-slate-50 pt-6 space-y-4">
+              <h3 className="font-extrabold text-sm select-none">Social Links</h3>
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <div className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-slate-400 w-10 flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                     </svg>
-                    <span>{profilePicture ? 'Upload New Photo' : 'Upload Photo'}</span>
-                  </button>
-
-                  {profilePicture && (
-                    <button
-                      type="button"
-                      onClick={handleRemovePhoto}
-                      className="w-full bg-slate-50 hover:bg-red-50 text-red-600 border border-slate-200 hover:border-red-200 py-2 px-4 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer select-none"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                      <span>Remove Photo</span>
-                    </button>
-                  )}
+                  </div>
+                  <input
+                    type="url"
+                    placeholder="GitHub URL"
+                    value={github}
+                    onChange={(e) => setGithub(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                  />
                 </div>
 
-                <span className="text-[9px] text-[#5c7075] mt-4 select-none leading-relaxed">
-                  PNG, JPG, WEBP or GIF format. Max file size 5MB.
-                </span>
+                <div className="flex gap-2">
+                  <div className="bg-[#f8fafc] border border-slate-200 p-2 rounded-xl text-slate-400 w-10 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                  </div>
+                  <input
+                    type="url"
+                    placeholder="LinkedIn or Portfolio Website"
+                    value={linkedin}
+                    onChange={(e) => setLinkedin(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                  />
+                </div>
               </div>
+            </div>
 
-              {/* Verified member box */}
-              <div className="border border-slate-100 bg-emerald-50/20 rounded-3xl p-6 select-none flex items-start gap-4">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            {/* Save/Cancel Action Row */}
+            <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
+              {error && (
+                <span className="text-red-500 text-xs self-center flex items-center gap-1">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs text-emerald-800">Verified Member</h4>
-                  <p className="text-[10px] text-[#5c7075] leading-relaxed mt-1">
-                    Your identity has been verified. You have access to exclusive ecosystem rewards.
-                  </p>
-                </div>
-              </div>
+                  {error}
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={() => { setError(''); setIsEditingProfile(false); }}
+                className="bg-slate-50 hover:bg-slate-100 text-[#5c7075] hover:text-[#091e22] py-2.5 px-6 rounded-xl font-bold text-xs border border-slate-200 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-6 rounded-xl font-bold text-xs shadow-sm transition-colors cursor-pointer"
+              >
+                {loading ? 'Saving...' : 'Save Changes'}
+              </button>
             </div>
           </form>
         )
