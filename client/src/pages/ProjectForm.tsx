@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 
 export const ProjectForm: React.FC = () => {
@@ -26,6 +26,33 @@ export const ProjectForm: React.FC = () => {
   const [fetchLoading, setFetchLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  // File input ref for cover image browser
+  const coverImageInputRef = useRef<HTMLInputElement>(null);
+
+  const handleCoverImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file (PNG, JPG, WEBP, etc.)');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setError('Image size should be less than 10MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        setCoverImage(event.target.result as string);
+        setError('');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     if (isEditMode) {
@@ -184,12 +211,16 @@ export const ProjectForm: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Title input */}
+        {/* Title input with live character counter */}
         <div>
-          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Project Title *</label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-[10px] font-bold text-[#5c7075]">Project Title *</label>
+            <span className="text-[9px] font-semibold text-slate-400">{title.length}/80 chars</span>
+          </div>
           <input
             type="text"
             required
+            maxLength={80}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Scalr Edge Routing Protocol"
@@ -226,9 +257,14 @@ export const ProjectForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Short Description */}
+        {/* Short Description with live character counter */}
         <div>
-          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Short Description * (Max 150 chars)</label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-[10px] font-bold text-[#5c7075]">Short Description * (Max 150 chars)</label>
+            <span className={`text-[9px] font-semibold ${shortDescription.length >= 140 ? 'text-amber-600 font-bold' : 'text-slate-400'}`}>
+              {shortDescription.length}/150 chars
+            </span>
+          </div>
           <input
             type="text"
             required
@@ -236,13 +272,18 @@ export const ProjectForm: React.FC = () => {
             value={shortDescription}
             onChange={(e) => setShortDescription(e.target.value)}
             placeholder="A brief tagline summarizing the project..."
-            className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+            className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655]"
           />
         </div>
 
-        {/* Full Description */}
+        {/* Full Description with live character counter */}
         <div>
-          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">About the Project * (Max 500 chars)</label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-[10px] font-bold text-[#5c7075]">About the Project * (Max 500 chars)</label>
+            <span className={`text-[9px] font-semibold ${description.length >= 450 ? 'text-amber-600 font-bold' : 'text-slate-400'}`}>
+              {description.length}/500 chars
+            </span>
+          </div>
           <textarea
             required
             maxLength={500}
@@ -254,75 +295,206 @@ export const ProjectForm: React.FC = () => {
           />
         </div>
 
-        {/* Tech stack tags */}
+        {/* Tech stack tags with item counter */}
         <div>
-          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Tech Stack * (Comma separated, max 8 items)</label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-[10px] font-bold text-[#5c7075]">Tech Stack * (Comma separated)</label>
+            <span className="text-[9px] font-semibold text-slate-400">
+              {techInput.split(',').filter((t) => t.trim()).length}/8 items
+            </span>
+          </div>
           <input
             type="text"
             required
             value={techInput}
             onChange={(e) => setTechInput(e.target.value)}
             placeholder="e.g. Rust, WebAssembly, gRPC, Docker"
-            className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+            className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655]"
           />
         </div>
 
-        {/* Cover image */}
+        {/* Cover Image File Browser (Upload from PC or Mobile phone) */}
         <div>
-          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Cover Image URL</label>
+          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Cover Image *</label>
           <input
-            type="url"
-            value={coverImage}
-            onChange={(e) => setCoverImage(e.target.value)}
-            placeholder="https://images.unsplash.com/..."
-            className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+            type="file"
+            ref={coverImageInputRef}
+            accept="image/*"
+            onChange={handleCoverImageUpload}
+            className="hidden"
           />
+
+          <div className="border-2 border-dashed border-slate-200 hover:border-[#006655]/40 rounded-2xl p-4 bg-[#f8fafc] transition-colors">
+            {coverImage ? (
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="w-full sm:w-40 h-24 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200 shadow-sm relative">
+                  <img src={coverImage} alt="Cover Preview" className="w-full h-full object-cover" />
+                </div>
+                <div className="space-y-2 text-center sm:text-left flex-grow">
+                  <span className="text-xs font-bold text-[#091e22] block">Cover Image Selected</span>
+                  <p className="text-[10px] text-[#5c7075]">Image file loaded from your device and ready for submission.</p>
+                  <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <button
+                      type="button"
+                      onClick={() => coverImageInputRef.current?.click()}
+                      className="px-3 py-1.5 bg-[#006655] hover:bg-[#004d40] text-white text-xs font-bold rounded-lg transition-colors shadow-sm cursor-pointer"
+                    >
+                      Change Photo
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCoverImage('')}
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-red-50 text-red-600 border border-slate-200 text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-4 select-none text-center">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                  </svg>
+                </div>
+                <span className="text-xs font-bold text-[#091e22] mb-0.5">Browse cover image file</span>
+                <p className="text-[10px] text-slate-400 mb-3">Choose an image from your PC or mobile phone (PNG, JPG, WEBP)</p>
+                <button
+                  type="button"
+                  onClick={() => coverImageInputRef.current?.click()}
+                  className="px-4 py-2 bg-[#006655] hover:bg-[#004d40] text-white text-xs font-bold rounded-xl transition-all shadow-sm cursor-pointer"
+                >
+                  Browse File from Device
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Links Accordion Section */}
+        {/* Conditional Project Links Section based on Category */}
         <div className="border border-slate-100 rounded-3xl p-5 space-y-4 bg-slate-50/20">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2 select-none">Project Links</span>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#006655] block select-none">
+              Project Links ({category} Project)
+            </span>
+            <span className="text-[9px] text-slate-400 font-semibold">Tailored for {category} builds</span>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Live Demo URL</label>
-              <input
-                type="url"
-                value={liveDemo}
-                onChange={(e) => setLiveDemo(e.target.value)}
-                placeholder="https://..."
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[11px] focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="text-[9px] font-bold text-[#5c7075] block mb-1">GitHub Repo URL</label>
-              <input
-                type="url"
-                value={github}
-                onChange={(e) => setGithub(e.target.value)}
-                placeholder="https://github.com/..."
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[11px] focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Figma Project URL</label>
-              <input
-                type="url"
-                value={figma}
-                onChange={(e) => setFigma(e.target.value)}
-                placeholder="https://figma.com/file/..."
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[11px] focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Data Notebook URL</label>
-              <input
-                type="url"
-                value={notebook}
-                onChange={(e) => setNotebook(e.target.value)}
-                placeholder="https://colab.research.google.com/..."
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-[11px] focus:outline-none"
-              />
-            </div>
+            {/* Category = Web */}
+            {category === 'Web' && (
+              <>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Live Web App URL</label>
+                  <input
+                    type="url"
+                    value={liveDemo}
+                    onChange={(e) => setLiveDemo(e.target.value)}
+                    placeholder="https://my-web-app.vercel.app"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">GitHub Repository URL</label>
+                  <input
+                    type="url"
+                    value={github}
+                    onChange={(e) => setGithub(e.target.value)}
+                    placeholder="https://github.com/username/project"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Category = Mobile */}
+            {category === 'Mobile' && (
+              <>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">App Store / Play Store / APK URL</label>
+                  <input
+                    type="url"
+                    value={liveDemo}
+                    onChange={(e) => setLiveDemo(e.target.value)}
+                    placeholder="https://play.google.com/store/apps/details?id=..."
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">GitHub / Source Code Repository</label>
+                  <input
+                    type="url"
+                    value={github}
+                    onChange={(e) => setGithub(e.target.value)}
+                    placeholder="https://github.com/username/mobile-app"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Category = Design */}
+            {category === 'Design' && (
+              <>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Figma / Design Prototype URL</label>
+                  <input
+                    type="url"
+                    value={figma}
+                    onChange={(e) => setFigma(e.target.value)}
+                    placeholder="https://figma.com/file/..."
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Dribbble / Behance / Portfolio URL</label>
+                  <input
+                    type="url"
+                    value={liveDemo}
+                    onChange={(e) => setLiveDemo(e.target.value)}
+                    placeholder="https://dribbble.com/shots/..."
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Category = AI */}
+            {category === 'AI' && (
+              <>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Google Colab / Data Notebook URL</label>
+                  <input
+                    type="url"
+                    value={notebook}
+                    onChange={(e) => setNotebook(e.target.value)}
+                    placeholder="https://colab.research.google.com/..."
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Model Hub / HuggingFace Demo URL</label>
+                  <input
+                    type="url"
+                    value={liveDemo}
+                    onChange={(e) => setLiveDemo(e.target.value)}
+                    placeholder="https://huggingface.co/spaces/..."
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">GitHub / Code Repository URL</label>
+                  <input
+                    type="url"
+                    value={github}
+                    onChange={(e) => setGithub(e.target.value)}
+                    placeholder="https://github.com/username/ai-project"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
