@@ -103,7 +103,7 @@ export const DashboardSettings: React.FC = () => {
         setCollabInvites(false);
       }
     }
-  }, [user]);
+  }, [user?._id]);
 
   const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
   const [showCropModal, setShowCropModal] = useState(false);
