@@ -734,6 +734,10 @@ export const DashboardSettings: React.FC = () => {
                       required
                       value={oldPassword}
                       onChange={(e) => setOldPassword(e.target.value)}
+                      onCopy={(e) => e.preventDefault()}
+                      onCut={(e) => e.preventDefault()}
+                      onPaste={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                       className="w-full pl-3 pr-10 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
                     />
                     <button
@@ -764,6 +768,10 @@ export const DashboardSettings: React.FC = () => {
                       required
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
+                      onCopy={(e) => e.preventDefault()}
+                      onCut={(e) => e.preventDefault()}
+                      onPaste={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                       className="w-full pl-3 pr-10 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
                     />
                     <button
@@ -794,7 +802,10 @@ export const DashboardSettings: React.FC = () => {
                       required
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
+                      onCopy={(e) => e.preventDefault()}
+                      onCut={(e) => e.preventDefault()}
                       onPaste={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
                       className="w-full pl-3 pr-10 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
                     />
                     <button
