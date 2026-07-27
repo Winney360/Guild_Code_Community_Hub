@@ -38,7 +38,6 @@ export const DashboardSettings: React.FC = () => {
   const [toastTimer, setToastTimer] = useState<any>(null);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isEditingSkills, setIsEditingSkills] = useState(false);
-  const [showPhotoDropdown, setShowPhotoDropdown] = useState(false);
 
   const triggerToast = (msg: string) => {
     if (toastTimer) {
@@ -288,7 +287,7 @@ export const DashboardSettings: React.FC = () => {
         {/* Global profile picture at top right */}
         <div className="relative">
           <button 
-            onClick={() => setShowPhotoDropdown(!showPhotoDropdown)}
+            onClick={() => setActiveTab('account')}
             className="relative w-12 h-12 rounded-full overflow-hidden bg-[#e6f7f8] border-2 border-[#006655]/20 hover:border-[#006655] shadow-sm select-none cursor-pointer flex items-center justify-center transition-all hover:scale-105"
             title="Manage profile photo"
           >
@@ -300,39 +299,6 @@ export const DashboardSettings: React.FC = () => {
               </span>
             )}
           </button>
-          
-          {showPhotoDropdown && (
-            <>
-              {/* Backdrop to close dropdown on click outside */}
-              <div 
-                className="fixed inset-0 z-40" 
-                onClick={() => setShowPhotoDropdown(false)} 
-              />
-              {/* Dropdown Popover */}
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 p-2 font-sans select-none animate-slide-in">
-                <button
-                  onClick={() => { setShowPhotoDropdown(false); fileInputRef.current?.click(); }}
-                  className="w-full text-left px-3 py-2 text-xs font-bold text-slate-700 hover:bg-[#006655]/10 hover:text-[#006655] rounded-xl transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                  </svg>
-                  Upload Photo
-                </button>
-                {profilePicture && (
-                  <button
-                    onClick={() => { setShowPhotoDropdown(false); handleRemovePhoto(); }}
-                    className="w-full text-left px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition-all flex items-center gap-2 cursor-pointer"
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    Remove Photo
-                  </button>
-                )}
-              </div>
-            </>
-          )}
         </div>
       </div>
 
@@ -500,13 +466,13 @@ export const DashboardSettings: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
-                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1 select-none">Full Name (Locked)</label>
                   <input
                     type="text"
-                    required
+                    disabled
                     value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                    className="w-full px-3 py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs text-slate-400 select-none outline-none cursor-not-allowed"
+                    title="Name changes must be requested through system administration."
                   />
                 </div>
                 <div>
@@ -702,65 +668,116 @@ export const DashboardSettings: React.FC = () => {
 
       {/* Password Account Form */}
       {activeTab === 'account' && (
-        <form onSubmit={handleSavePassword} className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
-          <div>
-            <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Change Password</h3>
-            <p className="text-xs text-[#5c7075] mb-6">Ensure your credentials are secure and updated regularly.</p>
+        <div className="max-w-2xl space-y-6 animate-fade-in">
+          {/* Profile Photo Management card */}
+          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+            <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-4 select-none">Profile Picture</h3>
             
-            <div className="space-y-4">
-              <div>
-                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Current Password *</label>
-                <input
-                  type="password"
-                  required
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                />
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none">
+                {profilePicture ? (
+                  <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-xl font-black text-[#006655] tracking-wider">
+                    {getInitials(fullName)}
+                  </span>
+                )}
               </div>
 
-              <div>
-                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">New Password *</label>
-                <input
-                  type="password"
-                  required
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                />
-              </div>
+              <div className="flex-grow space-y-3 w-full sm:w-auto">
+                <div className="flex flex-wrap gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-4 rounded-xl font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                    <span>{profilePicture ? 'Upload New Photo' : 'Upload Photo'}</span>
+                  </button>
 
-              <div>
-                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Confirm New Password *</label>
-                <input
-                  type="password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                />
+                  {profilePicture && (
+                    <button
+                      type="button"
+                      onClick={handleRemovePhoto}
+                      className="bg-slate-50 hover:bg-red-50 text-red-600 border border-slate-200 hover:border-red-200 py-2 px-4 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer select-none"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                      <span>Remove Photo</span>
+                    </button>
+                  )}
+                </div>
+                <p className="text-[9px] text-[#5c7075] select-none">
+                  PNG, JPG, WEBP or GIF format. Max file size 5MB.
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
-            {error && (
-              <span className="text-red-500 text-xs self-center flex items-center gap-1">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                {error}
-              </span>
-            )}
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm"
-            >
-              {loading ? 'Saving...' : 'Update Password'}
-            </button>
-          </div>
-        </form>
+          {/* Change Password Form card */}
+          <form onSubmit={handleSavePassword} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
+            <div>
+              <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Change Password</h3>
+              <p className="text-xs text-[#5c7075] mb-6">Ensure your credentials are secure and updated regularly.</p>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Current Password *</label>
+                  <input
+                    type="password"
+                    required
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">New Password *</label>
+                  <input
+                    type="password"
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Confirm New Password *</label>
+                  <input
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
+              {error && (
+                <span className="text-red-500 text-xs self-center flex items-center gap-1">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  {error}
+                </span>
+              )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm cursor-pointer"
+              >
+                {loading ? 'Saving...' : 'Update Password'}
+              </button>
+            </div>
+          </form>
+        </div>
       )}
 
       {/* Notifications Tab */}
