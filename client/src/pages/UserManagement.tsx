@@ -27,6 +27,7 @@ export const UserManagement: React.FC = () => {
 
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'pending' | 'suspended'>(initialFilter);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [confirmAction, setConfirmAction] = useState<{ userId: string; userName: string; actionType: 'suspend' | 'delete' } | null>(null);
 
   useEffect(() => {
     if (urlStatus === 'pending' || urlStatus === 'active' || urlStatus === 'suspended') {
@@ -91,33 +92,37 @@ export const UserManagement: React.FC = () => {
     }
   };
 
-  const handleSuspend = async (id: string) => {
-    setActionLoading(id);
-    try {
-      const res = await fetch(`/api/admin/users/${id}/suspend`, {
-        method: 'PATCH',
-      });
-      if (res.ok) {
-        setUsers((prev) =>
-          prev.map((u) => (u._id === id ? { ...u, status: 'suspended' } : u))
-        );
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setActionLoading(null);
-    }
+  const handleSuspendPrompt = (id: string, name: string) => {
+    setConfirmAction({ userId: id, userName: name, actionType: 'suspend' });
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to permanently delete this user?')) return;
-    setActionLoading(id);
+  const handleDeletePrompt = (id: string, name: string) => {
+    setConfirmAction({ userId: id, userName: name, actionType: 'delete' });
+  };
+
+  const executeConfirmAction = async () => {
+    if (!confirmAction) return;
+    const { userId, actionType } = confirmAction;
+    setConfirmAction(null);
+
+    setActionLoading(userId);
     try {
-      const res = await fetch(`/api/admin/users/${id}`, {
-        method: 'DELETE',
-      });
-      if (res.ok) {
-        setUsers((prev) => prev.filter((u) => u._id !== id));
+      if (actionType === 'suspend') {
+        const res = await fetch(`/api/admin/users/${userId}/suspend`, {
+          method: 'PATCH',
+        });
+        if (res.ok) {
+          setUsers((prev) =>
+            prev.map((u) => (u._id === userId ? { ...u, status: 'suspended' } : u))
+          );
+        }
+      } else if (actionType === 'delete') {
+        const res = await fetch(`/api/admin/users/${userId}`, {
+          method: 'DELETE',
+        });
+        if (res.ok) {
+          setUsers((prev) => prev.filter((u) => u._id !== userId));
+        }
       }
     } catch (err) {
       console.error(err);
@@ -376,7 +381,7 @@ export const UserManagement: React.FC = () => {
                     {item.status !== 'suspended' && (
                       <button
                         disabled={actionLoading !== null}
-                        onClick={() => handleSuspend(item._id)}
+                        onClick={() => handleSuspendPrompt(item._id, item.fullName)}
                         className="text-amber-600 hover:underline font-bold text-[10px]"
                       >
                         Suspend
@@ -393,7 +398,7 @@ export const UserManagement: React.FC = () => {
                     )}
                     <button
                       disabled={actionLoading !== null}
-                      onClick={() => handleDelete(item._id)}
+                      onClick={() => handleDeletePrompt(item._id, item.fullName)}
                       className="text-red-500 hover:underline font-bold text-[10px]"
                     >
                       Delete
@@ -405,6 +410,35 @@ export const UserManagement: React.FC = () => {
           </table>
         )}
       </div>
+
+      {confirmAction && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center gap-4 bg-white border border-slate-100 text-[#091e22] px-6 py-4 rounded-2xl shadow-2xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center shrink-0">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <span>
+              Are you sure you want to {confirmAction.actionType} member <strong>{confirmAction.userName}</strong>?
+            </span>
+          </div>
+          <div className="flex gap-2 shrink-0">
+            <button 
+              onClick={() => setConfirmAction(null)}
+              className="px-3 py-1.5 border border-slate-200 dark:border-[#1e2e30] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all font-semibold"
+            >
+              Cancel
+            </button>
+            <button 
+              onClick={executeConfirmAction}
+              className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all font-bold shadow-sm"
+            >
+              {confirmAction.actionType === 'suspend' ? 'Suspend' : 'Delete'}
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );
