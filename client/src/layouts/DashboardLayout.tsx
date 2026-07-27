@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import { ThemeToggle } from '../components/ThemeToggle.js';
@@ -9,8 +9,14 @@ export const DashboardLayout: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [showConfirmLogout, setShowConfirmLogout] = useState(false);
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
+    setShowConfirmLogout(true);
+  };
+
+  const executeLogout = async () => {
+    setShowConfirmLogout(false);
     await logout();
     navigate('/login');
   };
@@ -229,6 +235,34 @@ export const DashboardLayout: React.FC = () => {
           <Outlet />
         </main>
       </div>
+
+      {showConfirmLogout && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center gap-4 bg-white border border-slate-100 text-[#091e22] px-6 py-4 rounded-2xl shadow-2xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center shrink-0">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <span>Are you sure you want to log out?</span>
+          </div>
+          <div className="flex gap-2 shrink-0">
+            <button 
+              onClick={() => setShowConfirmLogout(false)}
+              className="px-3 py-1.5 border border-slate-200 dark:border-[#1e2e30] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all font-semibold"
+            >
+              Cancel
+            </button>
+            <button 
+              onClick={executeLogout}
+              className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all font-bold shadow-sm"
+            >
+              Log Out
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
