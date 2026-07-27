@@ -359,7 +359,7 @@ export const DashboardSettings: React.FC = () => {
       {activeTab === 'profile' && (
         !isEditingProfile ? (
           /* Read-Only Details Mode */
-          <div className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+          <div className="w-full bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4 mb-2 select-none">
               <div>
                 <h3 className="font-extrabold text-sm text-[#091e22]">Personal Information</h3>
@@ -460,7 +460,7 @@ export const DashboardSettings: React.FC = () => {
           </div>
         ) : (
           /* Editable Form Mode */
-          <form onSubmit={handleSaveProfile} className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+          <form onSubmit={handleSaveProfile} className="w-full bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div>
               <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Personal Information</h3>
               
