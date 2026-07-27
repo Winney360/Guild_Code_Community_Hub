@@ -484,13 +484,13 @@ export const DashboardSettings: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
-                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1 select-none">Full Name (Locked)</label>
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
                   <input
                     type="text"
-                    disabled
                     value={fullName}
-                    className="w-full px-3 py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs text-slate-400 select-none outline-none cursor-not-allowed"
-                    title="Name changes must be requested through system administration."
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
                   />
                 </div>
                 <div>
@@ -777,7 +777,7 @@ export const DashboardSettings: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 select-none pt-4 border-t border-slate-50">
+            <div className="flex justify-start gap-3 select-none pt-4 border-t border-slate-50">
               {error && (
                 <span className="text-red-500 text-xs self-center flex items-center gap-1">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -789,7 +789,7 @@ export const DashboardSettings: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm cursor-pointer"
+                className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm cursor-pointer transition-colors"
               >
                 {loading ? 'Saving...' : 'Update Password'}
               </button>
