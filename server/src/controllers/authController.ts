@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User.js';
+import { Notification } from '../models/Notification.js';
 import bcrypt from 'bcryptjs';
 import { sendTokenCookie } from '../utils/generateToken.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
@@ -39,7 +40,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // 4. Create user in database (Spec 3.2: status 'pending', isActive false, joinDate null)
-    await User.create({
+    const newUser = await User.create({
       fullName,
       email,
       password: hashedPassword,
@@ -47,6 +48,19 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       isActive: false,
       joinDate: null,
     });
+
+    // 5. Notify all admin users that a new member application is pending approval
+    const admins = await User.find({ role: 'admin' }).select('_id');
+    for (const admin of admins) {
+      await Notification.create({
+        userId: admin._id,
+        sender: newUser._id,
+        type: 'application_received',
+        title: 'New Member Application',
+        message: `${fullName} (${email}) has registered and is pending approval.`,
+        link: '/dashboard/admin',
+      });
+    }
 
     // Spec 4.2: Show message "Your account is pending admin approval" and do NOT login automatically
     res.status(201).json({
