@@ -104,6 +104,19 @@ export const DashboardOverview: React.FC = () => {
           </h1>
           <p className="text-xs text-[#5c7075]">Manage, monitor, and scale your open-source initiatives.</p>
         </div>
+        <Link 
+          to="/dashboard/settings"
+          className="relative w-12 h-12 rounded-full overflow-hidden bg-[#e6f7f8] border-2 border-[#006655]/20 hover:border-[#006655] shadow-sm select-none cursor-pointer flex items-center justify-center transition-all hover:scale-105 shrink-0"
+          title="Go to settings"
+        >
+          {user?.profilePicture ? (
+            <img src={user.profilePicture} alt={user.fullName} className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-sm font-black text-[#006655] tracking-wider">
+              {user?.fullName ? (user.fullName.trim().split(/\s+/).length >= 2 ? (user.fullName.trim().split(/\s+/)[0][0] + user.fullName.trim().split(/\s+/)[user.fullName.trim().split(/\s+/).length - 1][0]).toUpperCase() : user.fullName.trim().substring(0, 2).toUpperCase()) : ''}
+            </span>
+          )}
+        </Link>
       </div>
 
       {/* 1. Statistics Cards Row */}
