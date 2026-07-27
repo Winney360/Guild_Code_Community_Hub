@@ -488,7 +488,7 @@ export const DashboardSettings: React.FC = () => {
                   <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Location</label>
                   <input
                     type="text"
-                    placeholder="e.g. San Francisco, CA"
+                    placeholder="e.g. Nairobi, Kenya"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
