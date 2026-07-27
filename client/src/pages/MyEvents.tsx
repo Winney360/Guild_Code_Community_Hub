@@ -107,7 +107,7 @@ export const MyEvents: React.FC = () => {
       </div>
 
       {/* Stats Cards Row (matching AdminPanel-EventManagement.png layouts) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 select-none">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 select-none">
         {/* Card 1 */}
         <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
@@ -126,15 +126,6 @@ export const MyEvents: React.FC = () => {
           <span className="text-2xl font-extrabold block leading-tight">
             {events.filter((e) => e.status === 'upcoming').length}
           </span>
-        </div>
-
-        {/* Card 3 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
-          <div className="flex justify-between items-center">
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Conversion Rate</span>
-            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">&bull; High</span>
-          </div>
-          <span className="text-2xl font-extrabold block leading-tight">18.4%</span>
         </div>
       </div>
 
