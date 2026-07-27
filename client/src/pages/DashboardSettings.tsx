@@ -673,8 +673,8 @@ export const DashboardSettings: React.FC = () => {
           <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
             <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-4 select-none">Profile Picture</h3>
             
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none">
+            <div className="flex flex-row items-center gap-6">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none shrink-0">
                 {profilePicture ? (
                   <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
                 ) : (
@@ -684,7 +684,7 @@ export const DashboardSettings: React.FC = () => {
                 )}
               </div>
 
-              <div className="flex-grow space-y-3 w-full sm:w-auto">
+              <div className="flex-grow space-y-3">
                 <div className="flex flex-wrap gap-2.5">
                   <button
                     type="button"
