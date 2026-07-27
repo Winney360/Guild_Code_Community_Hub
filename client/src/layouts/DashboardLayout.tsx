@@ -181,39 +181,24 @@ export const DashboardLayout: React.FC = () => {
           </nav>
         </div>
 
-        {/* Bottom Profile card */}
-        <div className="space-y-4 shrink-0 mt-auto pt-4 border-t border-slate-100">
+        {/* Bottom actions */}
+        <div className="space-y-3 shrink-0 mt-auto pt-4 border-t border-slate-100">
           <Link
             to="/dashboard/projects/new"
-            className="w-full flex items-center justify-center gap-2 bg-[#006655] hover:bg-[#004d40] text-white py-3 rounded-xl text-xs font-bold transition-all shadow-sm"
+            className="w-full flex items-center justify-center gap-2 bg-[#006655] hover:bg-[#004d40] text-white py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm"
           >
             <span>+</span> Create Project
           </Link>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] rounded-xl text-xs overflow-hidden shrink-0">
-                {user?.profilePicture ? (
-                  <img src={user.profilePicture} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  user?.fullName.charAt(0).toUpperCase()
-                )}
-              </div>
-              <div className="min-w-0 flex-grow">
-                <h5 className="font-bold text-xs text-[#091e22] truncate">{user?.fullName || 'Guild Member'}</h5>
-                <p className="text-[9px] text-slate-400 font-bold uppercase truncate">{user?.role || 'member'}</p>
-              </div>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="text-red-500 hover:text-red-600 text-sm p-1.5 hover:bg-red-50 rounded-lg transition-colors shrink-0 flex items-center justify-center"
-              title="Logout"
-            >
-              <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-              </svg>
-            </button>
-          </div>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-100 hover:border-red-200 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer"
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+            </svg>
+            <span>Log Out</span>
+          </button>
         </div>
       </aside>
 
@@ -255,7 +240,20 @@ export const DashboardLayout: React.FC = () => {
                 </span>
               )}
             </Link>
-            <ThemeToggle />
+             <ThemeToggle />
+            <Link 
+              to="/dashboard/settings"
+              className="relative w-8 h-8 rounded-full overflow-hidden bg-[#e6f7f8] border-2 border-[#006655]/10 hover:border-[#006655] shadow-sm select-none cursor-pointer flex items-center justify-center transition-all hover:scale-105 shrink-0 ml-1"
+              title="Settings & Profile"
+            >
+              {user?.profilePicture ? (
+                <img src={user.profilePicture} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-[10px] font-black text-[#006655] tracking-wider">
+                  {user?.fullName ? (user.fullName.trim().split(/\s+/).length >= 2 ? (user.fullName.trim().split(/\s+/)[0][0] + user.fullName.trim().split(/\s+/)[user.fullName.trim().split(/\s+/).length - 1][0]).toUpperCase() : user.fullName.trim().substring(0, 2).toUpperCase()) : ''}
+                </span>
+              )}
+            </Link>
           </div>
         </header>
 
