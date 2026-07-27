@@ -33,38 +33,87 @@ export const AdminDashboard: React.FC = () => {
   });
   const [acquisition, setAcquisition] = useState<AcquisitionItem[]>([]);
   const [recentMembers, setRecentMembers] = useState<MemberActivity[]>([]);
+  const [pendingUsers, setPendingUsers] = useState<any[]>([]);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchAdminData = async () => {
-      try {
-        // Fetch Admin Stats
-        const statsRes = await fetch('/api/admin/stats');
-        if (statsRes.ok) {
-          const statsData = await statsRes.json();
-          setStats(statsData.stats);
-          setAcquisition(statsData.acquisitionData || []);
-        }
-
-        // Fetch User Manager list for recent signups feed
-        const usersRes = await fetch('/api/admin/users');
-        if (usersRes.ok) {
-          const usersData = await usersRes.json();
-          // Sort by creation date descending and grab first 4
-          const sorted = [...(usersData.data || [])]
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-            .slice(0, 4);
-          setRecentMembers(sorted);
-        }
-      } catch (err) {
-        console.error('Error fetching admin dashboard data:', err);
-      } finally {
-        setLoading(false);
+  const fetchAdminData = async () => {
+    try {
+      // Fetch Admin Stats
+      const statsRes = await fetch('/api/admin/stats');
+      if (statsRes.ok) {
+        const statsData = await statsRes.json();
+        setStats(statsData.stats);
+        setAcquisition(statsData.acquisitionData || []);
       }
-    };
 
+      // Fetch User Manager list for recent signups feed and pending applications
+      const usersRes = await fetch('/api/admin/users');
+      if (usersRes.ok) {
+        const usersData = await usersRes.json();
+        const allUsers = usersData.data || [];
+        
+        // Filter pending applications
+        const pending = allUsers.filter((u: any) => u.status === 'pending');
+        setPendingUsers(pending);
+
+        // Sort by creation date descending and grab first 4
+        const sorted = [...allUsers]
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+          .slice(0, 4);
+        setRecentMembers(sorted);
+      }
+    } catch (err) {
+      console.error('Error fetching admin dashboard data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchAdminData();
   }, []);
+
+  const handleApprove = async (id: string) => {
+    setActionLoading(id);
+    try {
+      const res = await fetch(`/api/admin/users/${id}/approve`, {
+        method: 'PATCH',
+      });
+      if (res.ok) {
+        setPendingUsers((prev) => prev.filter((u) => u._id !== id));
+        setStats((prev) => ({
+          ...prev,
+          pendingReviews: Math.max(0, prev.pendingReviews - 1),
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleDecline = async (id: string) => {
+    if (!window.confirm('Are you sure you want to decline and permanently delete this application?')) return;
+    setActionLoading(id);
+    try {
+      const res = await fetch(`/api/admin/users/${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setPendingUsers((prev) => prev.filter((u) => u._id !== id));
+        setStats((prev) => ({
+          ...prev,
+          pendingReviews: Math.max(0, prev.pendingReviews - 1),
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -268,6 +317,74 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Pending Applications Section */}
+      <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+        <div className="flex justify-between items-center mb-6 select-none">
+          <div>
+            <h3 className="font-extrabold text-base">Pending Applications</h3>
+            <p className="text-xs text-[#5c7075] mt-0.5">New builder accounts waiting for platform access approval.</p>
+          </div>
+          <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2.5 py-1 rounded-full">
+            {pendingUsers.length} Pending
+          </span>
+        </div>
+
+        {pendingUsers.length === 0 ? (
+          <div className="text-center py-10 border border-dashed border-slate-200 rounded-2xl">
+            <span className="text-3xl block mb-2 select-none">🎉</span>
+            <p className="text-xs text-slate-400 font-semibold select-none">All registration applications have been processed!</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs font-medium text-[#5c7075] min-w-[500px]">
+              <thead className="bg-slate-50 border-b border-slate-100 text-[#091e22] font-bold text-[10px] uppercase select-none">
+                <tr>
+                  <th className="p-4 pl-6">Full Name</th>
+                  <th className="p-4">Email</th>
+                  <th className="p-4">Applied On</th>
+                  <th className="p-4 pr-6 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {pendingUsers.map((member) => (
+                  <tr key={member._id} className="hover:bg-slate-50/30 transition-colors">
+                    <td className="p-4 pl-6 font-bold text-[#091e22]">{member.fullName}</td>
+                    <td className="p-4">{member.email}</td>
+                    <td className="p-4 select-none">
+                      {new Date(member.createdAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                    </td>
+                    <td className="p-4 pr-6 text-right space-x-4 select-none">
+                      {actionLoading === member._id ? (
+                        <span className="text-xs text-[#006655] font-bold">Processing...</span>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => handleApprove(member._id)}
+                            className="text-[#006655] hover:text-[#004d40] font-bold text-xs"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => handleDecline(member._id)}
+                            className="text-red-500 hover:text-red-700 font-bold text-xs"
+                          >
+                            Decline
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* 3. Global Activity Row */}
