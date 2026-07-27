@@ -410,7 +410,7 @@ export const DashboardSettings: React.FC = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Full Name</span>
                 <span className="text-xs font-bold text-[#091e22]">{fullName || 'Not specified'}</span>
@@ -419,11 +419,11 @@ export const DashboardSettings: React.FC = () => {
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Job Title</span>
                 <span className="text-xs font-bold text-[#091e22]">{jobTitle || 'Not specified'}</span>
               </div>
-              <div className="sm:col-span-2">
+              <div>
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Location</span>
                 <span className="text-xs font-bold text-[#091e22]">{location || 'Not specified'}</span>
               </div>
-              <div className="sm:col-span-2">
+              <div className="md:col-span-3">
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Bio</span>
                 <p className="text-xs font-medium text-[#5c7075] leading-relaxed whitespace-pre-line bg-[#f8fafc] border border-slate-100 p-4 rounded-2xl">
                   {bio || 'No bio description provided yet.'}
@@ -498,7 +498,7 @@ export const DashboardSettings: React.FC = () => {
             <div>
               <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Personal Information</h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
                   <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
                   <input
@@ -519,17 +519,16 @@ export const DashboardSettings: React.FC = () => {
                     className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
                   />
                 </div>
-              </div>
-
-              <div className="mt-4">
-                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Location</label>
-                <input
-                  type="text"
-                  placeholder="e.g. San Francisco, CA"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-                />
+                <div>
+                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Location</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. San Francisco, CA"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
+                  />
+                </div>
               </div>
 
               <div className="mt-4">
