@@ -90,6 +90,64 @@ export const ProjectForm: React.FC = () => {
     }
   }, [id, isEditMode]);
 
+  const handleSaveDraft = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!title.trim()) {
+      setError('Please enter at least a project title to save as a draft.');
+      return;
+    }
+    setError('');
+    setSuccess(false);
+    setLoading(true);
+
+    const techStack = techInput
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t.length > 0);
+
+    const payload = {
+      title,
+      shortDescription: shortDescription || 'Draft project description',
+      description: description || 'Draft project details',
+      category,
+      techStack: techStack.length > 0 ? techStack : ['Draft'],
+      coverImage: coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop',
+      status: 'in-progress',
+      links: {
+        liveDemo,
+        github,
+        figma,
+        notebook,
+      },
+    };
+
+    try {
+      const url = isEditMode ? `/api/projects/${id}` : '/api/projects';
+      const method = isEditMode ? 'PATCH' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.message || 'Could not save draft');
+      } else {
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/dashboard/projects');
+        }, 1500);
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Could not connect to server. Try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -516,21 +574,34 @@ export const ProjectForm: React.FC = () => {
           </div>
         )}
 
-        {/* Submit row */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 select-none">
+        {/* Submit row with Save as Draft option */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-100 select-none">
           <Link
             to="/dashboard/projects"
-            className="px-5 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-xs font-semibold hover:bg-slate-50 transition-colors"
+            className="w-full sm:w-auto text-center px-4 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-xs font-semibold hover:bg-slate-50 transition-colors"
           >
             Cancel
           </Link>
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-6 py-2.5 bg-[#006655] hover:bg-[#004d40] text-white rounded-xl text-xs font-bold transition-all shadow-sm w-32 flex items-center justify-center"
-          >
-            {loading ? 'Submitting...' : 'Save Build'}
-          </button>
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <button
+              type="button"
+              disabled={loading}
+              onClick={handleSaveDraft}
+              className="w-full sm:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-[#091e22] border border-slate-200 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              <svg className="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+              </svg>
+              <span>Save as Draft</span>
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full sm:w-auto px-6 py-2.5 bg-[#006655] hover:bg-[#004d40] text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              <span>{loading ? 'Saving...' : (status === 'in-progress' ? 'Publish Project' : 'Publish Build')}</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
