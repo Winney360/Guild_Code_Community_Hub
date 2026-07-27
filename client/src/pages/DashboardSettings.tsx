@@ -26,9 +26,9 @@ export const DashboardSettings: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Notifications Checkbox states
-  const [emailNotifs, setEmailNotifs] = useState(true);
-  const [collabInvites, setCollabInvites] = useState(true);
+  // Notifications Checkbox states (always unmarked unless marked and saved by user)
+  const [emailNotifs, setEmailNotifs] = useState(false);
+  const [collabInvites, setCollabInvites] = useState(false);
 
   // Status indicators
   const [loading, setLoading] = useState(false);
@@ -82,6 +82,24 @@ export const DashboardSettings: React.FC = () => {
       }
     };
     fetchProfile();
+
+    // Load saved notification preferences for this user ID (defaulting to unmarked/false)
+    if (user?._id) {
+      try {
+        const savedNotifs = localStorage.getItem(`guild_notif_prefs_${user._id}`);
+        if (savedNotifs) {
+          const parsed = JSON.parse(savedNotifs);
+          setEmailNotifs(Boolean(parsed.emailNotifs));
+          setCollabInvites(Boolean(parsed.collabInvites));
+        } else {
+          setEmailNotifs(false);
+          setCollabInvites(false);
+        }
+      } catch {
+        setEmailNotifs(false);
+        setCollabInvites(false);
+      }
+    }
   }, [user]);
 
   const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
@@ -818,8 +836,18 @@ export const DashboardSettings: React.FC = () => {
 
           <div className="flex justify-end pt-4 border-t border-slate-50">
             <button
-              onClick={() => { setSuccess(true); triggerToast('Notification preferences updated!'); }}
-              className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm"
+              type="button"
+              onClick={() => {
+                if (user?._id) {
+                  localStorage.setItem(
+                    `guild_notif_prefs_${user._id}`,
+                    JSON.stringify({ emailNotifs, collabInvites })
+                  );
+                }
+                setSuccess(true);
+                triggerToast('Notification preferences saved successfully!');
+              }}
+              className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl font-bold text-xs shadow-sm transition-colors cursor-pointer"
             >
               Save Preferences
             </button>
