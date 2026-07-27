@@ -296,28 +296,9 @@ export const DashboardSettings: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Title */}
-      <div className="flex justify-between items-start select-none">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight mb-1">Settings</h1>
-          <p className="text-xs text-[#5c7075]">Manage your account and profile preferences.</p>
-        </div>
-
-        {/* Global profile picture at top right */}
-        <div className="relative">
-          <button 
-            onClick={() => setActiveTab('account')}
-            className="relative w-12 h-12 rounded-full overflow-hidden bg-[#e6f7f8] border-2 border-[#006655]/20 hover:border-[#006655] shadow-sm select-none cursor-pointer flex items-center justify-center transition-all hover:scale-105"
-            title="Manage profile photo"
-          >
-            {profilePicture ? (
-              <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-sm font-black text-[#006655] tracking-wider">
-                {getInitials(fullName)}
-              </span>
-            )}
-          </button>
-        </div>
+      <div className="select-none">
+        <h1 className="text-2xl font-extrabold tracking-tight mb-1">Settings</h1>
+        <p className="text-xs text-[#5c7075]">Manage your account and profile preferences.</p>
       </div>
 
       {/* Hidden Global file input for profile picture management */}
