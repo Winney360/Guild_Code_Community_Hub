@@ -65,50 +65,124 @@ export const MembersDirectory: React.FC = () => {
     fetchMembers();
   }, []);
 
+  // Safe helper to extract specializations as a string array
+  const getMemberSpecs = (m: Member): string[] => {
+    if (!m.specializations) return [];
+    if (Array.isArray(m.specializations)) return m.specializations.filter(Boolean);
+    if (typeof m.specializations === 'string') {
+      return (m.specializations as string).split(',').map((s) => s.trim()).filter(Boolean);
+    }
+    return [];
+  };
+
+  // Safe helper to extract skills as a string array
+  const getMemberSkills = (m: Member): string[] => {
+    if (!m.skills) return [];
+    if (Array.isArray(m.skills)) return m.skills.filter(Boolean);
+    if (typeof m.skills === 'string') {
+      return (m.skills as string).split(',').map((s) => s.trim()).filter(Boolean);
+    }
+    return [];
+  };
+
   // Filter application
   useEffect(() => {
     let result = members;
 
-    // 1. Search Query filter (Name, Bio, Location)
+    // 1. Search Query filter (Name, Email, Bio, Location, Role, Specializations, Skills)
     if (search.trim()) {
       const q = search.toLowerCase();
-      result = result.filter(
-        (m) =>
+      result = result.filter((m) => {
+        const specs = getMemberSpecs(m);
+        const skills = getMemberSkills(m);
+        return (
           m.fullName.toLowerCase().includes(q) ||
+          (m.email && m.email.toLowerCase().includes(q)) ||
           (m.bio && m.bio.toLowerCase().includes(q)) ||
-          (m.location && m.location.toLowerCase().includes(q))
-      );
+          (m.location && m.location.toLowerCase().includes(q)) ||
+          (m.role && m.role.toLowerCase().includes(q)) ||
+          specs.some((s) => s.toLowerCase().includes(q)) ||
+          skills.some((sk) => sk.toLowerCase().includes(q))
+        );
+      });
     }
 
     // 2. Category Tab Filter (Developers, Designers, Data & AI)
     if (selectedCategory !== 'All') {
       result = result.filter((m) => {
-        const hasSpec = m.specializations.some((spec) => {
-          if (selectedCategory === 'Developers') return developersSpecs.includes(spec);
-          if (selectedCategory === 'Designers') return designersSpecs.includes(spec);
-          if (selectedCategory === 'Data & AI') return dataAiSpecs.includes(spec);
+        const specs = getMemberSpecs(m);
+        if (specs.length === 0) return false;
+        return specs.some((spec) => {
+          const specLower = spec.toLowerCase();
+          if (selectedCategory === 'Developers') {
+            return (
+              developersSpecs.some((d) => d.toLowerCase() === specLower) ||
+              specLower.includes('developer') ||
+              specLower.includes('engineer') ||
+              specLower.includes('frontend') ||
+              specLower.includes('backend') ||
+              specLower.includes('full') ||
+              specLower.includes('mobile') ||
+              specLower.includes('devops') ||
+              specLower.includes('cloud') ||
+              specLower.includes('software') ||
+              specLower.includes('architect')
+            );
+          }
+          if (selectedCategory === 'Designers') {
+            return (
+              designersSpecs.some((d) => d.toLowerCase() === specLower) ||
+              specLower.includes('design') ||
+              specLower.includes('ui') ||
+              specLower.includes('ux') ||
+              specLower.includes('graphic') ||
+              specLower.includes('motion') ||
+              specLower.includes('art')
+            );
+          }
+          if (selectedCategory === 'Data & AI') {
+            return (
+              dataAiSpecs.some((d) => d.toLowerCase() === specLower) ||
+              specLower.includes('data') ||
+              specLower.includes('ai') ||
+              specLower.includes('machine learning') ||
+              specLower.includes('ml') ||
+              specLower.includes('nlp') ||
+              specLower.includes('vision')
+            );
+          }
           return false;
         });
-        return hasSpec;
       });
     }
 
     // 3. Dropdown Specialization Filter
     if (selectedSpecialization !== 'All') {
-      result = result.filter((m) => m.specializations.includes(selectedSpecialization));
+      result = result.filter((m) => {
+        const specs = getMemberSpecs(m);
+        return specs.includes(selectedSpecialization);
+      });
     }
 
     // 4. Dropdown Skill Filter
     if (selectedSkill !== 'All') {
-      result = result.filter((m) => m.skills.includes(selectedSkill));
+      result = result.filter((m) => {
+        const skills = getMemberSkills(m);
+        return skills.includes(selectedSkill);
+      });
     }
 
     setFilteredMembers(result);
   }, [search, selectedCategory, selectedSpecialization, selectedSkill, members]);
 
-  // Extract unique skills and specializations for filters dropdown
-  const allAvailableSkills = Array.from(new Set(members.flatMap((m) => m.skills))).sort();
-  const allAvailableSpecs = Array.from(new Set(members.flatMap((m) => m.specializations))).sort();
+  // Extract unique skills and specializations for filter dropdowns safely
+  const allAvailableSkills = Array.from(
+    new Set(members.flatMap((m) => getMemberSkills(m)))
+  ).sort();
+
+  const allAvailableSpecs = Array.from(
+    new Set(members.flatMap((m) => getMemberSpecs(m)))
+  ).sort();
 
   // Helper to format join date
   const formatDate = (dateString?: string) => {
@@ -141,24 +215,43 @@ export const MembersDirectory: React.FC = () => {
 
       {/* Filter Bar Panel */}
       <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm mb-8 flex flex-col gap-6">
-        {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-slate-100 pb-4">
-          {(['All', 'Developers', 'Designers', 'Data & AI'] as const).map((cat) => (
+        {/* Category Tabs & Reset Filters */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="flex flex-wrap gap-2">
+            {(['All', 'Developers', 'Designers', 'Data & AI'] as const).map((cat) => (
+              <button
+                key={cat}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  setSelectedSpecialization('All'); // Reset subspec on category change
+                }}
+                className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-[#006655] text-white shadow-sm'
+                    : 'bg-slate-50 border border-slate-150 text-[#5c7075] hover:bg-slate-100'
+                }`}
+              >
+                {cat === 'All' ? 'All Members' : cat}
+              </button>
+            ))}
+          </div>
+
+          {(search || selectedCategory !== 'All' || selectedSpecialization !== 'All' || selectedSkill !== 'All') && (
             <button
-              key={cat}
               onClick={() => {
-                setSelectedCategory(cat);
-                setSelectedSpecialization('All'); // Reset subspec on category change
+                setSearch('');
+                setSelectedCategory('All');
+                setSelectedSpecialization('All');
+                setSelectedSkill('All');
               }}
-              className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
-                selectedCategory === cat
-                  ? 'bg-[#006655] text-white shadow-sm'
-                  : 'bg-slate-50 border border-slate-150 text-[#5c7075] hover:bg-slate-100'
-              }`}
+              className="text-xs font-bold text-red-500 hover:text-red-600 bg-red-50 border border-red-100 px-3.5 py-1.5 rounded-xl transition-all select-none flex items-center gap-1"
             >
-              {cat === 'All' ? 'All Members' : cat}
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <span>Reset Filters</span>
             </button>
-          ))}
+          )}
         </div>
 
         {/* Inputs & Dropdowns Row */}
@@ -172,7 +265,7 @@ export const MembersDirectory: React.FC = () => {
             </span>
             <input
               type="text"
-              placeholder="Search by name, bio, or location..."
+              placeholder="Search by name, skill, role, location, or bio..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
@@ -209,6 +302,13 @@ export const MembersDirectory: React.FC = () => {
         </div>
       </div>
 
+      {/* Showing results count */}
+      {!loading && (
+        <div className="flex justify-between items-center mb-6 text-xs text-[#5c7075] font-semibold select-none">
+          <span>Showing {filteredMembers.length} of {members.length} members</span>
+        </div>
+      )}
+
       {/* Grid of Member Cards */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -226,12 +326,25 @@ export const MembersDirectory: React.FC = () => {
             </svg>
           </div>
           <h3 className="font-bold text-base mb-1">No members found</h3>
-          <p className="text-xs text-[#5c7075]">Try refining your search query or filters.</p>
+          <p className="text-xs text-[#5c7075] mb-4">Try refining your search query or filters.</p>
+          <button
+            onClick={() => {
+              setSearch('');
+              setSelectedCategory('All');
+              setSelectedSpecialization('All');
+              setSelectedSkill('All');
+            }}
+            className="bg-[#006655] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-sm"
+          >
+            Clear All Filters
+          </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredMembers.map((member, idx) => {
             const badge = getBadgeStyle(idx);
+            const specs = getMemberSpecs(member);
+            const skills = getMemberSkills(member);
             return (
               <div
                 key={member._id}
@@ -258,14 +371,14 @@ export const MembersDirectory: React.FC = () => {
                   <Link to={`/members/${member._id}`} className="hover:underline">
                     <h3 className="font-bold text-base text-[#091e22] hover:text-[#006655] transition-colors">{member.fullName}</h3>
                   </Link>
-                  <p className="text-xs font-semibold text-[#006655] mb-2">{member.specializations[0] || 'Member'}</p>
+                  <p className="text-xs font-semibold text-[#006655] mb-2">{specs[0] || 'Guild Member'}</p>
                   <p className="text-xs text-[#5c7075] line-clamp-2 leading-relaxed mb-4">
                     {member.bio || 'Guild member contributing to open-source developer tooling and scalable backend architecture.'}
                   </p>
 
                   {/* Skills tags */}
                   <div className="flex flex-wrap gap-1 mb-4">
-                    {member.skills.slice(0, 3).map((skill) => (
+                    {skills.slice(0, 4).map((skill) => (
                       <span key={skill} className="px-2 py-0.5 bg-slate-50 border border-slate-150 text-[10px] text-slate-500 rounded font-semibold">
                         {skill}
                       </span>
