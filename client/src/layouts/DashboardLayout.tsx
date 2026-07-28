@@ -241,6 +241,21 @@ export const DashboardLayout: React.FC = () => {
               )}
             </Link>
              <ThemeToggle />
+
+            {/* Admin Panel Quick Header Access */}
+            {user?.role === 'admin' && (
+              <Link
+                to="/dashboard/admin"
+                className="bg-emerald-50 hover:bg-emerald-100 text-[#006655] border border-emerald-200 px-3 py-1 rounded-lg text-xs font-bold transition-all shadow-xs shrink-0 flex items-center gap-1.5"
+                title="Go to Admin Panel"
+              >
+                <svg className="w-3.5 h-3.5 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z" />
+                </svg>
+                <span>Admin Panel</span>
+              </Link>
+            )}
+
             <Link 
               to="/dashboard/settings"
               className="relative w-8 h-8 rounded-full overflow-hidden bg-[#e6f7f8] border-2 border-[#006655]/10 hover:border-[#006655] shadow-sm select-none cursor-pointer flex items-center justify-center transition-all hover:scale-105 shrink-0 ml-1"
