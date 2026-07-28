@@ -18,9 +18,45 @@ export const Login: React.FC = () => {
   const [googleEmail, setGoogleEmail] = useState('');
   const [googleName, setGoogleName] = useState('');
 
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  const handleGoogleCredentialResponse = async (response: any) => {
+    if (!response?.credential) return;
+    setLoading(true);
+    try {
+      const result = await loginWithOAuth('google', { credential: response.credential });
+      if (result.success) {
+        if (result.user?.role === 'admin') {
+          navigate('/dashboard/admin');
+        } else {
+          navigate('/dashboard');
+        }
+      } else {
+        setError(result.message || 'Google authentication failed');
+      }
+    } catch {
+      setError('An error occurred during Google authentication.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleOAuth = async (provider: 'google' | 'github') => {
     if (provider === 'google') {
       setError('');
+      // Try to launch native Google Identity Services prompt if available
+      if (typeof window !== 'undefined' && (window as any).google?.accounts?.id && googleClientId) {
+        try {
+          (window as any).google.accounts.id.initialize({
+            client_id: googleClientId,
+            callback: handleGoogleCredentialResponse,
+          });
+          (window as any).google.accounts.id.prompt();
+          return;
+        } catch (err) {
+          console.error('Google One Tap prompt error:', err);
+        }
+      }
       setShowGoogleModal(true);
       return;
     }
@@ -352,57 +388,8 @@ export const Login: React.FC = () => {
             </div>
 
             <p className="text-xs text-center text-[#5c7075] mb-6">
-              Enter your real Google Account details to continue to Guild Code Community Hub.
+              Enter your Google Account email address to sign in to Guild Code Community Hub.
             </p>
-
-            {/* Quick account presets for convenience */}
-            <div className="mb-5 space-y-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Choose a Google Account</span>
-              <div className="grid grid-cols-1 gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setGoogleEmail('alex.rivera@gmail.com');
-                    setGoogleName('Alex Rivera');
-                  }}
-                  className="flex items-center gap-3 p-2.5 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200 hover:border-[#006655]/40 rounded-xl transition-all text-left cursor-pointer"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
-                    alt="Alex"
-                    className="w-8 h-8 rounded-full object-cover shrink-0"
-                  />
-                  <div className="min-w-0">
-                    <span className="text-xs font-bold text-[#091e22] block truncate">Alex Rivera</span>
-                    <span className="text-[10px] text-slate-500 block truncate">alex.rivera@gmail.com</span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setGoogleEmail('marcus.tech@gmail.com');
-                    setGoogleName('Marcus Vance');
-                  }}
-                  className="flex items-center gap-3 p-2.5 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200 hover:border-[#006655]/40 rounded-xl transition-all text-left cursor-pointer"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
-                    alt="Marcus"
-                    className="w-8 h-8 rounded-full object-cover shrink-0"
-                  />
-                  <div className="min-w-0">
-                    <span className="text-xs font-bold text-[#091e22] block truncate">Marcus Vance</span>
-                    <span className="text-[10px] text-slate-500 block truncate">marcus.tech@gmail.com</span>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            <div className="relative my-4 flex items-center justify-center">
-              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-100"></div></div>
-              <span className="relative px-2 bg-white text-[10px] font-bold text-slate-400 uppercase">Or use custom Google account</span>
-            </div>
 
             <form onSubmit={handleGoogleSubmit} className="space-y-4">
               <div>
