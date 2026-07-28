@@ -212,8 +212,8 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
       ? fullName.trim()
       : cleanEmail.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
-    const avatar = (profilePicture && typeof profilePicture === 'string' && profilePicture.trim())
-      ? profilePicture.trim()
+    avatar = (avatar && typeof avatar === 'string' && avatar.trim())
+      ? avatar.trim()
       : `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=006655&color=fff&size=200`;
 
     let user = await User.findOne({ email: cleanEmail });
