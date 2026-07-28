@@ -11,6 +11,12 @@ import { CollaborationMarketplace } from './pages/CollaborationMarketplace.js';
 import { CollaborationDetails } from './pages/CollaborationDetails.js';
 import { CommunityEvents } from './pages/CommunityEvents.js';
 import { EventDetails } from './pages/EventDetails.js';
+import { PrivacyPolicy } from './pages/PrivacyPolicy.js';
+import { TermsOfService } from './pages/TermsOfService.js';
+import { CookiePolicy } from './pages/CookiePolicy.js';
+import { CommunityGuidelines } from './pages/CommunityGuidelines.js';
+import { Changelog } from './pages/Changelog.js';
+import { SystemStatus } from './pages/SystemStatus.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
 import { DashboardLayout } from './layouts/DashboardLayout.js';
 import { DashboardOverview } from './pages/DashboardOverview.js';
@@ -45,8 +51,12 @@ function App() {
             <Route path="/collaborate/:id" element={<CollaborationDetails />} />
             <Route path="/events" element={<CommunityEvents />} />
             <Route path="/events/:id" element={<EventDetails />} />
-            <Route path="/privacy" element={<div className="p-8 text-center text-xl font-bold">Privacy Policy</div>} />
-            <Route path="/terms" element={<div className="p-8 text-center text-xl font-bold">Terms of Service</div>} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/cookies" element={<CookiePolicy />} />
+            <Route path="/guidelines" element={<CommunityGuidelines />} />
+            <Route path="/changelog" element={<Changelog />} />
+            <Route path="/status" element={<SystemStatus />} />
           </Route>
 
           {/* Auth Routes (standalone screen layout) */}
