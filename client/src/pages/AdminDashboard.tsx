@@ -135,10 +135,6 @@ export const AdminDashboard: React.FC = () => {
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">Dashboard Overview</h1>
           <p className="text-xs text-[#5c7075]">Welcome back, Admin. Here's what's happening today.</p>
         </div>
-        <div className="bg-white border border-slate-100 rounded-xl px-3 py-1.5 text-[10px] font-bold text-[#006655] shadow-sm flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
-          Live Database Connection
-        </div>
       </div>
 
       {/* 1. Statistics Cards Row */}
