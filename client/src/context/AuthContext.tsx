@@ -17,7 +17,7 @@ interface AuthContextType {
   signup: (userData: any) => Promise<{ success: boolean; message?: string }>;
   loginWithOAuth: (
     provider: 'google' | 'github',
-    oauthData?: { email?: string; fullName?: string; profilePicture?: string }
+    oauthData?: { email?: string; fullName?: string; profilePicture?: string; credential?: string }
   ) => Promise<{ success: boolean; message?: string; user?: User }>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
@@ -105,7 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginWithOAuth = async (
     provider: 'google' | 'github',
-    oauthData?: { email?: string; fullName?: string; profilePicture?: string }
+    oauthData?: { email?: string; fullName?: string; profilePicture?: string; credential?: string }
   ) => {
     try {
       const endpoint = provider === 'google' ? '/api/auth/google' : '/api/auth/oauth-mock';
@@ -114,6 +114,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           provider,
+          credential: oauthData?.credential,
           email: oauthData?.email,
           fullName: oauthData?.fullName,
           profilePicture: oauthData?.profilePicture,
