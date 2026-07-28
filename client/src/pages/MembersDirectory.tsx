@@ -191,18 +191,6 @@ export const MembersDirectory: React.FC = () => {
     return `JOINED ${date.toLocaleString('default', { month: 'short' }).toUpperCase()} ${date.getFullYear()}`;
   };
 
-  // Helper to choose status badge styling
-  const getBadgeStyle = (index: number) => {
-    const styles = [
-      { bg: 'bg-[#e8f5e9] text-[#2e7d32] border-[#a5d6a7]/20', label: 'Available' },
-      { bg: 'bg-[#e0f2f1] text-[#00695c] border-[#80cbc4]/20', label: 'Core Member' },
-      { bg: 'bg-[#e0f7fa] text-[#00838f] border-[#80deea]/20', label: 'Pro' },
-      { bg: 'bg-[#fff3e0] text-[#ef6c00] border-[#ffcc80]/20', label: 'Busy' },
-      { bg: 'bg-[#e8eaf6] text-[#283593] border-[#9fa8da]/20', label: 'Hiring' }
-    ];
-    return styles[index % styles.length];
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Header Title */}
@@ -341,8 +329,7 @@ export const MembersDirectory: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMembers.map((member, idx) => {
-            const badge = getBadgeStyle(idx);
+          {filteredMembers.map((member) => {
             const specs = getMemberSpecs(member);
             const skills = getMemberSkills(member);
             return (
@@ -351,7 +338,7 @@ export const MembersDirectory: React.FC = () => {
                 className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
               >
                 <div>
-                  {/* Top bar: Avatar + Badge */}
+                  {/* Top bar: Avatar */}
                   <div className="flex justify-between items-start mb-4">
                     <div className="w-14 h-14 rounded-full overflow-hidden bg-slate-100 border-2 border-white shadow-sm shrink-0">
                       {member.profilePicture ? (
@@ -362,9 +349,6 @@ export const MembersDirectory: React.FC = () => {
                         </div>
                       )}
                     </div>
-                    <span className={`px-2 py-0.5 border text-[9px] font-bold rounded-full ${badge.bg} shrink-0`}>
-                      {badge.label}
-                    </span>
                   </div>
 
                   {/* Name + Role */}
