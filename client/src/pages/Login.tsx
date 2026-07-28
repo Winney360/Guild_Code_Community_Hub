@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import signBg from '../assets/sign.png';
@@ -20,7 +20,7 @@ export const Login: React.FC = () => {
 
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-  const handleGoogleCredentialResponse = async (response: any) => {
+  const handleGoogleCredentialResponse = useCallback(async (response: any) => {
     if (!response?.credential) return;
     setLoading(true);
     try {
@@ -39,22 +39,62 @@ export const Login: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loginWithOAuth, navigate]);
+
+  useEffect(() => {
+    if (!googleClientId) return;
+
+    const setupGoogle = () => {
+      if ((window as any).google?.accounts?.id) {
+        (window as any).google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: handleGoogleCredentialResponse,
+          auto_select: false,
+          cancel_on_tap_outside: false,
+        });
+
+        const btnDiv = document.getElementById('googleNativeBtn');
+        if (btnDiv) {
+          btnDiv.innerHTML = '';
+          (window as any).google.accounts.id.renderButton(btnDiv, {
+            theme: 'outline',
+            size: 'large',
+            width: 250,
+            text: 'continue_with',
+            shape: 'pill',
+          });
+        }
+      }
+    };
+
+    setupGoogle();
+    const timer = setTimeout(setupGoogle, 500);
+    return () => clearTimeout(timer);
+  }, [googleClientId, handleGoogleCredentialResponse]);
 
   const handleOAuth = async (provider: 'google' | 'github') => {
     if (provider === 'google') {
       setError('');
-      // Try to launch native Google Identity Services prompt if available
       if (typeof window !== 'undefined' && (window as any).google?.accounts?.id && googleClientId) {
         try {
           (window as any).google.accounts.id.initialize({
             client_id: googleClientId,
             callback: handleGoogleCredentialResponse,
           });
-          (window as any).google.accounts.id.prompt();
+          (window as any).google.accounts.id.prompt((notification: any) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+              // Trigger click on official Google button if prompt is dismissed
+              const officialBtn = document.querySelector('#googleNativeBtn div[role="button"]') as HTMLElement;
+              if (officialBtn) {
+                officialBtn.click();
+              } else {
+                setShowGoogleModal(true);
+              }
+            }
+          });
           return;
         } catch (err) {
-          console.error('Google One Tap prompt error:', err);
+          console.error('Google prompt error:', err);
         }
       }
       setShowGoogleModal(true);
