@@ -13,7 +13,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; message?: string; user?: User }>;
   signup: (userData: any) => Promise<{ success: boolean; message?: string }>;
   loginWithOAuth: (provider: 'google' | 'github') => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
@@ -70,7 +70,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await res.json();
       if (res.ok) {
         setUser(data.user);
-        return { success: true };
+        if (data.user) {
+          localStorage.setItem('guild_user', JSON.stringify(data.user));
+        }
+        return { success: true, user: data.user };
       } else {
         return { success: false, message: data.message || 'Login failed' };
       }
