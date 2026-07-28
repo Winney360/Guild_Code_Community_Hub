@@ -232,13 +232,47 @@ export const Login: React.FC = () => {
             </p>
           </div>
 
-          {/* Error Message Alert */}
+          {/* Error / Pending Message Alert */}
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-3 text-sm mb-6 flex items-start gap-2 animate-pulse">
-              <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            <div
+              className={`rounded-xl p-4 text-sm mb-6 flex items-start gap-3 border shadow-sm transition-all ${
+                error.toLowerCase().includes('pending')
+                  ? 'bg-amber-50 border-amber-200 text-amber-900'
+                  : 'bg-red-50 border-red-200 text-red-600 animate-pulse'
+              }`}
+            >
+              <svg
+                className={`w-5 h-5 shrink-0 mt-0.5 ${
+                  error.toLowerCase().includes('pending') ? 'text-amber-600' : 'text-red-500'
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {error.toLowerCase().includes('pending') ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                )}
               </svg>
-              <span>{error}</span>
+              <div className="flex-1">
+                {error.toLowerCase().includes('pending') && (
+                  <span className="font-extrabold block text-xs uppercase tracking-wider text-amber-800 mb-0.5">
+                    Account Pending Approval
+                  </span>
+                )}
+                <span className="leading-relaxed font-medium">{error}</span>
+              </div>
             </div>
           )}
 
