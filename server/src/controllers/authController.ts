@@ -173,19 +173,105 @@ export const getMe = async (req: AuthenticatedRequest, res: Response): Promise<v
   }
 };
 
-// @desc    Mock OAuth login/signup
+// @desc    Real / Realistic Google OAuth login & signup
+// @route   POST /api/auth/google
+// @access  Public
+export const googleAuth = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, fullName, profilePicture } = req.body;
+
+    if (!email || typeof email !== 'string' || !email.includes('@')) {
+      res.status(400).json({ message: 'Valid Google email address is required' });
+      return;
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanName = (fullName && typeof fullName === 'string' && fullName.trim())
+      ? fullName.trim()
+      : cleanEmail.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+    const avatar = (profilePicture && typeof profilePicture === 'string' && profilePicture.trim())
+      ? profilePicture.trim()
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=006655&color=fff&size=200`;
+
+    let user = await User.findOne({ email: cleanEmail });
+
+    if (!user) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(`google_oauth_${Date.now()}_${Math.random()}`, salt);
+
+      user = await User.create({
+        fullName: cleanName,
+        email: cleanEmail,
+        password: hashedPassword,
+        profilePicture: avatar,
+        status: 'active',
+        isActive: true,
+        joinDate: new Date(),
+        role: 'member',
+      });
+    } else {
+      if (user.status === 'suspended') {
+        res.status(403).json({ message: 'Your account has been suspended' });
+        return;
+      }
+
+      let modified = false;
+      if (avatar && !user.profilePicture) {
+        user.profilePicture = avatar;
+        modified = true;
+      }
+      if (user.status !== 'active') {
+        user.status = 'active';
+        user.isActive = true;
+        modified = true;
+      }
+      if (modified) {
+        await user.save();
+      }
+    }
+
+    sendTokenCookie(user._id.toString(), user.role, res);
+
+    res.status(200).json({
+      success: true,
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+        status: user.status,
+        isActive: user.isActive,
+        profilePicture: user.profilePicture || '',
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
+// @desc    Mock OAuth login/signup (supports custom email & name)
 // @route   POST /api/auth/oauth-mock
 // @access  Public
 export const oauthMock = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { provider } = req.body;
+    const { provider, email: customEmail, fullName: customName, profilePicture } = req.body;
     if (!provider || (provider !== 'google' && provider !== 'github')) {
       res.status(400).json({ message: 'Invalid provider' });
       return;
     }
 
-    const email = `${provider}-tester@guildcode.com`;
-    const fullName = provider === 'google' ? 'Google Tester' : 'GitHub Tester';
+    const email = customEmail && customEmail.includes('@')
+      ? customEmail.trim().toLowerCase()
+      : `${provider}-tester@guildcode.com`;
+
+    const fullName = customName && customName.trim()
+      ? customName.trim()
+      : (provider === 'google' ? 'Google User' : 'GitHub User');
+
+    const avatar = profilePicture && profilePicture.trim()
+      ? profilePicture.trim()
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=006655&color=fff&size=200`;
 
     // Find or create user
     let user = await User.findOne({ email });
@@ -198,6 +284,7 @@ export const oauthMock = async (req: Request, res: Response): Promise<void> => {
         fullName,
         email,
         password: hashedPassword,
+        profilePicture: avatar,
         status: 'active',
         isActive: true,
         joinDate: new Date(),
