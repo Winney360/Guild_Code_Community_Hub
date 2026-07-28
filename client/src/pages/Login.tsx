@@ -416,20 +416,37 @@ export const Login: React.FC = () => {
               </svg>
             </button>
 
-            {/* Google Brand Header */}
-            <div className="flex items-center justify-center gap-2 mb-4">
+            {/* Google Brand & Consent Header */}
+            <div className="flex items-center justify-center gap-2 mb-2">
               <svg className="w-7 h-7" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v3.92h6.69a5.74 5.74 0 0 1-2.49 3.77v3.1h3.99c2.34-2.16 3.69-5.32 3.69-8.72z" />
                 <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.99-3.1c-1.1.74-2.52 1.18-3.94 1.18-3.04 0-5.61-2.05-6.53-4.82H1.31v3.2A12 12 0 0 0 12 24z" />
                 <path fill="#FBBC05" d="M5.47 14.35A7.16 7.16 0 0 1 5.06 12c0-.82.14-1.61.41-2.35v-3.2H1.31A12 12 0 0 0 0 12c0 1.94.47 3.79 1.31 5.55l4.16-3.2z" />
                 <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.31 6.8l4.16 3.2c.92-2.77 3.49-4.82 6.53-4.82z" />
               </svg>
-              <span className="font-extrabold text-lg tracking-tight text-[#091e22]">Sign in with Google</span>
+              <span className="font-extrabold text-lg tracking-tight text-[#091e22]">Sign in to Guild Code</span>
             </div>
 
-            <p className="text-xs text-center text-[#5c7075] mb-6">
-              Enter your Google Account email address to sign in to Guild Code Community Hub.
+            <p className="text-xs text-center text-[#5c7075] mb-5">
+              Guild Code Community Hub requests permission to access your basic Google profile details.
             </p>
+
+            {/* Scope & Permissions Disclosure Box */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-5 space-y-3">
+              <span className="text-[11px] font-bold text-[#091e22] uppercase tracking-wider block">
+                Information to be shared:
+              </span>
+              <div className="space-y-2 text-xs text-[#5c7075]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-2 h-2 rounded-full bg-[#34A853]"></div>
+                  <span>Your full name and Google email address</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-2 h-2 rounded-full bg-[#4285F4]"></div>
+                  <span>Your Google profile picture & avatar</span>
+                </div>
+              </div>
+            </div>
 
             <form onSubmit={handleGoogleSubmit} className="space-y-4">
               <div>
@@ -439,7 +456,7 @@ export const Login: React.FC = () => {
                   required
                   value={googleEmail}
                   onChange={(e) => setGoogleEmail(e.target.value)}
-                  placeholder="your.email@gmail.com"
+                  placeholder="your.name@gmail.com"
                   className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655]"
                 />
               </div>
@@ -450,24 +467,24 @@ export const Login: React.FC = () => {
                   type="text"
                   value={googleName}
                   onChange={(e) => setGoogleName(e.target.value)}
-                  placeholder="e.g. Sarah Jenkins"
+                  placeholder="e.g. Alex Rivera"
                   className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655]"
                 />
               </div>
 
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-3 pt-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setShowGoogleModal(false)}
                   className="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
                 >
-                  Cancel
+                  Reject & Cancel
                 </button>
                 <button
                   type="submit"
-                  className="w-1/2 py-2.5 bg-[#4285F4] hover:bg-[#3367D6] text-white text-xs font-bold rounded-xl transition-colors shadow-md cursor-pointer flex items-center justify-center gap-1.5"
+                  className="w-1/2 py-2.5 bg-[#006655] hover:bg-[#004d40] text-white text-xs font-bold rounded-xl transition-colors shadow-md cursor-pointer flex items-center justify-center gap-1.5"
                 >
-                  <span>Continue</span>
+                  <span>Accept & Continue</span>
                 </button>
               </div>
             </form>
