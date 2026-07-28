@@ -219,6 +219,7 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
     let user = await User.findOne({ email: cleanEmail });
 
     if (!user) {
+      // First-time Google signup: create account in 'pending' status requiring admin approval
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(`google_oauth_${Date.now()}_${Math.random()}`, salt);
 
@@ -227,25 +228,46 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
         email: cleanEmail,
         password: hashedPassword,
         profilePicture: avatar,
-        status: 'active',
-        isActive: true,
-        joinDate: new Date(),
+        status: 'pending',
+        isActive: false,
+        joinDate: null,
         role: 'member',
       });
+
+      // Notify all admin users that a new Google application is pending approval
+      const admins = await User.find({ role: 'admin' }).select('_id');
+      for (const admin of admins) {
+        await Notification.create({
+          userId: admin._id,
+          sender: user._id,
+          type: 'application_received',
+          title: 'New Member Application (Google)',
+          message: `${cleanName} (${cleanEmail}) registered via Google and is pending approval.`,
+          link: '/dashboard/admin',
+        });
+      }
+
+      res.status(201).json({
+        success: false,
+        isPending: true,
+        message: 'Your account has been registered via Google and is pending admin approval. An administrator must approve your application before you can access the platform.',
+      });
+      return;
     } else {
+      // Existing user checks
       if (user.status === 'suspended') {
         res.status(403).json({ message: 'Your account has been suspended' });
+        return;
+      }
+
+      if (user.status === 'pending' || !user.isActive) {
+        res.status(403).json({ message: 'Your account is pending admin approval. Please wait for an administrator to activate your account.' });
         return;
       }
 
       let modified = false;
       if (avatar && !user.profilePicture) {
         user.profilePicture = avatar;
-        modified = true;
-      }
-      if (user.status !== 'active') {
-        user.status = 'active';
-        user.isActive = true;
         modified = true;
       }
       if (modified) {
