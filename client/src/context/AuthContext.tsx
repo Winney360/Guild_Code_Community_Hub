@@ -15,7 +15,10 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message?: string; user?: User }>;
   signup: (userData: any) => Promise<{ success: boolean; message?: string }>;
-  loginWithOAuth: (provider: 'google' | 'github') => Promise<{ success: boolean; message?: string }>;
+  loginWithOAuth: (
+    provider: 'google' | 'github',
+    oauthData?: { email?: string; fullName?: string; profilePicture?: string }
+  ) => Promise<{ success: boolean; message?: string; user?: User }>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
 }
@@ -100,17 +103,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const loginWithOAuth = async (provider: 'google' | 'github') => {
+  const loginWithOAuth = async (
+    provider: 'google' | 'github',
+    oauthData?: { email?: string; fullName?: string; profilePicture?: string }
+  ) => {
     try {
-      const res = await fetch('/api/auth/oauth-mock', {
+      const endpoint = provider === 'google' ? '/api/auth/google' : '/api/auth/oauth-mock';
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ provider }),
+        body: JSON.stringify({
+          provider,
+          email: oauthData?.email,
+          fullName: oauthData?.fullName,
+          profilePicture: oauthData?.profilePicture,
+        }),
       });
       const data = await res.json();
       if (res.ok) {
         setUser(data.user);
-        return { success: true };
+        if (data.user) {
+          localStorage.setItem('guild_user', JSON.stringify(data.user));
+        }
+        return { success: true, user: data.user };
       } else {
         return { success: false, message: data.message || 'OAuth authentication failed' };
       }
