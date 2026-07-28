@@ -13,7 +13,17 @@ export const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Google Sign In Modal State
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [googleEmail, setGoogleEmail] = useState('');
+  const [googleName, setGoogleName] = useState('');
+
   const handleOAuth = async (provider: 'google' | 'github') => {
+    if (provider === 'google') {
+      setError('');
+      setShowGoogleModal(true);
+      return;
+    }
     setError('');
     setLoading(true);
     try {
@@ -25,6 +35,35 @@ export const Login: React.FC = () => {
       }
     } catch (err) {
       setError('An error occurred during authentication.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!googleEmail || !googleEmail.includes('@')) {
+      setError('Please enter a valid Google email address');
+      return;
+    }
+    setShowGoogleModal(false);
+    setLoading(true);
+    try {
+      const result = await loginWithOAuth('google', {
+        email: googleEmail,
+        fullName: googleName || googleEmail.split('@')[0],
+      });
+      if (result.success) {
+        if (result.user?.role === 'admin') {
+          navigate('/dashboard/admin');
+        } else {
+          navigate('/dashboard');
+        }
+      } else {
+        setError(result.message || 'Google authentication failed');
+      }
+    } catch (err) {
+      setError('An error occurred during Google authentication.');
     } finally {
       setLoading(false);
     }
@@ -303,6 +342,128 @@ export const Login: React.FC = () => {
           <a href="#privacy" className="hover:underline">Privacy</a>
         </div>
       </div>
+
+      {/* Google Account OAuth Sign-In Modal */}
+      {showGoogleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fade-in select-none">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative">
+            <button
+              type="button"
+              onClick={() => setShowGoogleModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Google Brand Header */}
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <svg className="w-7 h-7" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v3.92h6.69a5.74 5.74 0 0 1-2.49 3.77v3.1h3.99c2.34-2.16 3.69-5.32 3.69-8.72z" />
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.99-3.1c-1.1.74-2.52 1.18-3.94 1.18-3.04 0-5.61-2.05-6.53-4.82H1.31v3.2A12 12 0 0 0 12 24z" />
+                <path fill="#FBBC05" d="M5.47 14.35A7.16 7.16 0 0 1 5.06 12c0-.82.14-1.61.41-2.35v-3.2H1.31A12 12 0 0 0 0 12c0 1.94.47 3.79 1.31 5.55l4.16-3.2z" />
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.31 6.8l4.16 3.2c.92-2.77 3.49-4.82 6.53-4.82z" />
+              </svg>
+              <span className="font-extrabold text-lg tracking-tight text-[#091e22]">Sign in with Google</span>
+            </div>
+
+            <p className="text-xs text-center text-[#5c7075] mb-6">
+              Enter your real Google Account details to continue to Guild Code Community Hub.
+            </p>
+
+            {/* Quick account presets for convenience */}
+            <div className="mb-5 space-y-2">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Choose a Google Account</span>
+              <div className="grid grid-cols-1 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setGoogleEmail('alex.rivera@gmail.com');
+                    setGoogleName('Alex Rivera');
+                  }}
+                  className="flex items-center gap-3 p-2.5 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200 hover:border-[#006655]/40 rounded-xl transition-all text-left cursor-pointer"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
+                    alt="Alex"
+                    className="w-8 h-8 rounded-full object-cover shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <span className="text-xs font-bold text-[#091e22] block truncate">Alex Rivera</span>
+                    <span className="text-[10px] text-slate-500 block truncate">alex.rivera@gmail.com</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setGoogleEmail('marcus.tech@gmail.com');
+                    setGoogleName('Marcus Vance');
+                  }}
+                  className="flex items-center gap-3 p-2.5 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200 hover:border-[#006655]/40 rounded-xl transition-all text-left cursor-pointer"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+                    alt="Marcus"
+                    className="w-8 h-8 rounded-full object-cover shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <span className="text-xs font-bold text-[#091e22] block truncate">Marcus Vance</span>
+                    <span className="text-[10px] text-slate-500 block truncate">marcus.tech@gmail.com</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div className="relative my-4 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-100"></div></div>
+              <span className="relative px-2 bg-white text-[10px] font-bold text-slate-400 uppercase">Or use custom Google account</span>
+            </div>
+
+            <form onSubmit={handleGoogleSubmit} className="space-y-4">
+              <div>
+                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Google Email Address *</label>
+                <input
+                  type="email"
+                  required
+                  value={googleEmail}
+                  onChange={(e) => setGoogleEmail(e.target.value)}
+                  placeholder="your.email@gmail.com"
+                  className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655]"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
+                <input
+                  type="text"
+                  value={googleName}
+                  onChange={(e) => setGoogleName(e.target.value)}
+                  placeholder="e.g. Sarah Jenkins"
+                  className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655]"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowGoogleModal(false)}
+                  className="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="w-1/2 py-2.5 bg-[#4285F4] hover:bg-[#3367D6] text-white text-xs font-bold rounded-xl transition-colors shadow-md cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <span>Continue</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
