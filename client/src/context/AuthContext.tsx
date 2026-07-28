@@ -121,7 +121,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }),
       });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.success === true) {
         setUser(data.user);
         if (data.user) {
           localStorage.setItem('guild_user', JSON.stringify(data.user));
