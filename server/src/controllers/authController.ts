@@ -178,7 +178,29 @@ export const getMe = async (req: AuthenticatedRequest, res: Response): Promise<v
 // @access  Public
 export const googleAuth = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, fullName, profilePicture } = req.body;
+    const { credential, email: inputEmail, fullName: inputName, profilePicture: inputAvatar } = req.body;
+
+    let email = inputEmail;
+    let fullName = inputName;
+    let avatar = inputAvatar;
+
+    // 1. If real Google ID token credential is sent from Google SDK
+    if (credential) {
+      try {
+        const googleRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${credential}`);
+        if (googleRes.ok) {
+          const payload: any = await googleRes.json();
+          email = payload.email;
+          fullName = payload.name || payload.given_name || email.split('@')[0];
+          avatar = payload.picture;
+        } else {
+          res.status(400).json({ message: 'Invalid or expired Google authentication token' });
+          return;
+        }
+      } catch (err) {
+        console.error('Google token verification failed:', err);
+      }
+    }
 
     if (!email || typeof email !== 'string' || !email.includes('@')) {
       res.status(400).json({ message: 'Valid Google email address is required' });
