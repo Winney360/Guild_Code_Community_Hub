@@ -250,7 +250,7 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
       res.status(201).json({
         success: false,
         isPending: true,
-        message: 'Your account has been registered via Google and is pending admin approval. An administrator must approve your application before you can access the platform.',
+        message: 'Your account is pending admin approval.',
       });
       return;
     } else {
@@ -261,7 +261,7 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
       }
 
       if (user.status === 'pending' || !user.isActive) {
-        res.status(403).json({ message: 'Your account is pending admin approval. Please wait for an administrator to activate your account.' });
+        res.status(403).json({ message: 'Your account is pending admin approval.' });
         return;
       }
 
