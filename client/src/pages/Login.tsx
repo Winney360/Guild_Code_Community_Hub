@@ -149,28 +149,11 @@ export const Login: React.FC = () => {
 
         {/* Form Container */}
         <div className="w-full max-w-md mx-auto">
-          <div className="mb-8 flex justify-between items-start">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight mb-2">Welcome back</h2>
-              <p className="text-[#5c7075] text-sm">
-                Enter your credentials to access your workspace.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('admin@guildcode.com');
-                setPassword('admin123');
-                setError('');
-              }}
-              className="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all shadow-sm shrink-0 cursor-pointer flex items-center gap-1.5"
-              title="Click to auto-fill Admin credentials"
-            >
-              <svg className="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-              </svg>
-              <span>Admin Login</span>
-            </button>
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold tracking-tight mb-2">Welcome back</h2>
+            <p className="text-[#5c7075] text-sm">
+              Enter your credentials to access your workspace.
+            </p>
           </div>
 
           {/* Error Message Alert */}
