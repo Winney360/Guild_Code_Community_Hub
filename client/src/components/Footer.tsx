@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
 
   return (
@@ -28,11 +28,13 @@ export const Footer: React.FC = () => {
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <img src={heroLogo} alt="Logo" className="w-10 h-10 object-contain shrink-0 dark:hidden" />
-              <img src={heroDarkLogo} alt="Logo" className="w-10 h-10 object-contain shrink-0 hidden dark:block" />
-              <span className="font-extrabold text-lg text-[#091e22] dark:text-[#f1f5f9] tracking-tight">
-                Guild <span className="text-[#006655] dark:text-emerald-400">Code</span>
-              </span>
+              <Link to="/" onClick={scrollToTop} className="flex items-center gap-3">
+                <img src={heroLogo} alt="Logo" className="w-10 h-10 object-contain shrink-0 dark:hidden" />
+                <img src={heroDarkLogo} alt="Logo" className="w-10 h-10 object-contain shrink-0 hidden dark:block" />
+                <span className="font-extrabold text-lg text-[#091e22] dark:text-[#f1f5f9] tracking-tight">
+                  Guild <span className="text-[#006655] dark:text-emerald-400">Code</span>
+                </span>
+              </Link>
             </div>
             <p className="text-xs text-[#5c7075] dark:text-slate-400 leading-relaxed max-w-sm">
               Empowering developers to build, collaborate, and grow together. Discover open-source projects, find skilled collaborators, and attend live tech events.
@@ -43,7 +45,7 @@ export const Footer: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#006655] dark:bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#006655] dark:bg-emerald-400"></span>
               </span>
-              <Link to="/status" className="hover:underline">All Systems Operational</Link>
+              <Link to="/status" onClick={scrollToTop} className="hover:underline">All Systems Operational</Link>
             </div>
           </div>
 
@@ -54,22 +56,22 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#5c7075] dark:text-slate-400">
               <li>
-                <Link to="/projects" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/projects" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Project Showcase
                 </Link>
               </li>
               <li>
-                <Link to="/collaborate" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/collaborate" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Collaboration Hub
                 </Link>
               </li>
               <li>
-                <Link to="/members" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/members" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Member Directory
                 </Link>
               </li>
               <li>
-                <Link to="/events" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/events" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Community Events
                 </Link>
               </li>
@@ -83,18 +85,18 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#5c7075] dark:text-slate-400">
               <li>
-                <Link to="/changelog" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <Link to="/changelog" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5">
                   Platform Changelog
                   <span className="px-1.5 py-0.2 bg-emerald-100 dark:bg-emerald-500/20 text-[#006655] dark:text-emerald-400 font-bold text-[9px] rounded-full">v1.2</span>
                 </Link>
               </li>
               <li>
-                <Link to="/status" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/status" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   System Status
                 </Link>
               </li>
               <li>
-                <Link to="/guidelines" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/guidelines" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Community Guidelines
                 </Link>
               </li>
@@ -113,22 +115,22 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#5c7075] dark:text-slate-400">
               <li>
-                <Link to="/privacy" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/privacy" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/terms" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/cookies" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/cookies" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Cookie Policy
                 </Link>
               </li>
               <li>
-                <Link to="/guidelines" className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                <Link to="/guidelines" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Code of Conduct
                 </Link>
               </li>
