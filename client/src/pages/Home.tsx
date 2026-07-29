@@ -25,6 +25,7 @@ export const Home: React.FC = () => {
     upcomingEvents: 0,
   });
   const [members, setMembers] = useState<Member[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getInitials = (name: string) => {
@@ -49,6 +50,12 @@ export const Home: React.FC = () => {
         if (membersRes.ok) {
           const membersData = await membersRes.json();
           setMembers(membersData.data || []);
+        }
+
+        const projectsRes = await fetch('/api/projects');
+        if (projectsRes.ok) {
+          const projectsData = await projectsRes.json();
+          setProjects(projectsData.data || []);
         }
       } catch (err) {
         console.error('Error fetching landing data:', err);
@@ -297,104 +304,137 @@ export const Home: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column: Featured Project (Takes 2 Columns on large screens) */}
-            <div className="lg:col-span-2 border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between">
-              <div>
-                {/* Banner Image */}
-                <div className="relative aspect-[16/9] w-full bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop"
-                    alt="Aether Mesh Protocol"
-                    className="w-full h-full object-cover"
-                  />
-                  <span className="absolute top-4 left-4 px-3 py-1 bg-[#e6f7f8] border border-[#006655]/20 text-[#006655] text-xs font-bold rounded-full">
-                    Featured
-                  </span>
-                </div>
+          {(() => {
+            const featuredProject =
+              projects.find((p) => p.isOfficialGuildCode === true) || projects[0];
+            const topLikedProjects = projects
+              .filter((p) => p._id !== featuredProject?._id)
+              .sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0))
+              .slice(0, 3);
 
-                {/* Body Content */}
-                <div className="p-6">
-                  <div className="flex justify-between items-center mb-3">
-                    <h3 className="text-xl font-bold text-[#091e22]">Aether Mesh Protocol</h3>
-                    <div className="flex gap-4 text-xs text-[#5c7075] items-center">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                        </svg>
-                        1.2k
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        8.4k
-                      </span>
+            if (!featuredProject) {
+              return (
+                <div className="text-center py-12 bg-white border border-slate-100 rounded-3xl shadow-sm">
+                  <p className="text-xs text-[#5c7075] font-semibold">No community projects published yet.</p>
+                </div>
+              );
+            }
+
+            return (
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* Left Column: Admin Featured Project (Takes 2 Columns on large screens) */}
+                  <div className="lg:col-span-2 border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                      {/* Banner Image */}
+                      <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden">
+                        <img
+                          src={
+                            featuredProject.coverImage && featuredProject.coverImage.trim() !== ''
+                              ? featuredProject.coverImage
+                              : 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop'
+                          }
+                          alt={featuredProject.title}
+                          className="w-full h-full object-cover"
+                        />
+                        <span className="absolute top-4 left-4 px-3 py-1 bg-[#e6f7f8] border border-[#006655]/20 text-[#006655] text-xs font-bold rounded-full shadow-xs">
+                          {featuredProject.isOfficialGuildCode ? 'Admin Featured' : 'Featured Project'}
+                        </span>
+                      </div>
+
+                      {/* Body Content */}
+                      <div className="p-6">
+                        <div className="flex justify-between items-center mb-3">
+                          <Link to={`/projects/${featuredProject._id}`} className="hover:underline">
+                            <h3 className="text-xl font-bold text-[#091e22] hover:text-[#006655] transition-colors">
+                              {featuredProject.title}
+                            </h3>
+                          </Link>
+                          <div className="flex gap-4 text-xs text-[#5c7075] items-center shrink-0">
+                            <span className="flex items-center gap-1 font-semibold text-rose-500">
+                              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                              </svg>
+                              {featuredProject.likes?.length || 0}
+                            </span>
+                            <span className="flex items-center gap-1 font-semibold text-slate-400">
+                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              {featuredProject.views || 0}
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-[#5c7075] mb-6 leading-relaxed line-clamp-3">
+                          {featuredProject.shortDescription || featuredProject.description || 'Innovative community open-source project.'}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {(featuredProject.techStack || []).slice(0, 5).map((tech: string) => (
+                            <span key={tech} className="px-3 py-1 bg-slate-50 text-slate-600 text-xs rounded-lg border border-slate-100 font-semibold">
+                              #{tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <p className="text-sm text-[#5c7075] mb-6 leading-relaxed">
-                    High-performance decentralized networking layer built with Rust and libp2p.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-slate-50 text-slate-600 text-xs rounded-lg border border-slate-100 font-semibold">#p2p</span>
-                    <span className="px-3 py-1 bg-slate-50 text-slate-600 text-xs rounded-lg border border-slate-100 font-semibold">#rust</span>
-                    <span className="px-3 py-1 bg-slate-50 text-slate-600 text-xs rounded-lg border border-slate-100 font-semibold">#networking</span>
+
+                  {/* Right Column: Top 3 Most Liked Projects */}
+                  <div className="flex flex-col gap-6">
+                    {topLikedProjects.map((p) => (
+                      <div
+                        key={p._id}
+                        className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between flex-grow"
+                      >
+                        <div>
+                          <div className="flex justify-between items-start mb-2 gap-2">
+                            <Link to={`/projects/${p._id}`} className="hover:underline">
+                              <h4 className="font-bold text-base text-[#091e22] hover:text-[#006655] transition-colors">{p.title}</h4>
+                            </Link>
+                            <span className="flex items-center gap-1 text-xs font-bold text-rose-500 shrink-0">
+                              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                              </svg>
+                              {p.likes?.length || 0}
+                            </span>
+                          </div>
+                          <p className="text-xs text-[#5c7075] leading-relaxed mb-4 line-clamp-2">
+                            {p.shortDescription || p.description || 'Community project.'}
+                          </p>
+                        </div>
+                        <div className="flex justify-between items-center text-xs">
+                          <div className="flex flex-wrap gap-1">
+                            {(p.techStack || []).slice(0, 2).map((tech: string) => (
+                              <span key={tech} className="px-2 py-0.5 bg-slate-50 border border-slate-100 rounded text-[10px] text-slate-500 font-bold">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                          <Link to={`/projects/${p._id}`} className="text-[#006655] hover:underline font-bold">
+                            View Project
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Right Column: Mini Project Cards stack */}
-            <div className="flex flex-col gap-6">
-              {/* Card 1 */}
-              <div className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm flex flex-col justify-between flex-grow">
-                <div>
-                  <h4 className="font-bold text-base mb-2">TypeGenie</h4>
-                  <p className="text-xs text-[#5c7075] leading-relaxed mb-4">
-                    AI-powered TypeScript interface generator for complex JSON schemas.
-                  </p>
+                {/* Link to See All Projects */}
+                <div className="mt-12 text-center select-none">
+                  <Link
+                    to="/projects"
+                    className="inline-flex items-center gap-2 bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md text-xs hover:scale-105"
+                  >
+                    <span>See All Projects</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </Link>
                 </div>
-                <div className="flex justify-between items-center text-xs">
-                  <div className="flex gap-1">
-                    <span className="w-5 h-5 bg-[#006655]/10 border border-[#006655]/20 rounded-full flex items-center justify-center text-[10px] text-[#006655] font-bold">AI</span>
-                    <span className="w-5 h-5 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-[10px] text-slate-500 font-bold">TS</span>
-                  </div>
-                  <a href="#github" className="text-[#006655] hover:underline font-bold">View Code</a>
-                </div>
-              </div>
-
-              {/* Card 2 */}
-              <div className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm flex flex-col justify-between flex-grow">
-                <div>
-                  <h4 className="font-bold text-base mb-2">Neovim Pro Pack</h4>
-                  <p className="text-xs text-[#5c7075] leading-relaxed mb-4">
-                    The ultimate productivity configuration for modern systems engineers.
-                  </p>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <div className="flex gap-1">
-                    <span className="w-5 h-5 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-[10px] text-slate-500 font-bold">Lua</span>
-                  </div>
-                  <a href="#github" className="text-[#006655] hover:underline font-bold">View Repo</a>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm flex flex-col justify-between flex-grow">
-                <div>
-                  <h4 className="font-bold text-base mb-2">CloudFlow Runner</h4>
-                  <p className="text-xs text-[#5c7075] leading-relaxed mb-4">
-                    Zero-config serverless orchestration engine for multi-cloud deployments.
-                  </p>
-                </div>
-                <div className="flex justify-between items-center gap-2 text-xs">
-                  <a href="#code" className="bg-[#006655] hover:bg-[#004d40] text-white py-1.5 px-3 rounded-lg font-bold text-[10px] shadow-sm">View Source</a>
-                  <a href="#docs" className="text-[#5c7075] hover:text-[#091e22] font-semibold text-[10px]">Docs</a>
-                </div>
-              </div>
-            </div>
-          </div>
+              </>
+            );
+          })()}
         </div>
       </section>
 
