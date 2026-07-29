@@ -1,21 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import heroLogo from '../assets/hero.png';
 import heroDarkLogo from '../assets/hero-dark.png';
 
 export const Footer: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setEmail('');
-      setTimeout(() => setSubscribed(false), 5000);
-    }
-  };
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   };
@@ -127,40 +115,8 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Newsletter & Social Bar */}
-        <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-100 dark:border-[#1e2e30]">
-          {/* Newsletter Box */}
-          <div className="w-full md:w-auto">
-            <h5 className="text-xs font-bold text-[#091e22] dark:text-[#f1f5f9] mb-1">
-              Subscribe to Developer Updates
-            </h5>
-            <p className="text-xs text-[#5c7075] dark:text-slate-400 mb-3">
-              Get the latest open-source project highlights & community event announcements.
-            </p>
-            {subscribed ? (
-              <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 text-xs font-bold rounded-xl border border-emerald-200 dark:border-emerald-500/20">
-                ✓ Thank you for subscribing to Guild Code newsletter!
-              </div>
-            ) : (
-              <form onSubmit={handleSubscribe} className="flex items-center gap-2 max-w-md">
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter your developer email..."
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="px-3.5 py-2 bg-slate-50 dark:bg-[#1a292c] border border-slate-200 dark:border-[#273b3e] rounded-xl text-xs flex-grow focus:outline-none focus:border-[#006655] dark:focus:border-emerald-400"
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-[#006655] hover:bg-[#004d40] text-white font-bold text-xs rounded-xl shadow-xs transition-all shrink-0 cursor-pointer"
-                >
-                  Subscribe
-                </button>
-              </form>
-            )}
-          </div>
-
+        {/* Social Links & Copyright Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           {/* Social Links */}
           <div className="flex items-center gap-4 text-[#5c7075] dark:text-slate-400">
             <a
@@ -197,22 +153,22 @@ export const Footer: React.FC = () => {
               </svg>
             </a>
           </div>
-        </div>
 
-        {/* Bottom Copyright & Back to Top */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#5c7075] dark:text-slate-400">
-          <div>
-            &copy; {new Date().getFullYear()} Guild Code Ecosystem. Built for developers with passion.
+          {/* Bottom Copyright & Back to Top */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-xs text-[#5c7075] dark:text-slate-400">
+            <div>
+              &copy; {new Date().getFullYear()} Guild Code Ecosystem. Built for developers with passion.
+            </div>
+            <button
+              onClick={scrollToTop}
+              className="inline-flex items-center gap-1.5 hover:text-[#006655] dark:hover:text-emerald-400 font-semibold cursor-pointer transition-colors"
+            >
+              <span>Back to top</span>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
+              </svg>
+            </button>
           </div>
-          <button
-            onClick={scrollToTop}
-            className="inline-flex items-center gap-1.5 hover:text-[#006655] dark:hover:text-emerald-400 font-semibold cursor-pointer transition-colors"
-          >
-            <span>Back to top</span>
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
-            </svg>
-          </button>
         </div>
       </div>
     </footer>
