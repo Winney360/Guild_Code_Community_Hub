@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.js';
+import { ScrollToTop } from './components/ScrollToTop.js';
 import { Login } from './pages/Login.js';
 import { Signup } from './pages/Signup.js';
 import { Home } from './pages/Home.js';
@@ -39,6 +40,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           {/* Public Routes wrapped in PublicLayout */}
           <Route element={<PublicLayout />}>
