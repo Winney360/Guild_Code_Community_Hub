@@ -27,14 +27,6 @@ export const Footer: React.FC = () => {
             <p className="text-xs text-[#5c7075] dark:text-slate-400 leading-relaxed max-w-sm">
               Empowering developers to build, collaborate, and grow together. Discover open-source projects, find skilled collaborators, and attend live tech events.
             </p>
-            {/* Live Operational Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 rounded-full text-xs font-semibold text-[#006655] dark:text-emerald-400">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#006655] dark:bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#006655] dark:bg-emerald-400"></span>
-              </span>
-              <Link to="/status" onClick={scrollToTop} className="hover:underline">All Systems Operational</Link>
-            </div>
           </div>
 
           {/* Col 2: Platform Links */}
