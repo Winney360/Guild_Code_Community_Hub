@@ -85,17 +85,6 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#5c7075] dark:text-slate-400">
               <li>
-                <Link to="/changelog" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-                  Platform Changelog
-                  <span className="px-1.5 py-0.2 bg-emerald-100 dark:bg-emerald-500/20 text-[#006655] dark:text-emerald-400 font-bold text-[9px] rounded-full">v1.2</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/status" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
-                  System Status
-                </Link>
-              </li>
-              <li>
                 <Link to="/guidelines" onClick={scrollToTop} className="hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                   Community Guidelines
                 </Link>
