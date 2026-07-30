@@ -63,6 +63,10 @@ const ProjectSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
     isOfficialGuildCode: {
       type: Boolean,
       default: false,
