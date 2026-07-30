@@ -9,7 +9,7 @@ import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 // @access  Private (Registered members)
 export const createComment = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const { text } = req.body;
+    const { text, parentId } = req.body;
     const userId = req.user?.id as string;
     const collaborationId = req.params.id as string;
 
@@ -32,6 +32,7 @@ export const createComment = async (req: AuthenticatedRequest, res: Response): P
     const comment = new Comment({
       userId: new mongoose.Types.ObjectId(userId),
       collaborationId: new mongoose.Types.ObjectId(collaborationId),
+      parentId: parentId ? new mongoose.Types.ObjectId(parentId) : null,
       text,
     });
     await comment.save();
