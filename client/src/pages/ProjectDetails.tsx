@@ -192,13 +192,12 @@ export const ProjectDetails: React.FC = () => {
         <div className="lg:col-span-8">
           <section className="mb-10">
             <h3 className="font-extrabold text-xl mb-4">About the Project</h3>
-            <div className="text-sm text-[#5c7075] leading-relaxed space-y-4">
-              <p>
-                {project.description || 'This initiative addresses the growing complexity of off-chain computation and data rendering. By leveraging high-throughput frameworks and optimized compilers, we achieve sub-millisecond latency for complex proof generation, bridging the gap between heavy computational loads and real-time responsiveness.'}
-              </p>
-              <p>
-                Built with a focus on developer experience, the project includes a fully-typed dashboard for monitoring health and a CLI tool for seamless deployment across global environment nodes.
-              </p>
+            <div className="text-sm text-[#5c7075] leading-relaxed whitespace-pre-line bg-slate-50/50 p-6 rounded-2xl border border-slate-100/80">
+              {project.description && project.description.trim() !== '' ? (
+                project.description
+              ) : (
+                project.shortDescription || 'No detailed description provided for this project.'
+              )}
             </div>
           </section>
 
