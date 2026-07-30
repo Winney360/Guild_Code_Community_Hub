@@ -31,16 +31,38 @@ export const getDashboardEvents = async (req: AuthenticatedRequest, res: Respons
       return;
     }
 
-    let filter = {};
-    if (req.user?.role !== 'admin') {
-      filter = { createdBy: userId };
+    const user = await User.findById(userId).select('email');
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
     }
 
-    const events = await Event.find(filter)
+    let createdEvents;
+    if (req.user?.role === 'admin') {
+      createdEvents = await Event.find({})
+        .populate('createdBy', 'fullName')
+        .sort({ date: 1 });
+    } else {
+      createdEvents = await Event.find({ createdBy: userId })
+        .populate('createdBy', 'fullName')
+        .sort({ date: 1 });
+    }
+
+    const registeredEvents = await Event.find({
+      'participants.email': user.email.toLowerCase(),
+    })
       .populate('createdBy', 'fullName')
       .sort({ date: 1 });
 
-    res.status(200).json({ success: true, count: events.length, data: events });
+    // Merge, deduplicate by _id
+    const map = new Map<string, any>();
+    for (const e of createdEvents) map.set(e._id.toString(), e);
+    for (const e of registeredEvents) map.set(e._id.toString(), e);
+    const merged = Array.from(map.values()).sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    res.status(200).json({ success: true, count: merged.length, data: merged });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
