@@ -24,9 +24,10 @@ export const EventDetails: React.FC = () => {
   // Form states
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [experience, setExperience] = useState('Intermediate (1-3 Years)');
   const [submitError, setSubmitError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
+  const [registeredName, setRegisteredName] = useState('');
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -49,6 +50,7 @@ export const EventDetails: React.FC = () => {
     e.preventDefault();
     setSubmitError('');
     setSubmitSuccess(false);
+    setAlreadyRegistered(false);
 
     try {
       const res = await fetch(`/api/events/${id}/register`, {
@@ -58,10 +60,16 @@ export const EventDetails: React.FC = () => {
       });
 
       const data = await res.json();
+      if (data.alreadyRegistered) {
+        setAlreadyRegistered(true);
+        setRegisteredName(name);
+        return;
+      }
       if (!res.ok) {
         setSubmitError(data.message || 'Could not register for event');
       } else {
         setSubmitSuccess(true);
+        setRegisteredName(name);
         setName('');
         setEmail('');
       }
@@ -107,6 +115,49 @@ export const EventDetails: React.FC = () => {
       day: 'numeric',
       year: 'numeric',
     });
+  };
+
+  const getGoogleCalendarUrl = () => {
+    const startDate = new Date(event.date + 'T' + event.time);
+    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+    const fmt = (d: Date) =>
+      d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: event.title,
+      dates: fmt(startDate) + '/' + fmt(endDate),
+      details: event.description?.slice(0, 500) || '',
+      location: event.locationOrLink || '',
+      ctz: 'UTC',
+    });
+    return `https://www.google.com/calendar/render?${params.toString()}`;
+  };
+
+  const downloadIcs = () => {
+    const startDate = new Date(event.date + 'T' + event.time);
+    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+    const fmt = (d: Date) =>
+      d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Guild Code//Events//EN',
+      'BEGIN:VEVENT',
+      'DTSTART:' + fmt(startDate),
+      'DTEND:' + fmt(endDate),
+      'SUMMARY:' + event.title,
+      'DESCRIPTION:' + (event.description?.replace(/\n/g, '\\n').slice(0, 500) || ''),
+      'LOCATION:' + (event.locationOrLink || ''),
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\r\n');
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${event.title.replace(/\s+/g, '_')}.ics`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -193,95 +244,123 @@ export const EventDetails: React.FC = () => {
           {/* Right panel (takes 4 columns) */}
           <div className="lg:col-span-4 flex flex-col gap-6">
             
-            {/* Registration Form Card */}
+            {/* Registration / Confirmation Card */}
             <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
-              <h3 className="font-extrabold text-base mb-1">Reserve Your Spot</h3>
-              <p className="text-[10px] text-[#5c7075] leading-relaxed mb-6">
-                Limited seats available. Certification included upon completion.
-              </p>
-
-              <form onSubmit={handleRegister} className="space-y-4">
-                {/* Full name */}
-                <div>
-                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="John Doe"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Work Email</label>
-                  <input
-                    type="email"
-                    placeholder="john@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
-                  />
-                </div>
-
-                {/* Experience Dropdown */}
-                <div>
-                  <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Experience Level</label>
-                  <select
-                    value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
-                  >
-                    <option>Beginner (&lt;1 Year)</option>
-                    <option>Intermediate (1-3 Years)</option>
-                    <option>Advanced (3-5 Years)</option>
-                    <option>Expert (5+ Years)</option>
-                  </select>
-                </div>
-
-                {/* Alert statuses */}
-                {submitError && (
-                  <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-[10px] leading-relaxed flex items-center gap-2">
-                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    <span>{submitError}</span>
+              {submitSuccess || alreadyRegistered ? (
+                <>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-extrabold text-base">
+                        {alreadyRegistered ? 'Already Registered' : "You're In!"}
+                      </h3>
+                      <p className="text-[10px] text-emerald-600 font-semibold">
+                        {registeredName || 'Registration confirmed'}
+                      </p>
+                    </div>
                   </div>
-                )}
-                {submitSuccess && (
-                  <div className="bg-green-50 text-green-700 border border-green-150 p-3 rounded-xl text-[10px] leading-relaxed flex items-center gap-2">
-                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Registration completed successfully! Check your inbox for summit instructions.</span>
+
+                  <div className="bg-emerald-50/50 rounded-2xl p-4 mb-4 text-xs space-y-1.5">
+                    <div className="flex justify-between">
+                      <span className="text-[#5c7075]">Date</span>
+                      <span className="font-semibold text-[#091e22]">{formatEventDate(event.date)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#5c7075]">Time</span>
+                      <span className="font-semibold text-[#091e22]">{event.time} {event.timezone}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#5c7075]">Location</span>
+                      <span className="font-semibold text-[#006655] text-right max-w-[180px] truncate">{event.locationOrLink || 'TBA'}</span>
+                    </div>
                   </div>
-                )}
 
-                <button
-                  type="submit"
-                  className="w-full bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-4 rounded-xl text-xs transition-all shadow-sm font-bold flex items-center justify-center gap-1.5"
-                >
-                  Complete Registration
-                </button>
-              </form>
+                  <p className="text-[9px] text-[#5c7075] mb-4 leading-relaxed">
+                    Add this event to your calendar so you never miss it.
+                  </p>
 
-              <span className="text-[9px] text-[#5c7075] font-semibold text-center block mt-4 select-none">
-                By registering, you agree to our <Link to="/terms" className="underline">Terms of Service</Link>.
-              </span>
-            </div>
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href={getGoogleCalendarUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+                    >
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+                        <path d="M3 10h18M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      Add to Google Calendar
+                    </a>
+                    <button
+                      onClick={downloadIcs}
+                      className="flex items-center justify-center gap-2 w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download .ICS
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="font-extrabold text-base mb-1">Reserve Your Spot</h3>
+                  <p className="text-[10px] text-[#5c7075] leading-relaxed mb-6">
+                    Limited seats available. Complete your registration below.
+                  </p>
 
-            {/* Group discounts card */}
-            <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-slate-50/50 rounded-3xl p-6 select-none">
-              <h4 className="font-bold text-xs mb-1.5">Group Discounts</h4>
-              <p className="text-[10px] text-[#5c7075] leading-relaxed mb-4">
-                Registering for a team of 5 or more? Contact our partnership team for a 20% discount code.
-              </p>
-              <a href="#sales" className="text-[#006655] hover:underline font-bold text-xs flex items-center gap-1">
-                Contact Sales &rarr;
-              </a>
+                  <form onSubmit={handleRegister} className="space-y-4">
+                    <div>
+                      <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Full Name</label>
+                      <input
+                        type="text"
+                        placeholder="John Doe"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Email</label>
+                      <input
+                        type="email"
+                        placeholder="john@company.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="w-full px-3 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+                      />
+                    </div>
+
+                    {submitError && (
+                      <div className="bg-red-50 text-red-600 border border-red-150 p-3 rounded-xl text-[10px] leading-relaxed flex items-center gap-2">
+                        <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <span>{submitError}</span>
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      className="w-full bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-4 rounded-xl text-xs transition-all shadow-sm font-bold flex items-center justify-center gap-1.5"
+                    >
+                      Complete Registration
+                    </button>
+                  </form>
+
+                  <span className="text-[9px] text-[#5c7075] font-semibold text-center block mt-4 select-none">
+                    By registering, you agree to our <Link to="/terms" className="underline">Terms of Service</Link>.
+                  </span>
+                </>
+              )}
             </div>
 
           </div>
