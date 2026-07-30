@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.js';
 
 interface CollaborationType {
   _id: string;
@@ -25,6 +26,8 @@ interface CollaborationType {
 }
 
 export const CollaborationMarketplace: React.FC = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [collaborations, setCollaborations] = useState<CollaborationType[]>([]);
   const [filteredCollabs, setFilteredCollabs] = useState<CollaborationType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,6 +52,46 @@ export const CollaborationMarketplace: React.FC = () => {
     };
     fetchCollaborations();
   }, []);
+
+  const handleLikeCollab = async (collabId: string) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/collaborations/${collabId}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setCollaborations((prev) =>
+          prev.map((c) => {
+            if (c._id === collabId) {
+              const currentLikes = c.likes || [];
+              const userLiked = currentLikes.some(
+                (id: any) => (typeof id === 'string' ? id : id._id || id.toString()) === user._id
+              );
+              let updatedLikes = [...currentLikes];
+              if (data.isLiked && !userLiked) {
+                updatedLikes.push(user._id);
+              } else if (!data.isLiked) {
+                updatedLikes = updatedLikes.filter(
+                  (id: any) => (typeof id === 'string' ? id : id._id || id.toString()) !== user._id
+                );
+              }
+              return { ...c, likes: updatedLikes };
+            }
+            return c;
+          })
+        );
+      }
+    } catch (err) {
+      console.error('Error liking collaboration:', err);
+    }
+  };
 
   // Filter application
   useEffect(() => {
@@ -229,18 +272,34 @@ export const CollaborationMarketplace: React.FC = () => {
                 {/* Bottom engagement items */}
                 <div className="flex justify-between items-center text-[10px] text-[#5c7075] select-none font-semibold">
                   <div className="flex gap-4 items-center">
-                    <span className="flex items-center gap-1">
-                      <svg className="w-3.5 h-3.5 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                      </svg>
-                      {collab.likes ? collab.likes.length : 0}
-                    </span>
-                    <span className="flex items-center gap-1">
+                    {(() => {
+                      const likesList = collab.likes || [];
+                      const isLiked = user && likesList.some(
+                        (id: any) => (typeof id === 'string' ? id : id._id || id.toString()) === user._id
+                      );
+                      return (
+                        <button
+                          onClick={() => handleLikeCollab(collab._id)}
+                          className={`flex items-center gap-1 transition-colors cursor-pointer ${isLiked ? 'text-rose-600 font-bold' : 'hover:text-rose-500'}`}
+                          title="Like collaboration"
+                        >
+                          <svg className="w-3.5 h-3.5 text-rose-500" fill={isLiked ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          </svg>
+                          {likesList.length}
+                        </button>
+                      );
+                    })()}
+                    <Link
+                      to={`/collaborate/${collab._id}#discussion`}
+                      className="flex items-center gap-1 hover:text-[#006655] transition-colors cursor-pointer"
+                      title="View discussion & comments"
+                    >
                       <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                       </svg>
                       {collab.commentsCount || 0}
-                    </span>
+                    </Link>
                   </div>
                   <Link
                     to={`/collaborate/${collab._id}`}
