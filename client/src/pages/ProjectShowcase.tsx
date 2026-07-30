@@ -7,7 +7,7 @@ interface ProjectType {
   title: string;
   description: string;
   shortDescription: string;
-  category: 'Web' | 'Mobile' | 'Design' | 'AI';
+  category: 'Web' | 'Mobile' | 'Design' | 'AI' | 'Cloud Infrastructure';
   techStack: string[];
   coverImage: string;
   byUser: {
@@ -207,6 +207,7 @@ export const ProjectShowcase: React.FC = () => {
             <option value="Mobile">Mobile App</option>
             <option value="Design">Design UI</option>
             <option value="AI">AI / ML</option>
+            <option value="Cloud Infrastructure">Cloud Infrastructure</option>
           </select>
         </div>
 
@@ -259,7 +260,7 @@ export const ProjectShowcase: React.FC = () => {
                   />
                   {/* Category Tag */}
                   <span className="absolute top-4 right-4 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-bold rounded-lg shadow-sm">
-                    {project.category === 'AI' ? 'AI / ML' : project.category === 'Design' ? 'UI / Design' : `${project.category} App`}
+                    {project.category === 'AI' ? 'AI / ML' : project.category === 'Design' ? 'UI / Design' : project.category === 'Cloud Infrastructure' ? 'Cloud Infra' : `${project.category} App`}
                   </span>
                 </Link>
 
