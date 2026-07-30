@@ -36,7 +36,7 @@ export const getMyProjects = async (req: AuthenticatedRequest, res: Response): P
   }
 };
 
-// @desc    Get single project and increment views
+// @desc    Get single project
 // @route   GET /api/projects/:id
 // @access  Public
 export const getProjectById = async (req: Request, res: Response): Promise<void> => {
@@ -49,11 +49,27 @@ export const getProjectById = async (req: Request, res: Response): Promise<void>
       return;
     }
 
-    // Spec 7.2: Increment views count on view
+    res.status(200).json({ success: true, data: project });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
+// @desc    Increment project views count on explicit view action
+// @route   POST /api/projects/:id/view
+// @access  Public
+export const incrementProjectView = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) {
+      res.status(404).json({ message: 'Project not found' });
+      return;
+    }
+
     project.views += 1;
     await project.save();
 
-    res.status(200).json({ success: true, data: project });
+    res.status(200).json({ success: true, views: project.views });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
