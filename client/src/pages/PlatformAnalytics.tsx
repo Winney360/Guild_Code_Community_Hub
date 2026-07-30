@@ -69,7 +69,7 @@ export const PlatformAnalytics: React.FC = () => {
       {/* 1. Statistics Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Members</span>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+{stats.growthPercentage}%</span>
@@ -78,7 +78,7 @@ export const PlatformAnalytics: React.FC = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Showcase Projects</span>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Live DB</span>
@@ -87,7 +87,7 @@ export const PlatformAnalytics: React.FC = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Collaborations</span>
             <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Active</span>
@@ -96,7 +96,7 @@ export const PlatformAnalytics: React.FC = () => {
         </div>
 
         {/* Card 4 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Upcoming Events</span>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Scheduled</span>
@@ -108,7 +108,7 @@ export const PlatformAnalytics: React.FC = () => {
       {/* 2. User Growth and Ecosystem shares split */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* User Growth Trajectory */}
-        <div className="lg:col-span-8 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
+        <div className="lg:col-span-8 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
           <div className="flex justify-between items-center mb-6 select-none">
             <div>
               <h3 className="font-extrabold text-sm">User Growth Trajectory</h3>
@@ -142,7 +142,7 @@ export const PlatformAnalytics: React.FC = () => {
         </div>
 
         {/* Ecosystem Shares */}
-        <div className="lg:col-span-4 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm select-none">
+        <div className="lg:col-span-4 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm select-none">
           <h3 className="font-extrabold text-sm mb-6">Ecosystem Share</h3>
           <div className="space-y-6">
             <div>

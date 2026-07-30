@@ -85,7 +85,7 @@ export const PageNotFound: React.FC = () => {
         {/* Right column (Visual illustration card) */}
         <div className="relative w-full max-w-sm shrink-0 flex items-center justify-center">
           {/* Main Card */}
-          <div className="border border-slate-100 bg-white rounded-3xl p-8 shadow-xl w-full flex flex-col items-center text-center relative z-20">
+          <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-8 shadow-xl w-full flex flex-col items-center text-center relative z-20">
             <div className="w-full flex justify-between items-center text-[10px] text-slate-400 font-bold border-b border-slate-50 pb-4 mb-8 select-none">
               <span className="flex items-center gap-1">
                 <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +95,7 @@ export const PageNotFound: React.FC = () => {
               </span>
             </div>
 
-            <div className="w-20 h-20 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 mb-6 select-none relative">
+            <div className="w-20 h-20 bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl flex items-center justify-center text-slate-400 mb-6 select-none relative">
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
               </svg>
