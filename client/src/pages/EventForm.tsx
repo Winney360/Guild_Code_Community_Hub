@@ -12,6 +12,7 @@ export const EventForm: React.FC = () => {
   const [eventType, setEventType] = useState<'workshop' | 'hackathon' | 'meetup' | 'webinar' | 'training'>('workshop');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [timezone, setTimezone] = useState('UTC / GMT (UTC+0)');
   const [mode, setMode] = useState<'online' | 'physical' | 'hybrid'>('online');
   const [locationOrLink, setLocationOrLink] = useState('');
   const [maxParticipants, setMaxParticipants] = useState<number>(100);
@@ -40,6 +41,7 @@ export const EventForm: React.FC = () => {
               setDate(new Date(e.date).toISOString().split('T')[0]);
             }
             setTime(e.time);
+            setTimezone(e.timezone || 'UTC / GMT (UTC+0)');
             setMode(e.mode);
             setLocationOrLink(e.locationOrLink);
             setMaxParticipants(e.maxParticipants);
@@ -70,6 +72,7 @@ export const EventForm: React.FC = () => {
       eventType,
       date,
       time,
+      timezone,
       mode,
       locationOrLink,
       maxParticipants,
@@ -140,7 +143,7 @@ export const EventForm: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto bg-white border border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm font-sans text-[#091e22]">
+    <div className="max-w-3xl mx-auto bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 p-6 md:p-8 rounded-3xl shadow-sm font-sans text-[#091e22]">
       {/* Title */}
       <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-100 select-none">
         <div>
@@ -220,8 +223,8 @@ export const EventForm: React.FC = () => {
           />
         </div>
 
-        {/* Date, Time, and Max Participants */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* Date, Time, Timezone, and Max Participants */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Event Date *</label>
             <input
@@ -236,13 +239,37 @@ export const EventForm: React.FC = () => {
           <div>
             <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Event Time *</label>
             <input
-              type="text"
+              type="time"
               required
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              placeholder="e.g. 14:00 GMT"
               className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
             />
+          </div>
+
+          <div>
+            <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Timezone</label>
+            <select
+              value={timezone}
+              onChange={(e) => setTimezone(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
+            >
+              <option value="UTC / GMT (UTC+0)">UTC / GMT (UTC+0)</option>
+              <option value="EST / Eastern Time (UTC-5)">EST / Eastern Time (UTC-5)</option>
+              <option value="CST / Central Time (UTC-6)">CST / Central Time (UTC-6)</option>
+              <option value="MST / Mountain Time (UTC-7)">MST / Mountain Time (UTC-7)</option>
+              <option value="PST / Pacific Time (UTC-8)">PST / Pacific Time (UTC-8)</option>
+              <option value="CET / Central European Time (UTC+1)">CET / Central European Time (UTC+1)</option>
+              <option value="EET / Eastern European Time (UTC+2)">EET / Eastern European Time (UTC+2)</option>
+              <option value="EAT / East Africa Time (UTC+3)">EAT / East Africa Time (UTC+3)</option>
+              <option value="GST / Gulf Standard Time (UTC+4)">GST / Gulf Standard Time (UTC+4)</option>
+              <option value="IST / India Standard Time (UTC+5:30)">IST / India Standard Time (UTC+5:30)</option>
+              <option value="ICT / Indochina Time (UTC+7)">ICT / Indochina Time (UTC+7)</option>
+              <option value="SGT / Singapore Time (UTC+8)">SGT / Singapore Time (UTC+8)</option>
+              <option value="JST / Japan Standard Time (UTC+9)">JST / Japan Standard Time (UTC+9)</option>
+              <option value="AEST / Australian Eastern (UTC+10)">AEST / Australian Eastern (UTC+10)</option>
+              <option value="NZST / New Zealand Time (UTC+12)">NZST / New Zealand Time (UTC+12)</option>
+            </select>
           </div>
 
           <div>
