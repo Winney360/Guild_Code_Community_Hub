@@ -244,7 +244,7 @@ export const MembersDirectory: React.FC = () => {
       </div>
 
       {/* Filter Control Bar */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* Search Input */}
         <div className="md:col-span-6 relative">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -329,7 +329,7 @@ export const MembersDirectory: React.FC = () => {
               <div
                 key={member._id}
                 onClick={() => navigate(`/members/${member._id}`)}
-                className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer group"
+                className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer group"
               >
                 <div>
                   {/* Top bar: Avatar */}
