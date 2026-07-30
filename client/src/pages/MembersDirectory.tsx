@@ -219,9 +219,9 @@ export const MembersDirectory: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Header Title */}
-      <div className="mb-10">
+      <div className="mb-10 text-center flex flex-col items-center">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3">Member Directory</h1>
-        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed">
+        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
           Discover and connect with the world's most talented developers contributing to the Guild Code ecosystem.
         </p>
       </div>
