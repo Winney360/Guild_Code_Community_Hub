@@ -129,7 +129,7 @@ export const MyProjects: React.FC = () => {
           {filteredProjects.map((project) => (
             <div
               key={project._id}
-              className="border border-slate-100 bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[340px]"
+              className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[340px]"
             >
               <div>
                 {/* Image & status */}
