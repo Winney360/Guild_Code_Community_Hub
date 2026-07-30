@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.js';
 
 interface ProjectType {
   _id: string;
@@ -22,6 +23,8 @@ interface ProjectType {
 }
 
 export const ProjectShowcase: React.FC = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [projects, setProjects] = useState<ProjectType[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,6 +34,42 @@ export const ProjectShowcase: React.FC = () => {
   const [selectedTech, setSelectedTech] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('Popular'); // 'Popular' or 'Newest'
+
+  const handleLikeProject = async (projectId: string) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/projects/${projectId}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setProjects((prevProjects) =>
+          prevProjects.map((p) => {
+            if (p._id === projectId) {
+              const currentLikes: string[] = p.likes || [];
+              const userLiked = currentLikes.some((id: any) => id.toString() === user._id);
+              let updatedLikes = [...currentLikes];
+              if (data.isLiked && !userLiked) {
+                updatedLikes.push(user._id);
+              } else if (!data.isLiked && userLiked) {
+                updatedLikes = updatedLikes.filter((id: any) => id.toString() !== user._id);
+              }
+              return { ...p, likes: updatedLikes };
+            }
+            return p;
+          })
+        );
+      }
+    } catch (err) {
+      console.error('Error toggling like:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -250,13 +289,28 @@ export const ProjectShowcase: React.FC = () => {
 
                 {/* Likes / Views count */}
                 <div className="flex items-center gap-3 font-semibold">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLikeProject(project._id);
+                    }}
+                    className={`flex items-center gap-1 font-bold px-2 py-0.5 rounded border transition-colors cursor-pointer ${
+                      user && (project.likes || []).some((id: any) => id.toString() === user._id)
+                        ? 'bg-rose-50 border-rose-200 text-rose-600'
+                        : 'bg-slate-50 border-slate-100 text-slate-500 hover:text-rose-500 hover:bg-rose-50'
+                    }`}
+                    title={
+                      user && (project.likes || []).some((id: any) => id.toString() === user._id)
+                        ? 'Unlike project'
+                        : 'Like project'
+                    }
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
-                    {project.likes ? project.likes.length : 0}
-                  </span>
-                  <span className="flex items-center gap-1">
+                    <span>{project.likes ? project.likes.length : 0}</span>
+                  </button>
+                  <span className="flex items-center gap-1 text-[#5c7075]">
                     <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
