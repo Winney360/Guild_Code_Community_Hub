@@ -11,7 +11,7 @@ export const EventForm: React.FC = () => {
   const [description, setDescription] = useState('');
   const [eventType, setEventType] = useState<'workshop' | 'hackathon' | 'meetup' | 'webinar' | 'training'>('workshop');
   const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
+  const [time, setTime] = useState('09:00');
   const [timezone, setTimezone] = useState('UTC / GMT (UTC+0)');
   const [mode, setMode] = useState<'online' | 'physical' | 'hybrid'>('online');
   const [locationOrLink, setLocationOrLink] = useState('');
@@ -238,13 +238,29 @@ export const EventForm: React.FC = () => {
 
           <div>
             <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Event Time *</label>
-            <input
-              type="time"
-              required
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-            />
+            <div className="flex gap-2">
+              <select
+                value={time.split(':')[0] || '09'}
+                onChange={(e) => setTime(e.target.value + ':' + (time.split(':')[1] || '00'))}
+                required
+                className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
+              >
+                {Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0')).map((h) => (
+                  <option key={h} value={h}>{h}</option>
+                ))}
+              </select>
+              <span className="text-[#5c7075] text-xs self-center font-bold">:</span>
+              <select
+                value={time.split(':')[1] || '00'}
+                onChange={(e) => setTime((time.split(':')[0] || '09') + ':' + e.target.value)}
+                required
+                className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
+              >
+                {['00', '15', '30', '45'].map((m) => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div>
