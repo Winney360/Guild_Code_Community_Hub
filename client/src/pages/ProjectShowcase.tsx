@@ -247,7 +247,7 @@ export const ProjectShowcase: React.FC = () => {
           {paginatedProjects.map((project) => (
             <div
               key={project._id}
-              className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[440px] h-[450px]"
+              className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[490px]"
             >
               <div>
                 {/* Project Cover Image */}
