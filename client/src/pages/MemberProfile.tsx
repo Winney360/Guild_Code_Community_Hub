@@ -13,31 +13,58 @@ interface Member {
   skills: string[];
   bio?: string;
   profilePicture?: string;
-  joinDate?: string;
   status: string;
   isActive: boolean;
+}
+
+interface ProjectType {
+  _id: string;
+  title: string;
+  shortDescription: string;
+  category: string;
+  techStack: string[];
+  coverImage: string;
+  likes: string[];
+  views: number;
+  byUser: any;
+  createdAt: string;
 }
 
 export const MemberProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [member, setMember] = useState<Member | null>(null);
+  const [memberProjects, setMemberProjects] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMember = async () => {
+    const fetchMemberData = async () => {
       try {
-        const res = await fetch(`/api/users/${id}`);
-        if (res.ok) {
-          const data = await res.json();
-          setMember(data.data);
+        const [userRes, projectsRes] = await Promise.all([
+          fetch(`/api/users/${id}`),
+          fetch('/api/projects'),
+        ]);
+
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          setMember(userData.data);
+        }
+
+        if (projectsRes.ok) {
+          const projectsData = await projectsRes.json();
+          const allProjects: ProjectType[] = projectsData.data || [];
+          const userProjects = allProjects.filter((p) => {
+            const authorId = typeof p.byUser === 'object' && p.byUser ? p.byUser._id : p.byUser;
+            return authorId === id;
+          });
+          setMemberProjects(userProjects);
         }
       } catch (err) {
-        console.error('Error fetching member profile:', err);
+        console.error('Error fetching member profile data:', err);
       } finally {
         setLoading(false);
       }
     };
-    if (id) fetchMember();
+    if (id) fetchMemberData();
   }, [id]);
 
   if (loading) {
@@ -47,7 +74,7 @@ export const MemberProfile: React.FC = () => {
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
         </svg>
-        <span className="text-xs text-[#5c7075] font-semibold">Loading profile...</span>
+        <span className="text-xs text-[#5c7075] font-semibold">Loading member profile...</span>
       </div>
     );
   }
@@ -61,7 +88,7 @@ export const MemberProfile: React.FC = () => {
           </svg>
         </div>
         <h3 className="font-bold text-base mb-1">Profile not found</h3>
-        <p className="text-xs text-[#5c7075] mb-6">The member profile you are looking for does not exist or is not active.</p>
+        <p className="text-xs text-[#5c7075] mb-6">The member profile you are looking for does not exist or is inactive.</p>
         <Link to="/members" className="bg-[#006655] hover:bg-[#004d40] text-white font-bold py-2 px-5 rounded-xl text-xs transition-colors shadow-sm">
           Return to Directory
         </Link>
@@ -69,18 +96,16 @@ export const MemberProfile: React.FC = () => {
     );
   }
 
-  const formatJoinDate = (dateString?: string) => {
-    if (!dateString) return 'Sept 2022';
-    const date = new Date(dateString);
-    return `Joined ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
-  };
+  const specializations = member.specializations && member.specializations.length > 0
+    ? member.specializations
+    : [];
+  const skills = member.skills && member.skills.length > 0 ? member.skills : [];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22] bg-slate-50/10">
-      
-      {/* 1. Header Card Panel */}
-      <div className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm mb-8 flex flex-col md:flex-row items-center md:items-start gap-8 relative">
-        {/* Avatar image */}
+    <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
+      {/* 1. Header Member Profile Card */}
+      <div className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm mb-8 flex flex-col md:flex-row items-center md:items-start gap-8">
+        {/* Avatar Image */}
         <div className="relative shrink-0 select-none">
           <div className="w-28 h-28 rounded-full overflow-hidden border border-slate-100 shadow-sm bg-slate-50">
             {member.profilePicture ? (
@@ -91,372 +116,185 @@ export const MemberProfile: React.FC = () => {
               </div>
             )}
           </div>
-          {/* Active status indicator green dot */}
           <span className="absolute bottom-1 right-1 w-5 h-5 bg-[#00e676] border-4 border-white rounded-full"></span>
         </div>
 
-        {/* Member details info */}
-        <div className="flex-grow flex flex-col justify-between h-full text-center md:text-left">
+        {/* Member Info */}
+        <div className="flex-grow flex flex-col justify-between text-center md:text-left">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight mb-1">{member.fullName}</h1>
-            <p className="text-sm text-[#5c7075] font-semibold mb-3">
-              {member.specializations.join(', ') || 'Lead Core Engineer'} &bull; Member since 2022
-            </p>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
+              <h1 className="text-3xl font-extrabold tracking-tight">{member.fullName}</h1>
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${member.role === 'admin' ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}`}>
+                {member.role === 'admin' ? 'Community Admin' : 'Guild Builder'}
+              </span>
+            </div>
+
+            {specializations.length > 0 && (
+              <p className="text-xs text-[#006655] font-bold mb-3">
+                {specializations.join(' • ')}
+              </p>
+            )}
+
             <p className="text-sm text-[#5c7075] leading-relaxed max-w-3xl mb-6">
-              {member.bio || 'Full-stack architect specializing in distributed systems and rust-based compilers. Currently exploring the intersection of Web3 infrastructure and developer productivity tools.'}
+              {member.bio && member.bio.trim() !== '' ? member.bio : 'No bio added yet.'}
             </p>
           </div>
 
-          {/* Footer of card */}
           <div className="flex flex-wrap justify-center md:justify-start gap-6 text-xs text-[#5c7075] font-semibold">
+            {member.location && (
+              <span className="flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {member.location}
+              </span>
+            )}
             <span className="flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
-              {member.location || 'San Francisco, CA'}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              {formatJoinDate(member.joinDate)}
+              {memberProjects.length} Published {memberProjects.length === 1 ? 'Project' : 'Projects'}
             </span>
           </div>
         </div>
 
-        {/* Right side CTA / links */}
-        <div className="flex flex-col sm:flex-row md:flex-col items-center gap-3 shrink-0 self-center md:self-start">
-          <div className="flex gap-2">
-            {member.github && (
-              <a
-                href={member.github}
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 border border-slate-200 hover:bg-slate-50 rounded-xl flex items-center justify-center text-slate-600 transition-colors"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-              </a>
-            )}
-            {member.linkedin && (
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 border border-slate-200 hover:bg-slate-50 rounded-xl flex items-center justify-center text-slate-600 transition-colors"
-              >
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
-              </a>
-            )}
-          </div>
-          <button className="bg-[#006655] hover:bg-[#004d40] text-white font-bold py-2.5 px-6 rounded-xl text-xs transition-colors shadow-sm w-36">
-            Follow Member
-          </button>
+        {/* Links */}
+        <div className="flex items-center gap-3 shrink-0">
+          {member.github && (
+            <a
+              href={member.github.startsWith('http') ? member.github : `https://${member.github}`}
+              target="_blank"
+              rel="noreferrer"
+              className="p-2.5 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-700 transition-colors"
+              title="GitHub Profile"
+            >
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+            </a>
+          )}
+          {member.linkedin && (
+            <a
+              href={member.linkedin.startsWith('http') ? member.linkedin : `https://${member.linkedin}`}
+              target="_blank"
+              rel="noreferrer"
+              className="p-2.5 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-700 transition-colors"
+              title="LinkedIn Profile"
+            >
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              </svg>
+            </a>
+          )}
         </div>
       </div>
 
-      {/* 2. Content Row: Ecosystem Rank & Technical Proficiency */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
-        
-        {/* Left Column: Ecosystem Rank Card (takes 4 columns) */}
-        <div className="lg:col-span-4 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <h3 className="font-bold text-lg mb-6">Ecosystem Rank</h3>
-            
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                <span className="text-xs text-[#5c7075] font-semibold">Reputation (REP)</span>
-                <span className="text-xl font-extrabold text-[#006655]">12.4k</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-slate-50">
-                <span className="text-xs text-[#5c7075] font-semibold">Total Projects</span>
-                <span className="text-xl font-extrabold text-[#091e22]">42</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-xs text-[#5c7075] font-semibold">Contributions</span>
-                <span className="text-xl font-extrabold text-[#091e22]">1,890</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 pt-6 border-t border-slate-50 mt-6">
-            <span className="px-2 py-1 bg-[#006655]/10 text-[#006655] text-[10px] font-bold rounded">TOP</span>
-            <span className="px-2 py-1 bg-slate-900 text-white text-[10px] font-bold rounded">MVP</span>
-            <span className="text-[10px] text-[#5c7075] font-semibold">Top 1% of Global Contributors</span>
-          </div>
-        </div>
-
-        {/* Right Column: Technical Proficiency (takes 8 columns) */}
-        <div className="lg:col-span-8 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="font-bold text-lg">Technical Proficiency</h3>
-            <span className="text-[#006655] text-xs font-bold flex items-center gap-1 bg-[#e6f7f8] px-2.5 py-1 rounded-lg">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              Verified
-            </span>
-          </div>
-
-          {/* Skill progress bars grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-6">
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span>{member.skills[0] || 'Rust'}</span>
-                <span className="text-slate-400">Lvl 9</span>
-              </div>
-              <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div className="bg-[#006655] h-full rounded-full w-[90%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span>{member.skills[1] || 'TypeScript'}</span>
-                <span className="text-slate-400">Lvl 8</span>
-              </div>
-              <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div className="bg-[#006655] h-full rounded-full w-[80%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span>{member.skills[2] || 'Solidity'}</span>
-                <span className="text-slate-400">Lvl 7</span>
-              </div>
-              <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div className="bg-[#006655] h-full rounded-full w-[70%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span>{member.skills[3] || 'Kubernetes'}</span>
-                <span className="text-slate-400">Lvl 6</span>
-              </div>
-              <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div className="bg-[#006655] h-full rounded-full w-[60%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span>Go</span>
-                <span className="text-slate-400">Lvl 7</span>
-              </div>
-              <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div className="bg-[#006655] h-full rounded-full w-[70%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span>GraphQL</span>
-                <span className="text-slate-400">Lvl 8</span>
-              </div>
-              <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div className="bg-[#006655] h-full rounded-full w-[80%]"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-50">
-            {member.skills.map((skill) => (
+      {/* 2. Skills & Specializations */}
+      {(skills.length > 0 || specializations.length > 0) && (
+        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm mb-8">
+          <h3 className="font-bold text-base mb-4 text-[#091e22]">Skills & Technical Focus</h3>
+          <div className="flex flex-wrap gap-2">
+            {skills.map((skill) => (
               <span
                 key={skill}
-                className="px-2.5 py-1 bg-slate-50 border border-slate-150 text-[#5c7075] text-[10px] rounded font-semibold"
+                className="px-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl"
               >
                 #{skill}
               </span>
             ))}
-            <span className="px-2.5 py-1 bg-slate-50 border border-slate-150 text-[#5c7075] text-[10px] rounded font-semibold">#distributed-systems</span>
-            <span className="px-2.5 py-1 bg-slate-50 border border-slate-150 text-[#5c7075] text-[10px] rounded font-semibold">#wasm</span>
-            <span className="px-2.5 py-1 bg-slate-50 border border-slate-150 text-[#5c7075] text-[10px] rounded font-semibold">#zero-knowledge</span>
+            {specializations.map((spec) => (
+              <span
+                key={spec}
+                className="px-3 py-1.5 bg-[#e6f7f8] border border-[#006655]/20 text-[#006655] text-xs font-bold rounded-xl"
+              >
+                {spec}
+              </span>
+            ))}
           </div>
         </div>
-      </div>
+      )}
 
-      {/* 3. Contribution History Section */}
+      {/* 3. Real Projects Section */}
       <section className="mb-10">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-extrabold tracking-tight">Contribution History</h2>
-          <a href="#contributions" className="text-[#006655] hover:underline text-xs font-semibold">View All Contributions</a>
+          <h2 className="text-2xl font-extrabold tracking-tight">Published Projects</h2>
+          <span className="text-xs text-[#5c7075] font-semibold">{memberProjects.length} Total</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1 */}
-          <div className="border border-slate-100 bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[300px]">
-            <div>
-              <div className="relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50">
-                <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=225&fit=crop" alt="Guild Protocol v2" className="w-full h-full object-cover" />
-                <span className="absolute top-3 left-3 px-2 py-0.5 bg-[#e0f2f1] text-[#00695c] border border-[#00695c]/10 text-[9px] font-bold rounded">CORE ENGINE</span>
-              </div>
-              <div className="p-4">
-                <h4 className="font-bold text-sm mb-1 text-[#091e22]">Guild Protocol v2</h4>
-                <p className="text-[11px] text-[#5c7075] leading-relaxed line-clamp-2">Lead developer for the decentralized identity module and auth system.</p>
-              </div>
+        {memberProjects.length === 0 ? (
+          <div className="border border-dashed border-slate-200 rounded-2xl p-12 text-center bg-white shadow-sm flex flex-col items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#006655] flex items-center justify-center mb-3">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
             </div>
-            <div className="px-4 pb-4 flex justify-between items-center text-[10px] text-[#5c7075] font-semibold">
-              <span className="flex items-center gap-1">
-                <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                </svg>
-                2.4k
-              </span>
-              <span>Rust / WASM</span>
-            </div>
+            <h3 className="font-bold text-base mb-1">No published projects yet</h3>
+            <p className="text-xs text-[#5c7075]">{member.fullName} has not published any projects to the showcase yet.</p>
           </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {memberProjects.map((project) => (
+              <div
+                key={project._id}
+                className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between min-h-[380px]"
+              >
+                <div>
+                  <Link to={`/projects/${project._id}`} className="block relative aspect-[16/9] w-full bg-slate-100 overflow-hidden group">
+                    <img
+                      src={project.coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop'}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute top-3 right-3 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-bold rounded-lg shadow-sm">
+                      {project.category}
+                    </span>
+                  </Link>
 
-          {/* Card 2 */}
-          <div className="border border-slate-100 bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[300px]">
-            <div>
-              <div className="relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50">
-                <img src="https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=400&h=225&fit=crop" alt="CodeFlow CLI" className="w-full h-full object-cover" />
-                <span className="absolute top-3 left-3 px-2 py-0.5 bg-[#e8eaf6] text-[#283593] border border-[#9fa8da]/10 text-[9px] font-bold rounded">COMMUNITY</span>
-              </div>
-              <div className="p-4">
-                <h4 className="font-bold text-sm mb-1 text-[#091e22]">CodeFlow CLI</h4>
-                <p className="text-[11px] text-[#5c7075] leading-relaxed line-clamp-2">Automated documentation generator for complex monorepo structures.</p>
-              </div>
-            </div>
-            <div className="px-4 pb-4 flex justify-between items-center text-[10px] text-[#5c7075] font-semibold">
-              <span className="flex items-center gap-1">
-                <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                </svg>
-                840
-              </span>
-              <span>Go / Node.js</span>
-            </div>
-          </div>
+                  <div className="p-5">
+                    <Link to={`/projects/${project._id}`} className="hover:underline block mb-1">
+                      <h4 className="font-bold text-base text-[#091e22] hover:text-[#006655] transition-colors truncate">{project.title}</h4>
+                    </Link>
+                    <p className="text-xs text-[#5c7075] line-clamp-2 leading-relaxed mb-4">
+                      {project.shortDescription || 'View project details to learn more.'}
+                    </p>
 
-          {/* Card 3 */}
-          <div className="border border-slate-100 bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[300px]">
-            <div>
-              <div className="relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=225&fit=crop" alt="Lumos UI Kit" className="w-full h-full object-cover" />
-                <span className="absolute top-3 left-3 px-2 py-0.5 bg-[#e0f7fa] text-[#00838f] border border-[#80deea]/10 text-[9px] font-bold rounded">EXPERIMENTAL</span>
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {project.techStack?.slice(0, 4).map((tech) => (
+                        <span key={tech} className="px-2 py-0.5 bg-slate-50 border border-slate-150 text-[10px] text-slate-500 rounded font-semibold">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="px-5 py-3 border-t border-slate-50 flex items-center justify-between text-xs text-[#5c7075]">
+                  <div className="flex items-center gap-3">
+                    <span className="flex items-center gap-1 font-semibold text-rose-500">
+                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                      </svg>
+                      {project.likes?.length || 0}
+                    </span>
+                    <span className="flex items-center gap-1 font-semibold">
+                      <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      {project.views || 0}
+                    </span>
+                  </div>
+
+                  <Link to={`/projects/${project._id}`} className="text-[#006655] font-bold hover:underline text-xs">
+                    View Project &rarr;
+                  </Link>
+                </div>
               </div>
-              <div className="p-4">
-                <h4 className="font-bold text-sm mb-1 text-[#091e22]">Lumos UI Kit</h4>
-                <p className="text-[11px] text-[#5c7075] leading-relaxed line-clamp-2">A high-performance glassmorphic UI library for react-based dashboards.</p>
-              </div>
-            </div>
-            <div className="px-4 pb-4 flex justify-between items-center text-[10px] text-[#5c7075] font-semibold">
-              <span className="flex items-center gap-1">
-                <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                </svg>
-                1.1k
-              </span>
-              <span>TypeScript</span>
-            </div>
+            ))}
           </div>
-        </div>
+        )}
       </section>
-
-      {/* 4. Bottom grid: Active Collaborations & Attending Events */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        {/* Left Column: Active Collaborations */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
-          <h3 className="font-bold text-lg mb-6">Active Collaborations</h3>
-          
-          <div className="space-y-4">
-            {/* Collab 1 */}
-            <div className="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-100 rounded-2xl">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#006655]/10 text-[#006655] font-bold rounded-xl flex items-center justify-center text-sm">
-                  N
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm">Nebula Network</h4>
-                  <p className="text-[10px] text-[#5c7075]">Infrastructure Audit &bull; Ongoing</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="flex -space-x-2">
-                  <div className="w-6 h-6 rounded-full bg-slate-300 border-2 border-white overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" alt="" />
-                  </div>
-                  <div className="w-6 h-6 rounded-full bg-slate-300 border-2 border-white overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" alt="" />
-                  </div>
-                </div>
-                <span className="text-[10px] text-[#5c7075] font-semibold bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded">+4</span>
-              </div>
-            </div>
-
-            {/* Collab 2 */}
-            <div className="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-100 rounded-2xl">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#006655]/10 text-[#006655] font-bold rounded-xl flex items-center justify-center text-sm">
-                  D
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm">DevDAO Core</h4>
-                  <p className="text-[10px] text-[#5c7075]">Governance Strategy &bull; Final Review</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="flex -space-x-2">
-                  <div className="w-6 h-6 rounded-full bg-slate-300 border-2 border-white overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=50&h=50&fit=crop" alt="" />
-                  </div>
-                </div>
-                <span className="text-[10px] text-[#5c7075] font-semibold bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded">+1</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Attending Events */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
-          <h3 className="font-bold text-lg mb-6">Attending Events</h3>
-          
-          <div className="space-y-4">
-            {/* Event 1 */}
-            <div className="flex items-center gap-4 p-4 border border-[#006655]/10 bg-[#006655]/[0.02] rounded-2xl">
-              <div className="bg-[#e6f7f8] border border-[#006655]/10 text-[#006655] py-2 px-3 rounded-xl flex flex-col items-center justify-center w-14 shrink-0 select-none">
-                <span className="text-[9px] uppercase font-bold tracking-wider">Oct</span>
-                <span className="text-xl font-extrabold leading-none mt-0.5">24</span>
-              </div>
-              <div>
-                <h4 className="font-bold text-sm text-[#091e22]">Guild Developer Summit 2024</h4>
-                <p className="text-[10px] text-[#5c7075] mt-0.5">Keynote Speaker: "The Future of WASM"</p>
-                <p className="text-[9px] text-slate-400 font-bold mt-1 flex items-center gap-1">
-                  <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  San Francisco, Digital Arts Center
-                </p>
-              </div>
-            </div>
-
-            {/* Event 2 */}
-            <div className="flex items-center gap-4 p-4 border border-slate-100 bg-slate-50/50 rounded-2xl">
-              <div className="bg-[#e6f7f8] border border-[#006655]/10 text-[#006655] py-2 px-3 rounded-xl flex flex-col items-center justify-center w-14 shrink-0 select-none">
-                <span className="text-[9px] uppercase font-bold tracking-wider">Nov</span>
-                <span className="text-xl font-extrabold leading-none mt-0.5">08</span>
-              </div>
-              <div>
-                <h4 className="font-bold text-sm text-[#091e22]">Rust Berlin Meetup</h4>
-                <p className="text-[10px] text-[#5c7075] mt-0.5">Panel Discussion on Safety Systems</p>
-                <p className="text-[9px] text-slate-400 font-bold mt-1 flex items-center gap-1">
-                  <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
-                  Virtual Session
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 };
