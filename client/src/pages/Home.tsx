@@ -110,7 +110,7 @@ export const Home: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-[#e6f7f8] via-[#eef9fa] to-white pt-16 pb-20 px-6 relative overflow-hidden select-none">
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-100 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
             <svg className="w-3.5 h-3.5 text-[#006655] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15a5 5 0 100-10 5 5 0 000 10z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 14L4.5 21l3.75-1.5L12 21l3.75-1.5L19.5 21l-3.75-7" />
@@ -182,7 +182,7 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Live Stat Counters (Spec 4.1) */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-100">
+          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-100">
             <div className="flex flex-col items-center justify-center p-2">
               <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
                 {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
@@ -228,7 +228,7 @@ export const Home: React.FC = () => {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[1, 2, 3, 4].map((n) => (
-              <div key={n} className="border border-slate-100 rounded-2xl p-5 bg-white h-56 animate-pulse flex flex-col justify-between">
+              <div key={n} className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 bg-white h-56 animate-pulse flex flex-col justify-between">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-slate-200 rounded-full shrink-0"></div>
                   <div className="flex-1 space-y-2">
@@ -261,7 +261,7 @@ export const Home: React.FC = () => {
               return (
                 <div
                   key={member._id}
-                  className="border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56"
+                  className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56"
                 >
                   <div className="flex items-center gap-4">
                     <Link to={`/members/${member._id}`} className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[#006655]">
@@ -288,13 +288,13 @@ export const Home: React.FC = () => {
                       displaySkills.map((skill, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold truncate max-w-[90px]"
+                          className="px-2 py-0.5 bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 text-[#5c7075] text-[10px] rounded font-semibold truncate max-w-[90px]"
                         >
                           {skill}
                         </span>
                       ))
                     ) : (
-                      <span className="px-2 py-0.5 bg-slate-50 border border-slate-100 text-[#5c7075] text-[10px] rounded font-semibold">
+                      <span className="px-2 py-0.5 bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 text-[#5c7075] text-[10px] rounded font-semibold">
                         Builder
                       </span>
                     )}
@@ -327,7 +327,7 @@ export const Home: React.FC = () => {
             })}
           </div>
         ) : (
-          <div className="text-center py-12 bg-slate-50 border border-slate-100 rounded-2xl">
+          <div className="text-center py-12 bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl">
             <p className="text-[#5c7075] text-sm">No active members found yet. Be the first to join!</p>
           </div>
         )}
@@ -372,7 +372,7 @@ export const Home: React.FC = () => {
 
             if (!featuredProject) {
               return (
-                <div className="text-center py-12 bg-white border border-slate-100 rounded-3xl shadow-sm">
+                <div className="text-center py-12 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm">
                   <p className="text-xs text-[#5c7075] font-semibold">No community projects published yet.</p>
                 </div>
               );
@@ -382,7 +382,7 @@ export const Home: React.FC = () => {
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                   {/* Left Column: Admin Featured or Most Liked Project (Takes 2 Columns on large screens) */}
-                  <div className="lg:col-span-2 border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                  <div className="lg:col-span-2 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                       {/* Banner Image */}
                       <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden">
@@ -446,7 +446,7 @@ export const Home: React.FC = () => {
                         </p>
                         <div className="flex flex-wrap gap-2">
                           {(featuredProject.techStack || []).slice(0, 5).map((tech: string) => (
-                            <span key={tech} className="px-3 py-1 bg-slate-50 text-slate-600 text-xs rounded-lg border border-slate-100 font-semibold">
+                            <span key={tech} className="px-3 py-1 bg-slate-50 text-slate-600 text-xs rounded-lg border border-[#006655]/15 dark:border-[#00a88a]/20 font-semibold">
                               #{tech}
                             </span>
                           ))}
@@ -460,7 +460,7 @@ export const Home: React.FC = () => {
                     {topLikedProjects.map((p) => (
                       <div
                         key={p._id}
-                        className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between flex-grow"
+                        className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between flex-grow"
                       >
                         <div>
                           <div className="flex justify-between items-start mb-2 gap-2">
@@ -496,7 +496,7 @@ export const Home: React.FC = () => {
                         <div className="flex justify-between items-center text-xs">
                           <div className="flex flex-wrap gap-1">
                             {(p.techStack || []).slice(0, 2).map((tech: string) => (
-                              <span key={tech} className="px-2 py-0.5 bg-slate-50 border border-slate-100 rounded text-[10px] text-slate-500 font-bold">
+                              <span key={tech} className="px-2 py-0.5 bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded text-[10px] text-slate-500 font-bold">
                                 {tech}
                               </span>
                             ))}
