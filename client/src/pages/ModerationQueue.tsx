@@ -113,7 +113,7 @@ export const ModerationQueue: React.FC = () => {
       {/* Stats Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Items</span>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Live DB</span>
@@ -122,7 +122,7 @@ export const ModerationQueue: React.FC = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Moderated / Hidden</span>
             <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">Flagged</span>
@@ -131,7 +131,7 @@ export const ModerationQueue: React.FC = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Visible / Active</span>
             <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Audited</span>
@@ -140,7 +140,7 @@ export const ModerationQueue: React.FC = () => {
         </div>
 
         {/* Card 4 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Status Code</span>
             <span className="text-[10px] font-bold text-[#006655] bg-[#006655]/10 px-2 py-0.5 rounded-full">Active</span>
@@ -150,7 +150,7 @@ export const ModerationQueue: React.FC = () => {
       </div>
 
       {/* Moderation Queue table list */}
-      <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         {/* Filtering Tabs Header */}
         <div className="p-5 border-b border-slate-100 flex justify-between items-center select-none">
           <div className="flex bg-slate-100 border border-slate-200/50 p-1 rounded-xl gap-1 text-[9px] font-bold text-slate-550">
