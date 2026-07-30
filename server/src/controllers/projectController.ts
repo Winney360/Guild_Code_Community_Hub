@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { Project } from '../models/Project.js';
+import { Notification } from '../models/Notification.js';
+import { User } from '../models/User.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 // @desc    Get all visible projects
@@ -202,19 +204,35 @@ export const toggleProjectLike = async (req: AuthenticatedRequest, res: Response
 
     // Toggle user ID in likes array (using string comparison for reliability)
     const likeIndex = project.likes.findIndex((id: any) => id.toString() === userId);
+    let isLikedNow = false;
     if (likeIndex > -1) {
       // Unlike
       project.likes.splice(likeIndex, 1);
     } else {
       // Like
       project.likes.push(userObjectId);
+      isLikedNow = true;
+
+      // Notify project owner if liker is not the owner
+      if (project.byUser.toString() !== userId) {
+        const likerUser = await User.findById(userId);
+        const likerName = likerUser ? likerUser.fullName : 'A member';
+        await Notification.create({
+          userId: project.byUser,
+          sender: userObjectId,
+          type: 'project_liked',
+          title: 'New Like on Project',
+          message: `${likerName} liked your project "${project.title}".`,
+          link: `/projects/${project._id}`,
+        });
+      }
     }
 
     await project.save();
     res.status(200).json({
       success: true,
       likesCount: project.likes.length,
-      isLiked: project.likes.some((id: any) => id.toString() === userId),
+      isLiked: isLikedNow,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
