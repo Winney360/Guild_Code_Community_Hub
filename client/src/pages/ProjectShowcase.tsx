@@ -37,6 +37,9 @@ export const ProjectShowcase: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 6;
 
+  // Server-returned like state per project (avoids stale local array manipulation)
+  const [likeCache, setLikeCache] = useState<Record<string, { isLiked: boolean; likesCount: number }>>({});
+
   const handleLikeProject = async (projectId: string) => {
     if (!user) {
       navigate('/login');
@@ -51,21 +54,13 @@ export const ProjectShowcase: React.FC = () => {
 
       if (res.ok) {
         const data = await res.json();
-        setProjects((prevProjects) =>
-          prevProjects.map((p) => {
-            if (p._id === projectId) {
-              const currentLikes: string[] = p.likes || [];
-              const userLiked = currentLikes.some((id: any) => id.toString() === user._id);
-              let updatedLikes = [...currentLikes];
-              if (data.isLiked && !userLiked) {
-                updatedLikes.push(user._id);
-              } else if (!data.isLiked && userLiked) {
-                updatedLikes = updatedLikes.filter((id: any) => id.toString() !== user._id);
-              }
-              return { ...p, likes: updatedLikes };
-            }
-            return p;
-          })
+        setLikeCache((prev) => ({ ...prev, [projectId]: { isLiked: data.isLiked, likesCount: data.likesCount } }));
+        setProjects((prev) =>
+          prev.map((p) =>
+            p._id === projectId
+              ? { ...p, likes: data.isLiked ? [...p.likes, user._id] : p.likes.filter((id: any) => id.toString() !== user._id) }
+              : p
+          )
         );
       }
     } catch (err) {
@@ -164,7 +159,7 @@ export const ProjectShowcase: React.FC = () => {
       </div>
 
       {/* Filter Bar Panel */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* Search */}
         <div className="md:col-span-5 relative">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -249,7 +244,7 @@ export const ProjectShowcase: React.FC = () => {
             <div
               key={project._id}
               onClick={() => navigate(`/projects/${project._id}`)}
-              className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[490px] cursor-pointer group"
+              className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[490px] cursor-pointer group"
             >
               <div>
                 {/* Project Cover Image */}
@@ -260,7 +255,7 @@ export const ProjectShowcase: React.FC = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   {/* Category Tag */}
-                  <span className="absolute top-4 right-4 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-bold rounded-lg shadow-sm">
+                  <span className="absolute top-4 right-4 px-2.5 py-1 bg-white/90 dark:bg-[#1a292c]/90 backdrop-blur-sm text-slate-800 dark:text-[#f1f5f9] text-[10px] font-bold rounded-lg shadow-sm">
                     {project.category === 'AI' ? 'AI / ML' : project.category === 'Design' ? 'UI / Design' : project.category === 'Cloud Infrastructure' ? 'Cloud Infra' : `${project.category} App`}
                   </span>
                 </div>
@@ -313,12 +308,12 @@ export const ProjectShowcase: React.FC = () => {
                       handleLikeProject(project._id);
                     }}
                     className={`flex items-center gap-1 font-bold px-2.5 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
-                      user && (project.likes || []).some((id: any) => id.toString() === user._id)
+                      (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : user && (project.likes || []).some((id: any) => id.toString() === user._id))
                         ? 'bg-rose-50 border-rose-200 text-rose-600'
                         : 'bg-slate-50 border-slate-100 text-slate-500 hover:text-rose-500 hover:bg-rose-50'
                     }`}
                     title={
-                      user && (project.likes || []).some((id: any) => id.toString() === user._id)
+                      (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : user && (project.likes || []).some((id: any) => id.toString() === user._id))
                         ? 'Unlike project'
                         : 'Like project'
                     }
@@ -326,7 +321,7 @@ export const ProjectShowcase: React.FC = () => {
                     <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
-                    <span>{project.likes ? project.likes.length : 0}</span>
+                    <span>{likeCache[project._id] !== undefined ? likeCache[project._id].likesCount : (project.likes ? project.likes.length : 0)}</span>
                   </button>
                   <span className="flex items-center gap-1 text-slate-400 text-xs">
                     <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
