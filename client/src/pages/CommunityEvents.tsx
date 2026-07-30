@@ -8,6 +8,7 @@ interface EventType {
   eventType: 'workshop' | 'hackathon' | 'meetup' | 'webinar' | 'training';
   date: string;
   time: string;
+  timezone: string;
   mode: 'online' | 'physical' | 'hybrid';
   locationOrLink: string;
   participants: Array<{ name: string; email: string }>;
@@ -101,7 +102,7 @@ export const CommunityEvents: React.FC = () => {
               <div
                 key={event._id}
                 onClick={() => navigate(`/events/${event._id}`)}
-                className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-[360px] cursor-pointer group"
+                className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-[360px] cursor-pointer group"
               >
                 <div>
                   {/* Category Tag & Mode */}
@@ -120,7 +121,7 @@ export const CommunityEvents: React.FC = () => {
                   {/* Title & Date */}
                   <div className="mb-3">
                     <span className="text-[10px] text-[#006655] font-bold block mb-1">
-                      {formatDate(event.date)} &bull; {event.time}
+                      {formatDate(event.date)} &bull; {event.time} {event.timezone}
                     </span>
                     <h3 className="font-extrabold text-base text-[#091e22] line-clamp-1 group-hover:text-[#006655] transition-colors">{event.title}</h3>
                   </div>
