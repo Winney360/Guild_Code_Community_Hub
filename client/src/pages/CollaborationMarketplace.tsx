@@ -135,7 +135,7 @@ export const CollaborationMarketplace: React.FC = () => {
       </div>
 
       {/* Filter Bar Panel */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-sm mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Search Input */}
         <div className="relative w-full sm:max-w-md">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -188,7 +188,7 @@ export const CollaborationMarketplace: React.FC = () => {
             <div
               key={collab._id}
               onClick={() => navigate(`/collaborate/${collab._id}`)}
-              className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-[360px] cursor-pointer group"
+              className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-[360px] cursor-pointer group"
             >
               <div>
                 {/* Header row: creator details */}
@@ -255,7 +255,7 @@ export const CollaborationMarketplace: React.FC = () => {
               {/* Bottom footer section */}
               <div className="border-t border-slate-50 pt-4 flex flex-col justify-between gap-4">
                 {/* Meta details row */}
-                <div className="flex justify-between items-center text-[10px] bg-slate-50/50 border border-slate-100 rounded-xl p-3 select-none">
+                <div className="flex justify-between items-center text-[10px] bg-slate-50/50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-xl p-3 select-none">
                   <div>
                     <span className="text-slate-400 block text-[9px] font-bold uppercase mb-0.5">Commitment</span>
                     <span className="font-extrabold text-[#091e22]">{collab.commitment}</span>
