@@ -34,6 +34,8 @@ export const ProjectShowcase: React.FC = () => {
   const [selectedTech, setSelectedTech] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('Popular'); // 'Popular' or 'Newest'
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
 
   const handleLikeProject = async (projectId: string) => {
     if (!user) {
@@ -123,10 +125,31 @@ export const ProjectShowcase: React.FC = () => {
     }
 
     setFilteredProjects(result);
+    setCurrentPage(1);
   }, [search, selectedTech, selectedCategory, sortBy, projects]);
 
   // Extract unique tech tags for filter dropdown
   const allAvailableTech = Array.from(new Set(projects.flatMap((p) => p.techStack))).sort();
+
+  // Pagination calculation
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    if (currentPage <= 4) {
+      return [1, 2, 3, 4, 5, '...', totalPages];
+    }
+    if (currentPage >= totalPages - 3) {
+      return [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
@@ -221,7 +244,7 @@ export const ProjectShowcase: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+          {paginatedProjects.map((project) => (
             <div
               key={project._id}
               className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-[360px]"
@@ -326,25 +349,39 @@ export const ProjectShowcase: React.FC = () => {
       )}
 
       {/* Pagination Controls */}
-      {!loading && filteredProjects.length > 0 && (
+      {!loading && totalPages > 1 && (
         <div className="flex justify-center items-center gap-1.5 mt-12 select-none">
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-500 transition-colors">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
             &lt;
           </button>
-          <button className="w-8 h-8 flex items-center justify-center bg-[#006655] text-white rounded-lg text-xs font-bold">
-            1
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 hover:bg-slate-50 rounded-lg text-xs text-[#5c7075] transition-colors">
-            2
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 hover:bg-slate-50 rounded-lg text-xs text-[#5c7075] transition-colors">
-            3
-          </button>
-          <span className="text-slate-400 text-xs px-1">...</span>
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 hover:bg-slate-50 rounded-lg text-xs text-[#5c7075] transition-colors">
-            12
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 hover:bg-slate-50 rounded-lg text-slate-500 transition-colors">
+          {getPageNumbers().map((page, idx) =>
+            typeof page === 'number' ? (
+              <button
+                key={idx}
+                onClick={() => setCurrentPage(page)}
+                className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                  currentPage === page
+                    ? 'bg-[#006655] text-white'
+                    : 'border border-slate-200 hover:bg-slate-50 text-[#5c7075]'
+                }`}
+              >
+                {page}
+              </button>
+            ) : (
+              <span key={idx} className="text-slate-400 text-xs px-1">
+                ...
+              </span>
+            )
+          )}
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
             &gt;
           </button>
         </div>
