@@ -347,29 +347,58 @@ export const ProjectDetails: React.FC = () => {
         <div className="lg:col-span-4 flex flex-col gap-6">
           
           {/* Author/Creator Card */}
-          <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full overflow-hidden mb-4 shrink-0 border border-slate-100">
-              {project.byUser && project.byUser.profilePicture ? (
-                <img src={project.byUser.profilePicture} alt={project.byUser.fullName} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-xl">
-                  {project.byUser ? project.byUser.fullName.charAt(0).toUpperCase() : 'G'}
-                </div>
-              )}
-            </div>
+          {(() => {
+            const creatorId =
+              typeof project.byUser === 'object' && project.byUser ? project.byUser._id : project.byUser;
+            const creatorName =
+              typeof project.byUser === 'object' && project.byUser ? project.byUser.fullName : 'Guild Member';
+            const creatorPic =
+              typeof project.byUser === 'object' && project.byUser ? project.byUser.profilePicture : undefined;
+            const creatorRole =
+              typeof project.byUser === 'object' && project.byUser ? project.byUser.role : undefined;
 
-            <h4 className="font-extrabold text-base mb-1">{project.byUser ? project.byUser.fullName : 'Guild Member'}</h4>
-            <p className="text-xs text-[#5c7075] font-semibold mb-6">
-              {project.byUser?.role === 'admin' ? 'Community Admin' : 'Guild Builder'}
-            </p>
+            return (
+              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center">
+                <Link
+                  to={creatorId ? `/members/${creatorId}` : '#'}
+                  className="w-16 h-16 bg-slate-100 rounded-full overflow-hidden mb-4 shrink-0 border border-slate-100 block hover:scale-105 transition-transform"
+                  title={`View ${creatorName}'s profile`}
+                >
+                  {creatorPic ? (
+                    <img src={creatorPic} alt={creatorName} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-xl">
+                      {creatorName.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </Link>
 
-            <Link
-              to={project.byUser ? `/members/${project.byUser._id}` : '#'}
-              className="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-sm"
-            >
-              View Creator Profile
-            </Link>
-          </div>
+                <Link
+                  to={creatorId ? `/members/${creatorId}` : '#'}
+                  className="hover:underline mb-1"
+                >
+                  <h4 className="font-extrabold text-base text-[#091e22] hover:text-[#006655] transition-colors">
+                    {creatorName}
+                  </h4>
+                </Link>
+
+                <p className="text-xs text-[#5c7075] font-semibold mb-6">
+                  {creatorRole === 'admin' ? 'Community Admin' : 'Guild Builder'}
+                </p>
+
+                {creatorId ? (
+                  <Link
+                    to={`/members/${creatorId}`}
+                    className="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-sm block text-center"
+                  >
+                    View Creator Profile
+                  </Link>
+                ) : (
+                  <span className="text-xs text-slate-400">Profile Unavailable</span>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Project Engagement Stats Card */}
           <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
