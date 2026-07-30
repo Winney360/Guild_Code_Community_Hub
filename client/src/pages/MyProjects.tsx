@@ -133,19 +133,21 @@ export const MyProjects: React.FC = () => {
             >
               <div>
                 {/* Image & status */}
-                <div className="relative aspect-[16/10] bg-slate-50 border-b border-slate-50 select-none">
-                  <img src={project.coverImage} alt={project.title} className="w-full h-full object-cover" />
+                <Link to={`/projects/${project._id}`} className="block relative aspect-[16/10] bg-slate-50 border-b border-slate-50 select-none overflow-hidden group">
+                  <img src={project.coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop'} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                   <span className={`absolute top-4 left-4 px-2.5 py-0.5 border text-[9px] font-bold rounded-lg ${getStatusStyle(project.status)} shadow-sm`}>
                     {project.status === 'completed' ? 'Published' : 'Draft'}
                   </span>
-                </div>
+                </Link>
 
                 {/* Details */}
                 <div className="p-5">
                   <div className="flex justify-between items-center mb-1">
-                    <h4 className="font-bold text-sm text-[#091e22] line-clamp-1">{project.title}</h4>
+                    <Link to={`/projects/${project._id}`} className="hover:underline flex-1 min-w-0">
+                      <h4 className="font-bold text-sm text-[#091e22] hover:text-[#006655] transition-colors truncate">{project.title}</h4>
+                    </Link>
                     {/* Action dropdown edit/delete button */}
-                    <div className="flex items-center gap-1.5 text-xs text-slate-400 select-none">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 select-none shrink-0 ml-2">
                       <Link to={`/dashboard/projects/edit/${project._id}`} className="hover:text-[#006655]" title="Edit project">
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -168,10 +170,12 @@ export const MyProjects: React.FC = () => {
                 </div>
               </div>
 
-              {/* Footer timeline */}
+              {/* Footer timeline & View link */}
               <div className="px-5 pb-5 pt-3 border-t border-slate-50 text-[9px] font-semibold text-slate-400 select-none flex items-center justify-between">
                 <span>{getTimeElapsed(project.updatedAt)}</span>
-                <span className="text-[10px] uppercase font-bold text-slate-350">{project.category}</span>
+                <Link to={`/projects/${project._id}`} className="text-[#006655] font-bold text-[10px] hover:underline flex items-center gap-0.5">
+                  View Full Info &rarr;
+                </Link>
               </div>
 
             </div>
