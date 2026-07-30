@@ -100,17 +100,6 @@ export const ProjectDetails: React.FC = () => {
         const data = await res.json();
         setIsLiked(data.isLiked);
         setLikesCount(data.likesCount);
-        if (project) {
-          let updatedLikes = [...(project.likes || [])];
-          if (data.isLiked && !updatedLikes.includes(user._id)) {
-            updatedLikes.push(user._id);
-          } else if (!data.isLiked) {
-            updatedLikes = updatedLikes.filter(
-              (l: any) => (typeof l === 'string' ? l : l._id || l.toString()) !== user._id
-            );
-          }
-          setProject({ ...project, likes: updatedLikes });
-        }
       }
     } catch (err) {
       console.error('Error liking project:', err);
@@ -241,7 +230,7 @@ export const ProjectDetails: React.FC = () => {
 
       {/* 2. Cover Image */}
       {project.coverImage && (
-        <div className="aspect-[21/9] w-full rounded-3xl overflow-hidden bg-slate-100 border border-slate-100 shadow-sm mb-12 select-none">
+        <div className="aspect-[21/9] w-full rounded-3xl overflow-hidden bg-slate-100 border border-[#006655]/15 dark:border-[#00a88a]/20 shadow-sm mb-12 select-none">
           <img
             src={project.coverImage}
             alt={project.title}
@@ -256,7 +245,7 @@ export const ProjectDetails: React.FC = () => {
         <div className="lg:col-span-8 space-y-10">
           <section>
             <h3 className="font-extrabold text-xl mb-4">About the Project</h3>
-            <div className="text-sm text-[#5c7075] leading-relaxed whitespace-pre-line bg-slate-50/50 p-6 rounded-2xl border border-slate-100/80">
+            <div className="text-sm text-[#5c7075] leading-relaxed whitespace-pre-line bg-slate-50/50 p-6 rounded-2xl border border-[#006655]/15 dark:border-[#00a88a]/20/80">
               {project.description && project.description.trim() !== '' ? (
                 project.description
               ) : (
@@ -379,10 +368,10 @@ export const ProjectDetails: React.FC = () => {
               typeof project.byUser === 'object' && project.byUser ? project.byUser.role : undefined;
 
             return (
-              <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center">
+              <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center text-center">
                 <Link
                   to={creatorId ? `/members/${creatorId}` : '#'}
-                  className="w-16 h-16 bg-slate-100 rounded-full overflow-hidden mb-4 shrink-0 border border-slate-100 block hover:scale-105 transition-transform"
+                  className="w-16 h-16 bg-slate-100 rounded-full overflow-hidden mb-4 shrink-0 border border-[#006655]/15 dark:border-[#00a88a]/20 block hover:scale-105 transition-transform"
                   title={`View ${creatorName}'s profile`}
                 >
                   {creatorPic ? (
@@ -422,7 +411,7 @@ export const ProjectDetails: React.FC = () => {
           })()}
 
           {/* Project Engagement Stats Card */}
-          <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
+          <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
             <h4 className="font-bold text-sm mb-4">Project Analytics</h4>
 
             <div className="space-y-3 mb-6">
