@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.js';
 
 interface Stats {
   activeMembers: number;
@@ -19,6 +20,8 @@ interface Member {
 }
 
 export const Home: React.FC = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<Stats>({
     activeMembers: 0,
     projectsShared: 0,
@@ -35,6 +38,42 @@ export const Home: React.FC = () => {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
     return parts[0].substring(0, 2).toUpperCase();
+  };
+
+  const handleLikeProject = async (projectId: string) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/projects/${projectId}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setProjects((prevProjects) =>
+          prevProjects.map((p) => {
+            if (p._id === projectId) {
+              const currentLikes: string[] = p.likes || [];
+              const userLiked = currentLikes.some((id: any) => id.toString() === user._id);
+              let updatedLikes = [...currentLikes];
+              if (data.isLiked && !userLiked) {
+                updatedLikes.push(user._id);
+              } else if (!data.isLiked && userLiked) {
+                updatedLikes = updatedLikes.filter((id: any) => id.toString() !== user._id);
+              }
+              return { ...p, likes: updatedLikes };
+            }
+            return p;
+          })
+        );
+      }
+    } catch (err) {
+      console.error('Error toggling like:', err);
+    }
   };
 
   useEffect(() => {
@@ -305,8 +344,27 @@ export const Home: React.FC = () => {
           </div>
 
           {(() => {
-            const featuredProject =
-              projects.find((p) => p.isOfficialGuildCode === true) || projects[0];
+            const adminFeaturedProjects = projects.filter(
+              (p) => p.isFeatured === true || p.isOfficialGuildCode === true
+            );
+
+            let featuredProject: any = null;
+            let isActuallyAdminFeatured = false;
+
+            if (adminFeaturedProjects.length > 0) {
+              adminFeaturedProjects.sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0));
+              featuredProject = adminFeaturedProjects[0];
+              isActuallyAdminFeatured = true;
+            } else if (projects.length > 0) {
+              const sortedByLikes = [...projects].sort((a, b) => {
+                const likesA = a.likes?.length || 0;
+                const likesB = b.likes?.length || 0;
+                if (likesB !== likesA) return likesB - likesA;
+                return (b.views || 0) - (a.views || 0);
+              });
+              featuredProject = sortedByLikes[0];
+            }
+
             const topLikedProjects = projects
               .filter((p) => p._id !== featuredProject?._id)
               .sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0))
@@ -323,22 +381,24 @@ export const Home: React.FC = () => {
             return (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                  {/* Left Column: Admin Featured Project (Takes 2 Columns on large screens) */}
+                  {/* Left Column: Admin Featured or Most Liked Project (Takes 2 Columns on large screens) */}
                   <div className="lg:col-span-2 border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                       {/* Banner Image */}
                       <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden">
-                        <img
-                          src={
-                            featuredProject.coverImage && featuredProject.coverImage.trim() !== ''
-                              ? featuredProject.coverImage
-                              : 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop'
-                          }
-                          alt={featuredProject.title}
-                          className="w-full h-full object-cover"
-                        />
+                        <Link to={`/projects/${featuredProject._id}`}>
+                          <img
+                            src={
+                              featuredProject.coverImage && featuredProject.coverImage.trim() !== ''
+                                ? featuredProject.coverImage
+                                : 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=450&fit=crop'
+                            }
+                            alt={featuredProject.title}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        </Link>
                         <span className="absolute top-4 left-4 px-3 py-1 bg-[#e6f7f8] border border-[#006655]/20 text-[#006655] text-xs font-bold rounded-full shadow-xs">
-                          {featuredProject.isOfficialGuildCode ? 'Admin Featured' : 'Featured Project'}
+                          {isActuallyAdminFeatured ? 'Admin Featured' : 'Featured Project'}
                         </span>
                       </div>
 
@@ -350,13 +410,28 @@ export const Home: React.FC = () => {
                               {featuredProject.title}
                             </h3>
                           </Link>
-                          <div className="flex gap-4 text-xs text-[#5c7075] items-center shrink-0">
-                            <span className="flex items-center gap-1 font-semibold text-rose-500">
+                          <div className="flex gap-3 text-xs text-[#5c7075] items-center shrink-0">
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleLikeProject(featuredProject._id);
+                              }}
+                              className={`flex items-center gap-1 font-semibold border px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                                user && (featuredProject.likes || []).some((id: any) => id.toString() === user._id)
+                                  ? 'bg-rose-50 border-rose-200 text-rose-600'
+                                  : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-rose-600 hover:bg-rose-50'
+                              }`}
+                              title={
+                                user && (featuredProject.likes || []).some((id: any) => id.toString() === user._id)
+                                  ? 'Unlike project'
+                                  : 'Like project'
+                              }
+                            >
                               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                               </svg>
-                              {featuredProject.likes?.length || 0}
-                            </span>
+                              <span>{featuredProject.likes?.length || 0}</span>
+                            </button>
                             <span className="flex items-center gap-1 font-semibold text-slate-400">
                               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -392,12 +467,27 @@ export const Home: React.FC = () => {
                             <Link to={`/projects/${p._id}`} className="hover:underline">
                               <h4 className="font-bold text-base text-[#091e22] hover:text-[#006655] transition-colors">{p.title}</h4>
                             </Link>
-                            <span className="flex items-center gap-1 text-xs font-bold text-rose-500 shrink-0">
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleLikeProject(p._id);
+                              }}
+                              className={`flex items-center gap-1 text-xs font-bold shrink-0 border px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
+                                user && (p.likes || []).some((id: any) => id.toString() === user._id)
+                                  ? 'bg-rose-50 border-rose-200 text-rose-600'
+                                  : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-rose-600 hover:bg-rose-50'
+                              }`}
+                              title={
+                                user && (p.likes || []).some((id: any) => id.toString() === user._id)
+                                  ? 'Unlike project'
+                                  : 'Like project'
+                              }
+                            >
                               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                               </svg>
-                              {p.likes?.length || 0}
-                            </span>
+                              <span>{p.likes?.length || 0}</span>
+                            </button>
                           </div>
                           <p className="text-xs text-[#5c7075] leading-relaxed mb-4 line-clamp-2">
                             {p.shortDescription || p.description || 'Community project.'}
