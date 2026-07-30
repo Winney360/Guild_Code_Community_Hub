@@ -7,6 +7,7 @@ import {
   updateProject,
   deleteProject,
   toggleProjectLike,
+  incrementProjectView,
 } from '../controllers/projectController.js';
 import { protect } from '../middlewares/authMiddleware.js';
 
@@ -16,6 +17,7 @@ router.get('/', getProjects);
 router.get('/my', protect, getMyProjects);
 router.post('/', protect, createProject);
 router.get('/:id', getProjectById);
+router.post('/:id/view', incrementProjectView);
 router.patch('/:id', protect, updateProject);
 router.delete('/:id', protect, deleteProject);
 router.post('/:id/like', protect, toggleProjectLike);
