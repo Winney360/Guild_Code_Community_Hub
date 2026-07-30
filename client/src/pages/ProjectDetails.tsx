@@ -55,6 +55,17 @@ export const ProjectDetails: React.FC = () => {
             );
             setIsLiked(liked);
           }
+
+          // Increment view count explicitly on viewing project details
+          try {
+            const viewRes = await fetch(`/api/projects/${id}/view`, { method: 'POST' });
+            if (viewRes.ok) {
+              const viewData = await viewRes.json();
+              setProject((prev) => (prev ? { ...prev, views: viewData.views } : null));
+            }
+          } catch (viewErr) {
+            console.error('Error incrementing project view:', viewErr);
+          }
         }
       } catch (err) {
         console.error('Error fetching project details:', err);
