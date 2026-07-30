@@ -32,8 +32,10 @@ export const CollaborationMarketplace: React.FC = () => {
   const [filteredCollabs, setFilteredCollabs] = useState<CollaborationType[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Search filter state
+  // Search & Pagination filter states
   const [search, setSearch] = useState('');
+  const ITEMS_PER_PAGE = 6;
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   useEffect(() => {
     const fetchCollaborations = async () => {
@@ -109,6 +111,7 @@ export const CollaborationMarketplace: React.FC = () => {
         c.techStack.some((t) => t.toLowerCase().includes(q))
     );
     setFilteredCollabs(result);
+    setVisibleCount(ITEMS_PER_PAGE);
   }, [search, collaborations]);
 
   const getTimeElapsed = (dateString: string) => {
@@ -124,9 +127,9 @@ export const CollaborationMarketplace: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Title Header */}
-      <div className="mb-10">
+      <div className="mb-10 text-center flex flex-col items-center">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3">Collaboration Marketplace</h1>
-        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed">
+        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
           Connect with world-class engineers, designers, and visionaries. Discover opportunities to build the next generation of decentralized infrastructure.
         </p>
       </div>
@@ -152,7 +155,7 @@ export const CollaborationMarketplace: React.FC = () => {
         {/* Info Stats indicators */}
         <div className="flex items-center gap-3 shrink-0 text-[10px] font-bold">
           <span className="px-3 py-1.5 bg-[#e6f7f8] text-[#006655] rounded-lg">
-            Active Now: {loading ? '...' : collaborations.length * 7 + 12}
+            Active Now: {loading ? '...' : collaborations.filter((c) => c.status === 'open').length}
           </span>
           <span className="px-3 py-1.5 bg-slate-50 border border-slate-250 text-slate-600 rounded-lg">
             Matches: {loading ? '...' : filteredCollabs.length}
@@ -181,7 +184,7 @@ export const CollaborationMarketplace: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredCollabs.map((collab, idx) => (
+          {filteredCollabs.slice(0, visibleCount).map((collab, idx) => (
             <div
               key={collab._id}
               className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[360px]"
@@ -315,10 +318,13 @@ export const CollaborationMarketplace: React.FC = () => {
         </div>
       )}
 
-      {/* Pagination Load more */}
-      {!loading && filteredCollabs.length > 0 && (
+      {/* Pagination Load more (Only appear if there are more collaborations to view) */}
+      {!loading && visibleCount < filteredCollabs.length && (
         <div className="flex justify-center mt-10">
-          <button className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-2.5 px-6 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
+          <button
+            onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
+            className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-2.5 px-6 rounded-xl transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+          >
             Load More Opportunities <span>▼</span>
           </button>
         </div>
