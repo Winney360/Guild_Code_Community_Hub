@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface EventType {
   _id: string;
@@ -17,16 +17,9 @@ interface EventType {
 }
 
 export const CommunityEvents: React.FC = () => {
+  const navigate = useNavigate();
   const [events, setEvents] = useState<EventType[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // Countdown timer state
-  const [timeLeft, setTimeLeft] = useState({
-    days: 12,
-    hours: 4,
-    minutes: 28,
-    seconds: 40,
-  });
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -43,20 +36,6 @@ export const CommunityEvents: React.FC = () => {
       }
     };
     fetchEvents();
-
-    // Timer countdown ticker simulation
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        clearInterval(interval);
-        return prev;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -82,64 +61,21 @@ export const CommunityEvents: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       
-      {/* 1. Next Major Event (Hero Card Banner) */}
-      <section className="bg-gradient-to-br from-[#e6f7f8] via-[#eef9fa] to-white border border-slate-100 rounded-3xl p-8 md:p-12 mb-16 flex flex-col lg:flex-row items-center justify-between gap-10 shadow-sm relative overflow-hidden select-none">
-        
-        {/* Left Side: Major Details */}
-        <div className="max-w-xl">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-[#006655]/10 rounded-full text-[10px] font-bold text-[#006655] shadow-sm mb-4">
-            <svg className="w-3.5 h-3.5 text-amber-500 fill-amber-500" viewBox="0 0 24 24">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            Next Major Event
-          </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
-            Global Hackathon <br />
-            <span className="text-[#006655]">Summer '26</span>
-          </h1>
-          <p className="text-[#5c7075] text-sm md:text-base mb-8 leading-relaxed">
-            Join 5,000+ developers worldwide to build the future of decentralized protocols. $100k in prizes, mentorship from industry legends, and fast-track membership application review.
-          </p>
-          <div className="flex flex-wrap items-center gap-3">
-            <button className="bg-[#006655] hover:bg-[#004d40] text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm text-xs">
-              Register Now
-            </button>
-            <button className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm text-xs">
-              Add to Calendar
-            </button>
-          </div>
-        </div>
+      {/* Header Title */}
+      <div className="mb-10 text-center flex flex-col items-center">
+        <h1 className="text-4xl font-extrabold tracking-tight mb-3">
+          Community <span className="text-[#006655]">Events</span>
+        </h1>
+        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
+          Discover workshops, hackathons, meetups, and webinars hosted by Guild Code members worldwide.
+        </p>
+      </div>
 
-        {/* Right Side: Countdown Timer */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-md w-full max-w-sm flex flex-col items-center">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">Starts In</span>
-          <div className="grid grid-cols-4 gap-4 text-center w-full">
-            <div className="flex flex-col items-center">
-              <span className="text-3xl font-extrabold text-[#091e22]">{String(timeLeft.days).padStart(2, '0')}</span>
-              <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Days</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-3xl font-extrabold text-[#091e22]">{String(timeLeft.hours).padStart(2, '0')}</span>
-              <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Hrs</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-3xl font-extrabold text-[#091e22]">{String(timeLeft.minutes).padStart(2, '0')}</span>
-              <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Min</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-3xl font-extrabold text-red-500 animate-pulse">{String(timeLeft.seconds).padStart(2, '0')}</span>
-              <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Sec</span>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      {/* 2. Upcoming Events Grid Section */}
+      {/* Upcoming Events Grid Section */}
       <section className="mb-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4 select-none">
           <div>
-            <h2 className="text-3xl font-extrabold tracking-tight mb-2">Upcoming Events</h2>
+            <h2 className="text-2xl font-extrabold tracking-tight mb-1">Explore Listings</h2>
             <p className="text-[#5c7075] text-xs">Explore workshops, keynotes, and mixers hosted by the community.</p>
           </div>
           
@@ -164,7 +100,8 @@ export const CommunityEvents: React.FC = () => {
             {events.map((event) => (
               <div
                 key={event._id}
-                className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[360px]"
+                onClick={() => navigate(`/events/${event._id}`)}
+                className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-[360px] cursor-pointer group"
               >
                 <div>
                   {/* Category Tag & Mode */}
@@ -185,9 +122,7 @@ export const CommunityEvents: React.FC = () => {
                     <span className="text-[10px] text-[#006655] font-bold block mb-1">
                       {formatDate(event.date)} &bull; {event.time}
                     </span>
-                    <Link to={`/events/${event._id}`} className="hover:underline">
-                      <h3 className="font-extrabold text-base text-[#091e22] line-clamp-1 hover:text-[#006655] transition-colors">{event.title}</h3>
-                    </Link>
+                    <h3 className="font-extrabold text-base text-[#091e22] line-clamp-1 group-hover:text-[#006655] transition-colors">{event.title}</h3>
                   </div>
 
                   {/* Description */}
