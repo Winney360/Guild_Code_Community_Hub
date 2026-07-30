@@ -361,7 +361,7 @@ export const DashboardSettings: React.FC = () => {
       {activeTab === 'profile' && (
         !isEditingProfile ? (
           /* Read-Only Details Mode */
-          <div className="w-full bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+          <div className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4 mb-2 select-none">
               <div>
                 <h3 className="font-extrabold text-sm text-[#091e22]">Personal Information</h3>
@@ -393,7 +393,7 @@ export const DashboardSettings: React.FC = () => {
               </div>
               <div className="md:col-span-3">
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1 select-none">Bio</span>
-                <p className="text-xs font-medium text-[#5c7075] leading-relaxed whitespace-pre-line bg-[#f8fafc] border border-slate-100 p-4 rounded-2xl">
+                <p className="text-xs font-medium text-[#5c7075] leading-relaxed whitespace-pre-line bg-[#f8fafc] border border-[#006655]/15 dark:border-[#00a88a]/20 p-4 rounded-2xl">
                   {bio || 'No bio description provided yet.'}
                 </p>
               </div>
@@ -417,7 +417,7 @@ export const DashboardSettings: React.FC = () => {
                     </div>
                   </a>
                 ) : (
-                  <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-slate-100 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
+                  <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
                     <span>🔗</span>
                     <span>GitHub link not configured</span>
                   </div>
@@ -437,7 +437,7 @@ export const DashboardSettings: React.FC = () => {
                     </div>
                   </a>
                 ) : (
-                  <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-slate-100 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
+                  <div className="flex items-center gap-3 p-3 bg-slate-50/30 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl text-slate-400 text-[11px] font-semibold select-none">
                     <span>🔗</span>
                     <span>LinkedIn/Website not configured</span>
                   </div>
@@ -446,7 +446,7 @@ export const DashboardSettings: React.FC = () => {
             </div>
 
             {/* Verified member box */}
-            <div className="border border-slate-100 bg-emerald-50/20 rounded-3xl p-6 select-none flex items-start gap-4">
+            <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-emerald-50/20 rounded-3xl p-6 select-none flex items-start gap-4">
               <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -462,7 +462,7 @@ export const DashboardSettings: React.FC = () => {
           </div>
         ) : (
           /* Editable Form Mode */
-          <form onSubmit={handleSaveProfile} className="w-full bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+          <form onSubmit={handleSaveProfile} className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div>
               <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Personal Information</h3>
               
@@ -589,7 +589,7 @@ export const DashboardSettings: React.FC = () => {
       {activeTab === 'skills' && (
         !isEditingSkills ? (
           /* Read-Only Details Mode */
-          <div className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+          <div className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4 mb-2 select-none">
               <div>
                 <h3 className="font-extrabold text-sm text-[#091e22]">Skills & Specializations</h3>
@@ -625,7 +625,7 @@ export const DashboardSettings: React.FC = () => {
           </div>
         ) : (
           /* Editable Form Mode */
-          <form onSubmit={handleSaveSkills} className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
+          <form onSubmit={handleSaveSkills} className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div>
               <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Skills & Specializations</h3>
               <p className="text-xs text-[#5c7075] mb-6">List key languages, tools, and paradigms you excel at.</p>
@@ -670,57 +670,10 @@ export const DashboardSettings: React.FC = () => {
 
       {/* Password Account Form */}
       {activeTab === 'account' && (
-        <div className="max-w-2xl space-y-6 animate-fade-in">
-          {/* Profile Photo Management card */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
-            <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-4 select-none">Profile Picture</h3>
-            
-            <div className="flex flex-row items-center gap-6">
-              <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none shrink-0">
-                {profilePicture ? (
-                  <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-xl font-black text-[#006655] tracking-wider">
-                    {getInitials(fullName)}
-                  </span>
-                )}
-              </div>
-
-              <div className="flex-grow space-y-3">
-                <div className="flex flex-wrap gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-4 rounded-xl font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                    </svg>
-                    <span>{profilePicture ? 'Upload New Photo' : 'Upload Photo'}</span>
-                  </button>
-
-                  {profilePicture && (
-                    <button
-                      type="button"
-                      onClick={handleRemovePhoto}
-                      className="bg-slate-50 hover:bg-red-50 text-red-600 border border-slate-200 hover:border-red-200 py-2 px-4 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer select-none"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                      <span>Remove Photo</span>
-                    </button>
-                  )}
-                </div>
-                <p className="text-[9px] text-[#5c7075] select-none">
-                  PNG, JPG, WEBP or GIF format. Max file size 5MB.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Change Password Form card */}
-          <form onSubmit={handleSavePassword} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
+        <div className="w-full animate-fade-in">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Left: Change Password Form card */}
+            <form onSubmit={handleSavePassword} className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6">
             <div>
               <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2 select-none">Change Password</h3>
               <p className="text-xs text-[#5c7075] mb-6">Ensure your credentials are secure and updated regularly.</p>
@@ -848,12 +801,61 @@ export const DashboardSettings: React.FC = () => {
               </button>
             </div>
           </form>
+
+            {/* Right: Profile Photo Management card */}
+            <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm h-fit">
+              <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-4 select-none">Profile Picture</h3>
+              
+              <div className="flex flex-row items-center gap-6">
+                <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none shrink-0">
+                  {profilePicture ? (
+                    <img src={profilePicture} alt={fullName} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-xl font-black text-[#006655] tracking-wider">
+                      {getInitials(fullName)}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex-grow space-y-3">
+                  <div className="flex flex-wrap gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-4 rounded-xl font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                      <span>{profilePicture ? 'Upload New Photo' : 'Upload Photo'}</span>
+                    </button>
+
+                    {profilePicture && (
+                      <button
+                        type="button"
+                        onClick={handleRemovePhoto}
+                        className="bg-slate-50 hover:bg-red-50 text-red-600 border border-slate-200 hover:border-red-200 py-2 px-4 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer select-none"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span>Remove Photo</span>
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-[9px] text-[#5c7075] select-none">
+                    PNG, JPG, WEBP or GIF format. Max file size 5MB.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
       {/* Notifications Tab */}
       {activeTab === 'notifications' && (
-        <div className="max-w-2xl bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 select-none">
+        <div className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 select-none">
           <div>
             <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2">Notification Settings</h3>
             <p className="text-xs text-[#5c7075] mb-6">Manage how you receive alerts and updates from the Guild ecosystem.</p>
@@ -910,7 +912,7 @@ export const DashboardSettings: React.FC = () => {
 
       {success && <span className="sr-only">Success</span>}
       {toastMessage && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-white border border-slate-100 text-[#091e22] px-5 py-3 rounded-2xl shadow-xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] px-5 py-3 rounded-2xl shadow-xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
           <div className="w-5 h-5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center shrink-0">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -932,7 +934,7 @@ export const DashboardSettings: React.FC = () => {
       {/* Confirmation Modal for Profile Photo Removal */}
       {showRemoveConfirmModal && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 animate-in fade-in zoom-in duration-200">
             <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center mb-4 mx-auto">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

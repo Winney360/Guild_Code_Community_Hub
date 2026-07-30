@@ -109,7 +109,7 @@ export const DashboardOverview: React.FC = () => {
       {/* 1. Statistics Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@ export const DashboardOverview: React.FC = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@ export const DashboardOverview: React.FC = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,7 +159,7 @@ export const DashboardOverview: React.FC = () => {
         </div>
 
         {/* Card 4 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +180,7 @@ export const DashboardOverview: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Recent Activity */}
         <div className="lg:col-span-8 flex flex-col gap-6">
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6 select-none">
               <h3 className="font-extrabold text-base">Recent Activity</h3>
               <Link to="/dashboard/activity" className="text-[#006655] hover:underline text-xs font-semibold">View All</Link>
@@ -219,7 +219,7 @@ export const DashboardOverview: React.FC = () => {
             </div>
 
             {/* View Full History redirect link */}
-            <Link to="/dashboard/activity" className="w-full text-center border border-slate-100 py-2.5 rounded-xl text-xs text-slate-500 font-semibold bg-slate-50/30 hover:bg-slate-50 transition-colors mt-8 select-none block">
+            <Link to="/dashboard/activity" className="w-full text-center border border-[#006655]/15 dark:border-[#00a88a]/20 py-2.5 rounded-xl text-xs text-slate-500 font-semibold bg-slate-50/30 hover:bg-slate-50 transition-colors mt-8 select-none block">
               View Activity Feed
             </Link>
           </div>
@@ -228,13 +228,13 @@ export const DashboardOverview: React.FC = () => {
         {/* Right Column: Quick Actions & Notifications */}
         <div className="lg:col-span-4 flex flex-col gap-6">
           {/* Quick Actions Card */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
             <h3 className="font-extrabold text-base mb-6 select-none">Quick Actions</h3>
             <div className="space-y-3">
               {/* Action 1 */}
               <Link
                 to="/dashboard/projects"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors group"
+                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl transition-colors group"
               >
                 <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,7 +250,7 @@ export const DashboardOverview: React.FC = () => {
               {/* Action 2 */}
               <Link
                 to="/dashboard/collaborations"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors group"
+                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl transition-colors group"
               >
                 <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -266,7 +266,7 @@ export const DashboardOverview: React.FC = () => {
               {/* Action 3 */}
               <Link
                 to="/members"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition-colors group"
+                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl transition-colors group"
               >
                 <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +282,7 @@ export const DashboardOverview: React.FC = () => {
           </div>
 
           {/* Notifications Card */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6 select-none">
               <h3 className="font-extrabold text-base">Unread Alerts</h3>
               <span className="w-5 h-5 bg-[#006655] text-white flex items-center justify-center text-[10px] font-bold rounded-full">

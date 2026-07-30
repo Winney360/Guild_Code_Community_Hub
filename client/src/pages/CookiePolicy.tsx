@@ -20,7 +20,7 @@ export const CookiePolicy: React.FC = () => {
 
       <div className="space-y-8 text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
         {/* Intro */}
-        <div className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
           <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">What Are Cookies & Storage Tokens?</h2>
           <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
             Cookies and browser LocalStorage are small data files placed on your device when visiting websites. They allow web applications to maintain state, recognize your device across page transitions, and store user preferences securely.
@@ -28,7 +28,7 @@ export const CookiePolicy: React.FC = () => {
         </div>
 
         {/* Types of Cookies Used */}
-        <div className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
           <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4">Categories of Cookies We Employ</h2>
           <div className="space-y-4">
             <div className="p-4 bg-slate-50 dark:bg-[#1a292c] rounded-xl border border-slate-150 dark:border-[#273b3e]">
@@ -81,7 +81,7 @@ export const CookiePolicy: React.FC = () => {
         </div>
 
         {/* How to Manage Cookies */}
-        <div className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
           <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Managing Your Preferences</h2>
           <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
             You can clear or block cookies at any time directly through your web browser settings (Chrome, Firefox, Safari, Edge). Please note that disabling essential cookies may impact your ability to remain logged into your Guild Code dashboard.
