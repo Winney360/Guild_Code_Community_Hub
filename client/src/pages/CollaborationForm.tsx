@@ -11,7 +11,7 @@ export const CollaborationForm: React.FC = () => {
   const [description, setDescription] = useState('');
   const [commitment, setCommitment] = useState('');
   const [duration, setDuration] = useState('');
-  const [timezone, setTimezone] = useState('Global (Sync at 15:00 UTC)');
+  const [timezone, setTimezone] = useState('Any (Flexible)');
   const [skillsInput, setSkillsInput] = useState(''); // Comma separated
   const [techInput, setTechInput] = useState(''); // Comma separated
   const [rolesInput, setRolesInput] = useState(''); // Comma separated
@@ -260,13 +260,48 @@ export const CollaborationForm: React.FC = () => {
 
           <div>
             <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Timezone Preference</label>
-            <input
-              type="text"
+            <select
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              placeholder="e.g. Global (Sync at 15:00 UTC)"
-              className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none"
-            />
+              className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
+            >
+              <option value="Any (Flexible)">Any Timezone (Flexible)</option>
+              <option value="UTC / GMT (UTC+0)">UTC / GMT (UTC+0)</option>
+              <option value="EST / Eastern Time (UTC-5)">EST / Eastern Time (UTC-5)</option>
+              <option value="CST / Central Time (UTC-6)">CST / Central Time (UTC-6)</option>
+              <option value="MST / Mountain Time (UTC-7)">MST / Mountain Time (UTC-7)</option>
+              <option value="PST / Pacific Time (UTC-8)">PST / Pacific Time (UTC-8)</option>
+              <option value="CET / Central European Time (UTC+1)">CET / Central European Time (UTC+1)</option>
+              <option value="EET / Eastern European Time (UTC+2)">EET / Eastern European Time (UTC+2)</option>
+              <option value="EAT / East Africa Time (UTC+3)">EAT / East Africa Time (UTC+3)</option>
+              <option value="GST / Gulf Standard Time (UTC+4)">GST / Gulf Standard Time (UTC+4)</option>
+              <option value="IST / India Standard Time (UTC+5:30)">IST / India Standard Time (UTC+5:30)</option>
+              <option value="ICT / Indochina Time (UTC+7)">ICT / Indochina Time (UTC+7)</option>
+              <option value="SGT / Singapore Time (UTC+8)">SGT / Singapore Time (UTC+8)</option>
+              <option value="JST / Japan Standard Time (UTC+9)">JST / Japan Standard Time (UTC+9)</option>
+              <option value="AEST / Australian Eastern (UTC+10)">AEST / Australian Eastern (UTC+10)</option>
+              <option value="NZST / New Zealand Time (UTC+12)">NZST / New Zealand Time (UTC+12)</option>
+              {timezone && ![
+                'Any (Flexible)',
+                'UTC / GMT (UTC+0)',
+                'EST / Eastern Time (UTC-5)',
+                'CST / Central Time (UTC-6)',
+                'MST / Mountain Time (UTC-7)',
+                'PST / Pacific Time (UTC-8)',
+                'CET / Central European Time (UTC+1)',
+                'EET / Eastern European Time (UTC+2)',
+                'EAT / East Africa Time (UTC+3)',
+                'GST / Gulf Standard Time (UTC+4)',
+                'IST / India Standard Time (UTC+5:30)',
+                'ICT / Indochina Time (UTC+7)',
+                'SGT / Singapore Time (UTC+8)',
+                'JST / Japan Standard Time (UTC+9)',
+                'AEST / Australian Eastern (UTC+10)',
+                'NZST / New Zealand Time (UTC+12)',
+              ].includes(timezone) && (
+                <option value={timezone}>{timezone}</option>
+              )}
+            </select>
           </div>
         </div>
 
