@@ -10,7 +10,7 @@ export const ProjectForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [shortDescription, setShortDescription] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState<'Web' | 'Mobile' | 'Design' | 'AI'>('Web');
+  const [category, setCategory] = useState<'Web' | 'Mobile' | 'Design' | 'AI' | 'Cloud Infrastructure'>('Web');
   const [techInput, setTechInput] = useState(''); // Comma separated
   const [coverImage, setCoverImage] = useState('');
   const [status, setStatus] = useState<'in-progress' | 'completed'>('in-progress');
@@ -299,6 +299,7 @@ export const ProjectForm: React.FC = () => {
               <option value="Mobile">Mobile App</option>
               <option value="Design">UI / Design</option>
               <option value="AI">AI & Machine Learning</option>
+              <option value="Cloud Infrastructure">Cloud Infrastructure</option>
             </select>
           </div>
 
@@ -548,6 +549,32 @@ export const ProjectForm: React.FC = () => {
                     value={github}
                     onChange={(e) => setGithub(e.target.value)}
                     placeholder="https://github.com/username/ai-project"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Category = Cloud Infrastructure */}
+            {category === 'Cloud Infrastructure' && (
+              <>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">Live Console / Architecture Demo URL</label>
+                  <input
+                    type="url"
+                    value={liveDemo}
+                    onChange={(e) => setLiveDemo(e.target.value)}
+                    placeholder="https://console.aws.amazon.com/..."
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[9px] font-bold text-[#5c7075] block mb-1">IaC / Infrastructure Code Repo URL</label>
+                  <input
+                    type="url"
+                    value={github}
+                    onChange={(e) => setGithub(e.target.value)}
+                    placeholder="https://github.com/username/terraform-infra"
                     className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
                   />
                 </div>
