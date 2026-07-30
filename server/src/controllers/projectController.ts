@@ -55,7 +55,11 @@ export const getProjectById = async (req: Request, res: Response): Promise<void>
   }
 };
 
-// @desc    Increment project views count on explicit view action
+// Sliding window cache for view deduplication (IP/User + Project ID -> timestamp)
+const projectViewsCache = new Map<string, number>();
+const VIEW_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour cooldown per IP per project
+
+// @desc    Increment project views count on explicit view action (restricted)
 // @route   POST /api/projects/:id/view
 // @access  Public
 export const incrementProjectView = async (req: Request, res: Response): Promise<void> => {
@@ -66,8 +70,17 @@ export const incrementProjectView = async (req: Request, res: Response): Promise
       return;
     }
 
-    project.views += 1;
-    await project.save();
+    const clientIp = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || 'unknown';
+    const cacheKey = `${clientIp}:${req.params.id}`;
+    const now = Date.now();
+    const lastViewed = projectViewsCache.get(cacheKey);
+
+    // Only increment if not viewed within cooldown period
+    if (!lastViewed || now - lastViewed > VIEW_COOLDOWN_MS) {
+      projectViewsCache.set(cacheKey, now);
+      project.views += 1;
+      await project.save();
+    }
 
     res.status(200).json({ success: true, views: project.views });
   } catch (error: any) {
