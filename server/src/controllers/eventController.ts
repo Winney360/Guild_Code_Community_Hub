@@ -69,7 +69,7 @@ export const getEventById = async (req: Request, res: Response): Promise<void> =
 // @access  Private (Registered members)
 export const createEvent = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const { title, description, eventType, date, time, mode, locationOrLink, maxParticipants, status } = req.body;
+    const { title, description, eventType, date, time, timezone, mode, locationOrLink, maxParticipants, status } = req.body;
     const userId = req.user?.id;
     if (!userId) {
       res.status(401).json({ message: 'Not authorized' });
@@ -82,6 +82,7 @@ export const createEvent = async (req: AuthenticatedRequest, res: Response): Pro
       eventType,
       date,
       time,
+      timezone,
       mode,
       locationOrLink,
       maxParticipants: maxParticipants || 0,
