@@ -44,9 +44,13 @@ export const ProjectDetails: React.FC = () => {
         if (res.ok) {
           const data = await res.json();
           setProject(data.data);
-          setLikesCount(data.data.likes.length);
+          const likesList = data.data.likes || [];
+          setLikesCount(likesList.length);
           if (user) {
-            setIsLiked(data.data.likes.includes(user._id));
+            const liked = likesList.some(
+              (l: any) => (typeof l === 'string' ? l : l._id || l.toString()) === user._id
+            );
+            setIsLiked(liked);
           }
         }
       } catch (err) {
@@ -74,6 +78,17 @@ export const ProjectDetails: React.FC = () => {
         const data = await res.json();
         setIsLiked(data.isLiked);
         setLikesCount(data.likesCount);
+        if (project) {
+          let updatedLikes = [...(project.likes || [])];
+          if (data.isLiked && !updatedLikes.includes(user._id)) {
+            updatedLikes.push(user._id);
+          } else if (!data.isLiked) {
+            updatedLikes = updatedLikes.filter(
+              (l: any) => (typeof l === 'string' ? l : l._id || l.toString()) !== user._id
+            );
+          }
+          setProject({ ...project, likes: updatedLikes });
+        }
       }
     } catch (err) {
       console.error('Error liking project:', err);
