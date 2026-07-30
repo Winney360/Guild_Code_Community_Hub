@@ -163,29 +163,29 @@ export const EventDetails: React.FC = () => {
   return (
     <div className="font-sans text-[#091e22]">
       {/* 1. Header Hero Banner (Teal background card) */}
-      <section className="bg-gradient-to-r from-[#8be0eb] to-[#a3f0f9]/80 py-12 md:py-16 px-6 relative overflow-hidden select-none">
+      <section className="bg-gradient-to-r from-[#8be0eb] to-[#a3f0f9]/80 dark:from-[#1a292c] dark:to-[#0d1f22] py-12 md:py-16 px-6 relative overflow-hidden select-none">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
-          
+
           {/* Details */}
-          <div className="max-w-2xl text-[#091e22]">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-[#006655]/10 rounded-full text-[10px] font-bold text-[#006655] shadow-sm mb-4">
+          <div className="max-w-2xl text-[#091e22] dark:text-[#f1f5f9]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-[#1a292c] border border-[#006655]/10 rounded-full text-[10px] font-bold text-[#006655] shadow-sm mb-4">
               &bull; LIVE WORKSHOP
             </span>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
               {event.title}
             </h1>
-            <p className="text-slate-700 text-sm md:text-base mb-8 leading-relaxed max-w-xl">
+            <p className="text-slate-700 dark:text-[#8ba4a8] text-sm md:text-base mb-8 leading-relaxed max-w-xl">
               {event.description}
             </p>
 
             <div className="flex flex-wrap gap-4 text-xs font-semibold">
-              <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-xl shadow-sm">
+              <div className="flex items-center gap-2 bg-white/70 dark:bg-[#1a292c]/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-sm">
                 <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Date: {formatEventDate(event.date)}
               </div>
-              <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-xl shadow-sm">
+              <div className="flex items-center gap-2 bg-white/70 dark:bg-[#1a292c]/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-sm">
                 <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -194,31 +194,42 @@ export const EventDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* Event Metadata Card */}
-          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-md w-full max-w-sm flex flex-col justify-between">
-            <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Event Details</span>
-              <div className="space-y-3 text-xs font-semibold">
-                <div className="flex justify-between items-center">
-                  <span className="text-[#5c7075]">Timezone</span>
-                  <span className="text-[#091e22]">{event.timezone}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-[#5c7075]">Mode</span>
-                  <span className="text-[#006655] uppercase font-bold">{event.mode}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-[#5c7075]">Capacity</span>
-                  <span className="text-[#091e22]">{event.maxParticipants || 'Unlimited'} Seats</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-[#5c7075]">Registered</span>
-                  <span className="text-[#091e22]">{event.participants ? event.participants.length : 0} Attendees</span>
-                </div>
-                <div className="pt-2 border-t border-slate-50">
-                  <span className="text-slate-400 text-[10px] block mb-0.5 font-bold uppercase">Location / Access Link</span>
-                  <span className="text-[#091e22] break-all font-semibold">{event.locationOrLink || 'To be shared with registered attendees'}</span>
-                </div>
+          {/* Event Details sidebar */}
+          <div className="w-full max-w-sm flex flex-col justify-between">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Event Details</span>
+            <div className="space-y-3 text-xs font-semibold">
+              <div className="flex justify-between items-center">
+                <span className="text-[#5c7075]">Timezone</span>
+                <span className="dark:text-[#f1f5f9]">{event.timezone}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#5c7075]">Mode</span>
+                <span className="text-[#006655] uppercase font-bold">{event.mode}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#5c7075]">Capacity</span>
+                <span className="dark:text-[#f1f5f9]">{event.maxParticipants || 'Unlimited'} Seats</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#5c7075]">Registered</span>
+                <span className="dark:text-[#f1f5f9]">{event.participants ? event.participants.length : 0} Attendees</span>
+              </div>
+              <div className="pt-2 border-t border-slate-50 dark:border-slate-700">
+                <span className="text-slate-400 text-[10px] block mb-0.5 font-bold uppercase">Location / Access Link</span>
+                {event.locationOrLink?.match(/^https?:\/\//) ? (
+                  <a
+                    href={event.locationOrLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#006655] break-all font-semibold hover:underline"
+                  >
+                    {event.locationOrLink}
+                  </a>
+                ) : (
+                  <span className="text-[#091e22] dark:text-[#f1f5f9] break-all font-semibold">
+                    {event.locationOrLink || 'To be shared with registered attendees'}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -233,9 +244,9 @@ export const EventDetails: React.FC = () => {
           {/* Left panel (takes 8 columns) */}
           <div className="lg:col-span-8">
             {/* About Event Description */}
-            <section className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 p-8 rounded-3xl shadow-sm mb-8">
-              <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-slate-50">About This Event</h3>
-              <p className="text-sm text-[#5c7075] leading-relaxed whitespace-pre-wrap">
+            <section className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 p-8 rounded-3xl shadow-sm mb-8">
+              <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-slate-50 dark:border-slate-700">About This Event</h3>
+              <p className="text-sm text-[#5c7075] dark:text-[#8ba4a8] leading-relaxed whitespace-pre-wrap">
                 {event.description}
               </p>
             </section>
@@ -245,41 +256,41 @@ export const EventDetails: React.FC = () => {
           <div className="lg:col-span-4 flex flex-col gap-6">
             
             {/* Registration / Confirmation Card */}
-            <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
+            <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white dark:bg-[#121e21] rounded-3xl p-6 shadow-sm">
               {submitSuccess || alreadyRegistered ? (
                 <>
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-extrabold text-base">
+                      <h3 className="font-extrabold text-base dark:text-[#f1f5f9]">
                         {alreadyRegistered ? 'Already Registered' : "You're In!"}
                       </h3>
-                      <p className="text-[10px] text-emerald-600 font-semibold">
+                      <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
                         {registeredName || 'Registration confirmed'}
                       </p>
                     </div>
                   </div>
 
-                  <div className="bg-emerald-50/50 rounded-2xl p-4 mb-4 text-xs space-y-1.5">
+                  <div className="bg-emerald-50/50 dark:bg-emerald-950/30 rounded-2xl p-4 mb-4 text-xs space-y-1.5">
                     <div className="flex justify-between">
-                      <span className="text-[#5c7075]">Date</span>
-                      <span className="font-semibold text-[#091e22]">{formatEventDate(event.date)}</span>
+                      <span className="text-[#5c7075] dark:text-[#8ba4a8]">Date</span>
+                      <span className="font-semibold text-[#091e22] dark:text-[#f1f5f9]">{formatEventDate(event.date)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#5c7075]">Time</span>
-                      <span className="font-semibold text-[#091e22]">{event.time} {event.timezone}</span>
+                      <span className="text-[#5c7075] dark:text-[#8ba4a8]">Time</span>
+                      <span className="font-semibold text-[#091e22] dark:text-[#f1f5f9]">{event.time} {event.timezone}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#5c7075]">Location</span>
-                      <span className="font-semibold text-[#006655] text-right max-w-[180px] truncate">{event.locationOrLink || 'TBA'}</span>
+                      <span className="text-[#5c7075] dark:text-[#8ba4a8]">Location</span>
+                      <span className="font-semibold text-[#006655] dark:text-emerald-400 text-right max-w-[180px] truncate">{event.locationOrLink || 'TBA'}</span>
                     </div>
                   </div>
 
-                  <p className="text-[9px] text-[#5c7075] mb-4 leading-relaxed">
+                  <p className="text-[9px] text-[#5c7075] dark:text-[#8ba4a8] mb-4 leading-relaxed">
                     Add this event to your calendar so you never miss it.
                   </p>
 
@@ -288,7 +299,7 @@ export const EventDetails: React.FC = () => {
                       href={getGoogleCalendarUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+                      className="flex items-center justify-center gap-2 w-full bg-white dark:bg-[#1a292c] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#0d1f22] text-slate-700 dark:text-[#f1f5f9] py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
                     >
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                         <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -298,7 +309,7 @@ export const EventDetails: React.FC = () => {
                     </a>
                     <button
                       onClick={downloadIcs}
-                      className="flex items-center justify-center gap-2 w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+                      className="flex items-center justify-center gap-2 w-full bg-white dark:bg-[#1a292c] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#0d1f22] text-slate-700 dark:text-[#f1f5f9] py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -309,8 +320,8 @@ export const EventDetails: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <h3 className="font-extrabold text-base mb-1">Reserve Your Spot</h3>
-                  <p className="text-[10px] text-[#5c7075] leading-relaxed mb-6">
+                  <h3 className="font-extrabold text-base mb-1 dark:text-[#f1f5f9]">Reserve Your Spot</h3>
+                  <p className="text-[10px] text-[#5c7075] dark:text-[#8ba4a8] leading-relaxed mb-6">
                     Limited seats available. Complete your registration below.
                   </p>
 
@@ -356,7 +367,7 @@ export const EventDetails: React.FC = () => {
                     </button>
                   </form>
 
-                  <span className="text-[9px] text-[#5c7075] font-semibold text-center block mt-4 select-none">
+                  <span className="text-[9px] text-[#5c7075] dark:text-[#8ba4a8] font-semibold text-center block mt-4 select-none">
                     By registering, you agree to our <Link to="/terms" className="underline">Terms of Service</Link>.
                   </span>
                 </>
