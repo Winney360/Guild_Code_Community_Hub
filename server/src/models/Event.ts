@@ -37,7 +37,10 @@ const EventSchema = new Schema(
     time: {
       type: String,
       required: [true, 'Event time is required'],
-      placeholder: 'e.g. 10:00 AM EAT',
+    },
+    timezone: {
+      type: String,
+      default: 'UTC / GMT (UTC+0)',
     },
     mode: {
       type: String,
