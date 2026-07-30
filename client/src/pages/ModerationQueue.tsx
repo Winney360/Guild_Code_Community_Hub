@@ -6,6 +6,7 @@ interface ModerationType {
   creator: string;
   status: 'flagged' | 'reported' | 'pending';
   reportType: string;
+  isFeatured?: boolean;
   timeLabel: string;
 }
 
@@ -49,6 +50,25 @@ export const ModerationQueue: React.FC = () => {
       }
     } catch (err) {
       console.error(`Error performing moderation action ${action}:`, err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleToggleFeature = async (id: string) => {
+    try {
+      setActionLoading(id);
+      const res = await fetch(`/api/admin/moderation/${id}/feature`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (res.ok) {
+        await fetchQueue();
+      }
+    } catch (err) {
+      console.error('Error toggling feature status:', err);
     } finally {
       setActionLoading(null);
     }
@@ -204,6 +224,17 @@ export const ModerationQueue: React.FC = () => {
                       ) : (
                         <>
                           <button
+                            onClick={() => handleToggleFeature(item._id)}
+                            className={`font-bold text-[10px] px-2 py-0.5 rounded border transition-colors ${
+                              item.isFeatured
+                                ? 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'
+                                : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                            }`}
+                            title={item.isFeatured ? 'Remove Admin Featured status' : 'Set as Admin Featured project'}
+                          >
+                            {item.isFeatured ? 'Featured ★' : 'Feature'}
+                          </button>
+                          <button
                             onClick={() => handleAction(item._id, 'dismiss')}
                             className="text-[#006655] hover:text-[#004d40] font-bold text-[10px]"
                             title="Restore public visibility"
@@ -213,7 +244,7 @@ export const ModerationQueue: React.FC = () => {
                           <button
                             onClick={() => handleAction(item._id, 'resolve')}
                             className="text-red-500 hover:text-red-700 font-bold text-[10px]"
-                            title="Hide content from public showcae"
+                            title="Hide content from public showcase"
                           >
                             Moderate (Hide)
                           </button>
