@@ -8,6 +8,7 @@ interface EventType {
   eventType: 'workshop' | 'hackathon' | 'meetup' | 'webinar' | 'training';
   date: string;
   time: string;
+  timezone: string;
   mode: 'online' | 'physical' | 'hybrid';
   locationOrLink: string;
   participants: Array<{ name: string; email: string }>;
@@ -137,16 +138,20 @@ export const EventDetails: React.FC = () => {
                 <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Time: {event.time}
+                Time: {event.time} {event.timezone}
               </div>
             </div>
           </div>
 
           {/* Event Metadata Card */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-md w-full max-w-sm flex flex-col justify-between">
+          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-md w-full max-w-sm flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Event Details</span>
               <div className="space-y-3 text-xs font-semibold">
+                <div className="flex justify-between items-center">
+                  <span className="text-[#5c7075]">Timezone</span>
+                  <span className="text-[#091e22]">{event.timezone}</span>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="text-[#5c7075]">Mode</span>
                   <span className="text-[#006655] uppercase font-bold">{event.mode}</span>
@@ -177,7 +182,7 @@ export const EventDetails: React.FC = () => {
           {/* Left panel (takes 8 columns) */}
           <div className="lg:col-span-8">
             {/* About Event Description */}
-            <section className="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm mb-8">
+            <section className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 p-8 rounded-3xl shadow-sm mb-8">
               <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-slate-50">About This Event</h3>
               <p className="text-sm text-[#5c7075] leading-relaxed whitespace-pre-wrap">
                 {event.description}
@@ -189,7 +194,7 @@ export const EventDetails: React.FC = () => {
           <div className="lg:col-span-4 flex flex-col gap-6">
             
             {/* Registration Form Card */}
-            <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
+            <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
               <h3 className="font-extrabold text-base mb-1">Reserve Your Spot</h3>
               <p className="text-[10px] text-[#5c7075] leading-relaxed mb-6">
                 Limited seats available. Certification included upon completion.
@@ -269,7 +274,7 @@ export const EventDetails: React.FC = () => {
             </div>
 
             {/* Group discounts card */}
-            <div className="border border-slate-100 bg-slate-50/50 rounded-3xl p-6 select-none">
+            <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-slate-50/50 rounded-3xl p-6 select-none">
               <h4 className="font-bold text-xs mb-1.5">Group Discounts</h4>
               <p className="text-[10px] text-[#5c7075] leading-relaxed mb-4">
                 Registering for a team of 5 or more? Contact our partnership team for a 20% discount code.
