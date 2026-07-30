@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Event } from '../models/Event.js';
 import { Notification } from '../models/Notification.js';
+import { User } from '../models/User.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 // @desc    Get all published events
@@ -186,7 +187,18 @@ export const registerForEvent = async (req: Request, res: Response): Promise<voi
       (p) => p.email.toLowerCase() === email.toLowerCase()
     );
     if (isRegistered) {
-      res.status(400).json({ message: 'You have already registered for this event' });
+      res.status(409).json({
+        message: 'You have already registered for this event',
+        alreadyRegistered: true,
+        event: {
+          title: event.title,
+          date: event.date,
+          time: event.time,
+          timezone: event.timezone,
+          description: event.description,
+          locationOrLink: event.locationOrLink,
+        },
+      });
       return;
     }
 
@@ -198,7 +210,7 @@ export const registerForEvent = async (req: Request, res: Response): Promise<voi
     event.participants.push({ name, email });
     await event.save();
 
-    // Trigger notification for the event creator
+    // Notify the event creator
     await Notification.create({
       userId: event.createdBy,
       type: 'event_update',
@@ -206,6 +218,19 @@ export const registerForEvent = async (req: Request, res: Response): Promise<voi
       message: `${name} (${email}) has registered for your upcoming event.`,
       link: '/dashboard/events',
     });
+
+    // Notify all admins
+    const admins = await User.find({ role: 'admin' });
+    const adminNotifications = admins.map((admin) => ({
+      userId: admin._id,
+      type: 'event_update' as const,
+      title: `New Event Registration: ${event.title}`,
+      message: `${name} (${email}) registered for "${event.title}".`,
+      link: `/events/${event._id}`,
+    }));
+    if (adminNotifications.length > 0) {
+      await Notification.insertMany(adminNotifications);
+    }
 
     res.status(200).json({
       success: true,
