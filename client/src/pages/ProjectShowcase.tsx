@@ -247,45 +247,39 @@ export const ProjectShowcase: React.FC = () => {
           {paginatedProjects.map((project) => (
             <div
               key={project._id}
-              className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-[360px]"
+              className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[440px] h-[450px]"
             >
               <div>
                 {/* Project Cover Image */}
-                <div className="relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50 select-none">
+                <Link to={`/projects/${project._id}`} className="block relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50 select-none overflow-hidden group">
                   <img
                     src={project.coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop'}
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   {/* Category Tag */}
                   <span className="absolute top-4 right-4 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-bold rounded-lg shadow-sm">
                     {project.category === 'AI' ? 'AI / ML' : project.category === 'Design' ? 'UI / Design' : `${project.category} App`}
                   </span>
-                </div>
+                </Link>
 
                 {/* Info Container */}
-                <div className="p-5">
+                <div className="p-6">
                   <div className="flex justify-between items-start mb-2 gap-4">
-                    <Link to={`/projects/${project._id}`} className="hover:underline">
-                      <h3 className="font-bold text-base text-[#091e22] line-clamp-1 hover:text-[#006655] transition-colors">{project.title}</h3>
+                    <Link to={`/projects/${project._id}`} className="hover:underline flex-1 min-w-0">
+                      <h3 className="font-bold text-lg text-[#091e22] line-clamp-1 hover:text-[#006655] transition-colors">{project.title}</h3>
                     </Link>
-                    {/* Bookmark dummy */}
-                    <button className="text-slate-400 hover:text-slate-600 transition-colors" title="Bookmark project">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                      </svg>
-                    </button>
                   </div>
-                  <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-2 mb-4 h-9">
-                    {project.shortDescription || 'A custom showcase project created by the talented Guild Code developers.'}
+                  <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-3 mb-5 min-h-[54px]">
+                    {project.shortDescription || project.description || 'A custom showcase project created by the talented Guild Code developers.'}
                   </p>
 
                   {/* Tech stack badges */}
-                  <div className="flex flex-wrap gap-1 mt-auto h-12 overflow-hidden content-start">
+                  <div className="flex flex-wrap gap-1.5 min-h-[32px] content-start">
                     {project.techStack.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2 py-0.5 bg-slate-50 border border-slate-150 text-[10px] text-slate-500 rounded font-semibold"
+                        className="px-2.5 py-1 bg-slate-50 border border-slate-150 text-[10px] text-slate-600 rounded-lg font-semibold"
                       >
                         {tech}
                       </span>
@@ -295,29 +289,39 @@ export const ProjectShowcase: React.FC = () => {
               </div>
 
               {/* Owner Footer row */}
-              <div className="px-5 pb-5 pt-3 border-t border-slate-50 flex items-center justify-between text-[10px] text-[#5c7075] select-none">
+              <div className="px-6 pb-6 pt-3 border-t border-slate-50 flex items-center justify-between text-xs text-[#5c7075] select-none">
                 {/* Author Info */}
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 bg-slate-100 rounded-full overflow-hidden shrink-0">
+                  <div className="w-6 h-6 bg-slate-100 rounded-full overflow-hidden shrink-0">
                     {project.byUser && project.byUser.profilePicture ? (
                       <img src={project.byUser.profilePicture} alt={project.byUser.fullName} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-[8px]">
+                      <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-[9px]">
                         {project.byUser ? project.byUser.fullName.charAt(0).toUpperCase() : 'G'}
                       </div>
                     )}
                   </div>
-                  <span className="font-bold">{project.byUser ? project.byUser.fullName : 'Guild Member'}</span>
+                  <span className="font-semibold text-xs truncate max-w-[100px]">{project.byUser ? project.byUser.fullName : 'Guild Member'}</span>
                 </div>
 
-                {/* Likes / Views count */}
-                <div className="flex items-center gap-3 font-semibold">
+                {/* Engagement CTAs */}
+                <div className="flex items-center gap-3">
+                  <Link
+                    to={`/projects/${project._id}`}
+                    className="text-[#006655] hover:text-[#004d40] font-bold text-xs hover:underline flex items-center gap-0.5 mr-1"
+                    title="View project details"
+                  >
+                    <span>View</span>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
                   <button
                     onClick={(e) => {
                       e.preventDefault();
                       handleLikeProject(project._id);
                     }}
-                    className={`flex items-center gap-1 font-bold px-2 py-0.5 rounded border transition-colors cursor-pointer ${
+                    className={`flex items-center gap-1 font-bold px-2.5 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
                       user && (project.likes || []).some((id: any) => id.toString() === user._id)
                         ? 'bg-rose-50 border-rose-200 text-rose-600'
                         : 'bg-slate-50 border-slate-100 text-slate-500 hover:text-rose-500 hover:bg-rose-50'
@@ -333,7 +337,7 @@ export const ProjectShowcase: React.FC = () => {
                     </svg>
                     <span>{project.likes ? project.likes.length : 0}</span>
                   </button>
-                  <span className="flex items-center gap-1 text-[#5c7075]">
+                  <span className="flex items-center gap-1 text-slate-400 text-xs">
                     <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
