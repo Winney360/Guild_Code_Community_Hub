@@ -40,8 +40,8 @@ const CollaborationSchema = new Schema<ICollaboration>(
     requiredSkills: {
       type: [String],
       validate: [
-        (val: string[]) => val.length <= 5,
-        'Required skills cannot exceed 5 items',
+        (val: string[]) => val.length <= 8,
+        'Required skills cannot exceed 8 items',
       ],
       default: [],
     },
