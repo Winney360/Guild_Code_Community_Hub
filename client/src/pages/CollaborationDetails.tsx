@@ -47,6 +47,7 @@ export const CollaborationDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [liking, setLiking] = useState(false);
 
   // Application Form state
   const [role, setRole] = useState('');
@@ -98,6 +99,9 @@ export const CollaborationDetails: React.FC = () => {
       return;
     }
 
+    if (liking) return;
+    setLiking(true);
+
     try {
       const res = await fetch(`/api/collaborations/${id}/like`, {
         method: 'POST',
@@ -111,6 +115,8 @@ export const CollaborationDetails: React.FC = () => {
       }
     } catch (err) {
       console.error('Error liking collaboration:', err);
+    } finally {
+      setLiking(false);
     }
   };
 
