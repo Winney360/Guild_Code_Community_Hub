@@ -39,7 +39,7 @@ export const TermsOfService: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Table of Contents Sticky Sidebar */}
         <div className="lg:col-span-1">
-          <div className="sticky top-24 bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-5 shadow-xs">
+          <div className="sticky top-24 bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-5 shadow-xs">
             <h3 className="text-xs font-bold text-[#091e22] dark:text-[#f1f5f9] uppercase tracking-wider mb-4 pb-2 border-b border-slate-100 dark:border-[#1e2e30]">
               Terms Navigation
             </h3>
@@ -88,7 +88,7 @@ export const TermsOfService: React.FC = () => {
         {/* Terms Content */}
         <div className="lg:col-span-3 space-y-8 text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
           {/* Section 1 */}
-          <section id="acceptance" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="acceptance" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">1</span>
               Acceptance of Terms
@@ -102,7 +102,7 @@ export const TermsOfService: React.FC = () => {
           </section>
 
           {/* Section 2 */}
-          <section id="account" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="account" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">2</span>
               User Accounts & Security
@@ -121,7 +121,7 @@ export const TermsOfService: React.FC = () => {
           </section>
 
           {/* Section 3 */}
-          <section id="ip" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="ip" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">3</span>
               Intellectual Property Rights
@@ -143,7 +143,7 @@ export const TermsOfService: React.FC = () => {
           </section>
 
           {/* Section 4 */}
-          <section id="collaborations" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="collaborations" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">4</span>
               Project & Matchmaking Marketplace
@@ -154,7 +154,7 @@ export const TermsOfService: React.FC = () => {
           </section>
 
           {/* Section 5 */}
-          <section id="conduct" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="conduct" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">5</span>
               Acceptable Conduct & Prohibited Uses
@@ -169,7 +169,7 @@ export const TermsOfService: React.FC = () => {
           </section>
 
           {/* Section 6 & 7 */}
-          <section id="disclaimer" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="disclaimer" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">6</span>
               Disclaimer of Warranties
@@ -179,7 +179,7 @@ export const TermsOfService: React.FC = () => {
             </p>
           </section>
 
-          <section id="limitation" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="limitation" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">7</span>
               Limitation of Liability
@@ -190,7 +190,7 @@ export const TermsOfService: React.FC = () => {
           </section>
 
           {/* Section 8 */}
-          <section id="governing" className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="governing" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">8</span>
               Termination & Governing Law
