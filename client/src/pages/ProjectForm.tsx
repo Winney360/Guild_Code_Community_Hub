@@ -113,6 +113,7 @@ export const ProjectForm: React.FC = () => {
       techStack: techStack.length > 0 ? techStack : ['Draft'],
       coverImage: coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop',
       status: 'in-progress',
+      isVisible: false,
       links: {
         liveDemo,
         github,
@@ -166,6 +167,7 @@ export const ProjectForm: React.FC = () => {
       return;
     }
 
+    // Publish always sets status to completed and makes project visible
     const payload = {
       title,
       shortDescription,
@@ -173,7 +175,8 @@ export const ProjectForm: React.FC = () => {
       category,
       techStack,
       coverImage: coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop',
-      status,
+      status: isEditMode ? status : 'completed',
+      isVisible: true,
       links: {
         liveDemo,
         github,
@@ -246,7 +249,7 @@ export const ProjectForm: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto bg-white border border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm font-sans text-[#091e22]">
+    <div className="max-w-3xl mx-auto bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 p-6 md:p-8 rounded-3xl shadow-sm font-sans text-[#091e22]">
       {/* Title */}
       <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-100 select-none">
         <div>
@@ -310,8 +313,8 @@ export const ProjectForm: React.FC = () => {
               onChange={(e) => setStatus(e.target.value as any)}
               className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
             >
-              <option value="in-progress">Draft (In-Progress)</option>
-              <option value="completed">Published (Completed)</option>
+              <option value="in-progress">{isEditMode ? 'Draft (In-Progress)' : 'Draft'}</option>
+              <option value="completed">Published</option>
             </select>
           </div>
         </div>
@@ -432,7 +435,7 @@ export const ProjectForm: React.FC = () => {
         </div>
 
         {/* Conditional Project Links Section based on Category */}
-        <div className="border border-slate-100 rounded-3xl p-5 space-y-4 bg-slate-50/20">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-5 space-y-4 bg-slate-50/20">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold uppercase tracking-wider text-[#006655] block select-none">
               Project Links ({category} Project)
@@ -626,7 +629,7 @@ export const ProjectForm: React.FC = () => {
               disabled={loading}
               className="w-full sm:w-auto px-6 py-2.5 bg-[#006655] hover:bg-[#004d40] text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
-              <span>{loading ? 'Saving...' : (status === 'in-progress' ? 'Publish Project' : 'Publish Build')}</span>
+              <span>{loading ? 'Saving...' : (isEditMode ? 'Update Project' : 'Publish Project')}</span>
             </button>
           </div>
         </div>
