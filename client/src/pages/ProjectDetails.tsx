@@ -39,6 +39,7 @@ export const ProjectDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [liking, setLiking] = useState(false);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -56,15 +57,19 @@ export const ProjectDetails: React.FC = () => {
             setIsLiked(liked);
           }
 
-          // Increment view count explicitly on viewing project details
-          try {
-            const viewRes = await fetch(`/api/projects/${id}/view`, { method: 'POST' });
-            if (viewRes.ok) {
-              const viewData = await viewRes.json();
-              setProject((prev) => (prev ? { ...prev, views: viewData.views } : null));
+          // Increment view count explicitly (restricted to once per browser session per project)
+          const sessionKey = `viewed_project_${id}`;
+          if (!sessionStorage.getItem(sessionKey)) {
+            try {
+              const viewRes = await fetch(`/api/projects/${id}/view`, { method: 'POST' });
+              if (viewRes.ok) {
+                const viewData = await viewRes.json();
+                sessionStorage.setItem(sessionKey, 'true');
+                setProject((prev) => (prev ? { ...prev, views: viewData.views } : null));
+              }
+            } catch (viewErr) {
+              console.error('Error incrementing project view:', viewErr);
             }
-          } catch (viewErr) {
-            console.error('Error incrementing project view:', viewErr);
           }
         }
       } catch (err) {
@@ -81,6 +86,9 @@ export const ProjectDetails: React.FC = () => {
       navigate('/login');
       return;
     }
+
+    if (liking) return;
+    setLiking(true);
 
     try {
       const res = await fetch(`/api/projects/${id}/like`, {
@@ -106,6 +114,8 @@ export const ProjectDetails: React.FC = () => {
       }
     } catch (err) {
       console.error('Error liking project:', err);
+    } finally {
+      setLiking(false);
     }
   };
 
