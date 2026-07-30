@@ -88,7 +88,7 @@ export const Changelog: React.FC = () => {
             <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#006655] border-4 border-white dark:border-[#0b1315] shadow-xs" />
 
             {/* Card */}
-            <div className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 shadow-xs">
+            <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 shadow-xs">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-3">
                   <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9]">{release.version}</h2>
