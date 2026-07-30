@@ -210,6 +210,17 @@ export const CollaborationDetails: React.FC = () => {
     }
   };
 
+  const getClosesInText = () => {
+    if (!collab) return 'Open';
+    if (collab.status === 'closed') return 'Closed';
+    const createdDate = new Date(collab.createdAt).getTime();
+    const now = new Date().getTime();
+    const daysPassed = Math.floor((now - createdDate) / (1000 * 60 * 60 * 24));
+    const daysLeft = 14 - daysPassed;
+    if (daysLeft <= 0) return 'Closes Today';
+    return `${daysLeft} Day${daysLeft === 1 ? '' : 's'}`;
+  };
+
   const handleCommentDelete = async (commentId: string) => {
     if (!window.confirm('Are you sure you want to delete this comment?')) return;
     try {
@@ -655,11 +666,13 @@ export const CollaborationDetails: React.FC = () => {
               </div>
               <div className="flex justify-between items-center text-xs">
                 <span className="text-[#5c7075]">Views</span>
-                <span className="text-[#091e22]">{collab.views} Total</span>
+                <span className="text-[#091e22]">{collab.views || 0} Total</span>
               </div>
               <div className="flex justify-between items-center text-xs">
-                <span className="text-[#5c7075]">Closes In</span>
-                <span className="text-red-500">4 Days</span>
+                <span className="text-[#5c7075]">Status / Closes</span>
+                <span className={collab.status === 'closed' ? 'text-slate-400 font-bold' : 'text-[#006655] font-bold'}>
+                  {getClosesInText()}
+                </span>
               </div>
             </div>
           </div>
