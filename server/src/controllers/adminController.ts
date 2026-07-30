@@ -74,6 +74,7 @@ export const adminGetModerationQueue = async (req: AuthenticatedRequest, res: Re
         creator: proj.byUser ? proj.byUser.fullName : 'Unknown Builder',
         status,
         reportType,
+        isFeatured: proj.isFeatured || proj.isOfficialGuildCode || false,
         timeLabel: new Date(proj.createdAt).toLocaleDateString('en-US', {
           month: 'short',
           day: 'numeric',
@@ -121,6 +122,29 @@ export const adminDismissReport = async (req: AuthenticatedRequest, res: Respons
       return;
     }
     res.status(200).json({ success: true, message: 'Content approved for public directory.' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
+// @desc    Toggle admin featured status of a project
+// @route   POST /api/admin/moderation/:id/feature
+// @access  Admin Only
+export const adminToggleFeatureProject = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    if (!project) {
+      res.status(404).json({ message: 'Project not found' });
+      return;
+    }
+    project.isFeatured = !project.isFeatured;
+    await project.save();
+    res.status(200).json({
+      success: true,
+      isFeatured: project.isFeatured,
+      message: `Project ${project.isFeatured ? 'featured' : 'unfeatured'} successfully.`,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
