@@ -104,10 +104,10 @@ export const MemberProfile: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* 1. Header Member Profile Card */}
-      <div className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm mb-8 flex flex-col md:flex-row items-center md:items-start gap-8">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 md:p-8 shadow-sm mb-8 flex flex-col md:flex-row items-center md:items-start gap-8">
         {/* Avatar Image */}
         <div className="relative shrink-0 select-none">
-          <div className="w-28 h-28 rounded-full overflow-hidden border border-slate-100 shadow-sm bg-slate-50">
+          <div className="w-28 h-28 rounded-full overflow-hidden border border-[#006655]/15 dark:border-[#00a88a]/20 shadow-sm bg-slate-50">
             {member.profilePicture ? (
               <img src={member.profilePicture} alt={member.fullName} className="w-full h-full object-cover" />
             ) : (
@@ -192,7 +192,7 @@ export const MemberProfile: React.FC = () => {
 
       {/* 2. Skills & Specializations */}
       {(skills.length > 0 || specializations.length > 0) && (
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm mb-8">
+        <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm mb-8">
           <h3 className="font-bold text-base mb-4 text-[#091e22]">Skills & Technical Focus</h3>
           <div className="flex flex-wrap gap-2">
             {skills.map((skill) => (
@@ -237,7 +237,7 @@ export const MemberProfile: React.FC = () => {
             {memberProjects.map((project) => (
               <div
                 key={project._id}
-                className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between min-h-[380px]"
+                className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between min-h-[380px]"
               >
                 <div>
                   <Link to={`/projects/${project._id}`} className="block relative aspect-[16/9] w-full bg-slate-100 overflow-hidden group">
