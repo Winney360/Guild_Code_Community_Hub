@@ -64,6 +64,10 @@ export const getMyCollaborations = async (req: AuthenticatedRequest, res: Respon
   }
 };
 
+// Sliding window cache for collaboration view deduplication (IP/User + Collab ID -> timestamp)
+const collabViewsCache = new Map<string, number>();
+const COLLAB_VIEW_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour cooldown per IP per collaboration
+
 // @desc    Get single collaboration details
 // @route   GET /api/collaborations/:id
 // @access  Public
@@ -77,9 +81,17 @@ export const getCollaborationById = async (req: Request, res: Response): Promise
       return;
     }
 
-    // Increment views
-    collaboration.views += 1;
-    await collaboration.save();
+    // Deduplicated view increment
+    const clientIp = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || 'unknown';
+    const cacheKey = `${clientIp}:${req.params.id}`;
+    const now = Date.now();
+    const lastViewed = collabViewsCache.get(cacheKey);
+
+    if (!lastViewed || now - lastViewed > COLLAB_VIEW_COOLDOWN_MS) {
+      collabViewsCache.set(cacheKey, now);
+      collaboration.views += 1;
+      await collaboration.save();
+    }
 
     // Fetch active applications count for metrics
     const applicantsCount = await ApplicationModel.countDocuments({
