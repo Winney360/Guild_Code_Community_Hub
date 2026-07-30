@@ -248,11 +248,12 @@ export const ProjectShowcase: React.FC = () => {
           {paginatedProjects.map((project) => (
             <div
               key={project._id}
-              className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[490px]"
+              onClick={() => navigate(`/projects/${project._id}`)}
+              className="border border-slate-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[490px] cursor-pointer group"
             >
               <div>
                 {/* Project Cover Image */}
-                <Link to={`/projects/${project._id}`} className="block relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50 select-none overflow-hidden group">
+                <div className="block relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50 select-none overflow-hidden group">
                   <img
                     src={project.coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop'}
                     alt={project.title}
@@ -267,9 +268,7 @@ export const ProjectShowcase: React.FC = () => {
                 {/* Info Container */}
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-2 gap-4">
-                    <Link to={`/projects/${project._id}`} className="hover:underline flex-1 min-w-0">
-                      <h3 className="font-bold text-lg text-[#091e22] line-clamp-1 hover:text-[#006655] transition-colors">{project.title}</h3>
-                    </Link>
+                    <h3 className="font-bold text-lg text-[#091e22] line-clamp-1 group-hover:text-[#006655] transition-colors">{project.title}</h3>
                   </div>
                   <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-3 mb-5 min-h-[54px]">
                     {project.shortDescription || project.description || 'A custom showcase project created by the talented Guild Code developers.'}
@@ -307,19 +306,10 @@ export const ProjectShowcase: React.FC = () => {
 
                 {/* Engagement CTAs */}
                 <div className="flex items-center gap-3">
-                  <Link
-                    to={`/projects/${project._id}`}
-                    className="text-[#006655] hover:text-[#004d40] font-bold text-xs hover:underline flex items-center gap-0.5 mr-1"
-                    title="View project details"
-                  >
-                    <span>View</span>
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
                   <button
                     onClick={(e) => {
                       e.preventDefault();
+                      e.stopPropagation();
                       handleLikeProject(project._id);
                     }}
                     className={`flex items-center gap-1 font-bold px-2.5 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
