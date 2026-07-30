@@ -196,26 +196,26 @@ export const EventDetails: React.FC = () => {
 
           {/* Event Details sidebar */}
           <div className="w-full max-w-sm flex flex-col justify-between">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Event Details</span>
+            <span className="text-[10px] font-bold text-slate-400 dark:text-slate-300 uppercase tracking-widest block mb-4">Event Details</span>
             <div className="space-y-3 text-xs font-semibold">
               <div className="flex justify-between items-center">
-                <span className="text-[#5c7075]">Timezone</span>
+                <span className="text-[#5c7075] dark:text-[#8ba4a8]">Timezone</span>
                 <span className="dark:text-[#f1f5f9]">{event.timezone}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[#5c7075]">Mode</span>
-                <span className="text-[#006655] uppercase font-bold">{event.mode}</span>
+                <span className="text-[#5c7075] dark:text-[#8ba4a8]">Mode</span>
+                <span className="text-[#006655] dark:text-emerald-400 uppercase font-bold">{event.mode}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[#5c7075]">Capacity</span>
+                <span className="text-[#5c7075] dark:text-[#8ba4a8]">Capacity</span>
                 <span className="dark:text-[#f1f5f9]">{event.maxParticipants || 'Unlimited'} Seats</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[#5c7075]">Registered</span>
+                <span className="text-[#5c7075] dark:text-[#8ba4a8]">Registered</span>
                 <span className="dark:text-[#f1f5f9]">{event.participants ? event.participants.length : 0} Attendees</span>
               </div>
               <div className="pt-2 border-t border-slate-50 dark:border-slate-700">
-                <span className="text-slate-400 text-[10px] block mb-0.5 font-bold uppercase">Location / Access Link</span>
+                <span className="text-slate-400 dark:text-slate-300 text-[10px] block mb-0.5 font-bold uppercase">Location / Access Link</span>
                 {event.locationOrLink?.match(/^https?:\/\//) ? (
                   <a
                     href={event.locationOrLink}
