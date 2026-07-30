@@ -170,7 +170,7 @@ export const CollaborationForm: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto bg-white border border-slate-100 p-6 md:p-8 rounded-3xl shadow-sm font-sans text-[#091e22]">
+    <div className="max-w-3xl mx-auto bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 p-6 md:p-8 rounded-3xl shadow-sm font-sans text-[#091e22]">
       {/* Title */}
       <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-100 select-none">
         <div>
