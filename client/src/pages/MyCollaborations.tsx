@@ -120,7 +120,7 @@ export const MyCollaborations: React.FC = () => {
           {filteredCollabs.map((collab) => (
             <div
               key={collab._id}
-              className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[360px]"
+              className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[360px]"
             >
               <div>
                 {/* Header title */}
@@ -170,7 +170,7 @@ export const MyCollaborations: React.FC = () => {
 
               {/* Bottom details card info */}
               <div className="border-t border-slate-50 pt-4 flex flex-col justify-between gap-4">
-                <div className="flex justify-between items-center text-[10px] bg-slate-50/50 border border-slate-100 rounded-xl p-3 select-none">
+                <div className="flex justify-between items-center text-[10px] bg-slate-50/50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-xl p-3 select-none">
                   <div>
                     <span className="text-slate-400 block text-[9px] font-bold uppercase mb-0.5">Commitment</span>
                     <span className="font-extrabold text-[#091e22]">{collab.commitment}</span>
