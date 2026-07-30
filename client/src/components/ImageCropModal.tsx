@@ -129,7 +129,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 select-none">
-      <div className="bg-white dark:bg-[#121e21] rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-100 dark:border-[#1e2e30] flex flex-col items-center animate-in fade-in zoom-in duration-200">
+      <div className="bg-white dark:bg-[#121e21] rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] flex flex-col items-center animate-in fade-in zoom-in duration-200">
         
         {/* Modal Header */}
         <div className="w-full flex justify-between items-center mb-6">
@@ -190,7 +190,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
         </p>
 
         {/* Scale & Zoom Slider */}
-        <div className="w-full space-y-2 mb-6 bg-slate-50 dark:bg-[#1a292c] p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+        <div className="w-full space-y-2 mb-6 bg-slate-50 dark:bg-[#1a292c] p-4 rounded-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-slate-800">
           <div className="flex justify-between items-center text-xs font-bold text-[#5c7075] dark:text-slate-300">
             <span>Photo Scale</span>
             <span>{Math.round(zoom * 100)}%</span>
