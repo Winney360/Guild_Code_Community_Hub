@@ -27,14 +27,6 @@ export const EventDetails: React.FC = () => {
   const [submitError, setSubmitError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  // Timer ticker simulation
-  const [timeLeft, setTimeLeft] = useState({
-    days: 8,
-    hours: 14,
-    minutes: 22,
-    seconds: 45,
-  });
-
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -50,19 +42,6 @@ export const EventDetails: React.FC = () => {
       }
     };
     if (id) fetchEvent();
-
-    const ticker = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        clearInterval(ticker);
-        return prev;
-      });
-    }, 1000);
-
-    return () => clearInterval(ticker);
   }, [id]);
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -163,33 +142,29 @@ export const EventDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* Countdown Card */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-md w-full max-w-sm flex flex-col items-center">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">Starts In</span>
-            <div className="grid grid-cols-4 gap-4 text-center w-full mb-6">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-extrabold text-[#091e22]">{String(timeLeft.days).padStart(2, '0')}</span>
-                <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Days</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-extrabold text-[#091e22]">{String(timeLeft.hours).padStart(2, '0')}</span>
-                <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Hours</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-extrabold text-[#091e22]">{String(timeLeft.minutes).padStart(2, '0')}</span>
-                <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Mins</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-extrabold text-red-500 animate-pulse">{String(timeLeft.seconds).padStart(2, '0')}</span>
-                <span className="text-[9px] font-bold text-[#5c7075] uppercase mt-1">Secs</span>
+          {/* Event Metadata Card */}
+          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-md w-full max-w-sm flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Event Details</span>
+              <div className="space-y-3 text-xs font-semibold">
+                <div className="flex justify-between items-center">
+                  <span className="text-[#5c7075]">Mode</span>
+                  <span className="text-[#006655] uppercase font-bold">{event.mode}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#5c7075]">Capacity</span>
+                  <span className="text-[#091e22]">{event.maxParticipants || 'Unlimited'} Seats</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#5c7075]">Registered</span>
+                  <span className="text-[#091e22]">{event.participants ? event.participants.length : 0} Attendees</span>
+                </div>
+                <div className="pt-2 border-t border-slate-50">
+                  <span className="text-slate-400 text-[10px] block mb-0.5 font-bold uppercase">Location / Access Link</span>
+                  <span className="text-[#091e22] break-all font-semibold">{event.locationOrLink || 'To be shared with registered attendees'}</span>
+                </div>
               </div>
             </div>
-            <button className="w-full bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-4 rounded-xl text-xs transition-all font-bold flex items-center justify-center gap-1.5 shadow-sm">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              Add to Calendar
-            </button>
           </div>
 
         </div>
@@ -201,120 +176,12 @@ export const EventDetails: React.FC = () => {
           
           {/* Left panel (takes 8 columns) */}
           <div className="lg:col-span-8">
-            {/* Featured Speakers */}
-            <section className="mb-12">
-              <h3 className="font-extrabold text-xl mb-6 pb-2 border-b border-slate-50">Featured Speakers</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Speaker 1 */}
-                <div className="border border-slate-100 p-5 rounded-2xl bg-white shadow-sm flex items-start gap-4 h-36">
-                  <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-slate-100">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" alt="" className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm">Dr. Elena Volkov</h4>
-                    <span className="text-[10px] text-[#006655] font-bold block mb-1">Principal Systems Engineer</span>
-                    <p className="text-[10px] text-[#5c7075] leading-relaxed">Ex-Mozilla, Lead Contributor to the Rust Memory Safety Working Group.</p>
-                  </div>
-                </div>
-
-                {/* Speaker 2 */}
-                <div className="border border-slate-100 p-5 rounded-2xl bg-white shadow-sm flex items-start gap-4 h-36">
-                  <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-slate-100">
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop" alt="" className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm">Marcus Thorne</h4>
-                    <span className="text-[10px] text-[#006655] font-bold block mb-1">Distinguished Architect</span>
-                    <p className="text-[10px] text-[#5c7075] leading-relaxed">Creator of OpenSource performance profiling tools used by Fortune 500 companies.</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Agenda */}
-            <section className="mb-12">
-              <h3 className="font-extrabold text-xl mb-6 pb-2 border-b border-slate-50">The Workshop Agenda</h3>
-              <div className="space-y-4 select-none">
-                <div className="p-4 bg-slate-50/50 border border-slate-100 rounded-2xl flex gap-6">
-                  <span className="text-xs font-bold text-[#006655] shrink-0 w-12">14:00</span>
-                  <div>
-                    <h5 className="font-bold text-xs mb-0.5">Modern Rust Paradigms</h5>
-                    <p className="text-[11px] text-[#5c7075] leading-relaxed">Setting the stage: Why Rust in 2026? Overview of the latest stable features and system-level performance benchmarks.</p>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-slate-50/50 border border-slate-100 rounded-2xl flex gap-6">
-                  <span className="text-xs font-bold text-[#006655] shrink-0 w-12">15:15</span>
-                  <div>
-                    <h5 className="font-bold text-xs mb-0.5">The Ownership Deep Dive</h5>
-                    <p className="text-[11px] text-[#5c7075] leading-relaxed">Breaking down lifetime elision, smart pointers, and zero-cost abstractions in complex microservice architectures.</p>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-slate-50/50 border border-slate-100 rounded-2xl flex gap-6">
-                  <span className="text-xs font-bold text-[#006655] shrink-0 w-12">16:30</span>
-                  <div>
-                    <h5 className="font-bold text-xs mb-0.5">Coffee & Networking Break</h5>
-                    <p className="text-[11px] text-[#5c7075] leading-relaxed">Virtual breakout rooms for specific niche discussions (Embedded, WebAssembly, Game Dev).</p>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-slate-50/50 border border-slate-100 rounded-2xl flex gap-6">
-                  <span className="text-xs font-bold text-[#006655] shrink-0 w-12">17:00</span>
-                  <div>
-                    <h5 className="font-bold text-xs mb-0.5">Advanced Concurrency Patterns</h5>
-                    <p className="text-[11px] text-[#5c7075] leading-relaxed">Async/Await under the hood, Pinning, and building thread-safe shared state without the overhead.</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Technical Requirements checks */}
-            <section className="bg-slate-50/50 border border-slate-100 rounded-3xl p-6 md:p-8 select-none">
-              <h4 className="font-bold text-xs text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-                Technical Requirements
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-xs text-[#5c7075] font-semibold">
-                <div className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Rust 1.75+ Stable installed
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Basic familiarity with Cargo
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Docker Desktop (for lab exercises)
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  GitHub account for Repo access
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  VS Code with rust-analyzer
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Stable internet connection
-                </div>
-              </div>
+            {/* About Event Description */}
+            <section className="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm mb-8">
+              <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-slate-50">About This Event</h3>
+              <p className="text-sm text-[#5c7075] leading-relaxed whitespace-pre-wrap">
+                {event.description}
+              </p>
             </section>
           </div>
 
