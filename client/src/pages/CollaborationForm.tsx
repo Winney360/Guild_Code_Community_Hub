@@ -76,8 +76,8 @@ export const CollaborationForm: React.FC = () => {
       .map((r) => r.trim())
       .filter((r) => r.length > 0);
 
-    if (requiredSkills.length > 5) {
-      setError('Required skills cannot exceed 5 items');
+    if (requiredSkills.length > 8) {
+      setError('Required skills cannot exceed 8 items');
       setLoading(false);
       return;
     }
@@ -307,7 +307,7 @@ export const CollaborationForm: React.FC = () => {
 
         {/* Required Skills, Tech Stack, and Roles Needed */}
         <div>
-          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Required Skills * (Comma separated, max 5 items)</label>
+          <label className="text-[10px] font-bold text-[#5c7075] block mb-1">Required Skills * (Comma separated, max 8 items)</label>
           <input
             type="text"
             required
