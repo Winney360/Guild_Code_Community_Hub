@@ -235,7 +235,7 @@ export const UserManagement: React.FC = () => {
       )}
 
       {/* Main Table view wrapper */}
-      <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         
         {/* Filters & Actions Header */}
         <div className="p-5 border-b border-slate-100 flex flex-col lg:flex-row justify-between items-center gap-4 select-none">
@@ -327,7 +327,7 @@ export const UserManagement: React.FC = () => {
                 <tr key={item._id} className="hover:bg-slate-50/30 transition-colors">
                   {/* User details */}
                   <td className="p-4 pl-6 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-100 border border-slate-100 shrink-0 select-none">
+                    <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-100 border border-[#006655]/15 dark:border-[#00a88a]/20 shrink-0 select-none">
                       {item.profilePicture ? (
                         <img src={item.profilePicture} alt="" className="w-full h-full object-cover" />
                       ) : (
@@ -412,7 +412,7 @@ export const UserManagement: React.FC = () => {
       </div>
 
       {confirmAction && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center gap-4 bg-white border border-slate-100 text-[#091e22] px-6 py-4 rounded-2xl shadow-2xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center gap-4 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] px-6 py-4 rounded-2xl shadow-2xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center shrink-0">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
