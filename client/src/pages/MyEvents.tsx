@@ -7,6 +7,7 @@ interface EventType {
   eventType: 'workshop' | 'hackathon' | 'meetup' | 'webinar' | 'training';
   date: string;
   time: string;
+  timezone: string;
   mode: 'online' | 'physical' | 'hybrid';
   participants: Array<{ name: string; email: string }>;
   maxParticipants: number;
@@ -109,7 +110,7 @@ export const MyEvents: React.FC = () => {
       {/* Stats Cards Row (matching AdminPanel-EventManagement.png layouts) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 select-none">
         {/* Card 1 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Registrations</span>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+12%</span>
@@ -118,7 +119,7 @@ export const MyEvents: React.FC = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Upcoming Events</span>
             <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Active</span>
@@ -130,7 +131,7 @@ export const MyEvents: React.FC = () => {
       </div>
 
       {/* Table view */}
-      <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         {/* Search & Filter Header bar */}
         <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="relative w-full sm:max-w-xs">
@@ -195,7 +196,7 @@ export const MyEvents: React.FC = () => {
                         year: 'numeric',
                       })}
                     </span>
-                    <span className="text-[10px] text-slate-400">{event.time}</span>
+                    <span className="text-[10px] text-slate-400">{event.time} {event.timezone}</span>
                   </td>
 
                   {/* Status */}
