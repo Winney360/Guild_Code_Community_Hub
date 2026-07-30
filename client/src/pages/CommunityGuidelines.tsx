@@ -60,7 +60,7 @@ export const CommunityGuidelines: React.FC = () => {
       {/* Four Pillars */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         {pillars.map((pillar, idx) => (
-          <div key={idx} className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+          <div key={idx} className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 shadow-xs flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mb-4">
                 {pillar.icon}
@@ -76,7 +76,7 @@ export const CommunityGuidelines: React.FC = () => {
 
       {/* Enforcement & Reporting */}
       <div className="space-y-6">
-        <div className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
           <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Reporting Violations</h2>
           <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
             If you encounter content, projects, comments, or collaboration listings that breach these standards, please report them using the flag button on the post or contact our moderation queue.
@@ -97,7 +97,7 @@ export const CommunityGuidelines: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#121e21] border border-slate-100 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
           <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Moderation Actions</h2>
           <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
             Our moderation team reviews reported items in accordance with internal guidelines. Actions taken may include warning notices, removal of content/listings, temporary account suspension, or permanent ban for severe violations.
