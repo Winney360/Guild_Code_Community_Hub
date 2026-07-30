@@ -158,7 +158,7 @@ export const ApplicationsDashboard: React.FC = () => {
               {received.map((app) => (
                 <div
                   key={app._id}
-                  className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between gap-6"
+                  className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between gap-6"
                 >
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                     {/* Candidate */}
@@ -180,7 +180,7 @@ export const ApplicationsDashboard: React.FC = () => {
                   </div>
 
                   {/* Why me Answers box */}
-                  <div className="bg-slate-50/50 border border-slate-100 rounded-2xl p-4">
+                  <div className="bg-slate-50/50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-4">
                     <span className="text-[9px] uppercase font-bold text-slate-450 block mb-1.5 select-none">Why Me?</span>
                     <p className="text-xs text-[#5c7075] leading-relaxed italic">"{app.answers}"</p>
                   </div>
@@ -245,7 +245,7 @@ export const ApplicationsDashboard: React.FC = () => {
               <p className="text-xs text-[#5c7075]">When you apply to other members' collaboration posts, they will show up here.</p>
             </div>
           ) : (
-            <div className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-sm">
+            <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden shadow-sm">
               <table className="w-full text-left text-xs font-medium text-[#5c7075]">
                 <thead className="bg-slate-50 border-b border-slate-100 text-[#091e22] font-bold select-none text-[10px] uppercase">
                   <tr>
