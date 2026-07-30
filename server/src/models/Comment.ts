@@ -3,6 +3,7 @@ import mongoose, { Schema, Document, model } from 'mongoose';
 export interface IComment extends Document {
   userId: mongoose.Types.ObjectId;
   collaborationId: mongoose.Types.ObjectId;
+  parentId?: mongoose.Types.ObjectId | null;
   text: string;
   createdAt: Date;
   updatedAt: Date;
@@ -19,6 +20,11 @@ const CommentSchema = new Schema<IComment>(
       type: Schema.Types.ObjectId,
       ref: 'Collaboration',
       required: [true, 'Collaboration target is required'],
+    },
+    parentId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+      default: null,
     },
     text: {
       type: String,
