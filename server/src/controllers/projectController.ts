@@ -42,7 +42,7 @@ export const getMyProjects = async (req: AuthenticatedRequest, res: Response): P
 export const getProjectById = async (req: Request, res: Response): Promise<void> => {
   try {
     const project = await Project.findOne({ _id: req.params.id, isVisible: true })
-      .populate('byUser', 'fullName profilePicture');
+      .populate('byUser', 'fullName profilePicture role bio github');
 
     if (!project) {
       res.status(404).json({ message: 'Project not found' });
