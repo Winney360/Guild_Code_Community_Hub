@@ -294,7 +294,7 @@ export const ActivityDashboard: React.FC = () => {
 
       {filteredNotifications.length === 0 ? (
         <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm select-none flex flex-col items-center">
-          <div className="bg-slate-50 text-slate-400 p-4 rounded-full border border-slate-100 mb-4">
+          <div className="bg-slate-50 text-slate-400 p-4 rounded-full border border-[#006655]/15 dark:border-[#00a88a]/20 mb-4">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
             </svg>
@@ -310,7 +310,7 @@ export const ActivityDashboard: React.FC = () => {
               <div
                 key={item._id}
                 onClick={() => handleMarkAsRead(item._id)}
-                className={`border border-slate-100 rounded-3xl p-6 shadow-sm flex gap-5 items-start bg-white transition-all cursor-pointer hover:border-slate-200 ${
+                className={`border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm flex gap-5 items-start bg-white transition-all cursor-pointer hover:border-slate-200 ${
                   !item.read ? 'ring-1 ring-emerald-500/10' : ''
                 }`}
               >

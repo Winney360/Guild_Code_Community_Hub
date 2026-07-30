@@ -140,7 +140,7 @@ export const AdminDashboard: React.FC = () => {
       {/* 1. Statistics Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Members</span>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+{stats.growthPercentage}% ↗</span>
@@ -152,7 +152,7 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Active Projects</span>
             <span className="text-[10px] font-bold text-[#006655] bg-[#006655]/10 px-2 py-0.5 rounded-full">Live Showcase</span>
@@ -169,7 +169,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Card 3 */}
         <Link
           to="/dashboard/admin/users?status=pending"
-          className="border border-slate-100 bg-white hover:border-amber-200 hover:shadow-md transition-all rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32 group cursor-pointer"
+          className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white hover:border-amber-200 hover:shadow-md transition-all rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32 group cursor-pointer"
         >
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider group-hover:text-amber-700">Pending Approvals</span>
@@ -188,7 +188,7 @@ export const AdminDashboard: React.FC = () => {
         </Link>
 
         {/* Card 4 */}
-        <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Ecosystem Share</span>
             <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">MERN Live</span>
@@ -218,13 +218,13 @@ export const AdminDashboard: React.FC = () => {
       {/* 2. Charts & Interactions Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* User Acquisition chart */}
-        <div className="lg:col-span-8 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
+        <div className="lg:col-span-8 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
           <div className="flex justify-between items-center mb-6 select-none">
             <div>
               <h3 className="font-extrabold text-sm">User Acquisition</h3>
               <p className="text-[10px] text-slate-400">Daily registrations over the last 14 days</p>
             </div>
-            <div className="bg-slate-50 border border-slate-100 p-1 rounded-xl flex gap-1 text-[9px] font-bold text-[#5c7075]">
+            <div className="bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 p-1 rounded-xl flex gap-1 text-[9px] font-bold text-[#5c7075]">
               <span>Real-time Tracking</span>
             </div>
           </div>
@@ -260,7 +260,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* Quick Actions */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          <div className="border border-slate-100 bg-white rounded-3xl p-6 shadow-sm">
+          <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
             <h3 className="font-extrabold text-sm mb-6 select-none">Quick Actions</h3>
             <div className="grid grid-cols-2 gap-4 text-center">
               <Link
@@ -316,7 +316,7 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Pending Applications Section */}
-      <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
         <div className="flex justify-between items-center mb-6 select-none">
           <div>
             <h3 className="font-extrabold text-base">Pending Applications</h3>
@@ -386,7 +386,7 @@ export const AdminDashboard: React.FC = () => {
       {/* 3. Global Activity Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Real Engagement Statistics */}
-        <div className="lg:col-span-8 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm space-y-4 select-none">
+        <div className="lg:col-span-8 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm space-y-4 select-none">
           <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2">Ecosystem Activity Metrics</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center py-4">
             <div className="p-4 bg-[#f8fafc] border border-slate-150 rounded-2xl">
@@ -410,7 +410,7 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Global audit log list (Live Database Users) */}
-        <div className="lg:col-span-4 border border-slate-100 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+        <div className="lg:col-span-4 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center mb-6 select-none">
               <h3 className="font-extrabold text-sm">Recent Activity</h3>
@@ -442,7 +442,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          <Link to="/dashboard/admin/users" className="w-full text-center border border-slate-100 bg-slate-50/20 py-2 rounded-xl text-[10px] font-bold text-slate-500 hover:bg-slate-50 transition-colors mt-6 select-none block">
+          <Link to="/dashboard/admin/users" className="w-full text-center border border-[#006655]/15 dark:border-[#00a88a]/20 bg-slate-50/20 py-2 rounded-xl text-[10px] font-bold text-slate-500 hover:bg-slate-50 transition-colors mt-6 select-none block">
             Manage Users Directory
           </Link>
         </div>
