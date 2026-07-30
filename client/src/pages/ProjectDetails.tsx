@@ -7,7 +7,7 @@ interface ProjectType {
   title: string;
   description: string;
   shortDescription: string;
-  category: 'Web' | 'Mobile' | 'Design' | 'AI';
+  category: 'Web' | 'Mobile' | 'Design' | 'AI' | 'Cloud Infrastructure';
   techStack: string[];
   coverImage: string;
   byUser: {
@@ -137,7 +137,7 @@ export const ProjectDetails: React.FC = () => {
         <div>
           <div className="flex items-center gap-3 mb-3 text-xs font-bold">
             <span className="px-2.5 py-1 bg-[#e6f7f8] text-[#006655] rounded-lg">
-              {project.category === 'AI' ? 'AI & Machine Learning' : project.category === 'Design' ? 'UI/UX Design' : `${project.category} Infrastructure`}
+              {project.category === 'AI' ? 'AI & Machine Learning' : project.category === 'Design' ? 'UI/UX Design' : project.category === 'Cloud Infrastructure' ? 'Cloud Infrastructure' : `${project.category} App`}
             </span>
             <span className="text-slate-400">&bull;</span>
             <span className="text-[#5c7075]">{formatPublishDate(project.createdAt)}</span>
