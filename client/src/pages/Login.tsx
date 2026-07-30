@@ -405,7 +405,7 @@ export const Login: React.FC = () => {
       {/* Google Account OAuth Sign-In Modal */}
       {showGoogleModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fade-in select-none">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 relative">
             <button
               type="button"
               onClick={() => setShowGoogleModal(false)}
