@@ -10,6 +10,7 @@ interface CommentType {
     profilePicture?: string;
   };
   collaborationId: string;
+  parentId?: string | null;
   text: string;
   createdAt: string;
 }
@@ -55,11 +56,16 @@ export const CollaborationDetails: React.FC = () => {
   const [submitError, setSubmitError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  // Comments state
+  // Discussion comment state
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentText, setCommentText] = useState('');
-  const [commentError, setCommentError] = useState('');
   const [commenting, setCommenting] = useState(false);
+  const [commentError, setCommentError] = useState('');
+
+  // Reply state
+  const [replyingToId, setReplyingToId] = useState<string | null>(null);
+  const [replyText, setReplyText] = useState('');
+  const [replying, setReplying] = useState(false);
 
   useEffect(() => {
     const fetchCollab = async () => {
@@ -169,6 +175,38 @@ export const CollaborationDetails: React.FC = () => {
       setCommentError('Server connection error');
     } finally {
       setCommenting(false);
+    }
+  };
+
+  const handleReplySubmit = async (e: React.FormEvent, parentId: string) => {
+    e.preventDefault();
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (!replyText.trim()) return;
+
+    setReplying(true);
+    setCommentError('');
+    try {
+      const res = await fetch(`/api/collaborations/${id}/comments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: replyText, parentId }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setComments([...comments, data.data]);
+        setReplyText('');
+        setReplyingToId(null);
+      } else {
+        setCommentError(data.message || 'Failed to post reply');
+      }
+    } catch (err) {
+      console.error('Error posting reply:', err);
+      setCommentError('Server connection error');
+    } finally {
+      setReplying(false);
     }
   };
 
@@ -334,56 +372,150 @@ export const CollaborationDetails: React.FC = () => {
               </div>
             )}
 
-            {/* Comments List */}
+            {/* Comments List & Threads */}
             <div className="space-y-6 mb-6">
               {comments.length === 0 ? (
                 <div className="text-center py-8 text-xs text-[#5c7075] border border-dashed border-slate-100 rounded-2xl bg-slate-50/20 select-none">
                   No comments yet. Start the discussion!
                 </div>
               ) : (
-                comments.map((cmt) => {
-                  const isCommentOwnerOrAdmin =
-                    (collab.byUser && collab.byUser._id === user?._id) || user?.role === 'admin';
+                (() => {
+                  const topLevelComments = comments.filter((c) => !c.parentId);
 
-                  return (
-                    <div key={cmt._id} className="flex items-start gap-4 group">
-                      <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-slate-100">
-                        {cmt.userId && cmt.userId.profilePicture ? (
-                          <img src={cmt.userId.profilePicture} alt={cmt.userId.fullName} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-xs">
-                            {cmt.userId ? cmt.userId.fullName.charAt(0).toUpperCase() : 'U'}
+                  return topLevelComments.map((cmt) => {
+                    const isCommentOwnerOrAdmin =
+                      (collab.byUser && collab.byUser._id === user?._id) || user?.role === 'admin';
+
+                    const childReplies = comments.filter((c) => {
+                      if (!c.parentId) return false;
+                      const pid = typeof c.parentId === 'string' ? c.parentId : (c.parentId as any)._id || (c.parentId as any).toString();
+                      return pid === cmt._id;
+                    });
+
+                    return (
+                      <div key={cmt._id} className="space-y-4">
+                        {/* Top level comment */}
+                        <div className="flex items-start gap-4 group">
+                          <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-slate-100">
+                            {cmt.userId && cmt.userId.profilePicture ? (
+                              <img src={cmt.userId.profilePicture} alt={cmt.userId.fullName} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-xs">
+                                {cmt.userId ? cmt.userId.fullName.charAt(0).toUpperCase() : 'U'}
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-grow">
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-xs">{cmt.userId ? cmt.userId.fullName : 'Guild Member'}</span>
+                                <span className="text-[10px] text-slate-400 font-semibold">
+                                  {new Date(cmt.createdAt).toLocaleString()}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                {user && (
+                                  <button
+                                    onClick={() => {
+                                      setReplyingToId(replyingToId === cmt._id ? null : cmt._id);
+                                      setReplyText('');
+                                    }}
+                                    className="text-[#006655] hover:underline text-[10px] font-bold cursor-pointer"
+                                  >
+                                    {replyingToId === cmt._id ? 'Cancel Reply' : 'Reply'}
+                                  </button>
+                                )}
+                                {isCommentOwnerOrAdmin && (
+                                  <button
+                                    onClick={() => handleCommentDelete(cmt._id)}
+                                    className="text-red-500 hover:text-red-700 text-[10px] font-bold transition-colors select-none flex items-center gap-1 cursor-pointer"
+                                    title="Delete comment"
+                                  >
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Delete
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                            <p className="text-xs text-[#5c7075] leading-relaxed">
+                              {cmt.text}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Inline Reply Form */}
+                        {replyingToId === cmt._id && (
+                          <form onSubmit={(e) => handleReplySubmit(e, cmt._id)} className="ml-10 flex gap-2">
+                            <input
+                              type="text"
+                              placeholder={`Reply to ${cmt.userId ? cmt.userId.fullName : 'comment'}...`}
+                              value={replyText}
+                              onChange={(e) => setReplyText(e.target.value)}
+                              disabled={replying}
+                              autoFocus
+                              className="flex-grow px-3 py-1.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#006655]"
+                            />
+                            <button
+                              type="submit"
+                              disabled={replying || !replyText.trim()}
+                              className="bg-[#006655] hover:bg-[#004d40] disabled:bg-slate-200 disabled:cursor-not-allowed text-white py-1 px-4 rounded-xl font-bold text-xs shadow-sm transition-all"
+                            >
+                              {replying ? 'Replying...' : 'Send Reply'}
+                            </button>
+                          </form>
+                        )}
+
+                        {/* Child Replies Thread */}
+                        {childReplies.length > 0 && (
+                          <div className="ml-8 border-l-2 border-slate-100 pl-4 space-y-4">
+                            {childReplies.map((reply) => {
+                              const isReplyOwnerOrAdmin =
+                                (collab.byUser && collab.byUser._id === user?._id) || user?.role === 'admin';
+
+                              return (
+                                <div key={reply._id} className="flex items-start gap-3">
+                                  <div className="w-6 h-6 rounded-full overflow-hidden shrink-0 bg-slate-100">
+                                    {reply.userId && reply.userId.profilePicture ? (
+                                      <img src={reply.userId.profilePicture} alt={reply.userId.fullName} className="w-full h-full object-cover" />
+                                    ) : (
+                                      <div className="w-full h-full bg-[#006655]/10 flex items-center justify-center font-bold text-[#006655] text-[10px]">
+                                        {reply.userId ? reply.userId.fullName.charAt(0).toUpperCase() : 'U'}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="flex-grow">
+                                    <div className="flex items-center justify-between mb-0.5">
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-bold text-[11px]">{reply.userId ? reply.userId.fullName : 'Guild Member'}</span>
+                                        <span className="text-[9px] text-slate-400 font-semibold">
+                                          {new Date(reply.createdAt).toLocaleString()}
+                                        </span>
+                                      </div>
+                                      {isReplyOwnerOrAdmin && (
+                                        <button
+                                          onClick={() => handleCommentDelete(reply._id)}
+                                          className="text-red-500 hover:text-red-700 text-[9px] font-bold transition-colors cursor-pointer"
+                                          title="Delete reply"
+                                        >
+                                          Delete
+                                        </button>
+                                      )}
+                                    </div>
+                                    <p className="text-xs text-[#5c7075] leading-relaxed">
+                                      {reply.text}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         )}
                       </div>
-                      <div className="flex-grow">
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold text-xs">{cmt.userId ? cmt.userId.fullName : 'Guild Member'}</span>
-                            <span className="text-[10px] text-slate-400 font-semibold">
-                              {new Date(cmt.createdAt).toLocaleString()}
-                            </span>
-                          </div>
-                          {isCommentOwnerOrAdmin && (
-                            <button
-                              onClick={() => handleCommentDelete(cmt._id)}
-                              className="text-red-500 hover:text-red-700 text-[10px] font-bold transition-colors select-none flex items-center gap-1"
-                              title="Delete comment"
-                            >
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
-                              Delete
-                            </button>
-                          )}
-                        </div>
-                        <p className="text-xs text-[#5c7075] leading-relaxed">
-                          {cmt.text}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })
+                    );
+                  });
+                })()
               )}
             </div>
 
