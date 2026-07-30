@@ -154,11 +154,11 @@ export const ProjectShowcase: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Page Title & Header */}
-      <div className="mb-10">
+      <div className="mb-10 text-center flex flex-col items-center">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3">
           Explore Member <span className="text-[#006655]">Projects</span>
         </h1>
-        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed">
+        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
           Discover innovative tools, open-source gems, and experimental prototypes built by the world's most talented developer guild.
         </p>
       </div>
@@ -263,7 +263,7 @@ export const ProjectShowcase: React.FC = () => {
                   <span className="absolute top-4 right-4 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-bold rounded-lg shadow-sm">
                     {project.category === 'AI' ? 'AI / ML' : project.category === 'Design' ? 'UI / Design' : project.category === 'Cloud Infrastructure' ? 'Cloud Infra' : `${project.category} App`}
                   </span>
-                </Link>
+                </div>
 
                 {/* Info Container */}
                 <div className="p-6">
