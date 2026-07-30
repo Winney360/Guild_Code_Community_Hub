@@ -10,6 +10,7 @@ import {
   adminGetModerationQueue,
   adminResolveReport,
   adminDismissReport,
+  adminToggleFeatureProject,
 } from '../controllers/adminController.js';
 import { protect, authorize } from '../middlewares/authMiddleware.js';
 
@@ -28,5 +29,6 @@ router.get('/stats', adminGetStats);
 router.get('/moderation', adminGetModerationQueue);
 router.post('/moderation/:id/resolve', adminResolveReport);
 router.post('/moderation/:id/dismiss', adminDismissReport);
+router.post('/moderation/:id/feature', adminToggleFeatureProject);
 
 export default router;
