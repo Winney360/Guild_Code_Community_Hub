@@ -19,7 +19,7 @@ const ProjectSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ['Web', 'Mobile', 'Design', 'AI'],
+      enum: ['Web', 'Mobile', 'Design', 'AI', 'Cloud Infrastructure'],
       required: [true, 'Category is required'],
     },
     techStack: {
