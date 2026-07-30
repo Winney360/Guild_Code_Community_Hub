@@ -187,7 +187,8 @@ export const CollaborationMarketplace: React.FC = () => {
           {filteredCollabs.slice(0, visibleCount).map((collab, idx) => (
             <div
               key={collab._id}
-              className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow transition-shadow flex flex-col justify-between h-[360px]"
+              onClick={() => navigate(`/collaborate/${collab._id}`)}
+              className="border border-slate-100 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-[360px] cursor-pointer group"
             >
               <div>
                 {/* Header row: creator details */}
@@ -207,25 +208,18 @@ export const CollaborationMarketplace: React.FC = () => {
                       )}
                     </div>
                     <div>
-                      <h4 className="font-bold text-base line-clamp-1">{collab.title}</h4>
+                      <h4 className="font-bold text-base line-clamp-1 group-hover:text-[#006655] transition-colors">{collab.title}</h4>
                       <p className="text-[10px] text-slate-400 font-semibold">
                         By @{collab.byUser ? collab.byUser.fullName.toLowerCase().replace(/\s+/g, '') : 'member'} &bull; {getTimeElapsed(collab.createdAt)}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    {idx === 1 && (
-                      <span className="px-2 py-0.5 bg-[#e6f7f8] text-[#006655] text-[9px] font-bold rounded-md border border-[#006655]/10">
-                        Featured
-                      </span>
-                    )}
-                    <button className="text-slate-400 hover:text-slate-600 transition-colors" title="Bookmark collaboration">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                      </svg>
-                    </button>
-                  </div>
+                  {idx === 1 && (
+                    <span className="px-2 py-0.5 bg-[#e6f7f8] text-[#006655] text-[9px] font-bold rounded-md border border-[#006655]/10 shrink-0">
+                      Featured
+                    </span>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -274,7 +268,7 @@ export const CollaborationMarketplace: React.FC = () => {
 
                 {/* Bottom engagement items */}
                 <div className="flex justify-between items-center text-[10px] text-[#5c7075] select-none font-semibold">
-                  <div className="flex gap-4 items-center">
+                  <div className="flex gap-4 items-center" onClick={(e) => e.stopPropagation()}>
                     {(() => {
                       const likesList = collab.likes || [];
                       const isLiked = user && likesList.some(
@@ -282,7 +276,10 @@ export const CollaborationMarketplace: React.FC = () => {
                       );
                       return (
                         <button
-                          onClick={() => handleLikeCollab(collab._id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleLikeCollab(collab._id);
+                          }}
                           className={`flex items-center gap-1 transition-colors cursor-pointer ${isLiked ? 'text-rose-600 font-bold' : 'hover:text-rose-500'}`}
                           title="Like collaboration"
                         >
@@ -295,6 +292,7 @@ export const CollaborationMarketplace: React.FC = () => {
                     })()}
                     <Link
                       to={`/collaborate/${collab._id}#discussion`}
+                      onClick={(e) => e.stopPropagation()}
                       className="flex items-center gap-1 hover:text-[#006655] transition-colors cursor-pointer"
                       title="View discussion & comments"
                     >
@@ -306,9 +304,10 @@ export const CollaborationMarketplace: React.FC = () => {
                   </div>
                   <Link
                     to={`/collaborate/${collab._id}`}
+                    onClick={(e) => e.stopPropagation()}
                     className="bg-[#006655] hover:bg-[#004d40] text-white py-2 px-5 rounded-xl transition-colors font-bold text-xs"
                   >
-                    Apply Now
+                    View & Apply
                   </Link>
                 </div>
               </div>
