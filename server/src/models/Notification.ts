@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface INotification extends Document {
   userId: mongoose.Types.ObjectId;
   sender?: mongoose.Types.ObjectId;
-  type: 'application_received' | 'application_accepted' | 'application_rejected' | 'collab_closed' | 'application_update' | 'project_mention' | 'system_announcement' | 'collaboration_request' | 'event_update';
+  type: 'application_received' | 'application_accepted' | 'application_rejected' | 'collab_closed' | 'application_update' | 'project_mention' | 'system_announcement' | 'collaboration_request' | 'event_update' | 'project_liked';
   title: string;
   message: string;
   link?: string;
@@ -23,7 +23,7 @@ const NotificationSchema = new Schema<INotification>({
   },
   type: {
     type: String,
-    enum: ['application_received', 'application_accepted', 'application_rejected', 'collab_closed', 'application_update', 'project_mention', 'system_announcement', 'collaboration_request', 'event_update'],
+    enum: ['application_received', 'application_accepted', 'application_rejected', 'collab_closed', 'application_update', 'project_mention', 'system_announcement', 'collaboration_request', 'event_update', 'project_liked'],
     required: true,
   },
   title: {
