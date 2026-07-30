@@ -29,6 +29,8 @@ export const MembersDirectory: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<'All' | 'Developers' | 'Designers' | 'Data & AI'>('All');
   const [selectedSpecialization, setSelectedSpecialization] = useState('All');
   const [selectedSkill, setSelectedSkill] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
 
   // Categories definitions from Spec 4.4
   const developersSpecs = [
@@ -145,8 +147,9 @@ export const MembersDirectory: React.FC = () => {
               dataAiSpecs.some((d) => d.toLowerCase() === specLower) ||
               specLower.includes('data') ||
               specLower.includes('ai') ||
+              specLower.includes('intelligence') ||
               specLower.includes('machine learning') ||
-              specLower.includes('ml') ||
+              specLower.includes('analyst') ||
               specLower.includes('nlp') ||
               specLower.includes('vision')
             );
@@ -173,6 +176,7 @@ export const MembersDirectory: React.FC = () => {
     }
 
     setFilteredMembers(result);
+    setCurrentPage(1);
   }, [search, selectedCategory, selectedSpecialization, selectedSkill, members]);
 
   // Extract unique skills and specializations for filter dropdowns safely
@@ -191,6 +195,26 @@ export const MembersDirectory: React.FC = () => {
     return `JOINED ${date.toLocaleString('default', { month: 'short' }).toUpperCase()} ${date.getFullYear()}`;
   };
 
+  // Pagination calculation
+  const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE);
+  const paginatedMembers = filteredMembers.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    if (currentPage <= 4) {
+      return [1, 2, 3, 4, 5, '...', totalPages];
+    }
+    if (currentPage >= totalPages - 3) {
+      return [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Header Title */}
@@ -201,101 +225,69 @@ export const MembersDirectory: React.FC = () => {
         </p>
       </div>
 
-      {/* Filter Bar Panel */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm mb-8 flex flex-col gap-6">
-        {/* Category Tabs & Reset Filters */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
-          <div className="flex flex-wrap gap-2">
-            {(['All', 'Developers', 'Designers', 'Data & AI'] as const).map((cat) => (
-              <button
-                key={cat}
-                onClick={() => {
-                  setSelectedCategory(cat);
-                  setSelectedSpecialization('All'); // Reset subspec on category change
-                }}
-                className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-[#006655] text-white shadow-sm'
-                    : 'bg-slate-50 border border-slate-150 text-[#5c7075] hover:bg-slate-100'
-                }`}
-              >
-                {cat === 'All' ? 'All Members' : cat}
-              </button>
-            ))}
-          </div>
-
-          {(search || selectedCategory !== 'All' || selectedSpecialization !== 'All' || selectedSkill !== 'All') && (
-            <button
-              onClick={() => {
-                setSearch('');
-                setSelectedCategory('All');
-                setSelectedSpecialization('All');
-                setSelectedSkill('All');
-              }}
-              className="text-xs font-bold text-red-500 hover:text-red-600 bg-red-50 border border-red-100 px-3.5 py-1.5 rounded-xl transition-all select-none flex items-center gap-1"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-              <span>Reset Filters</span>
-            </button>
-          )}
-        </div>
-
-        {/* Inputs & Dropdowns Row */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          {/* Search box */}
-          <div className="md:col-span-6 relative">
-            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </span>
-            <input
-              type="text"
-              placeholder="Search by name, skill, role, location, or bio..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
-            />
-          </div>
-
-          {/* Specializations Dropdown */}
-          <div className="md:col-span-3">
-            <select
-              value={selectedSpecialization}
-              onChange={(e) => setSelectedSpecialization(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
-            >
-              <option value="All">All Specializations</option>
-              {allAvailableSpecs.map((spec) => (
-                <option key={spec} value={spec}>{spec}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Skills Dropdown */}
-          <div className="md:col-span-3">
-            <select
-              value={selectedSkill}
-              onChange={(e) => setSelectedSkill(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
-            >
-              <option value="All">All Skills</option>
-              {allAvailableSkills.map((skill) => (
-                <option key={skill} value={skill}>{skill}</option>
-              ))}
-            </select>
-          </div>
-        </div>
+      {/* Category Tabs */}
+      <div className="flex border-b border-slate-200 mb-8 overflow-x-auto no-scrollbar">
+        {(['All', 'Developers', 'Designers', 'Data & AI'] as const).map((category) => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`px-6 py-3.5 text-xs font-bold transition-all border-b-2 whitespace-nowrap cursor-pointer ${
+              selectedCategory === category
+                ? 'border-[#006655] text-[#006655]'
+                : 'border-transparent text-[#5c7075] hover:text-[#091e22]'
+            }`}
+          >
+            {category}
+          </button>
+        ))}
       </div>
 
-      {/* Showing results count */}
-      {!loading && (
-        <div className="flex justify-between items-center mb-6 text-xs text-[#5c7075] font-semibold select-none">
-          <span>Showing {filteredMembers.length} of {members.length} members</span>
+      {/* Filter Control Bar */}
+      <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
+        {/* Search Input */}
+        <div className="md:col-span-6 relative">
+          <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Search by name, role, specialization, skill, or bio..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent transition-all"
+          />
         </div>
-      )}
+
+        {/* Specialization Filter */}
+        <div className="md:col-span-3">
+          <select
+            value={selectedSpecialization}
+            onChange={(e) => setSelectedSpecialization(e.target.value)}
+            className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
+          >
+            <option value="All">All Specializations</option>
+            {allAvailableSpecs.map((spec) => (
+              <option key={spec} value={spec}>{spec}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Skill Filter */}
+        <div className="md:col-span-3">
+          <select
+            value={selectedSkill}
+            onChange={(e) => setSelectedSkill(e.target.value)}
+            className="w-full px-3.5 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#006655] focus:border-transparent cursor-pointer transition-all"
+          >
+            <option value="All">All Skills</option>
+            {allAvailableSkills.map((sk) => (
+              <option key={sk} value={sk}>{sk}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
       {/* Grid of Member Cards */}
       {loading ? (
@@ -329,7 +321,7 @@ export const MembersDirectory: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMembers.map((member) => {
+          {paginatedMembers.map((member) => {
             const specs = getMemberSpecs(member);
             const skills = getMemberSkills(member);
             return (
@@ -406,22 +398,39 @@ export const MembersDirectory: React.FC = () => {
       )}
 
       {/* Pagination Controls */}
-      {!loading && filteredMembers.length > 0 && (
+      {!loading && totalPages > 1 && (
         <div className="flex justify-center items-center gap-1.5 mt-12 select-none">
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-500 transition-colors">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
             &lt;
           </button>
-          <button className="w-8 h-8 flex items-center justify-center bg-[#006655] text-white rounded-lg text-xs font-bold">
-            1
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 hover:bg-slate-50 rounded-lg text-xs text-[#5c7075] transition-colors">
-            2
-          </button>
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 hover:bg-slate-50 rounded-lg text-xs text-[#5c7075] transition-colors">
-            3
-          </button>
-          <span className="text-slate-400 text-xs px-1">...</span>
-          <button className="w-8 h-8 flex items-center justify-center border border-slate-200 hover:bg-slate-50 rounded-lg text-slate-500 transition-colors">
+          {getPageNumbers().map((page, idx) =>
+            typeof page === 'number' ? (
+              <button
+                key={idx}
+                onClick={() => setCurrentPage(page)}
+                className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                  currentPage === page
+                    ? 'bg-[#006655] text-white'
+                    : 'border border-slate-200 hover:bg-slate-50 text-[#5c7075]'
+                }`}
+              >
+                {page}
+              </button>
+            ) : (
+              <span key={idx} className="text-slate-400 text-xs px-1">
+                ...
+              </span>
+            )
+          )}
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
             &gt;
           </button>
         </div>
