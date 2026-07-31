@@ -169,7 +169,7 @@ export const MyCollaborations: React.FC = () => {
               </div>
 
               {/* Bottom details card info */}
-              <div className="border-t border-[#006655]/15 dark:border-[#00a88a]/20 pt-4 flex flex-col justify-between gap-4">
+              <div className="border-t border-[#006655]/30 dark:border-[#00a88a]/40 pt-4 flex flex-col justify-between gap-4">
                 <div className="flex justify-between items-center text-[10px] bg-slate-50/50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-xl p-3 select-none">
                   <div>
                     <span className="text-slate-400 block text-[9px] font-bold uppercase mb-0.5">Commitment</span>
