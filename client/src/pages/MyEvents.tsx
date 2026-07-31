@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface EventType {
   _id: string;
@@ -93,6 +94,7 @@ export const MyEvents: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Header bar */}
+      <ScrollReveal>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">Event Management</h1>
@@ -105,9 +107,10 @@ export const MyEvents: React.FC = () => {
         >
           + Create Event
         </Link>
-      </div>
+      </ScrollReveal>
 
       {/* Stats Cards Row (matching AdminPanel-EventManagement.png layouts) */}
+      <ScrollReveal>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 select-none">
         {/* Card 1 */}
         <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
@@ -128,9 +131,10 @@ export const MyEvents: React.FC = () => {
             {events.filter((e) => e.status === 'upcoming').length}
           </span>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Table view */}
+      <ScrollReveal>
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         {/* Search & Filter Header bar */}
         <div className="p-5 border-b border-[#006655]/30 dark:border-[#00a88a]/40 flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -229,6 +233,7 @@ export const MyEvents: React.FC = () => {
           </table>
         )}
       </div>
+      </ScrollReveal>
 
     </div>
   );
