@@ -118,7 +118,7 @@ export const PlatformAnalytics: React.FC = () => {
 
           {/* Bar Charts simulator */}
           {acquisition.length > 0 ? (
-            <div className="h-64 flex items-end gap-3 select-none pb-2 border-b border-[#006655]/15 dark:border-[#00a88a]/20">
+            <div className="h-64 flex items-end gap-3 select-none pb-2 border-b border-[#006655]/30 dark:border-[#00a88a]/40">
               {acquisition.map((item, idx) => (
                 <div key={idx} className="flex flex-col items-center flex-grow group relative">
                   <div className="absolute bottom-full mb-2 bg-[#091e22] text-white text-[8px] px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none whitespace-nowrap">
