@@ -303,7 +303,7 @@ export const Signup: React.FC = () => {
           {/* Social Divider */}
           <div className="relative my-5 flex items-center justify-center">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-100"></div>
+              <div className="w-full border-t border-[#006655]/15 dark:border-[#00a88a]/20"></div>
             </div>
             <span className="relative px-3 bg-white text-xs font-semibold text-[#5c7075] uppercase tracking-wider">
               Or continue with
