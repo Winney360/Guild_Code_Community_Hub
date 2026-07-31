@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 export const CollaborationForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -192,6 +193,7 @@ export const CollaborationForm: React.FC = () => {
         )}
       </div>
 
+      <ScrollReveal>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Title */}
         <div>
@@ -377,6 +379,7 @@ export const CollaborationForm: React.FC = () => {
           </button>
         </div>
       </form>
+      </ScrollReveal>
     </div>
   );
 };
