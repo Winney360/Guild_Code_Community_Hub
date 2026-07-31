@@ -227,7 +227,7 @@ export const MembersDirectory: React.FC = () => {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex border-b border-[#006655]/15 dark:border-[#00a88a]/20 mb-8 overflow-x-auto no-scrollbar">
+      <div className="flex border-b border-[#006655]/30 dark:border-[#00a88a]/40 mb-8 overflow-x-auto no-scrollbar">
         {(['All', 'Developers', 'Designers', 'Data & AI'] as const).map((category) => (
           <button
             key={category}
@@ -363,7 +363,7 @@ export const MembersDirectory: React.FC = () => {
                 </div>
 
                 {/* Footer details */}
-                <div className="pt-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20 flex items-center justify-between text-xs text-[#5c7075] select-none">
+                <div className="pt-4 border-t border-[#006655]/30 dark:border-[#00a88a]/40 flex items-center justify-between text-xs text-[#5c7075] select-none">
                   {/* Links / Stats */}
                   <div className="flex items-center gap-3">
                     {member.github && (
