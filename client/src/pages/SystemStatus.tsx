@@ -59,10 +59,10 @@ export const SystemStatus: React.FC = () => {
 
       {/* Service List */}
       <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs mb-10">
-        <h2 className="text-lg font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 pb-3 border-b border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
+        <h2 className="text-lg font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 pb-3 border-b border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">
           Service Status Breakdown
         </h2>
-        <div className="divide-y divide-[#006655]/15 dark:divide-[#00a88a]/20 dark:divide-[#00a88a]/20">
+        <div className="divide-y divide-[#006655]/30 dark:divide-[#00a88a]/40 dark:divide-[#00a88a]/20">
           {services.map((service, idx) => (
             <div key={idx} className="py-4 flex items-center justify-between gap-4">
               <div>
