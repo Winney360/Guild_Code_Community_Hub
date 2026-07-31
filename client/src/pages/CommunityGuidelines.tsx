@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 export const CommunityGuidelines: React.FC = () => {
   const pillars = [
@@ -44,70 +45,78 @@ export const CommunityGuidelines: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
       {/* Banner */}
-      <div className="bg-gradient-to-r from-[#006655] via-emerald-700 to-[#091e22] rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-100 mb-4">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-          </svg>
-          Developer Ecosystem Standard
+      <ScrollReveal>
+        <div className="bg-gradient-to-r from-[#006655] via-emerald-700 to-[#091e22] rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-100 mb-4">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
+            Developer Ecosystem Standard
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Community Guidelines & Code of Conduct</h1>
+          <p className="text-emerald-100 text-sm max-w-2xl leading-relaxed">
+            Guild Code is designed to bring developers together to learn, build open-source software, and launch exciting products. We expect all community members to uphold these core guidelines.
+          </p>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Community Guidelines & Code of Conduct</h1>
-        <p className="text-emerald-100 text-sm max-w-2xl leading-relaxed">
-          Guild Code is designed to bring developers together to learn, build open-source software, and launch exciting products. We expect all community members to uphold these core guidelines.
-        </p>
-      </div>
+      </ScrollReveal>
 
       {/* Four Pillars */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         {pillars.map((pillar, idx) => (
-          <div key={idx} className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mb-4">
-                {pillar.icon}
+          <ScrollReveal key={idx} delay={idx * 100}>
+            <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-xs flex flex-col justify-between h-full">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mb-4">
+                  {pillar.icon}
+                </div>
+                <h3 className="font-bold text-base text-[#091e22] dark:text-[#f1f5f9] mb-2">{pillar.title}</h3>
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {pillar.description}
+                </p>
               </div>
-              <h3 className="font-bold text-base text-[#091e22] dark:text-[#f1f5f9] mb-2">{pillar.title}</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                {pillar.description}
-              </p>
             </div>
-          </div>
+          </ScrollReveal>
         ))}
       </div>
 
       {/* Enforcement & Reporting */}
       <div className="space-y-6">
-        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
-          <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Reporting Violations</h2>
-          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-            If you encounter content, projects, comments, or collaboration listings that breach these standards, please report them using the flag button on the post or contact our moderation queue.
-          </p>
-          <div className="flex flex-wrap items-center gap-3 text-xs">
-            <a
-              href="mailto:moderation@guildcode.dev"
-              className="px-4 py-2 bg-[#006655] hover:bg-[#004d40] text-white font-bold rounded-xl shadow-xs transition-all"
-            >
-              Report via Email
-            </a>
-            <Link
-              to="/dashboard/activity"
-              className="px-4 py-2 bg-slate-100 dark:bg-[#1a292c] hover:bg-slate-200 text-[#091e22] dark:text-[#f1f5f9] font-bold rounded-xl transition-all"
-            >
-              View Activity & Alerts
-            </Link>
+        <ScrollReveal delay={200}>
+          <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
+            <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Reporting Violations</h2>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+              If you encounter content, projects, comments, or collaboration listings that breach these standards, please report them using the flag button on the post or contact our moderation queue.
+            </p>
+            <div className="flex flex-wrap items-center gap-3 text-xs">
+              <a
+                href="mailto:moderation@guildcode.dev"
+                className="px-4 py-2 bg-[#006655] hover:bg-[#004d40] text-white font-bold rounded-xl shadow-xs transition-all"
+              >
+                Report via Email
+              </a>
+              <Link
+                to="/dashboard/activity"
+                className="px-4 py-2 bg-slate-100 dark:bg-[#1a292c] hover:bg-slate-200 text-[#091e22] dark:text-[#f1f5f9] font-bold rounded-xl transition-all"
+              >
+                View Activity & Alerts
+              </Link>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
-        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
-          <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Moderation Actions</h2>
-          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-            Our moderation team reviews reported items in accordance with internal guidelines. Actions taken may include warning notices, removal of content/listings, temporary account suspension, or permanent ban for severe violations.
-          </p>
-          <div className="flex items-center gap-4 text-xs font-bold text-[#006655] dark:text-emerald-400">
-            <Link to="/terms" className="hover:underline">Terms of Service &rarr;</Link>
-            <span>•</span>
-            <Link to="/privacy" className="hover:underline">Privacy Policy &rarr;</Link>
+        <ScrollReveal delay={300}>
+          <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
+            <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Moderation Actions</h2>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+              Our moderation team reviews reported items in accordance with internal guidelines. Actions taken may include warning notices, removal of content/listings, temporary account suspension, or permanent ban for severe violations.
+            </p>
+            <div className="flex items-center gap-4 text-xs font-bold text-[#006655] dark:text-emerald-400">
+              <Link to="/terms" className="hover:underline">Terms of Service &rarr;</Link>
+              <span>•</span>
+              <Link to="/privacy" className="hover:underline">Privacy Policy &rarr;</Link>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </div>
   );
