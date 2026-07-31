@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface EventType {
   _id: string;
@@ -163,6 +164,7 @@ export const EventDetails: React.FC = () => {
   return (
     <div className="font-sans text-[#091e22]">
       {/* 1. Header Hero Banner (Teal background card) */}
+      <ScrollReveal direction="none">
       <section className="bg-gradient-to-r from-[#8be0eb] to-[#a3f0f9]/80 dark:from-[#1a292c] dark:to-[#0d1f22] py-12 md:py-16 px-6 relative overflow-hidden select-none">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
 
@@ -236,8 +238,10 @@ export const EventDetails: React.FC = () => {
 
         </div>
       </section>
+      </ScrollReveal>
 
       {/* 2. Content Sections Splitting Grid */}
+      <ScrollReveal delay={100}>
       <section className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
@@ -378,6 +382,7 @@ export const EventDetails: React.FC = () => {
 
         </div>
       </section>
+      </ScrollReveal>
 
     </div>
   );
