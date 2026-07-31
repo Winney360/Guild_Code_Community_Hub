@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface Stats {
   activeMembers: number;
@@ -110,118 +111,134 @@ export const Home: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-[#e6f7f8] via-[#eef9fa] to-white pt-16 pb-20 px-6 relative overflow-hidden select-none">
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
-            <svg className="w-3.5 h-3.5 text-[#006655] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15a5 5 0 100-10 5 5 0 000 10z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 14L4.5 21l3.75-1.5L12 21l3.75-1.5L19.5 21l-3.75-7" />
-            </svg>
-            <span>Building Together Since 2024</span>
-          </div>
+          <ScrollReveal>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
+              <svg className="w-3.5 h-3.5 text-[#006655] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15a5 5 0 100-10 5 5 0 000 10z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 14L4.5 21l3.75-1.5L12 21l3.75-1.5L19.5 21l-3.75-7" />
+              </svg>
+              <span>Building Together Since 2024</span>
+            </div>
+          </ScrollReveal>
 
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-6xl mx-auto">
-            Welcome to <span className="text-[#006655] font-serif italic pr-1">Guild Code</span>, <br className="hidden md:block" />
-            Ecosystem for <span className="italic text-[#006655] font-serif pr-2">Elite</span> Builders & Founders.
-          </h1>
+          <ScrollReveal delay={100}>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-6xl mx-auto">
+              Welcome to <span className="text-[#006655] font-serif italic pr-1">Guild Code</span>, <br className="hidden md:block" />
+              Ecosystem for <span className="italic text-[#006655] font-serif pr-2">Elite</span> Builders & Founders.
+            </h1>
+          </ScrollReveal>
 
           {/* Subtitle */}
-          <p className="text-[#5c7075] text-lg max-w-4xl mx-auto mb-8 leading-relaxed select-none">
-            A collaborative platform where developers, designers, and creators come together to learn, build, and grow. <br className="hidden md:block" />
-            Share your work, connect with peers, and be part of something amazing.
-          </p>
+          <ScrollReveal delay={200}>
+            <p className="text-[#5c7075] text-lg max-w-4xl mx-auto mb-8 leading-relaxed select-none">
+              A collaborative platform where developers, designers, and creators come together to learn, build, and grow. <br className="hidden md:block" />
+              Share your work, connect with peers, and be part of something amazing.
+            </p>
+          </ScrollReveal>
 
           {/* Active Members Avatar Pile */}
-          <div className="flex items-center justify-center gap-4 mb-10 select-none">
-            {/* Overlapping Rings (Rendering actual DB members) */}
-            {members.length > 0 && (
-              <div className="flex items-center">
-                <div className="flex -space-x-3 py-1 px-0.5">
-                  {members.slice(0, 6).map((member) => (
-                    <Link
-                      key={member._id}
-                      to={`/members/${member._id}`}
-                      className="w-10 h-10 rounded-full border-2 border-white bg-[#e6f7f8] flex items-center justify-center text-xs font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0 hover:z-10 hover:scale-110 transition-transform"
-                      title={member.fullName}
-                    >
-                      {member.profilePicture && member.profilePicture.trim() !== '' ? (
-                        <img
-                          src={member.profilePicture}
-                          alt={member.fullName}
-                          className="w-full h-full object-cover select-none"
-                        />
-                      ) : (
-                        getInitials(member.fullName)
-                      )}
-                    </Link>
-                  ))}
+          <ScrollReveal delay={300}>
+            <div className="flex items-center justify-center gap-4 mb-10 select-none">
+              {/* Overlapping Rings (Rendering actual DB members) */}
+              {members.length > 0 && (
+                <div className="flex items-center">
+                  <div className="flex -space-x-3 py-1 px-0.5">
+                    {members.slice(0, 6).map((member) => (
+                      <Link
+                        key={member._id}
+                        to={`/members/${member._id}`}
+                        className="w-10 h-10 rounded-full border-2 border-white bg-[#e6f7f8] flex items-center justify-center text-xs font-bold text-[#006655] shadow-sm select-none overflow-hidden shrink-0 hover:z-10 hover:scale-110 transition-transform"
+                        title={member.fullName}
+                      >
+                        {member.profilePicture && member.profilePicture.trim() !== '' ? (
+                          <img
+                            src={member.profilePicture}
+                            alt={member.fullName}
+                            className="w-full h-full object-cover select-none"
+                          />
+                        ) : (
+                          getInitials(member.fullName)
+                        )}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
+              )}
+              {/* Active Members count details */}
+              <div className="text-left font-bold">
+                <div className="flex items-center gap-1 text-xs text-[#091e22]">
+                  {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)} Active Members
+                </div>
+                <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Explore the community today</p>
               </div>
-            )}
-            {/* Active Members count details */}
-            <div className="text-left font-bold">
-              <div className="flex items-center gap-1 text-xs text-[#091e22]">
-                {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)} Active Members
-              </div>
-              <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Explore the community today</p>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
-            <Link
-              to="/members"
-              className="w-full sm:w-auto bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-sm"
-            >
-              Explore Members
-            </Link>
-            <Link
-              to="/projects"
-              className="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-[#006655] font-bold py-3.5 px-8 rounded-xl transition-all shadow-sm text-sm"
-            >
-              View Projects
-            </Link>
-          </div>
+          <ScrollReveal delay={400}>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
+              <Link
+                to="/members"
+                className="w-full sm:w-auto bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-sm"
+              >
+                Explore Members
+              </Link>
+              <Link
+                to="/projects"
+                className="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-[#006655] font-bold py-3.5 px-8 rounded-xl transition-all shadow-sm text-sm"
+              >
+                View Projects
+              </Link>
+            </div>
+          </ScrollReveal>
 
           {/* Live Stat Counters (Spec 4.1) */}
-          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-[#006655]/30 dark:md:divide-[#00a88a]/40">
-            <div className="flex flex-col items-center justify-center p-2">
-              <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
-              </span>
-              <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Active Members</span>
+          <ScrollReveal delay={500}>
+            <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-[#006655]/30 dark:md:divide-[#00a88a]/40">
+              <div className="flex flex-col items-center justify-center p-2">
+                <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+                  {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
+                </span>
+                <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Active Members</span>
+              </div>
+              <div className="flex flex-col items-center justify-center p-2">
+                <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+                  {loading ? '...' : stats.projectsShared}
+                </span>
+                <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Open Projects</span>
+              </div>
+              <div className="flex flex-col items-center justify-center p-2">
+                <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+                  {loading ? '...' : stats.upcomingEvents}
+                </span>
+                <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">
+                  Upcoming Sessions
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col items-center justify-center p-2">
-              <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                {loading ? '...' : stats.projectsShared}
-              </span>
-              <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Open Projects</span>
-            </div>
-            <div className="flex flex-col items-center justify-center p-2">
-              <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                {loading ? '...' : stats.upcomingEvents}
-              </span>
-              <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">
-                Upcoming Sessions
-              </span>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Elite Craftsmanship Section (Vetted Developers) */}
       <section className="py-20 px-6 max-w-7xl mx-auto border-t border-[#006655]/30 dark:border-[#00a88a]/40">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
-          <div>
-            <h2 className="text-3xl font-extrabold tracking-tight mb-3">Elite Craftsmanship</h2>
-            <p className="text-[#5c7075] text-sm max-w-xl">
-              Meet the architects shaping the future. Our members are vetted for technical excellence and collaborative spirit.
-            </p>
-          </div>
-          <Link to="/members" className="text-[#006655] hover:underline text-sm font-semibold flex items-center gap-1 shrink-0">
-            <span>View all members</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </Link>
+          <ScrollReveal>
+            <div>
+              <h2 className="text-3xl font-extrabold tracking-tight mb-3">Elite Craftsmanship</h2>
+              <p className="text-[#5c7075] text-sm max-w-xl">
+                Meet the architects shaping the future. Our members are vetted for technical excellence and collaborative spirit.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={150} direction="left">
+            <Link to="/members" className="text-[#006655] hover:underline text-sm font-semibold flex items-center gap-1 shrink-0">
+              <span>View all members</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
+          </ScrollReveal>
         </div>
 
         {/* Members Cards Row */}
@@ -250,7 +267,7 @@ export const Home: React.FC = () => {
           </div>
         ) : members.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {members.slice(0, 4).map((member) => {
+            {members.slice(0, 4).map((member, idx) => {
               const primaryRole = member.specializations && member.specializations.length > 0
                 ? member.specializations[0]
                 : (member.role === 'admin' ? 'Admin / Lead' : 'Community Member');
@@ -259,11 +276,11 @@ export const Home: React.FC = () => {
                 : (member.specializations ? member.specializations.slice(0, 3) : []);
 
               return (
-                <div
-                  key={member._id}
-                  onClick={() => navigate(`/members/${member._id}`)}
-                  className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56 cursor-pointer group"
-                >
+                <ScrollReveal key={member._id} delay={idx * 120}>
+                  <div
+                    onClick={() => navigate(`/members/${member._id}`)}
+                    className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56 cursor-pointer group"
+                  >
                   <div className="flex items-center gap-4">
                     <Link to={`/members/${member._id}`} className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[#006655]">
                       {member.profilePicture ? (
@@ -324,7 +341,8 @@ export const Home: React.FC = () => {
                     )}
                     <span>{member.projectCount ?? 0} {member.projectCount === 1 ? 'Project' : 'Projects'}</span>
                   </div>
-                </div>
+                  </div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -338,12 +356,14 @@ export const Home: React.FC = () => {
       {/* Innovation in Action Section (Featured Projects Grid) */}
       <section className="bg-slate-50/50 py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-3">Innovation in Action</h2>
-            <p className="text-[#5c7075] text-sm max-w-md mx-auto">
-              Peer into the repositories of the Guild. From low-level kernel optimization to distributed ledger protocols.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-extrabold tracking-tight mb-3">Innovation in Action</h2>
+              <p className="text-[#5c7075] text-sm max-w-md mx-auto">
+                Peer into the repositories of the Guild. From low-level kernel optimization to distributed ledger protocols.
+              </p>
+            </div>
+          </ScrollReveal>
 
           {(() => {
             const adminFeaturedProjects = projects.filter(
@@ -384,7 +404,8 @@ export const Home: React.FC = () => {
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                   {/* Left Column: Admin Featured or Most Liked Project (Takes 2 Columns on large screens) */}
-                  <div className="lg:col-span-2 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                  <ScrollReveal className="lg:col-span-2">
+                    <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow h-full">
                     <div>
                       {/* Banner Image */}
                       <div className="relative aspect-[16/9] w-full bg-slate-100 overflow-hidden">
@@ -455,15 +476,16 @@ export const Home: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                    </div>
+                  </ScrollReveal>
 
                   {/* Right Column: Top 3 Most Liked Projects */}
                   <div className="flex flex-col gap-6">
-                    {topLikedProjects.map((p) => (
-                      <div
-                        key={p._id}
-                        className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between flex-grow"
-                      >
+                    {topLikedProjects.map((p, idx) => (
+                      <ScrollReveal key={p._id} delay={150 + idx * 120} className="flex flex-col flex-grow">
+                        <div
+                          className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between flex-grow"
+                        >
                         <div>
                           <div className="flex justify-between items-start mb-2 gap-2">
                             <Link to={`/projects/${p._id}`} className="hover:underline">
@@ -508,22 +530,25 @@ export const Home: React.FC = () => {
                           </Link>
                         </div>
                       </div>
+                      </ScrollReveal>
                     ))}
                   </div>
                 </div>
 
                 {/* Link to See All Projects */}
-                <div className="mt-12 text-center select-none">
-                  <Link
-                    to="/projects"
-                    className="inline-flex items-center gap-2 bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md text-xs hover:scale-105"
-                  >
-                    <span>See All Projects</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                    </svg>
-                  </Link>
-                </div>
+                <ScrollReveal delay={200}>
+                  <div className="mt-12 text-center select-none">
+                    <Link
+                      to="/projects"
+                      className="inline-flex items-center gap-2 bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md text-xs hover:scale-105"
+                    >
+                      <span>See All Projects</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                      </svg>
+                    </Link>
+                  </div>
+                </ScrollReveal>
               </>
             );
           })()}
@@ -531,22 +556,24 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Quote Section */}
-      <section className="py-20 px-6 max-w-4xl mx-auto text-center relative select-none">
-        <span className="text-8xl font-serif text-[#006655]/10 leading-none select-none absolute top-10 left-1/2 -translate-x-1/2">
-          “
-        </span>
-        <blockquote className="relative z-10 text-xl md:text-2xl font-medium italic text-[#091e22] leading-relaxed mb-8">
-          "Guild Code isn't just another platform; it's the professional sanctuary I didn't know I needed.
-          The level of discourse and the quality of projects here are unparalleled in the open-source world."
-        </blockquote>
-        <Link to="/members" className="flex flex-col items-center group">
-          <div className="w-10 h-10 bg-[#006655] rounded-full overflow-hidden mb-3 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">WN</span>
-          </div>
-          <span className="font-bold text-sm group-hover:text-[#006655] transition-colors">Winfred Nkatha</span>
-          <span className="text-xs text-[#5c7075]">Team Lead / Fullstack Developer</span>
-        </Link>
-      </section>
+      <ScrollReveal>
+        <section className="py-20 px-6 max-w-4xl mx-auto text-center relative select-none">
+          <span className="text-8xl font-serif text-[#006655]/10 leading-none select-none absolute top-10 left-1/2 -translate-x-1/2">
+            “
+          </span>
+          <blockquote className="relative z-10 text-xl md:text-2xl font-medium italic text-[#091e22] leading-relaxed mb-8">
+            "Guild Code isn't just another platform; it's the professional sanctuary I didn't know I needed.
+            The level of discourse and the quality of projects here are unparalleled in the open-source world."
+          </blockquote>
+          <Link to="/members" className="flex flex-col items-center group">
+            <div className="w-10 h-10 bg-[#006655] rounded-full overflow-hidden mb-3 flex items-center justify-center">
+              <span className="text-white text-xs font-bold">WN</span>
+            </div>
+            <span className="font-bold text-sm group-hover:text-[#006655] transition-colors">Winfred Nkatha</span>
+            <span className="text-xs text-[#5c7075]">Team Lead / Fullstack Developer</span>
+          </Link>
+        </section>
+      </ScrollReveal>
     </div>
   );
 };
