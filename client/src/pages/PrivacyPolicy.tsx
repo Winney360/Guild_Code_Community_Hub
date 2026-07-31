@@ -39,8 +39,8 @@ export const PrivacyPolicy: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Table of Contents Sticky Sidebar */}
         <div className="lg:col-span-1">
-          <div className="sticky top-24 bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-5 shadow-xs">
-            <h3 className="text-xs font-bold text-[#091e22] dark:text-[#f1f5f9] uppercase tracking-wider mb-4 pb-2 border-b border-slate-100 dark:border-[#1e2e30]">
+          <div className="sticky top-24 bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-xs">
+            <h3 className="text-xs font-bold text-[#091e22] dark:text-[#f1f5f9] uppercase tracking-wider mb-4 pb-2 border-b border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
               On This Page
             </h3>
             <nav className="space-y-1.5 text-xs">
@@ -68,7 +68,7 @@ export const PrivacyPolicy: React.FC = () => {
               ))}
             </nav>
 
-            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-[#1e2e30]">
+            <div className="mt-6 pt-6 border-t border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
               <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 rounded-xl p-4 text-xs">
                 <p className="font-bold text-[#006655] dark:text-emerald-400 mb-1">Need Clarification?</p>
                 <p className="text-slate-600 dark:text-slate-400 mb-3 text-[11px] leading-relaxed">
@@ -88,7 +88,7 @@ export const PrivacyPolicy: React.FC = () => {
         {/* Policy Content */}
         <div className="lg:col-span-3 space-y-8 text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
           {/* Section 1 */}
-          <section id="collection" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="collection" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">1</span>
               Information We Collect
@@ -119,7 +119,7 @@ export const PrivacyPolicy: React.FC = () => {
           </section>
 
           {/* Section 2 */}
-          <section id="usage" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="usage" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">2</span>
               How We Use Your Data
@@ -134,7 +134,7 @@ export const PrivacyPolicy: React.FC = () => {
           </section>
 
           {/* Section 3 */}
-          <section id="sharing" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="sharing" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">3</span>
               Data Sharing & Disclosure
@@ -159,7 +159,7 @@ export const PrivacyPolicy: React.FC = () => {
           </section>
 
           {/* Section 4 */}
-          <section id="security" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="security" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">4</span>
               Security & Data Storage
@@ -170,7 +170,7 @@ export const PrivacyPolicy: React.FC = () => {
           </section>
 
           {/* Section 5 */}
-          <section id="rights" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="rights" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">5</span>
               Your Data Rights
@@ -195,7 +195,7 @@ export const PrivacyPolicy: React.FC = () => {
           </section>
 
           {/* Section 6 & 7 */}
-          <section id="cookies" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="cookies" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">6</span>
               Cookies & Tracking
@@ -205,7 +205,7 @@ export const PrivacyPolicy: React.FC = () => {
             </p>
           </section>
 
-          <section id="thirdparty" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="thirdparty" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">7</span>
               Third-Party Services
@@ -216,7 +216,7 @@ export const PrivacyPolicy: React.FC = () => {
           </section>
 
           {/* Section 8 */}
-          <section id="contact" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+          <section id="contact" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">8</span>
               Contact Information
