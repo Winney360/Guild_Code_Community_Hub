@@ -537,13 +537,13 @@ export const Home: React.FC = () => {
           "Guild Code isn't just another platform; it's the professional sanctuary I didn't know I needed.
           The level of discourse and the quality of projects here are unparalleled in the open-source world."
         </blockquote>
-        <div className="flex flex-col items-center">
-          <div className="w-10 h-10 bg-slate-100 rounded-full overflow-hidden mb-3">
-            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop" alt="Jameson Burke" />
+        <Link to="/members" className="flex flex-col items-center group">
+          <div className="w-10 h-10 bg-[#006655] rounded-full overflow-hidden mb-3 flex items-center justify-center">
+            <span className="text-white text-xs font-bold">WN</span>
           </div>
-          <span className="font-bold text-sm">Jameson Burke</span>
-          <span className="text-xs text-[#5c7075]">Principal Engineer @ TechCorp</span>
-        </div>
+          <span className="font-bold text-sm group-hover:text-[#006655] transition-colors">Winfred Nkatha</span>
+          <span className="text-xs text-[#5c7075]">Fullstack Developer</span>
+        </Link>
       </section>
     </div>
   );
