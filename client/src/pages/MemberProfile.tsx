@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface Member {
   _id: string;
@@ -136,6 +137,7 @@ export const MemberProfile: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* 1. Header Member Profile Card */}
+      <ScrollReveal>
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 md:p-8 shadow-sm mb-8 flex flex-col md:flex-row items-center md:items-start gap-8">
         {/* Avatar Image */}
         <div className="relative shrink-0 select-none">
@@ -221,9 +223,11 @@ export const MemberProfile: React.FC = () => {
           )}
         </div>
       </div>
+      </ScrollReveal>
 
       {/* 2. Skills & Specializations */}
       {(skills.length > 0 || specializations.length > 0) && (
+        <ScrollReveal delay={100}>
         <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm mb-8">
           <h3 className="font-bold text-base mb-4 text-[#091e22]">Skills & Technical Focus</h3>
           <div className="flex flex-wrap gap-2">
@@ -245,9 +249,11 @@ export const MemberProfile: React.FC = () => {
             ))}
           </div>
         </div>
+        </ScrollReveal>
       )}
 
       {/* 3. Real Projects Section */}
+      <ScrollReveal delay={200}>
       <section className="mb-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-extrabold tracking-tight">Published Projects</h2>
@@ -343,6 +349,7 @@ export const MemberProfile: React.FC = () => {
           </div>
         )}
       </section>
+      </ScrollReveal>
     </div>
   );
 };
