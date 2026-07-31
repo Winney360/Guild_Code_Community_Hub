@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface Member {
   _id: string;
@@ -219,14 +220,17 @@ export const MembersDirectory: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Header Title */}
+      <ScrollReveal>
       <div className="mb-10 text-center flex flex-col items-center">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3">Member Directory</h1>
         <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
           Discover and connect with the world's most talented developers contributing to the Guild Code ecosystem.
         </p>
       </div>
+      </ScrollReveal>
 
       {/* Category Tabs */}
+      <ScrollReveal delay={100}>
       <div className="flex border-b border-[#006655]/30 dark:border-[#00a88a]/40 mb-8 overflow-x-auto no-scrollbar">
         {(['All', 'Developers', 'Designers', 'Data & AI'] as const).map((category) => (
           <button
@@ -242,8 +246,10 @@ export const MembersDirectory: React.FC = () => {
           </button>
         ))}
       </div>
+      </ScrollReveal>
 
       {/* Filter Control Bar */}
+      <ScrollReveal delay={200}>
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* Search Input */}
         <div className="md:col-span-6 relative">
@@ -289,8 +295,10 @@ export const MembersDirectory: React.FC = () => {
           </select>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Grid of Member Cards */}
+      <ScrollReveal>
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <svg className="animate-spin h-8 w-8 text-[#006655]" fill="none" viewBox="0 0 24 24">
@@ -395,9 +403,11 @@ export const MembersDirectory: React.FC = () => {
           })}
         </div>
       )}
+      </ScrollReveal>
 
       {/* Pagination Controls */}
       {!loading && totalPages > 1 && (
+        <ScrollReveal>
         <div className="flex justify-center items-center gap-1.5 mt-12 select-none">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -433,6 +443,7 @@ export const MembersDirectory: React.FC = () => {
             &gt;
           </button>
         </div>
+        </ScrollReveal>
       )}
     </div>
   );
