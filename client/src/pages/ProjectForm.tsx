@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 export const ProjectForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -271,6 +272,7 @@ export const ProjectForm: React.FC = () => {
         )}
       </div>
 
+      <ScrollReveal>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Title input with live character counter */}
         <div>
@@ -634,6 +636,7 @@ export const ProjectForm: React.FC = () => {
           </div>
         </div>
       </form>
+      </ScrollReveal>
     </div>
   );
 };
