@@ -261,7 +261,8 @@ export const Home: React.FC = () => {
               return (
                 <div
                   key={member._id}
-                  className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56"
+                  onClick={() => navigate(`/members/${member._id}`)}
+                  className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56 cursor-pointer group"
                 >
                   <div className="flex items-center gap-4">
                     <Link to={`/members/${member._id}`} className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[#006655]">
@@ -276,7 +277,7 @@ export const Home: React.FC = () => {
                       )}
                     </Link>
                     <div className="min-w-0 flex-1">
-                      <Link to={`/members/${member._id}`} className="font-bold text-sm hover:text-[#006655] truncate block">
+                      <Link to={`/members/${member._id}`} className="font-bold text-sm group-hover:text-[#006655] truncate block">
                         {member.fullName}
                       </Link>
                       <p className="text-xs text-[#5c7075] truncate">{primaryRole}</p>
@@ -306,6 +307,7 @@ export const Home: React.FC = () => {
                         href={member.github.startsWith('http') ? member.github : `https://${member.github}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="hover:text-[#091e22]"
                         title="GitHub Profile"
                       >
