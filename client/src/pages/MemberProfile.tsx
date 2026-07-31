@@ -246,7 +246,7 @@ export const MemberProfile: React.FC = () => {
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <span className="absolute top-3 right-3 px-2.5 py-1 bg-white/90 backdrop-blur-sm text-slate-800 text-[10px] font-bold rounded-lg shadow-sm">
+                    <span className="absolute top-3 right-3 px-2.5 py-1 bg-white/90 dark:bg-[#1a292c]/90 backdrop-blur-sm text-slate-800 dark:text-[#f1f5f9] text-[10px] font-bold rounded-lg shadow-sm">
                       {project.category}
                     </span>
                   </Link>
