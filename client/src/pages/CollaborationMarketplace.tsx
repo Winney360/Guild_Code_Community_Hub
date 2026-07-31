@@ -253,7 +253,7 @@ export const CollaborationMarketplace: React.FC = () => {
               </div>
 
               {/* Bottom footer section */}
-              <div className="border-t border-slate-50 pt-4 flex flex-col justify-between gap-4">
+              <div className="border-t border-[#006655]/15 dark:border-[#00a88a]/20 pt-4 flex flex-col justify-between gap-4">
                 {/* Meta details row */}
                 <div className="flex justify-between items-center text-[10px] bg-slate-50/50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-xl p-3 select-none">
                   <div>
