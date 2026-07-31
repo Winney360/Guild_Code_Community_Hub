@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal.js';
 
 interface Member {
@@ -189,13 +189,6 @@ export const MembersDirectory: React.FC = () => {
   const allAvailableSpecs = Array.from(
     new Set(members.flatMap((m) => getMemberSpecs(m)))
   ).sort();
-
-  // Helper to format join date
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return 'Joined Recently';
-    const date = new Date(dateString);
-    return `JOINED ${date.toLocaleString('default', { month: 'short' }).toUpperCase()} ${date.getFullYear()}`;
-  };
 
   // Pagination calculation
   const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE);
