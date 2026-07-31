@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LegalLayout, TocItem } from '../components/LegalLayout.js';
+import { LegalLayout } from '../components/LegalLayout.js';
+import type { TocItem } from '../components/LegalLayout.js';
 import { LegalSection } from '../components/LegalSection.js';
 import { LegalContact } from '../components/LegalContact.js';
 
