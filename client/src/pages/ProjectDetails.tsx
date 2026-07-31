@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface ProjectType {
   _id: string;
@@ -152,6 +153,7 @@ export const ProjectDetails: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* 1. Header Information Row */}
+      <ScrollReveal>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 select-none">
         <div>
           <div className="flex items-center gap-3 mb-3 text-xs font-bold">
@@ -227,9 +229,11 @@ export const ProjectDetails: React.FC = () => {
           </div>
         )}
       </div>
+      </ScrollReveal>
 
       {/* 2. Cover Image */}
       {project.coverImage && (
+        <ScrollReveal delay={100}>
         <div className="aspect-[21/9] w-full rounded-3xl overflow-hidden bg-slate-100 border border-[#006655]/15 dark:border-[#00a88a]/20 shadow-sm mb-12 select-none">
           <img
             src={project.coverImage}
@@ -237,9 +241,11 @@ export const ProjectDetails: React.FC = () => {
             className="w-full h-full object-cover"
           />
         </div>
+        </ScrollReveal>
       )}
 
       {/* 3. Main Split Content Section */}
+      <ScrollReveal>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Left Column: About & Tech Details */}
         <div className="lg:col-span-8 space-y-10">
@@ -453,6 +459,7 @@ export const ProjectDetails: React.FC = () => {
 
         </div>
       </div>
+      </ScrollReveal>
     </div>
   );
 };
