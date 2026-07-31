@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface UserType {
   _id: string;
@@ -196,20 +197,23 @@ export const UserManagement: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight mb-1">User Management</h1>
-          <p className="text-xs text-[#5c7075] uppercase tracking-wider font-bold">
-            Total Members: {users.length} {pendingUsersCount > 0 && `• (${pendingUsersCount} Pending Approval)`}
-          </p>
-        </div>
+      <ScrollReveal>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight mb-1">User Management</h1>
+            <p className="text-xs text-[#5c7075] uppercase tracking-wider font-bold">
+              Total Members: {users.length} {pendingUsersCount > 0 && `• (${pendingUsersCount} Pending Approval)`}
+            </p>
+          </div>
 
-        <button className="bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-6 rounded-xl font-bold text-xs transition-colors shadow-sm select-none">
-          + Invite User
-        </button>
-      </div>
+          <button className="bg-[#006655] hover:bg-[#004d40] text-white py-2.5 px-6 rounded-xl font-bold text-xs transition-colors shadow-sm select-none">
+            + Invite User
+          </button>
+        </div>
+      </ScrollReveal>
 
       {/* Pending Approvals Notice Banner */}
+      <ScrollReveal delay={100}>
       {pendingUsersCount > 0 && (
         <div className="bg-amber-50 border border-amber-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 select-none shadow-sm">
           <div className="flex items-center gap-3">
@@ -233,8 +237,10 @@ export const UserManagement: React.FC = () => {
           </button>
         </div>
       )}
+      </ScrollReveal>
 
       {/* Main Table view wrapper */}
+      <ScrollReveal delay={200}>
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         
         {/* Filters & Actions Header */}
@@ -410,6 +416,7 @@ export const UserManagement: React.FC = () => {
           </table>
         )}
       </div>
+      </ScrollReveal>
 
       {confirmAction && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center gap-4 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] px-6 py-4 rounded-2xl shadow-2xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#00a88a]/20 dark:text-[#f1f5f9]">
