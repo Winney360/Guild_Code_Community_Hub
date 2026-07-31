@@ -117,7 +117,7 @@ export const ApplicationsDashboard: React.FC = () => {
       </div>
 
       {/* Selector Tabs */}
-      <div className="flex border-b border-slate-100 select-none">
+      <div className="flex border-b border-[#006655]/15 dark:border-[#00a88a]/20 select-none">
         <button
           onClick={() => setActiveTab('received')}
           className={`px-6 py-2.5 font-bold text-xs border-b-2 transition-colors ${
@@ -186,7 +186,7 @@ export const ApplicationsDashboard: React.FC = () => {
                   </div>
 
                   {/* Links and Review Actions */}
-                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-50 text-xs font-semibold">
+                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20 text-xs font-semibold">
                     <div className="flex items-center gap-4">
                       <a href={app.portfolioLink} target="_blank" rel="noreferrer" className="text-[#006655] hover:underline flex items-center gap-1">
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,7 +247,7 @@ export const ApplicationsDashboard: React.FC = () => {
           ) : (
             <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden shadow-sm">
               <table className="w-full text-left text-xs font-medium text-[#5c7075]">
-                <thead className="bg-slate-50 border-b border-slate-100 text-[#091e22] font-bold select-none text-[10px] uppercase">
+                <thead className="bg-slate-50 border-b border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] font-bold select-none text-[10px] uppercase">
                   <tr>
                     <th className="p-4 pl-6">Collaboration Title</th>
                     <th className="p-4">Owner</th>
@@ -256,7 +256,7 @@ export const ApplicationsDashboard: React.FC = () => {
                     <th className="p-4 pr-6 text-right">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-y divide-[#006655]/15 dark:divide-[#00a88a]/20">
                   {submitted.map((app) => (
                     <tr key={app._id} className="hover:bg-slate-50/30 transition-colors">
                       <td className="p-4 pl-6 font-bold text-[#091e22]">{app.collaboration.title}</td>
