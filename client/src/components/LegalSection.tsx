@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { LegalSectionRegistryContext } from './LegalSectionRegistryContext.js';
 import ScrollReveal from './ScrollReveal.js';
 
 interface LegalSectionProps {
@@ -9,7 +10,6 @@ interface LegalSectionProps {
   subtitle?: string;
   delay?: number;
   collapsible?: boolean;
-  registerRef?: (el: HTMLElement | null, id: string) => void;
   children: React.ReactNode;
 }
 
@@ -21,16 +21,16 @@ export const LegalSection: React.FC<LegalSectionProps> = ({
   subtitle,
   delay = 0,
   collapsible = false,
-  registerRef,
   children,
 }) => {
   const [open, setOpen] = useState(true);
+  const registerSection = useContext(LegalSectionRegistryContext);
 
   return (
     <ScrollReveal delay={delay}>
       <section
         id={id}
-        ref={(el) => registerRef?.(el, id)}
+        ref={(el) => registerSection(el, id)}
         className="py-10 first:pt-8 scroll-mt-24"
         aria-labelledby={`${id}-heading`}
       >
