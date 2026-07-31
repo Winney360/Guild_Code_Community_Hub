@@ -104,7 +104,7 @@ export const Changelog: React.FC = () => {
               </p>
 
               {/* Items */}
-              <div className="space-y-2 border-t border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 pt-4">
+              <div className="space-y-2 border-t border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20 pt-4">
                 {release.changes.map((item, itemIdx) => (
                   <div key={itemIdx} className="flex items-start gap-2 text-xs">
                     <span className={`px-2 py-0.5 rounded border text-[10px] font-bold shrink-0 ${getTypeStyle(item.type)}`}>
