@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface ApplicationReceived {
   _id: string;
@@ -109,14 +110,16 @@ export const ApplicationsDashboard: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Header breadcrumbs layout */}
+      <ScrollReveal>
       <div className="flex justify-between items-center select-none">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">Applications Management</h1>
           <p className="text-xs text-[#5c7075]">Review developer applications or track your own collaboration requests.</p>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Selector Tabs */}
+      <ScrollReveal>
       <div className="flex border-b border-[#006655]/30 dark:border-[#00a88a]/40 select-none">
         <button
           onClick={() => setActiveTab('received')}
@@ -138,9 +141,10 @@ export const ApplicationsDashboard: React.FC = () => {
         >
           Submitted Applications ({submitted.length})
         </button>
-      </div>
+      </ScrollReveal>
 
       {/* Received Applications view */}
+      <ScrollReveal>
       {activeTab === 'received' && (
         <div className="space-y-6">
           {received.length === 0 ? (
@@ -230,8 +234,10 @@ export const ApplicationsDashboard: React.FC = () => {
           )}
         </div>
       )}
+      </ScrollReveal>
 
       {/* Submitted Applications view */}
+      <ScrollReveal>
       {activeTab === 'submitted' && (
         <div className="space-y-6">
           {submitted.length === 0 ? (
@@ -280,6 +286,7 @@ export const ApplicationsDashboard: React.FC = () => {
           )}
         </div>
       )}
+      </ScrollReveal>
 
     </div>
   );
