@@ -304,6 +304,7 @@ export const DashboardSettings: React.FC = () => {
       <div className="select-none">
         <h1 className="text-2xl font-extrabold tracking-tight mb-1">Settings</h1>
         <p className="text-xs text-[#5c7075]">Manage your account and profile preferences.</p>
+      </div>
       </ScrollReveal>
 
       {/* Hidden Global file input for profile picture management */}
@@ -358,6 +359,7 @@ export const DashboardSettings: React.FC = () => {
         >
           Notifications
         </button>
+      </div>
       </ScrollReveal>
 
       {/* Form Area */}
