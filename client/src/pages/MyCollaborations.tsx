@@ -97,6 +97,7 @@ export const MyCollaborations: React.FC = () => {
             className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none"
           />
         </div>
+      </div>
       </ScrollReveal>
 
       {/* Grid listing */}
