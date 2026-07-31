@@ -81,14 +81,14 @@ export const Changelog: React.FC = () => {
       </div>
 
       {/* Release Timeline */}
-      <div className="relative border-l-2 border-slate-200 dark:border-[#1e2e30] ml-4 sm:ml-6 space-y-10">
+      <div className="relative border-l-2 border-slate-200 dark:border-[#00a88a]/20 ml-4 sm:ml-6 space-y-10">
         {releases.map((release, idx) => (
           <div key={idx} className="relative pl-6 sm:pl-8">
             {/* Timeline Dot */}
             <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#006655] border-4 border-white dark:border-[#0b1315] shadow-xs" />
 
             {/* Card */}
-            <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 shadow-xs">
+            <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-xs">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-3">
                   <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9]">{release.version}</h2>
@@ -104,7 +104,7 @@ export const Changelog: React.FC = () => {
               </p>
 
               {/* Items */}
-              <div className="space-y-2 border-t border-slate-100 dark:border-[#1e2e30] pt-4">
+              <div className="space-y-2 border-t border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 pt-4">
                 {release.changes.map((item, itemIdx) => (
                   <div key={itemIdx} className="flex items-start gap-2 text-xs">
                     <span className={`px-2 py-0.5 rounded border text-[10px] font-bold shrink-0 ${getTypeStyle(item.type)}`}>
