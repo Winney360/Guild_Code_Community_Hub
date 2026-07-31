@@ -269,7 +269,7 @@ export const MemberProfile: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="px-5 py-3 border-t border-slate-50 flex items-center justify-between text-xs text-[#5c7075]">
+                <div className="px-5 py-3 border-t border-[#006655]/15 dark:border-[#00a88a]/20 flex items-center justify-between text-xs text-[#5c7075]">
                   <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1 font-semibold text-rose-500">
                       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
