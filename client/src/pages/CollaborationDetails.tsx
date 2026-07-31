@@ -358,11 +358,11 @@ export const CollaborationDetails: React.FC = () => {
                 Commitment
               </h3>
               <div className="space-y-3">
-                <div className="flex justify-between items-center py-1 border-b border-[#006655]/15 dark:border-[#00a88a]/20">
+                <div className="flex justify-between items-center py-1 border-b border-[#006655]/30 dark:border-[#00a88a]/40">
                   <span className="text-[#5c7075]">Weekly Hours</span>
                   <span className="text-[#091e22]">{collab.commitment}</span>
                 </div>
-                <div className="flex justify-between items-center py-1 border-b border-[#006655]/15 dark:border-[#00a88a]/20">
+                <div className="flex justify-between items-center py-1 border-b border-[#006655]/30 dark:border-[#00a88a]/40">
                   <span className="text-[#5c7075]">Duration</span>
                   <span className="text-[#091e22]">{collab.duration}</span>
                 </div>
@@ -661,7 +661,7 @@ export const CollaborationDetails: React.FC = () => {
             </form>
 
             {/* Stats list summary */}
-            <div className="space-y-3 mt-6 pt-6 border-t border-[#006655]/15 dark:border-[#00a88a]/20 text-xs font-semibold">
+            <div className="space-y-3 mt-6 pt-6 border-t border-[#006655]/30 dark:border-[#00a88a]/40 text-xs font-semibold">
               <div className="flex justify-between items-center text-xs">
                 <span className="text-[#5c7075]">Likes</span>
                 <span className="text-[#091e22]">{likesCount} Total</span>
