@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { LegalSectionRegistryContext } from './LegalSectionRegistryContext.js';
 import ScrollReveal from './ScrollReveal.js';
 
 export interface TocItem {
@@ -38,13 +39,13 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
 
-  const registerSection = (el: HTMLElement | null, id: string) => {
+  const registerSection = useCallback((el: HTMLElement | null, id: string) => {
     if (el) {
       sectionRefs.current.set(id, el);
     } else {
       sectionRefs.current.delete(id);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const sections = toc
@@ -110,6 +111,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
   }
 
   return (
+    <LegalSectionRegistryContext.Provider value={registerSection}>
     <div className="bg-slate-50/50 dark:bg-[#0b1315] font-sans antialiased text-[#091e22] dark:text-[#f1f5f9]">
       {/* Header */}
       <div className="relative overflow-hidden border-b border-[#006655]/10 dark:border-[#00a88a]/20">
@@ -235,6 +237,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
         </div>
       </div>
     </div>
+    </LegalSectionRegistryContext.Provider>
   );
 };
 
