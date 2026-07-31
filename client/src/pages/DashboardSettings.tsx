@@ -314,7 +314,7 @@ export const DashboardSettings: React.FC = () => {
       />
 
       {/* Tabs list (matching MemberDashboard-Settings.png) */}
-      <div className="flex border-b border-[#006655]/15 dark:border-[#00a88a]/20 select-none">
+      <div className="flex border-b border-[#006655]/30 dark:border-[#00a88a]/40 select-none">
         <button
           onClick={() => { setActiveTab('profile'); setError(''); setSuccess(false); }}
           className={`px-6 py-2.5 font-bold text-xs border-b-2 transition-colors ${
@@ -362,7 +362,7 @@ export const DashboardSettings: React.FC = () => {
         !isEditingProfile ? (
           /* Read-Only Details Mode */
           <div className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
-            <div className="flex justify-between items-center border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-4 mb-2 select-none">
+            <div className="flex justify-between items-center border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-4 mb-2 select-none">
               <div>
                 <h3 className="font-extrabold text-sm text-[#091e22]">Personal Information</h3>
                 <p className="text-[10px] text-slate-400">Your profile details as visible to the community.</p>
@@ -400,7 +400,7 @@ export const DashboardSettings: React.FC = () => {
             </div>
 
             {/* Read-Only Socials */}
-            <div className="border-t border-[#006655]/15 dark:border-[#00a88a]/20 pt-6 space-y-4">
+            <div className="border-t border-[#006655]/30 dark:border-[#00a88a]/40 pt-6 space-y-4">
               <h3 className="font-extrabold text-xs text-slate-400 uppercase tracking-wider select-none">Social Profiles</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {github ? (
@@ -464,7 +464,7 @@ export const DashboardSettings: React.FC = () => {
           /* Editable Form Mode */
           <form onSubmit={handleSaveProfile} className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div>
-              <h3 className="font-extrabold text-sm border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-2 mb-2 select-none">Personal Information</h3>
+              <h3 className="font-extrabold text-sm border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-2 mb-2 select-none">Personal Information</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
@@ -521,7 +521,7 @@ export const DashboardSettings: React.FC = () => {
             </div>
 
             {/* Social Links */}
-            <div className="border-t border-[#006655]/15 dark:border-[#00a88a]/20 pt-6 space-y-4">
+            <div className="border-t border-[#006655]/30 dark:border-[#00a88a]/40 pt-6 space-y-4">
               <h3 className="font-extrabold text-sm select-none">Social Links</h3>
               <div className="space-y-3">
                 <div className="flex gap-2">
@@ -557,7 +557,7 @@ export const DashboardSettings: React.FC = () => {
             </div>
 
             {/* Save/Cancel Action Row */}
-            <div className="flex justify-end gap-3 select-none pt-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20">
+            <div className="flex justify-end gap-3 select-none pt-4 border-t border-[#006655]/30 dark:border-[#00a88a]/40">
               {error && (
                 <span className="text-red-500 text-xs self-center flex items-center gap-1">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -590,7 +590,7 @@ export const DashboardSettings: React.FC = () => {
         !isEditingSkills ? (
           /* Read-Only Details Mode */
           <div className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
-            <div className="flex justify-between items-center border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-4 mb-2 select-none">
+            <div className="flex justify-between items-center border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-4 mb-2 select-none">
               <div>
                 <h3 className="font-extrabold text-sm text-[#091e22]">Skills & Specializations</h3>
                 <p className="text-[10px] text-slate-400">Your core technologies, tools, and paradigms.</p>
@@ -627,7 +627,7 @@ export const DashboardSettings: React.FC = () => {
           /* Editable Form Mode */
           <form onSubmit={handleSaveSkills} className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 animate-fade-in">
             <div>
-              <h3 className="font-extrabold text-sm border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-2 mb-2 select-none">Skills & Specializations</h3>
+              <h3 className="font-extrabold text-sm border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-2 mb-2 select-none">Skills & Specializations</h3>
               <p className="text-xs text-[#5c7075] mb-6">List key languages, tools, and paradigms you excel at.</p>
               
               <label className="text-[10px] font-bold text-[#5c7075] block mb-1">My Skills (Comma separated list)</label>
@@ -640,7 +640,7 @@ export const DashboardSettings: React.FC = () => {
               />
             </div>
 
-            <div className="flex justify-end gap-3 select-none pt-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20">
+            <div className="flex justify-end gap-3 select-none pt-4 border-t border-[#006655]/30 dark:border-[#00a88a]/40">
               {error && (
                 <span className="text-red-500 text-xs self-center flex items-center gap-1">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -675,7 +675,7 @@ export const DashboardSettings: React.FC = () => {
             {/* Left: Change Password Form card */}
             <form onSubmit={handleSavePassword} className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6">
             <div>
-              <h3 className="font-extrabold text-sm border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-2 mb-2 select-none">Change Password</h3>
+              <h3 className="font-extrabold text-sm border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-2 mb-2 select-none">Change Password</h3>
               <p className="text-xs text-[#5c7075] mb-6">Ensure your credentials are secure and updated regularly.</p>
               
               <div className="space-y-4">
@@ -783,7 +783,7 @@ export const DashboardSettings: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex justify-start gap-3 select-none pt-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20">
+            <div className="flex justify-start gap-3 select-none pt-4 border-t border-[#006655]/30 dark:border-[#00a88a]/40">
               {error && (
                 <span className="text-red-500 text-xs self-center flex items-center gap-1">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -804,7 +804,7 @@ export const DashboardSettings: React.FC = () => {
 
             {/* Right: Profile Photo Management card */}
             <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm h-fit">
-              <h3 className="font-extrabold text-sm border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-2 mb-4 select-none">Profile Picture</h3>
+              <h3 className="font-extrabold text-sm border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-2 mb-4 select-none">Profile Picture</h3>
               
               <div className="flex flex-row items-center gap-6">
                 <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#e6f7f8] dark:bg-[#1a292c] border-2 border-[#006655]/20 flex items-center justify-center shadow-sm select-none shrink-0">
@@ -857,7 +857,7 @@ export const DashboardSettings: React.FC = () => {
       {activeTab === 'notifications' && (
         <div className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 select-none">
           <div>
-            <h3 className="font-extrabold text-sm border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-2 mb-2">Notification Settings</h3>
+            <h3 className="font-extrabold text-sm border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-2 mb-2">Notification Settings</h3>
             <p className="text-xs text-[#5c7075] mb-6">Manage how you receive alerts and updates from the Guild ecosystem.</p>
             
             <div className="space-y-4 text-xs font-semibold text-[#091e22]">
@@ -889,7 +889,7 @@ export const DashboardSettings: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-end pt-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20">
+          <div className="flex justify-end pt-4 border-t border-[#006655]/30 dark:border-[#00a88a]/40">
             <button
               type="button"
               onClick={() => {
