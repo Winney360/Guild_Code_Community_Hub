@@ -106,6 +106,7 @@ export const DashboardOverview: React.FC = () => {
           </h1>
           <p className="text-xs text-[#5c7075]">Manage, monitor, and scale your open-source initiatives.</p>
         </div>
+      </div>
       </ScrollReveal>
 
       {/* 1. Statistics Cards Row */}
@@ -177,6 +178,7 @@ export const DashboardOverview: React.FC = () => {
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Project Views</span>
           </div>
         </div>
+      </div>
       </ScrollReveal>
 
       {/* 2. Main Content Split Panel */}
@@ -285,8 +287,8 @@ export const DashboardOverview: React.FC = () => {
                 </div>
               </Link>
             </div>
-            </ScrollReveal>
           </div>
+          </ScrollReveal>
 
           {/* Notifications Card */}
           <ScrollReveal>
