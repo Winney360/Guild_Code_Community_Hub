@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface ModerationType {
   _id: string;
@@ -103,14 +104,17 @@ export const ModerationQueue: React.FC = () => {
   return (
     <div className="space-y-8 font-sans text-[#091e22]">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight mb-1">Moderation Queue</h1>
-          <p className="text-xs text-[#5c7075]">Manage flagged items, inappropriate comments, and platform infractions.</p>
+      <ScrollReveal>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight mb-1">Moderation Queue</h1>
+            <p className="text-xs text-[#5c7075]">Manage flagged items, inappropriate comments, and platform infractions.</p>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Stats Cards Row */}
+      <ScrollReveal delay={100}>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
         <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
@@ -148,8 +152,10 @@ export const ModerationQueue: React.FC = () => {
           <span className="text-2xl font-extrabold block leading-tight">MERN</span>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Moderation Queue table list */}
+      <ScrollReveal delay={200}>
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         {/* Filtering Tabs Header */}
         <div className="p-5 border-b border-[#006655]/30 dark:border-[#00a88a]/40 flex justify-between items-center select-none">
@@ -258,6 +264,7 @@ export const ModerationQueue: React.FC = () => {
           </div>
         )}
       </div>
+      </ScrollReveal>
     </div>
   );
 };
