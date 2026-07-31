@@ -40,7 +40,7 @@ export const PrivacyPolicy: React.FC = () => {
         {/* Table of Contents Sticky Sidebar */}
         <div className="lg:col-span-1">
           <div className="sticky top-24 bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-xs">
-            <h3 className="text-xs font-bold text-[#091e22] dark:text-[#f1f5f9] uppercase tracking-wider mb-4 pb-2 border-b border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
+            <h3 className="text-xs font-bold text-[#091e22] dark:text-[#f1f5f9] uppercase tracking-wider mb-4 pb-2 border-b border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">
               On This Page
             </h3>
             <nav className="space-y-1.5 text-xs">
@@ -68,7 +68,7 @@ export const PrivacyPolicy: React.FC = () => {
               ))}
             </nav>
 
-            <div className="mt-6 pt-6 border-t border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
+            <div className="mt-6 pt-6 border-t border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">
               <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 rounded-xl p-4 text-xs">
                 <p className="font-bold text-[#006655] dark:text-emerald-400 mb-1">Need Clarification?</p>
                 <p className="text-slate-600 dark:text-slate-400 mb-3 text-[11px] leading-relaxed">
