@@ -293,7 +293,7 @@ export const DashboardOverview: React.FC = () => {
             <div className="space-y-4 mb-6">
               {unreadNotifications.length > 0 ? (
                 unreadNotifications.slice(0, 4).map((n) => (
-                  <div key={n._id} className="text-[11px] leading-relaxed py-1.5 border-b border-slate-50 last:border-0 min-w-0">
+                  <div key={n._id} className="text-[11px] leading-relaxed py-1.5 border-b border-[#006655]/15 dark:border-[#00a88a]/20 last:border-0 min-w-0">
                     <span className="font-bold block text-slate-800 truncate">{n.title}</span>
                     <p className="text-[#5c7075] mt-0.5 line-clamp-2">{n.message}</p>
                   </div>
