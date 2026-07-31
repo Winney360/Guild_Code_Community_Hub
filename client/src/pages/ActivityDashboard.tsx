@@ -249,7 +249,7 @@ export const ActivityDashboard: React.FC = () => {
       </div>
 
       {/* Tabs (matching designs/NotificationCenter.png) */}
-      <div className="flex border-b border-slate-100 select-none">
+      <div className="flex border-b border-[#006655]/15 dark:border-[#00a88a]/20 select-none">
         <button
           onClick={() => setFilterTab('all')}
           className={`px-5 py-2.5 font-bold text-xs border-b-2 transition-colors ${
