@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface ServiceStatus {
   name: string;
@@ -22,6 +23,7 @@ export const SystemStatus: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
       {/* Overall Status Banner */}
+      <ScrollReveal>
       <div className="bg-emerald-600 dark:bg-emerald-700 rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-10 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
@@ -40,8 +42,10 @@ export const SystemStatus: React.FC = () => {
           Updated 1 min ago
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Metrics Row */}
+      <ScrollReveal delay={100}>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-xs text-center">
           <span className="text-xs text-[#5c7075] font-semibold block mb-1">90-Day Uptime</span>
@@ -56,8 +60,10 @@ export const SystemStatus: React.FC = () => {
           <span className="text-2xl font-extrabold text-[#091e22] dark:text-[#f1f5f9]">0</span>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Service List */}
+      <ScrollReveal delay={200}>
       <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs mb-10">
         <h2 className="text-lg font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 pb-3 border-b border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">
           Service Status Breakdown
@@ -83,8 +89,10 @@ export const SystemStatus: React.FC = () => {
           ))}
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Incident History */}
+      <ScrollReveal delay={300}>
       <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
         <h2 className="text-lg font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Past Incident Log</h2>
         <div className="p-4 bg-slate-50 dark:bg-[#1a292c] rounded-xl border border-slate-150 dark:border-[#273b3e] text-xs text-slate-600 dark:text-slate-400">
@@ -92,7 +100,9 @@ export const SystemStatus: React.FC = () => {
           <p>All core infrastructure services experienced 100% uptime over the past 30 consecutive days.</p>
         </div>
       </div>
+      </ScrollReveal>
 
+      <ScrollReveal delay={400}>
       <div className="mt-8 text-center">
         <Link
           to="/"
@@ -101,6 +111,7 @@ export const SystemStatus: React.FC = () => {
           &larr; Return to Ecosystem Home
         </Link>
       </div>
+      </ScrollReveal>
     </div>
   );
 };
