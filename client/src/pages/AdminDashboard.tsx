@@ -232,7 +232,7 @@ export const AdminDashboard: React.FC = () => {
           {/* Acquisition Bar graph simulator */}
           {acquisition.length > 0 ? (
             <div className="h-64 flex flex-col justify-between relative mt-8 select-none">
-              <div className="flex-grow flex items-end gap-3 h-48 pb-2 border-b border-slate-100">
+              <div className="flex-grow flex items-end gap-3 h-48 pb-2 border-b border-[#006655]/15 dark:border-[#00a88a]/20">
                 {acquisition.map((item, idx) => (
                   <div key={idx} className="flex-grow flex flex-col items-center group relative">
                     {/* Tooltip on hover */}
@@ -335,7 +335,7 @@ export const AdminDashboard: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-medium text-[#5c7075] min-w-[500px]">
-              <thead className="bg-slate-50 border-b border-slate-100 text-[#091e22] font-bold text-[10px] uppercase select-none">
+              <thead className="bg-slate-50 border-b border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] font-bold text-[10px] uppercase select-none">
                 <tr>
                   <th className="p-4 pl-6">Full Name</th>
                   <th className="p-4">Email</th>
@@ -343,7 +343,7 @@ export const AdminDashboard: React.FC = () => {
                   <th className="p-4 pr-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-y divide-[#006655]/15 dark:divide-[#00a88a]/20">
                 {pendingUsers.map((member) => (
                   <tr key={member._id} className="hover:bg-slate-50/30 transition-colors">
                     <td className="p-4 pl-6 font-bold text-[#091e22]">{member.fullName}</td>
@@ -387,7 +387,7 @@ export const AdminDashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Real Engagement Statistics */}
         <div className="lg:col-span-8 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm space-y-4 select-none">
-          <h3 className="font-extrabold text-sm border-b border-slate-50 pb-2 mb-2">Ecosystem Activity Metrics</h3>
+          <h3 className="font-extrabold text-sm border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-2 mb-2">Ecosystem Activity Metrics</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center py-4">
             <div className="p-4 bg-[#f8fafc] border border-slate-150 rounded-2xl">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Member Pool</span>
@@ -422,7 +422,7 @@ export const AdminDashboard: React.FC = () => {
             <div className="space-y-4">
               {recentMembers.length > 0 ? (
                 recentMembers.map((member) => (
-                  <div key={member._id} className="flex gap-3 text-[10px] leading-relaxed pb-3 border-b border-slate-50">
+                  <div key={member._id} className="flex gap-3 text-[10px] leading-relaxed pb-3 border-b border-[#006655]/15 dark:border-[#00a88a]/20">
                     <div className="w-4 h-4 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
                       <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
