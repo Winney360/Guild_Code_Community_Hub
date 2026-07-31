@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface CommentType {
   _id: string;
@@ -277,6 +278,7 @@ export const CollaborationDetails: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* 1. Header Info Row */}
+      <ScrollReveal>
       <div className="mb-8">
         <div className="flex items-center gap-1.5 text-xs text-[#006655] font-bold mb-3 select-none">
           <svg className="w-4 h-4 text-[#006655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -311,8 +313,10 @@ export const CollaborationDetails: React.FC = () => {
           </div>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* 2. Main Content Grid */}
+      <ScrollReveal delay={100}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Left Column (takes 8 columns) */}
         <div className="lg:col-span-8">
@@ -699,6 +703,7 @@ export const CollaborationDetails: React.FC = () => {
           </button>
         </div>
       </div>
+      </ScrollReveal>
     </div>
   );
 };
