@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 export const EventForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -165,6 +166,7 @@ export const EventForm: React.FC = () => {
         )}
       </div>
 
+      <ScrollReveal>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Title */}
         <div>
@@ -363,6 +365,7 @@ export const EventForm: React.FC = () => {
           </button>
         </div>
       </form>
+      </ScrollReveal>
     </div>
   );
 };
