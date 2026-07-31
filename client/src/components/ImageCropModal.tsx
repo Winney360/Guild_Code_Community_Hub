@@ -129,7 +129,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 select-none">
-      <div className="bg-white dark:bg-[#121e21] rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] flex flex-col items-center animate-in fade-in zoom-in duration-200">
+      <div className="bg-white dark:bg-[#121e21] rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 flex flex-col items-center animate-in fade-in zoom-in duration-200">
         
         {/* Modal Header */}
         <div className="w-full flex justify-between items-center mb-6">
@@ -158,7 +158,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           onWheel={handleWheel}
-          className={`relative w-[250px] h-[250px] rounded-full overflow-hidden border-4 border-white dark:border-[#1e2e30] shadow-2xl bg-slate-900 cursor-${
+          className={`relative w-[250px] h-[250px] rounded-full overflow-hidden border-4 border-white dark:border-[#00a88a]/20 shadow-2xl bg-slate-900 cursor-${
             isDragging ? 'grabbing' : 'grab'
           } flex items-center justify-center touch-none mb-6`}
         >
