@@ -182,7 +182,7 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Live Stat Counters (Spec 4.1) */}
-          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-slate-100">
+          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-[#006655]/15 dark:md:divide-[#00a88a]/20">
             <div className="flex flex-col items-center justify-center p-2">
               <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
                 {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
@@ -208,7 +208,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Elite Craftsmanship Section (Vetted Developers) */}
-      <section className="py-20 px-6 max-w-7xl mx-auto border-t border-slate-50">
+      <section className="py-20 px-6 max-w-7xl mx-auto border-t border-[#006655]/15 dark:border-[#00a88a]/20">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
           <div>
             <h2 className="text-3xl font-extrabold tracking-tight mb-3">Elite Craftsmanship</h2>
@@ -241,7 +241,7 @@ export const Home: React.FC = () => {
                   <div className="h-4 bg-slate-200 rounded w-12"></div>
                   <div className="h-4 bg-slate-200 rounded w-12"></div>
                 </div>
-                <div className="border-t border-slate-50 pt-3 flex justify-between">
+                <div className="border-t border-[#006655]/15 dark:border-[#00a88a]/20 pt-3 flex justify-between">
                   <div className="h-3 bg-slate-200 rounded w-8"></div>
                   <div className="h-3 bg-slate-200 rounded w-16"></div>
                 </div>
@@ -300,7 +300,7 @@ export const Home: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between border-t border-slate-50 pt-3 mt-auto text-xs text-[#5c7075]">
+                  <div className="flex items-center justify-between border-t border-[#006655]/15 dark:border-[#00a88a]/20 pt-3 mt-auto text-xs text-[#5c7075]">
                     {member.github ? (
                       <a
                         href={member.github.startsWith('http') ? member.github : `https://${member.github}`}
