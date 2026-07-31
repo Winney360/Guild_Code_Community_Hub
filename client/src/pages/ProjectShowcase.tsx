@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface ProjectType {
   _id: string;
@@ -149,17 +150,20 @@ export const ProjectShowcase: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Page Title & Header */}
-      <div className="mb-10 text-center flex flex-col items-center">
-        <h1 className="text-4xl font-extrabold tracking-tight mb-3">
-          Explore Member <span className="text-[#006655]">Projects</span>
-        </h1>
-        <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
-          Discover innovative tools, open-source gems, and experimental prototypes built by the world's most talented developer guild.
-        </p>
-      </div>
+      <ScrollReveal>
+        <div className="mb-10 text-center flex flex-col items-center">
+          <h1 className="text-4xl font-extrabold tracking-tight mb-3">
+            Explore Member <span className="text-[#006655]">Projects</span>
+          </h1>
+          <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
+            Discover innovative tools, open-source gems, and experimental prototypes built by the world's most talented developer guild.
+          </p>
+        </div>
+      </ScrollReveal>
 
       {/* Filter Bar Panel */}
-      <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
+      <ScrollReveal delay={100}>
+        <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-sm mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* Search */}
         <div className="md:col-span-5 relative">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -218,8 +222,10 @@ export const ProjectShowcase: React.FC = () => {
           </select>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Grid of Projects */}
+      <ScrollReveal>
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <svg className="animate-spin h-8 w-8 text-[#006655]" fill="none" viewBox="0 0 24 24">
@@ -337,9 +343,11 @@ export const ProjectShowcase: React.FC = () => {
           ))}
         </div>
       )}
+      </ScrollReveal>
 
       {/* Pagination Controls */}
       {!loading && totalPages > 1 && (
+        <ScrollReveal>
         <div className="flex justify-center items-center gap-1.5 mt-12 select-none">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -375,6 +383,7 @@ export const ProjectShowcase: React.FC = () => {
             &gt;
           </button>
         </div>
+        </ScrollReveal>
       )}
     </div>
   );
