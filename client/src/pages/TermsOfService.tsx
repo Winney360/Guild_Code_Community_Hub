@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 export const TermsOfService: React.FC = () => {
   const [activeSection, setActiveSection] = useState('acceptance');
@@ -15,6 +16,7 @@ export const TermsOfService: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
       {/* Header Banner */}
+      <ScrollReveal>
       <div className="bg-gradient-to-r from-[#091e22] via-[#006655] to-[#091e22] rounded-3xl p-8 sm:p-12 text-white shadow-xl mb-10 relative overflow-hidden">
         <div className="absolute right-0 top-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10">
@@ -35,6 +37,7 @@ export const TermsOfService: React.FC = () => {
           </div>
         </div>
       </div>
+      </ScrollReveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Table of Contents Sticky Sidebar */}
@@ -88,6 +91,7 @@ export const TermsOfService: React.FC = () => {
         {/* Terms Content */}
         <div className="lg:col-span-3 space-y-8 text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
           {/* Section 1 */}
+          <ScrollReveal delay={100}>
           <section id="acceptance" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">1</span>
@@ -100,8 +104,10 @@ export const TermsOfService: React.FC = () => {
               If you are accepting these terms on behalf of a company or open-source organization, you represent that you have full legal authority to bind that entity.
             </p>
           </section>
+          </ScrollReveal>
 
           {/* Section 2 */}
+          <ScrollReveal delay={150}>
           <section id="account" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">2</span>
@@ -119,8 +125,10 @@ export const TermsOfService: React.FC = () => {
               </ul>
             </div>
           </section>
+          </ScrollReveal>
 
           {/* Section 3 */}
+          <ScrollReveal delay={200}>
           <section id="ip" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">3</span>
@@ -141,8 +149,10 @@ export const TermsOfService: React.FC = () => {
               </div>
             </div>
           </section>
+          </ScrollReveal>
 
           {/* Section 4 */}
+          <ScrollReveal delay={250}>
           <section id="collaborations" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">4</span>
@@ -152,8 +162,10 @@ export const TermsOfService: React.FC = () => {
               Guild Code facilitates developer introductions, mentorship connections, and open-source project recruitment. Guild Code does not act as an employer, agent, or contractor party to individual member agreements, and makes no representations regarding project outcomes.
             </p>
           </section>
+          </ScrollReveal>
 
           {/* Section 5 */}
+          <ScrollReveal delay={300}>
           <section id="conduct" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">5</span>
@@ -167,8 +179,10 @@ export const TermsOfService: React.FC = () => {
               <li>Attempt unauthorized access to developer data or backend infrastructure.</li>
             </ul>
           </section>
+          </ScrollReveal>
 
           {/* Section 6 & 7 */}
+          <ScrollReveal delay={350}>
           <section id="disclaimer" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">6</span>
@@ -178,7 +192,9 @@ export const TermsOfService: React.FC = () => {
               THE PLATFORM IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
             </p>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal delay={400}>
           <section id="limitation" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">7</span>
@@ -188,8 +204,10 @@ export const TermsOfService: React.FC = () => {
               In no event shall Guild Code, its founders, or contributors be liable for indirect, incidental, special, consequential, or punitive damages resulting from your platform usage or code contributions.
             </p>
           </section>
+          </ScrollReveal>
 
           {/* Section 8 */}
+          <ScrollReveal delay={450}>
           <section id="governing" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">8</span>
@@ -199,6 +217,7 @@ export const TermsOfService: React.FC = () => {
               We reserve the right to suspend or terminate accounts violating these Terms or engaging in disruptive behavior. These Terms shall be governed by and construed in accordance with applicable laws without regard to conflict of law principles.
             </p>
           </section>
+          </ScrollReveal>
         </div>
       </div>
     </div>
