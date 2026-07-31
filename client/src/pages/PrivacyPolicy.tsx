@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 export const PrivacyPolicy: React.FC = () => {
   const [activeSection, setActiveSection] = useState('collection');
@@ -15,6 +16,7 @@ export const PrivacyPolicy: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
       {/* Header Banner */}
+      <ScrollReveal>
       <div className="bg-gradient-to-r from-[#006655] to-[#00897b] rounded-3xl p-8 sm:p-12 text-white shadow-xl mb-10 relative overflow-hidden">
         <div className="absolute right-0 top-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10">
@@ -35,6 +37,7 @@ export const PrivacyPolicy: React.FC = () => {
           </div>
         </div>
       </div>
+      </ScrollReveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Table of Contents Sticky Sidebar */}
@@ -88,6 +91,7 @@ export const PrivacyPolicy: React.FC = () => {
         {/* Policy Content */}
         <div className="lg:col-span-3 space-y-8 text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
           {/* Section 1 */}
+          <ScrollReveal delay={100}>
           <section id="collection" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">1</span>
@@ -117,8 +121,10 @@ export const PrivacyPolicy: React.FC = () => {
               </div>
             </div>
           </section>
+          </ScrollReveal>
 
           {/* Section 2 */}
+          <ScrollReveal delay={150}>
           <section id="usage" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">2</span>
@@ -132,8 +138,10 @@ export const PrivacyPolicy: React.FC = () => {
               <li><strong className="text-[#091e22] dark:text-[#f1f5f9]">Platform Optimization:</strong> Analyzing user engagement trends to improve user experience and introduce new community features.</li>
             </ul>
           </section>
+          </ScrollReveal>
 
           {/* Section 3 */}
+          <ScrollReveal delay={200}>
           <section id="sharing" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">3</span>
@@ -157,8 +165,10 @@ export const PrivacyPolicy: React.FC = () => {
               </div>
             </div>
           </section>
+          </ScrollReveal>
 
           {/* Section 4 */}
+          <ScrollReveal delay={250}>
           <section id="security" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">4</span>
@@ -168,8 +178,10 @@ export const PrivacyPolicy: React.FC = () => {
               We employ industry-standard administrative, physical, and technical safeguards (TLS/SSL encryption in transit, bcrypt password hashing, automated security audits) to protect your information.
             </p>
           </section>
+          </ScrollReveal>
 
           {/* Section 5 */}
+          <ScrollReveal delay={300}>
           <section id="rights" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">5</span>
@@ -193,8 +205,10 @@ export const PrivacyPolicy: React.FC = () => {
               </div>
             </div>
           </section>
+          </ScrollReveal>
 
           {/* Section 6 & 7 */}
+          <ScrollReveal delay={350}>
           <section id="cookies" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">6</span>
@@ -204,7 +218,9 @@ export const PrivacyPolicy: React.FC = () => {
               We use essential HTTP cookies and local storage tokens to keep you logged in securely and remember your theme preferences (Dark/Light mode). For full details, please view our <Link to="/cookies" className="text-[#006655] dark:text-emerald-400 font-bold hover:underline">Cookie Policy</Link>.
             </p>
           </section>
+          </ScrollReveal>
 
+          <ScrollReveal delay={400}>
           <section id="thirdparty" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">7</span>
@@ -214,8 +230,10 @@ export const PrivacyPolicy: React.FC = () => {
               Our platform allows authentication or repository sync with GitHub, Discord, and external developer tools. These third-party services operate under their own privacy policies.
             </p>
           </section>
+          </ScrollReveal>
 
           {/* Section 8 */}
+          <ScrollReveal delay={450}>
           <section id="contact" className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 flex items-center gap-2">
               <span className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-[#006655] dark:text-emerald-400 flex items-center justify-center text-sm font-black shrink-0">8</span>
@@ -230,6 +248,7 @@ export const PrivacyPolicy: React.FC = () => {
               <p className="text-slate-600 dark:text-slate-400">Community Support: <a href="mailto:support@guildcode.dev" className="text-[#006655] dark:text-emerald-400 font-semibold hover:underline">support@guildcode.dev</a></p>
             </div>
           </section>
+          </ScrollReveal>
         </div>
       </div>
     </div>
