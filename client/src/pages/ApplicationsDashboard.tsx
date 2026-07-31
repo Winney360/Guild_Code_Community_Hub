@@ -116,6 +116,7 @@ export const ApplicationsDashboard: React.FC = () => {
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">Applications Management</h1>
           <p className="text-xs text-[#5c7075]">Review developer applications or track your own collaboration requests.</p>
         </div>
+      </div>
       </ScrollReveal>
 
       {/* Selector Tabs */}
@@ -141,6 +142,7 @@ export const ApplicationsDashboard: React.FC = () => {
         >
           Submitted Applications ({submitted.length})
         </button>
+      </div>
       </ScrollReveal>
 
       {/* Received Applications view */}
