@@ -133,7 +133,7 @@ export const MyEvents: React.FC = () => {
       {/* Table view */}
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         {/* Search & Filter Header bar */}
-        <div className="p-5 border-b border-[#006655]/15 dark:border-[#00a88a]/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="p-5 border-b border-[#006655]/30 dark:border-[#00a88a]/40 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="relative w-full sm:max-w-xs">
             <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,7 +162,7 @@ export const MyEvents: React.FC = () => {
           </div>
         ) : (
           <table className="w-full text-left text-xs font-medium text-[#5c7075]">
-            <thead className="bg-slate-50 border-b border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] font-bold select-none text-[10px] uppercase">
+            <thead className="bg-slate-50 border-b border-[#006655]/30 dark:border-[#00a88a]/40 text-[#091e22] font-bold select-none text-[10px] uppercase">
               <tr>
                 <th className="p-4 pl-6">Event Title</th>
                 <th className="p-4">Type</th>
@@ -172,7 +172,7 @@ export const MyEvents: React.FC = () => {
                 <th className="p-4 pr-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#006655]/15 dark:divide-[#00a88a]/20">
+            <tbody className="divide-y divide-[#006655]/30 dark:divide-[#00a88a]/40">
               {filteredEvents.map((event) => (
                 <tr key={event._id} className="hover:bg-slate-50/30 transition-colors">
                   {/* Title */}
