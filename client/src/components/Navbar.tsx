@@ -30,7 +30,7 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-white border-b border-[#006655]/15 dark:border-[#00a88a]/20 sticky top-0 z-50">
+    <nav className="bg-white border-b border-[#006655]/30 dark:border-[#00a88a]/40 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Left Side: Logo */}
         <Link to="/" className="flex items-center gap-2">
@@ -141,7 +141,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div className="md:hidden border-t border-[#006655]/15 dark:border-[#00a88a]/20 bg-white px-6 py-4 flex flex-col gap-4 animate-fadeIn">
+        <div className="md:hidden border-t border-[#006655]/30 dark:border-[#00a88a]/40 bg-white px-6 py-4 flex flex-col gap-4 animate-fadeIn">
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
