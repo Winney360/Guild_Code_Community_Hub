@@ -145,7 +145,7 @@ export const EventForm: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 p-6 md:p-8 rounded-3xl shadow-sm font-sans text-[#091e22]">
       {/* Title */}
-      <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-100 select-none">
+      <div className="flex justify-between items-center mb-8 pb-4 border-b border-[#006655]/15 dark:border-[#00a88a]/20 select-none">
         <div>
           <h1 className="text-xl font-extrabold tracking-tight">
             {isEditMode ? 'Edit Event' : 'New Event'}
@@ -347,7 +347,7 @@ export const EventForm: React.FC = () => {
         )}
 
         {/* Submit row */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 select-none">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20 select-none">
           <Link
             to="/dashboard/events"
             className="px-5 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-xs font-semibold hover:bg-slate-50 transition-colors"
