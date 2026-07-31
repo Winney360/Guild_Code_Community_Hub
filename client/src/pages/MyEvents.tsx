@@ -107,6 +107,7 @@ export const MyEvents: React.FC = () => {
         >
           + Create Event
         </Link>
+      </div>
       </ScrollReveal>
 
       {/* Stats Cards Row (matching AdminPanel-EventManagement.png layouts) */}
@@ -131,6 +132,7 @@ export const MyEvents: React.FC = () => {
             {events.filter((e) => e.status === 'upcoming').length}
           </span>
         </div>
+      </div>
       </ScrollReveal>
 
       {/* Table view */}
