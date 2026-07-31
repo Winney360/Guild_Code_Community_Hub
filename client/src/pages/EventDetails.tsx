@@ -214,7 +214,7 @@ export const EventDetails: React.FC = () => {
                 <span className="text-[#5c7075] dark:text-[#8ba4a8]">Registered</span>
                 <span className="dark:text-[#f1f5f9]">{event.participants ? event.participants.length : 0} Attendees</span>
               </div>
-              <div className="pt-2 border-t border-slate-50 dark:border-slate-700">
+              <div className="pt-2 border-t border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
                 <span className="text-slate-400 dark:text-slate-300 text-[10px] block mb-0.5 font-bold uppercase">Location / Access Link</span>
                 {event.locationOrLink?.match(/^https?:\/\//) ? (
                   <a
@@ -245,7 +245,7 @@ export const EventDetails: React.FC = () => {
           <div className="lg:col-span-8">
             {/* About Event Description */}
             <section className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 p-8 rounded-3xl shadow-sm mb-8">
-              <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-slate-50 dark:border-slate-700">About This Event</h3>
+              <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">About This Event</h3>
               <p className="text-sm text-[#5c7075] dark:text-[#8ba4a8] leading-relaxed whitespace-pre-wrap">
                 {event.description}
               </p>
@@ -299,7 +299,7 @@ export const EventDetails: React.FC = () => {
                       href={getGoogleCalendarUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-white dark:bg-[#1a292c] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#0d1f22] text-slate-700 dark:text-[#f1f5f9] py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+                      className="flex items-center justify-center gap-2 w-full bg-white dark:bg-[#1a292c] border border-slate-200 dark:border-[#00a88a]/20 hover:bg-slate-50 dark:hover:bg-[#0d1f22] text-slate-700 dark:text-[#f1f5f9] py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
                     >
                       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                         <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -309,7 +309,7 @@ export const EventDetails: React.FC = () => {
                     </a>
                     <button
                       onClick={downloadIcs}
-                      className="flex items-center justify-center gap-2 w-full bg-white dark:bg-[#1a292c] border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#0d1f22] text-slate-700 dark:text-[#f1f5f9] py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
+                      className="flex items-center justify-center gap-2 w-full bg-white dark:bg-[#1a292c] border border-slate-200 dark:border-[#00a88a]/20 hover:bg-slate-50 dark:hover:bg-[#0d1f22] text-slate-700 dark:text-[#f1f5f9] py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
