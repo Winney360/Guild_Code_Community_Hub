@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface EventType {
   _id: string;
@@ -63,6 +64,7 @@ export const CommunityEvents: React.FC = () => {
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       
       {/* Header Title */}
+      <ScrollReveal>
       <div className="mb-10 text-center flex flex-col items-center">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3">
           Community <span className="text-[#006655]">Events</span>
@@ -71,8 +73,10 @@ export const CommunityEvents: React.FC = () => {
           Discover workshops, hackathons, meetups, and webinars hosted by Guild Code members worldwide.
         </p>
       </div>
+      </ScrollReveal>
 
       {/* Upcoming Events Grid Section */}
+      <ScrollReveal delay={100}>
       <section className="mb-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4 select-none">
           <div>
@@ -168,8 +172,10 @@ export const CommunityEvents: React.FC = () => {
           </div>
         )}
       </section>
+      </ScrollReveal>
 
       {/* 3. Stay Ahead of Curve Newsletter Banner */}
+      <ScrollReveal delay={200}>
       <section className="bg-slate-900 rounded-3xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 select-none shadow-md">
         <div className="max-w-md">
           <h3 className="text-2xl font-extrabold mb-2">Stay Ahead of the Curve</h3>
@@ -188,6 +194,7 @@ export const CommunityEvents: React.FC = () => {
           </button>
         </div>
       </section>
+      </ScrollReveal>
     </div>
   );
 };
