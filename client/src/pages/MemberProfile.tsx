@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.js';
 
 interface Member {
   _id: string;
@@ -32,9 +33,40 @@ interface ProjectType {
 
 export const MemberProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [member, setMember] = useState<Member | null>(null);
   const [memberProjects, setMemberProjects] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [likeCache, setLikeCache] = useState<Record<string, { isLiked: boolean; likesCount: number }>>({});
+
+  const handleLikeProject = async (projectId: string) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/projects/${projectId}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setLikeCache((prev) => ({ ...prev, [projectId]: { isLiked: data.isLiked, likesCount: data.likesCount } }));
+        setMemberProjects((prev) =>
+          prev.map((p) =>
+            p._id === projectId
+              ? { ...p, likes: data.isLiked ? [...p.likes, user._id] : p.likes.filter((id: any) => id.toString() !== user._id) }
+              : p
+          )
+        );
+      }
+    } catch (err) {
+      console.error('Error toggling like:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchMemberData = async () => {
@@ -271,12 +303,28 @@ export const MemberProfile: React.FC = () => {
 
                 <div className="px-5 py-3 border-t border-[#006655]/30 dark:border-[#00a88a]/40 flex items-center justify-between text-xs text-[#5c7075]">
                   <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1 font-semibold text-rose-500">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleLikeProject(project._id);
+                      }}
+                      className={`flex items-center gap-1 font-bold px-2.5 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
+                        (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : user && (project.likes || []).some((id: any) => id.toString() === user._id))
+                          ? 'bg-rose-50 border-rose-200 text-rose-600'
+                          : 'bg-slate-50 border-slate-100 text-slate-500 hover:text-rose-500 hover:bg-rose-50'
+                      }`}
+                      title={
+                        (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : user && (project.likes || []).some((id: any) => id.toString() === user._id))
+                          ? 'Unlike project'
+                          : 'Like project'
+                      }
+                    >
                       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                       </svg>
-                      {project.likes?.length || 0}
-                    </span>
+                      <span>{likeCache[project._id] !== undefined ? likeCache[project._id].likesCount : (project.likes ? project.likes.length : 0)}</span>
+                    </button>
                     <span className="flex items-center gap-1 font-semibold">
                       <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
