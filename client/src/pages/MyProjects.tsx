@@ -133,7 +133,7 @@ export const MyProjects: React.FC = () => {
             >
               <div>
                 {/* Image & status */}
-                <Link to={`/projects/${project._id}`} className="block relative aspect-[16/10] bg-slate-50 border-b border-slate-50 select-none overflow-hidden group">
+                <Link to={`/projects/${project._id}`} className="block relative aspect-[16/10] bg-slate-50 border-b border-[#006655]/15 dark:border-[#00a88a]/20 select-none overflow-hidden group">
                   <img src={project.coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop'} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                   <span className={`absolute top-4 left-4 px-2.5 py-0.5 border text-[9px] font-bold rounded-lg ${getStatusStyle(project.status)} shadow-sm`}>
                     {project.status === 'completed' ? 'Published' : 'Draft'}
@@ -171,7 +171,7 @@ export const MyProjects: React.FC = () => {
               </div>
 
               {/* Footer timeline & View link */}
-              <div className="px-5 pb-5 pt-3 border-t border-slate-50 text-[9px] font-semibold text-slate-400 select-none flex items-center justify-between">
+              <div className="px-5 pb-5 pt-3 border-t border-[#006655]/15 dark:border-[#00a88a]/20 text-[9px] font-semibold text-slate-400 select-none flex items-center justify-between">
                 <span>{getTimeElapsed(project.updatedAt)}</span>
                 <Link to={`/projects/${project._id}`} className="text-[#006655] font-bold text-[10px] hover:underline flex items-center gap-0.5">
                   View Full Info &rarr;
