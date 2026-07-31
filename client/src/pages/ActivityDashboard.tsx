@@ -248,6 +248,7 @@ export const ActivityDashboard: React.FC = () => {
             <span>Mark all as read</span>
           </button>
         )}
+      </div>
       </ScrollReveal>
 
       {/* Tabs (matching designs/NotificationCenter.png) */}
@@ -293,6 +294,7 @@ export const ActivityDashboard: React.FC = () => {
         >
           System Announcements
         </button>
+      </div>
       </ScrollReveal>
 
       <ScrollReveal>
