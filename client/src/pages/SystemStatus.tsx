@@ -43,26 +43,26 @@ export const SystemStatus: React.FC = () => {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-5 shadow-xs text-center">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-xs text-center">
           <span className="text-xs text-[#5c7075] font-semibold block mb-1">90-Day Uptime</span>
           <span className="text-2xl font-extrabold text-[#091e22] dark:text-[#f1f5f9]">99.98%</span>
         </div>
-        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-5 shadow-xs text-center">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-xs text-center">
           <span className="text-xs text-[#5c7075] font-semibold block mb-1">Avg Response Time</span>
           <span className="text-2xl font-extrabold text-[#006655] dark:text-emerald-400">28ms</span>
         </div>
-        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-5 shadow-xs text-center">
+        <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-xs text-center">
           <span className="text-xs text-[#5c7075] font-semibold block mb-1">Active Incidents</span>
           <span className="text-2xl font-extrabold text-[#091e22] dark:text-[#f1f5f9]">0</span>
         </div>
       </div>
 
       {/* Service List */}
-      <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs mb-10">
-        <h2 className="text-lg font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 pb-3 border-b border-slate-100 dark:border-[#1e2e30]">
+      <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs mb-10">
+        <h2 className="text-lg font-bold text-[#091e22] dark:text-[#f1f5f9] mb-4 pb-3 border-b border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
           Service Status Breakdown
         </h2>
-        <div className="divide-y divide-slate-100 dark:divide-[#1e2e30]">
+        <div className="divide-y divide-[#006655]/15 dark:divide-[#00a88a]/20 dark:divide-[#00a88a]/20">
           {services.map((service, idx) => (
             <div key={idx} className="py-4 flex items-center justify-between gap-4">
               <div>
@@ -85,7 +85,7 @@ export const SystemStatus: React.FC = () => {
       </div>
 
       {/* Incident History */}
-      <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#1e2e30] rounded-2xl p-6 sm:p-8 shadow-xs">
+      <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 sm:p-8 shadow-xs">
         <h2 className="text-lg font-bold text-[#091e22] dark:text-[#f1f5f9] mb-3">Past Incident Log</h2>
         <div className="p-4 bg-slate-50 dark:bg-[#1a292c] rounded-xl border border-slate-150 dark:border-[#273b3e] text-xs text-slate-600 dark:text-slate-400">
           <p className="font-bold text-[#091e22] dark:text-[#f1f5f9] mb-1">No incidents reported today</p>
