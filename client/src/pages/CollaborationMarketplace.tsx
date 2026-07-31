@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface CollaborationType {
   _id: string;
@@ -127,14 +128,17 @@ export const CollaborationMarketplace: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       {/* Title Header */}
+      <ScrollReveal>
       <div className="mb-10 text-center flex flex-col items-center">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3">Collaboration Marketplace</h1>
         <p className="text-[#5c7075] text-base max-w-2xl leading-relaxed text-center">
           Connect with world-class engineers, designers, and visionaries. Discover opportunities to build the next generation of decentralized infrastructure.
         </p>
       </div>
+      </ScrollReveal>
 
       {/* Filter Bar Panel */}
+      <ScrollReveal delay={100}>
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-sm mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Search Input */}
         <div className="relative w-full sm:max-w-md">
@@ -162,8 +166,10 @@ export const CollaborationMarketplace: React.FC = () => {
           </span>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Collaboration Opportunities Grid */}
+      <ScrollReveal>
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <svg className="animate-spin h-8 w-8 text-[#006655]" fill="none" viewBox="0 0 24 24">
@@ -316,9 +322,11 @@ export const CollaborationMarketplace: React.FC = () => {
           ))}
         </div>
       )}
+      </ScrollReveal>
 
       {/* Pagination Load more (Only appear if there are more collaborations to view) */}
       {!loading && visibleCount < filteredCollabs.length && (
+        <ScrollReveal>
         <div className="flex justify-center mt-10">
           <button
             onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
@@ -327,6 +335,7 @@ export const CollaborationMarketplace: React.FC = () => {
             Load More Opportunities <span>▼</span>
           </button>
         </div>
+        </ScrollReveal>
       )}
     </div>
   );
