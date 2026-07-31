@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext.js';
 import { ImageCropModal } from '../components/ImageCropModal.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 export const DashboardSettings: React.FC = () => {
   const { user, checkAuth } = useAuth();
@@ -299,10 +300,11 @@ export const DashboardSettings: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Title */}
+      <ScrollReveal>
       <div className="select-none">
         <h1 className="text-2xl font-extrabold tracking-tight mb-1">Settings</h1>
         <p className="text-xs text-[#5c7075]">Manage your account and profile preferences.</p>
-      </div>
+      </ScrollReveal>
 
       {/* Hidden Global file input for profile picture management */}
       <input
@@ -314,6 +316,7 @@ export const DashboardSettings: React.FC = () => {
       />
 
       {/* Tabs list (matching MemberDashboard-Settings.png) */}
+      <ScrollReveal>
       <div className="flex border-b border-[#006655]/30 dark:border-[#00a88a]/40 select-none">
         <button
           onClick={() => { setActiveTab('profile'); setError(''); setSuccess(false); }}
@@ -355,9 +358,10 @@ export const DashboardSettings: React.FC = () => {
         >
           Notifications
         </button>
-      </div>
+      </ScrollReveal>
 
       {/* Form Area */}
+      <ScrollReveal>
       {activeTab === 'profile' && (
         !isEditingProfile ? (
           /* Read-Only Details Mode */
@@ -584,8 +588,10 @@ export const DashboardSettings: React.FC = () => {
           </form>
         )
       )}
+      </ScrollReveal>
 
       {/* Skills Tab Form */}
+      <ScrollReveal>
       {activeTab === 'skills' && (
         !isEditingSkills ? (
           /* Read-Only Details Mode */
@@ -667,8 +673,10 @@ export const DashboardSettings: React.FC = () => {
           </form>
         )
       )}
+      </ScrollReveal>
 
       {/* Password Account Form */}
+      <ScrollReveal>
       {activeTab === 'account' && (
         <div className="w-full animate-fade-in">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -852,8 +860,10 @@ export const DashboardSettings: React.FC = () => {
           </div>
         </div>
       )}
+      </ScrollReveal>
 
       {/* Notifications Tab */}
+      <ScrollReveal>
       {activeTab === 'notifications' && (
         <div className="w-full bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm space-y-6 select-none">
           <div>
@@ -909,6 +919,7 @@ export const DashboardSettings: React.FC = () => {
           </div>
         </div>
       )}
+      </ScrollReveal>
 
       {success && <span className="sr-only">Success</span>}
       {toastMessage && (
