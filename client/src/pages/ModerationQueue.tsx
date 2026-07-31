@@ -152,7 +152,7 @@ export const ModerationQueue: React.FC = () => {
       {/* Moderation Queue table list */}
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         {/* Filtering Tabs Header */}
-        <div className="p-5 border-b border-[#006655]/15 dark:border-[#00a88a]/20 flex justify-between items-center select-none">
+        <div className="p-5 border-b border-[#006655]/30 dark:border-[#00a88a]/40 flex justify-between items-center select-none">
           <div className="flex bg-slate-100 border border-slate-200/50 p-1 rounded-xl gap-1 text-[9px] font-bold text-slate-550">
             <button
               onClick={() => setActiveTab('all')}
@@ -188,7 +188,7 @@ export const ModerationQueue: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-medium text-[#5c7075] min-w-[600px]">
-              <thead className="bg-slate-50 border-b border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] font-bold select-none text-[10px] uppercase">
+              <thead className="bg-slate-50 border-b border-[#006655]/30 dark:border-[#00a88a]/40 text-[#091e22] font-bold select-none text-[10px] uppercase">
                 <tr>
                   <th className="p-4 pl-6">Project / Member</th>
                   <th className="p-4">Status</th>
@@ -197,7 +197,7 @@ export const ModerationQueue: React.FC = () => {
                   <th className="p-4 pr-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#006655]/15 dark:divide-[#00a88a]/20">
+              <tbody className="divide-y divide-[#006655]/30 dark:divide-[#00a88a]/40">
                 {filteredReports.map((item) => (
                   <tr key={item._id} className="hover:bg-slate-50/30 transition-colors">
                     {/* Name */}
