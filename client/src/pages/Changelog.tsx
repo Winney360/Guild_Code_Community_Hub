@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface Release {
   version: string;
@@ -67,66 +68,72 @@ export const Changelog: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
       {/* Banner */}
-      <div className="bg-gradient-to-r from-[#091e22] via-[#006655] to-emerald-700 rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-100 mb-4">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-          Release Notes & Updates
+      <ScrollReveal>
+        <div className="bg-gradient-to-r from-[#091e22] via-[#006655] to-emerald-700 rounded-3xl p-8 sm:p-10 text-white shadow-xl mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-100 mb-4">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            Release Notes & Updates
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Platform Changelog</h1>
+          <p className="text-emerald-100 text-sm max-w-2xl leading-relaxed">
+            Stay up to date with new features, bug fixes, performance improvements, and ecosystem changes introduced in Guild Code.
+          </p>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Platform Changelog</h1>
-        <p className="text-emerald-100 text-sm max-w-2xl leading-relaxed">
-          Stay up to date with new features, bug fixes, performance improvements, and ecosystem changes introduced in Guild Code.
-        </p>
-      </div>
+      </ScrollReveal>
 
       {/* Release Timeline */}
       <div className="relative border-l-2 border-slate-200 dark:border-[#00a88a]/20 ml-4 sm:ml-6 space-y-10">
         {releases.map((release, idx) => (
-          <div key={idx} className="relative pl-6 sm:pl-8">
-            {/* Timeline Dot */}
-            <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#006655] border-4 border-white dark:border-[#0b1315] shadow-xs" />
+          <ScrollReveal key={idx} delay={idx * 100}>
+            <div className="relative pl-6 sm:pl-8">
+              {/* Timeline Dot */}
+              <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#006655] border-4 border-white dark:border-[#0b1315] shadow-xs" />
 
-            {/* Card */}
-            <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-xs">
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9]">{release.version}</h2>
-                  <span className="px-2.5 py-0.5 bg-emerald-100 dark:bg-emerald-500/20 text-[#006655] dark:text-emerald-400 text-xs font-bold rounded-full">
-                    {release.badge}
-                  </span>
-                </div>
-                <span className="text-xs text-[#5c7075] font-medium">{release.date}</span>
-              </div>
-
-              <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
-                {release.summary}
-              </p>
-
-              {/* Items */}
-              <div className="space-y-2 border-t border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20 pt-4">
-                {release.changes.map((item, itemIdx) => (
-                  <div key={itemIdx} className="flex items-start gap-2 text-xs">
-                    <span className={`px-2 py-0.5 rounded border text-[10px] font-bold shrink-0 ${getTypeStyle(item.type)}`}>
-                      {item.type}
+              {/* Card */}
+              <div className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 rounded-2xl p-6 shadow-xs">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-3">
+                    <h2 className="text-xl font-bold text-[#091e22] dark:text-[#f1f5f9]">{release.version}</h2>
+                    <span className="px-2.5 py-0.5 bg-emerald-100 dark:bg-emerald-500/20 text-[#006655] dark:text-emerald-400 text-xs font-bold rounded-full">
+                      {release.badge}
                     </span>
-                    <span className="text-slate-700 dark:text-slate-300 leading-normal">{item.text}</span>
                   </div>
-                ))}
+                  <span className="text-xs text-[#5c7075] font-medium">{release.date}</span>
+                </div>
+
+                <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                  {release.summary}
+                </p>
+
+                {/* Items */}
+                <div className="space-y-2 border-t border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20 pt-4">
+                  {release.changes.map((item, itemIdx) => (
+                    <div key={itemIdx} className="flex items-start gap-2 text-xs">
+                      <span className={`px-2 py-0.5 rounded border text-[10px] font-bold shrink-0 ${getTypeStyle(item.type)}`}>
+                        {item.type}
+                      </span>
+                      <span className="text-slate-700 dark:text-slate-300 leading-normal">{item.text}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         ))}
       </div>
 
-      <div className="mt-12 text-center">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-100 dark:bg-[#1a292c] hover:bg-slate-200 dark:hover:bg-[#273b3e] text-[#091e22] dark:text-[#f1f5f9] rounded-xl text-xs font-bold transition-all"
-        >
-          &larr; Back to Home
-        </Link>
-      </div>
+      <ScrollReveal delay={300}>
+        <div className="mt-12 text-center">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-100 dark:bg-[#1a292c] hover:bg-slate-200 dark:hover:bg-[#273b3e] text-[#091e22] dark:text-[#f1f5f9] rounded-xl text-xs font-bold transition-all"
+          >
+            &larr; Back to Home
+          </Link>
+        </div>
+      </ScrollReveal>
     </div>
   );
 };
