@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface NotificationType {
   _id: string;
@@ -228,6 +229,7 @@ export const ActivityDashboard: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Title */}
+      <ScrollReveal>
       <div className="flex justify-between items-center select-none">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">Notifications</h1>
@@ -246,9 +248,10 @@ export const ActivityDashboard: React.FC = () => {
             <span>Mark all as read</span>
           </button>
         )}
-      </div>
+      </ScrollReveal>
 
       {/* Tabs (matching designs/NotificationCenter.png) */}
+      <ScrollReveal>
       <div className="flex border-b border-[#006655]/30 dark:border-[#00a88a]/40 select-none">
         <button
           onClick={() => setFilterTab('all')}
@@ -290,8 +293,9 @@ export const ActivityDashboard: React.FC = () => {
         >
           System Announcements
         </button>
-      </div>
+      </ScrollReveal>
 
+      <ScrollReveal>
       {filteredNotifications.length === 0 ? (
         <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm select-none flex flex-col items-center">
           <div className="bg-slate-50 text-slate-400 p-4 rounded-full border border-[#006655]/15 dark:border-[#00a88a]/20 mb-4">
@@ -350,6 +354,7 @@ export const ActivityDashboard: React.FC = () => {
           })}
         </div>
       )}
+      </ScrollReveal>
 
     </div>
   );
