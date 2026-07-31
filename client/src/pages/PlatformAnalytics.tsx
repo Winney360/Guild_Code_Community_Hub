@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface StatsType {
   totalMembers: number;
@@ -59,14 +60,17 @@ export const PlatformAnalytics: React.FC = () => {
   return (
     <div className="space-y-8 font-sans text-[#091e22]">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight mb-1">Platform Analytics</h1>
-          <p className="text-xs text-[#5c7075]">Analyze platform growth, engagement, and developer interaction metrics.</p>
+      <ScrollReveal>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight mb-1">Platform Analytics</h1>
+            <p className="text-xs text-[#5c7075]">Analyze platform growth, engagement, and developer interaction metrics.</p>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* 1. Statistics Cards Row */}
+      <ScrollReveal delay={100}>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
         <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-28">
@@ -104,8 +108,10 @@ export const PlatformAnalytics: React.FC = () => {
           <span className="text-2xl font-extrabold block leading-tight">{stats.totalEvents}</span>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* 2. User Growth and Ecosystem shares split */}
+      <ScrollReveal delay={200}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* User Growth Trajectory */}
         <div className="lg:col-span-8 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
@@ -177,6 +183,7 @@ export const PlatformAnalytics: React.FC = () => {
           </div>
         </div>
       </div>
+      </ScrollReveal>
     </div>
   );
 };
