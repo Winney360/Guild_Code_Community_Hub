@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface CollaborationType {
   _id: string;
@@ -74,6 +75,7 @@ export const MyCollaborations: React.FC = () => {
     <div className="space-y-8 font-sans text-[#091e22]">
       
       {/* Header bar */}
+      <ScrollReveal>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 select-none">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">My Collaborations</h1>
@@ -95,9 +97,10 @@ export const MyCollaborations: React.FC = () => {
             className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none"
           />
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Grid listing */}
+      <ScrollReveal>
       {collabs.length === 0 ? (
         // Empty State
         <div className="border border-dashed border-slate-200 rounded-3xl p-16 text-center bg-white shadow-sm flex flex-col items-center justify-center">
@@ -198,6 +201,7 @@ export const MyCollaborations: React.FC = () => {
           </Link>
         </div>
       )}
+      </ScrollReveal>
 
     </div>
   );
