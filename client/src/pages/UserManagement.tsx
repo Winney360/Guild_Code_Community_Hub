@@ -238,7 +238,7 @@ export const UserManagement: React.FC = () => {
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl shadow-sm overflow-hidden">
         
         {/* Filters & Actions Header */}
-        <div className="p-5 border-b border-slate-100 flex flex-col lg:flex-row justify-between items-center gap-4 select-none">
+        <div className="p-5 border-b border-[#006655]/15 dark:border-[#00a88a]/20 flex flex-col lg:flex-row justify-between items-center gap-4 select-none">
           {/* Tabs */}
           <div className="flex bg-slate-100 border border-slate-200/50 p-1 rounded-xl gap-1 text-[9px] font-bold text-slate-550">
             <button
@@ -313,7 +313,7 @@ export const UserManagement: React.FC = () => {
           </div>
         ) : (
           <table className="w-full text-left text-xs font-medium text-[#5c7075]">
-            <thead className="bg-slate-50 border-b border-slate-100 text-[#091e22] font-bold select-none text-[10px] uppercase">
+            <thead className="bg-slate-50 border-b border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] font-bold select-none text-[10px] uppercase">
               <tr>
                 <th className="p-4 pl-6">User</th>
                 <th className="p-4">Role</th>
@@ -322,7 +322,7 @@ export const UserManagement: React.FC = () => {
                 <th className="p-4 pr-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-[#006655]/15 dark:divide-[#00a88a]/20">
               {filteredUsers.map((item) => (
                 <tr key={item._id} className="hover:bg-slate-50/30 transition-colors">
                   {/* User details */}
@@ -412,7 +412,7 @@ export const UserManagement: React.FC = () => {
       </div>
 
       {confirmAction && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center gap-4 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] px-6 py-4 rounded-2xl shadow-2xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#1e2e30] dark:text-[#f1f5f9]">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center gap-4 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 text-[#091e22] px-6 py-4 rounded-2xl shadow-2xl text-xs font-bold animate-slide-in select-none dark:bg-[#121e21] dark:border-[#00a88a]/20 dark:text-[#f1f5f9]">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center shrink-0">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -426,7 +426,7 @@ export const UserManagement: React.FC = () => {
           <div className="flex gap-2 shrink-0">
             <button 
               onClick={() => setConfirmAction(null)}
-              className="px-3 py-1.5 border border-slate-200 dark:border-[#1e2e30] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all font-semibold"
+              className="px-3 py-1.5 border border-slate-200 dark:border-[#00a88a]/20 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all font-semibold"
             >
               Cancel
             </button>
