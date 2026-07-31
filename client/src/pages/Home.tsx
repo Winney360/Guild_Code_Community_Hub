@@ -542,7 +542,7 @@ export const Home: React.FC = () => {
             <span className="text-white text-xs font-bold">WN</span>
           </div>
           <span className="font-bold text-sm group-hover:text-[#006655] transition-colors">Winfred Nkatha</span>
-          <span className="text-xs text-[#5c7075]">Fullstack Developer</span>
+          <span className="text-xs text-[#5c7075]">Team Lead / Fullstack Developer</span>
         </Link>
       </section>
     </div>
