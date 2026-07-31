@@ -248,7 +248,7 @@ export const ProjectShowcase: React.FC = () => {
             >
               <div>
                 {/* Project Cover Image */}
-                <div className="block relative aspect-[16/9] w-full bg-slate-100 border-b border-slate-50 select-none overflow-hidden group">
+                <div className="block relative aspect-[16/9] w-full bg-slate-100 border-b border-[#006655]/15 dark:border-[#00a88a]/20 select-none overflow-hidden group">
                   <img
                     src={project.coverImage || 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop'}
                     alt={project.title}
@@ -284,7 +284,7 @@ export const ProjectShowcase: React.FC = () => {
               </div>
 
               {/* Owner Footer row */}
-              <div className="px-6 pb-6 pt-3 border-t border-slate-50 flex items-center justify-between text-xs text-[#5c7075] select-none">
+              <div className="px-6 pb-6 pt-3 border-t border-[#006655]/15 dark:border-[#00a88a]/20 flex items-center justify-between text-xs text-[#5c7075] select-none">
                 {/* Author Info */}
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 bg-slate-100 rounded-full overflow-hidden shrink-0">
