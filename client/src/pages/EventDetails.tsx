@@ -214,7 +214,7 @@ export const EventDetails: React.FC = () => {
                 <span className="text-[#5c7075] dark:text-[#8ba4a8]">Registered</span>
                 <span className="dark:text-[#f1f5f9]">{event.participants ? event.participants.length : 0} Attendees</span>
               </div>
-              <div className="pt-2 border-t border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">
+              <div className="pt-2 border-t border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">
                 <span className="text-slate-400 dark:text-slate-300 text-[10px] block mb-0.5 font-bold uppercase">Location / Access Link</span>
                 {event.locationOrLink?.match(/^https?:\/\//) ? (
                   <a
@@ -245,7 +245,7 @@ export const EventDetails: React.FC = () => {
           <div className="lg:col-span-8">
             {/* About Event Description */}
             <section className="bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 p-8 rounded-3xl shadow-sm mb-8">
-              <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20">About This Event</h3>
+              <h3 className="font-extrabold text-xl mb-4 pb-2 border-b border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">About This Event</h3>
               <p className="text-sm text-[#5c7075] dark:text-[#8ba4a8] leading-relaxed whitespace-pre-wrap">
                 {event.description}
               </p>
