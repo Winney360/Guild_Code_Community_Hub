@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface StatsType {
   totalMembers: number;
@@ -130,15 +131,18 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-8 font-sans text-[#091e22]">
       {/* Welcome Message */}
-      <div className="flex justify-between items-center select-none">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight mb-1">Dashboard Overview</h1>
-          <p className="text-xs text-[#5c7075]">Welcome back, Admin. Here's what's happening today.</p>
+      <ScrollReveal>
+        <div className="flex justify-between items-center select-none">
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight mb-1">Dashboard Overview</h1>
+            <p className="text-xs text-[#5c7075]">Welcome back, Admin. Here's what's happening today.</p>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* 1. Statistics Cards Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
+      <ScrollReveal delay={100}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
         <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
           <div className="flex justify-between items-center">
@@ -214,8 +218,10 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* 2. Charts & Interactions Row */}
+      <ScrollReveal delay={200}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* User Acquisition chart */}
         <div className="lg:col-span-8 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm">
@@ -314,8 +320,10 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Pending Applications Section */}
+      <ScrollReveal delay={300}>
       <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
         <div className="flex justify-between items-center mb-6 select-none">
           <div>
@@ -382,8 +390,10 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
       </div>
+      </ScrollReveal>
 
       {/* 3. Global Activity Row */}
+      <ScrollReveal delay={400}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Real Engagement Statistics */}
         <div className="lg:col-span-8 border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm space-y-4 select-none">
@@ -447,6 +457,7 @@ export const AdminDashboard: React.FC = () => {
           </Link>
         </div>
       </div>
+      </ScrollReveal>
     </div>
   );
 };
