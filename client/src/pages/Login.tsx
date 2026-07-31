@@ -338,7 +338,7 @@ export const Login: React.FC = () => {
           {/* Social Divider */}
           <div className="relative my-6 flex items-center justify-center">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#006655]/15 dark:border-[#00a88a]/20"></div>
+              <div className="w-full border-t border-[#006655]/30 dark:border-[#00a88a]/40"></div>
             </div>
             <span className="relative px-3 bg-white text-xs font-semibold text-[#5c7075] uppercase tracking-wider">
               Or continue with
@@ -472,7 +472,7 @@ export const Login: React.FC = () => {
                 />
               </div>
 
-              <div className="flex gap-3 pt-3 border-t border-[#006655]/15 dark:border-[#00a88a]/20">
+              <div className="flex gap-3 pt-3 border-t border-[#006655]/30 dark:border-[#00a88a]/40">
                 <button
                   type="button"
                   onClick={() => setShowGoogleModal(false)}
