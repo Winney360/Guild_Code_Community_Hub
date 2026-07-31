@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 
 interface DashboardStats {
   activeProjects: number;
@@ -97,6 +98,7 @@ export const DashboardOverview: React.FC = () => {
   return (
     <div className="space-y-8 font-sans text-[#091e22]">
       {/* Welcome Banner */}
+      <ScrollReveal>
       <div className="flex justify-between items-center select-none">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">
@@ -104,9 +106,10 @@ export const DashboardOverview: React.FC = () => {
           </h1>
           <p className="text-xs text-[#5c7075]">Manage, monitor, and scale your open-source initiatives.</p>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* 1. Statistics Cards Row */}
+      <ScrollReveal>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
         <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
@@ -174,12 +177,13 @@ export const DashboardOverview: React.FC = () => {
             <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Project Views</span>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* 2. Main Content Split Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Recent Activity */}
         <div className="lg:col-span-8 flex flex-col gap-6">
+          <ScrollReveal>
           <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6 select-none">
               <h3 className="font-extrabold text-base">Recent Activity</h3>
@@ -223,11 +227,13 @@ export const DashboardOverview: React.FC = () => {
               View Activity Feed
             </Link>
           </div>
+          </ScrollReveal>
         </div>
 
         {/* Right Column: Quick Actions & Notifications */}
         <div className="lg:col-span-4 flex flex-col gap-6">
           {/* Quick Actions Card */}
+          <ScrollReveal>
           <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
             <h3 className="font-extrabold text-base mb-6 select-none">Quick Actions</h3>
             <div className="space-y-3">
@@ -279,9 +285,11 @@ export const DashboardOverview: React.FC = () => {
                 </div>
               </Link>
             </div>
+            </ScrollReveal>
           </div>
 
           {/* Notifications Card */}
+          <ScrollReveal>
           <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6 select-none">
               <h3 className="font-extrabold text-base">Unread Alerts</h3>
@@ -309,6 +317,7 @@ export const DashboardOverview: React.FC = () => {
               </button>
             )}
           </div>
+          </ScrollReveal>
         </div>
       </div>
     </div>
