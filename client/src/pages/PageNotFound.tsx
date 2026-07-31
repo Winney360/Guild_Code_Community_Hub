@@ -5,7 +5,7 @@ export const PageNotFound: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#f8fafc] flex flex-col justify-between font-sans text-[#091e22]">
       {/* Mini header */}
-      <header className="px-8 py-4 border-b border-[#006655]/15 dark:border-[#00a88a]/20 bg-white flex justify-between items-center select-none">
+      <header className="px-8 py-4 border-b border-[#006655]/30 dark:border-[#00a88a]/40 bg-white flex justify-between items-center select-none">
         <Link to="/" className="flex items-center gap-2">
           <div className="bg-[#006655]/10 p-1.5 rounded-lg text-[#006655]">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +86,7 @@ export const PageNotFound: React.FC = () => {
         <div className="relative w-full max-w-sm shrink-0 flex items-center justify-center">
           {/* Main Card */}
           <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-8 shadow-xl w-full flex flex-col items-center text-center relative z-20">
-            <div className="w-full flex justify-between items-center text-[10px] text-slate-400 font-bold border-b border-[#006655]/15 dark:border-[#00a88a]/20 pb-4 mb-8 select-none">
+            <div className="w-full flex justify-between items-center text-[10px] text-slate-400 font-bold border-b border-[#006655]/30 dark:border-[#00a88a]/40 pb-4 mb-8 select-none">
               <span className="flex items-center gap-1">
                 <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -116,7 +116,7 @@ export const PageNotFound: React.FC = () => {
       </main>
 
       {/* Footer bar */}
-      <footer className="px-8 py-4 border-t border-[#006655]/15 dark:border-[#00a88a]/20 bg-white flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-[#5c7075] select-none">
+      <footer className="px-8 py-4 border-t border-[#006655]/30 dark:border-[#00a88a]/40 bg-white flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-[#5c7075] select-none">
         <span>Guild Code &bull; © 2026 Guild Code Ecosystem. Built for developers.</span>
         <div className="flex gap-4">
           <Link to="/privacy" className="hover:underline">Privacy</Link>
