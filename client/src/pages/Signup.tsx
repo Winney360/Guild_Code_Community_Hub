@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
+import ScrollReveal from '../components/ScrollReveal.js';
 import signBg from '../assets/sign.png';
 
 export const Signup: React.FC = () => {
@@ -107,14 +108,16 @@ export const Signup: React.FC = () => {
         </div>
 
         {/* Center slogans */}
-        <div className="my-auto max-w-[440px] mx-auto w-full relative z-10 text-center">
-          <h3 className="font-extrabold text-2xl mb-3 tracking-tight text-white drop-shadow-md">
-            Engineering the future together.
-          </h3>
-          <p className="text-white/90 text-sm leading-relaxed max-w-sm mx-auto drop-shadow-sm font-medium">
-            Join a verified collective of high-caliber developers building the next generation of open infrastructure.
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="my-auto max-w-[440px] mx-auto w-full relative z-10 text-center">
+            <h3 className="font-extrabold text-2xl mb-3 tracking-tight text-white drop-shadow-md">
+              Engineering the future together.
+            </h3>
+            <p className="text-white/90 text-sm leading-relaxed max-w-sm mx-auto drop-shadow-sm font-medium">
+              Join a verified collective of high-caliber developers building the next generation of open infrastructure.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Footer info */}
         <div className="relative z-10 text-white/70 text-xs">
@@ -127,6 +130,7 @@ export const Signup: React.FC = () => {
         <div></div> {/* Spacer */}
 
         {/* Form Container */}
+        <ScrollReveal delay={100}>
         <div className="w-full max-w-md mx-auto">
           <div className="mb-8">
             <h2 className="text-3xl font-bold tracking-tight mb-2">Create an account</h2>
@@ -356,6 +360,7 @@ export const Signup: React.FC = () => {
             </Link>
           </div>
         </div>
+        </ScrollReveal>
 
         {/* Right side footer */}
         <div className="flex justify-center gap-6 text-xs text-[#5c7075] mt-6">
