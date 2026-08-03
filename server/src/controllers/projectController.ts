@@ -185,7 +185,7 @@ export const deleteProject = async (req: AuthenticatedRequest, res: Response): P
 
 // @desc    Like / Unlike a project
 // @route   POST /api/projects/:id/like
-// @access  Private (Registered members)
+// @access  Public (registered members or anonymous visitors with a device identifier)
 export const toggleProjectLike = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const project = await Project.findById(req.params.id);
@@ -195,26 +195,29 @@ export const toggleProjectLike = async (req: AuthenticatedRequest, res: Response
     }
 
     const userId = req.user?.id;
-    if (!userId) {
-      res.status(401).json({ message: 'Not authorized' });
+    const deviceId = (req.headers['x-device-id'] as string | undefined)?.trim();
+
+    // Registered users are identified by their id; anonymous visitors by a device-scoped id
+    const likerId = userId || (deviceId ? `device:${deviceId}` : undefined);
+    if (!likerId) {
+      res.status(400).json({ message: 'A user or device identifier is required' });
       return;
     }
 
-    const userObjectId = new mongoose.Types.ObjectId(userId);
-
-    // Toggle user ID in likes array (using string comparison for reliability)
-    const likeIndex = project.likes.findIndex((id: any) => id.toString() === userId);
+    // Toggle liker id in likes array (using string comparison for reliability)
+    const likeIndex = project.likes.findIndex((id: any) => id.toString() === likerId);
     let isLikedNow = false;
     if (likeIndex > -1) {
       // Unlike
       project.likes.splice(likeIndex, 1);
     } else {
       // Like
-      project.likes.push(userObjectId);
+      project.likes.push(likerId as any);
       isLikedNow = true;
 
-      // Notify project owner if liker is not the owner
-      if (project.byUser.toString() !== userId) {
+      // Notify project owner only when a registered member likes (anonymous likes skip notifications)
+      if (userId && project.byUser.toString() !== userId) {
+        const userObjectId = new mongoose.Types.ObjectId(userId);
         const likerUser = await User.findById(userId);
         const likerName = likerUser ? likerUser.fullName : 'A member';
         await Notification.create({
