@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import ScrollReveal from '../components/ScrollReveal.js';
+import { getDeviceId, getLikerId, isLikedBy } from '../utils/deviceId.js';
 
 interface Stats {
   activeMembers: number;
@@ -42,29 +43,25 @@ export const Home: React.FC = () => {
   };
 
   const handleLikeProject = async (projectId: string) => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
     try {
       const res = await fetch(`/api/projects/${projectId}/like`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Device-Id': getDeviceId() },
       });
 
       if (res.ok) {
         const data = await res.json();
+        const likerId = getLikerId(user?._id);
         setProjects((prevProjects) =>
           prevProjects.map((p) => {
             if (p._id === projectId) {
               const currentLikes: string[] = p.likes || [];
-              const userLiked = currentLikes.some((id: any) => id.toString() === user._id);
+              const userLiked = currentLikes.some((id: any) => id.toString() === likerId);
               let updatedLikes = [...currentLikes];
               if (data.isLiked && !userLiked) {
-                updatedLikes.push(user._id);
+                updatedLikes.push(likerId);
               } else if (!data.isLiked && userLiked) {
-                updatedLikes = updatedLikes.filter((id: any) => id.toString() !== user._id);
+                updatedLikes = updatedLikes.filter((id: any) => id.toString() !== likerId);
               }
               return { ...p, likes: updatedLikes };
             }
@@ -176,16 +173,16 @@ export const Home: React.FC = () => {
 
           {/* Action Buttons */}
           <ScrollReveal delay={400}>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
+            <div className="flex flex-row justify-center items-center gap-3 sm:gap-4 mb-16">
               <Link
                 to="/members"
-                className="w-full sm:w-auto bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-sm"
+                className="flex-1 sm:flex-none bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-4 sm:px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-xs sm:text-sm"
               >
                 Explore Members
               </Link>
               <Link
                 to="/projects"
-                className="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-[#006655] font-bold py-3.5 px-8 rounded-xl transition-all shadow-sm text-sm"
+                className="flex-1 sm:flex-none bg-white border border-slate-200 hover:bg-slate-50 text-[#006655] font-bold py-3.5 px-4 sm:px-8 rounded-xl transition-all shadow-sm text-xs sm:text-sm"
               >
                 View Projects
               </Link>
@@ -194,24 +191,24 @@ export const Home: React.FC = () => {
 
           {/* Live Stat Counters (Spec 4.1) */}
           <ScrollReveal delay={500}>
-            <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-[#006655]/30 dark:md:divide-[#00a88a]/40">
-              <div className="flex flex-col items-center justify-center p-2">
-                <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+            <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-4 sm:p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-3 gap-2 sm:gap-8 md:divide-x md:divide-[#006655]/30 dark:md:divide-[#00a88a]/40">
+              <div className="flex flex-col items-center justify-center p-2 min-w-0">
+                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
                   {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
                 </span>
-                <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Active Members</span>
+                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Active Members</span>
               </div>
-              <div className="flex flex-col items-center justify-center p-2">
-                <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+              <div className="flex flex-col items-center justify-center p-2 min-w-0">
+                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
                   {loading ? '...' : stats.projectsShared}
                 </span>
-                <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">Open Projects</span>
+                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Open Projects</span>
               </div>
-              <div className="flex flex-col items-center justify-center p-2">
-                <span className="text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+              <div className="flex flex-col items-center justify-center p-2 min-w-0">
+                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
                   {loading ? '...' : stats.upcomingEvents}
                 </span>
-                <span className="text-xs font-bold text-[#5c7075] uppercase tracking-wider">
+                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">
                   Upcoming Sessions
                 </span>
               </div>
@@ -222,7 +219,7 @@ export const Home: React.FC = () => {
 
       {/* Elite Craftsmanship Section (Vetted Developers) */}
       <section className="py-20 px-6 max-w-7xl mx-auto border-t border-[#006655]/30 dark:border-[#00a88a]/40">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+        <div className="mb-10">
           <ScrollReveal>
             <div>
               <h2 className="text-3xl font-extrabold tracking-tight mb-3">Elite Craftsmanship</h2>
@@ -230,14 +227,6 @@ export const Home: React.FC = () => {
                 Meet the architects shaping the future. Our members are vetted for technical excellence and collaborative spirit.
               </p>
             </div>
-          </ScrollReveal>
-          <ScrollReveal delay={150} direction="left">
-            <Link to="/members" className="text-[#006655] hover:underline text-sm font-semibold flex items-center gap-1 shrink-0">
-              <span>View all members</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </Link>
           </ScrollReveal>
         </div>
 
@@ -351,6 +340,21 @@ export const Home: React.FC = () => {
             <p className="text-[#5c7075] text-sm">No active members found yet. Be the first to join!</p>
           </div>
         )}
+
+        {/* View members action - always shown below the member cards */}
+        <ScrollReveal delay={200}>
+          <div className="mt-10 text-center select-none">
+            <Link
+              to="/members"
+              className="inline-flex items-center gap-2 text-[#006655] hover:underline text-sm font-semibold"
+            >
+              <span>View all members</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* Innovation in Action Section (Featured Projects Grid) */}
@@ -440,12 +444,12 @@ export const Home: React.FC = () => {
                                 handleLikeProject(featuredProject._id);
                               }}
                               className={`flex items-center gap-1 font-semibold border px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
-                                user && (featuredProject.likes || []).some((id: any) => id.toString() === user._id)
+                                isLikedBy(featuredProject.likes, getLikerId(user?._id))
                                   ? 'bg-rose-50 border-rose-200 text-rose-600'
                                   : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-rose-600 hover:bg-rose-50'
                               }`}
                               title={
-                                user && (featuredProject.likes || []).some((id: any) => id.toString() === user._id)
+                                isLikedBy(featuredProject.likes, getLikerId(user?._id))
                                   ? 'Unlike project'
                                   : 'Like project'
                               }
@@ -497,12 +501,12 @@ export const Home: React.FC = () => {
                                 handleLikeProject(p._id);
                               }}
                               className={`flex items-center gap-1 text-xs font-bold shrink-0 border px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                                user && (p.likes || []).some((id: any) => id.toString() === user._id)
+                                isLikedBy(p.likes, getLikerId(user?._id))
                                   ? 'bg-rose-50 border-rose-200 text-rose-600'
                                   : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-rose-600 hover:bg-rose-50'
                               }`}
                               title={
-                                user && (p.likes || []).some((id: any) => id.toString() === user._id)
+                                isLikedBy(p.likes, getLikerId(user?._id))
                                   ? 'Unlike project'
                                   : 'Like project'
                               }
@@ -561,7 +565,7 @@ export const Home: React.FC = () => {
           <span className="text-8xl font-serif text-[#006655]/10 leading-none select-none absolute top-10 left-1/2 -translate-x-1/2">
             “
           </span>
-          <blockquote className="relative z-10 text-xl md:text-2xl font-medium italic text-[#091e22] leading-relaxed mb-8">
+          <blockquote className="relative z-10 text-sm sm:text-base md:text-2xl font-medium italic text-[#091e22] leading-relaxed mb-8 line-clamp-3">
             "Guild Code isn't just another platform; it's the professional sanctuary I didn't know I needed.
             The level of discourse and the quality of projects here are unparalleled in the open-source world."
           </blockquote>
