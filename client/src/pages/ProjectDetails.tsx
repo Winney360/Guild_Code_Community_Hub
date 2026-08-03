@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import ScrollReveal from '../components/ScrollReveal.js';
+import { getDeviceId, getLikerId, isLikedBy } from '../utils/deviceId.js';
 
 interface ProjectType {
   _id: string;
@@ -35,7 +36,6 @@ interface ProjectType {
 export const ProjectDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [project, setProject] = useState<ProjectType | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
@@ -51,12 +51,7 @@ export const ProjectDetails: React.FC = () => {
           setProject(data.data);
           const likesList = data.data.likes || [];
           setLikesCount(likesList.length);
-          if (user) {
-            const liked = likesList.some(
-              (l: any) => (typeof l === 'string' ? l : l._id || l.toString()) === user._id
-            );
-            setIsLiked(liked);
-          }
+          setIsLiked(isLikedBy(likesList, getLikerId(user?._id)));
 
           // Increment view count explicitly (restricted to once per browser session per project)
           const sessionKey = `viewed_project_${id}`;
@@ -83,18 +78,13 @@ export const ProjectDetails: React.FC = () => {
   }, [id, user]);
 
   const handleLike = async () => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
     if (liking) return;
     setLiking(true);
 
     try {
       const res = await fetch(`/api/projects/${id}/like`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Device-Id': getDeviceId() },
       });
 
       if (res.ok) {
