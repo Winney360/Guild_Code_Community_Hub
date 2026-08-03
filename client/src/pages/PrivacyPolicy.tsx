@@ -71,6 +71,7 @@ export const PrivacyPolicy: React.FC = () => {
       title="Privacy Policy"
       description="At Guild Code, we respect your privacy and are committed to protecting your personal data. This policy outlines how we collect, use, and safeguard your information when using our developer hub."
       lastUpdated="July 28, 2026"
+      effectiveDate="July 28, 2026"
       version="1.2"
       toc={toc}
       sidebarNote={
