@@ -77,6 +77,7 @@ export const TermsOfService: React.FC = () => {
       title="Terms of Service"
       description="These Terms govern your use of the Guild Code platform, API services, and community hub. By using Guild Code, you agree to abide by these terms and our Community Guidelines."
       lastUpdated="July 28, 2026"
+      effectiveDate="July 28, 2026"
       version="1.2"
       toc={toc}
       sidebarNote={
