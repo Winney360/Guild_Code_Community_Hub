@@ -128,8 +128,8 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 select-none">
-      <div className="bg-white dark:bg-[#121e21] rounded-3xl p-6 max-w-md w-full shadow-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 flex flex-col items-center animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-4 select-none">
+      <div className="bg-white dark:bg-[#121e21] rounded-3xl p-4 sm:p-6 max-w-md w-full shadow-2xl border border-[#006655]/15 dark:border-[#00a88a]/20 dark:border-[#00a88a]/20 flex flex-col items-center animate-in fade-in zoom-in duration-200">
         
         {/* Modal Header */}
         <div className="w-full flex justify-between items-center mb-6">
