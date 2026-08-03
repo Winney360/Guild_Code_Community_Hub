@@ -318,7 +318,7 @@ export const DashboardSettings: React.FC = () => {
 
       {/* Tabs list (matching MemberDashboard-Settings.png) */}
       <ScrollReveal>
-      <div className="flex border-b border-[#006655]/30 dark:border-[#00a88a]/40 select-none">
+      <div className="flex flex-wrap border-b border-[#006655]/30 dark:border-[#00a88a]/40 select-none">
         <button
           onClick={() => { setActiveTab('profile'); setError(''); setSuccess(false); }}
           className={`px-6 py-2.5 font-bold text-xs border-b-2 transition-colors ${
