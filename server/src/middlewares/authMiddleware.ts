@@ -45,6 +45,41 @@ export const protect = async (
   }
 };
 
+// Middleware to attach the user when a valid token is present, but never block anonymous access
+export const optionalAuth = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  let token: string | undefined;
+
+  // Read token from cookies
+  if (req.cookies && req.cookies.token) {
+    token = req.cookies.token;
+  }
+
+  if (!token) {
+    next();
+    return;
+  }
+
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || 'fallback_secret'
+    ) as { id: string; role: string };
+
+    req.user = {
+      id: decoded.id,
+      role: decoded.role,
+    };
+  } catch (error) {
+    // Invalid/expired token — treat as anonymous
+  }
+
+  next();
+};
+
 // Middleware to restrict access based on roles
 export const authorize = (...roles: string[]) => {
   return (
