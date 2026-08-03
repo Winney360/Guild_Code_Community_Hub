@@ -120,13 +120,13 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
 
         <ScrollReveal>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/25 text-[#006655] dark:text-emerald-400 text-[11px] font-bold uppercase tracking-widest mb-6 shadow-xs">
-              {eyebrowIcon}
-              <span>{eyebrow}</span>
-            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/25 text-[#006655] dark:text-emerald-400 text-[11px] font-bold uppercase tracking-widest mb-6 shadow-xs">
+                {eyebrowIcon}
+                <span>{eyebrow}</span>
+              </div>
 
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-              <div className="max-w-2xl">
+              <div className="mx-auto max-w-3xl">
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#091e22] dark:text-[#f1f5f9] mb-4">
                   {title}
                 </h1>
@@ -134,7 +134,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
               </div>
 
               {metaItems.length > 0 && (
-                <div className="shrink-0 flex flex-wrap items-center gap-x-6 gap-y-2">
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
                   {metaItems.map((item) => (
                     <div key={item.label} className="flex items-center gap-2 text-xs text-[#5c7075] dark:text-slate-400">
                       <span className="text-[#006655] dark:text-emerald-400">{item.icon}</span>
