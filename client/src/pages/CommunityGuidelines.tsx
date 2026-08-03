@@ -60,6 +60,7 @@ export const CommunityGuidelines: React.FC = () => {
       title="Community Guidelines & Code of Conduct"
       description="Guild Code is designed to bring developers together to learn, build open-source software, and launch exciting products. We expect all community members to uphold these core guidelines."
       lastUpdated="July 28, 2026"
+      effectiveDate="July 28, 2026"
       version="1.2"
       toc={toc}
       sidebarNote={
