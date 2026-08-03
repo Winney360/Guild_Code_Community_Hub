@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
     <footer className="bg-white dark:bg-[#0e1719] border-t border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20 pt-14 pb-8 mt-auto select-none transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Main Columns Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 pb-12 border-b border-[#006655]/30 dark:border-[#00a88a]/40 dark:border-[#00a88a]/20">
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
@@ -29,6 +29,8 @@ export const Footer: React.FC = () => {
             </p>
           </div>
 
+          {/* Cols 2-4: Link columns in one horizontal line */}
+          <div className="lg:col-span-3 grid grid-cols-3 gap-6 sm:gap-10">
           {/* Col 2: Platform Links */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-[#091e22] dark:text-[#f1f5f9] uppercase tracking-wider">
@@ -105,12 +107,15 @@ export const Footer: React.FC = () => {
               </li>
             </ul>
           </div>
+          </div>
         </div>
 
         {/* Social Links & Copyright Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-          {/* Social Links */}
-          <div className="flex items-center gap-4 text-[#5c7075] dark:text-slate-400">
+        <div className="pt-8 flex flex-col gap-6">
+          {/* Social Icons + Back to Top (one line) */}
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            {/* Social Links */}
+            <div className="flex items-center gap-4 text-[#5c7075] dark:text-slate-400">
             <a
               href="https://github.com"
               target="_blank"
@@ -146,20 +151,21 @@ export const Footer: React.FC = () => {
             </a>
           </div>
 
-          {/* Bottom Copyright & Back to Top */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 text-xs text-[#5c7075] dark:text-slate-400">
-            <div>
-              &copy; {new Date().getFullYear()} Guild Code Ecosystem. Built for developers with passion.
-            </div>
+            {/* Back to Top */}
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 hover:text-[#006655] dark:hover:text-emerald-400 font-semibold cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-[#5c7075] dark:text-slate-400 hover:text-[#006655] dark:hover:text-emerald-400 font-semibold cursor-pointer transition-colors"
             >
               <span>Back to top</span>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
               </svg>
             </button>
+          </div>
+
+          {/* Bottom Copyright */}
+          <div className="text-center text-xs text-[#5c7075] dark:text-slate-400">
+            &copy; {new Date().getFullYear()} Guild Code Ecosystem. Built for developers with passion.
           </div>
         </div>
       </div>
