@@ -53,6 +53,7 @@ export const CookiePolicy: React.FC = () => {
       title="Cookie & Storage Policy"
       description="Learn how Guild Code uses HTTP cookies and browser LocalStorage technologies to maintain active sessions, remember user preferences, and safeguard account access."
       lastUpdated="July 28, 2026"
+      effectiveDate="July 28, 2026"
       version="1.2"
       toc={toc}
       sidebarNote={
