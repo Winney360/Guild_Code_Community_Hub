@@ -246,7 +246,7 @@ export const UserManagement: React.FC = () => {
         {/* Filters & Actions Header */}
         <div className="p-5 border-b border-[#006655]/30 dark:border-[#00a88a]/40 flex flex-col lg:flex-row justify-between items-center gap-4 select-none">
           {/* Tabs */}
-          <div className="flex bg-slate-100 border border-slate-200/50 p-1 rounded-xl gap-1 text-[9px] font-bold text-slate-550">
+          <div className="flex flex-wrap bg-slate-100 border border-slate-200/50 p-1 rounded-xl gap-1 text-[9px] font-bold text-slate-550">
             <button
               onClick={() => setStatusFilter('all')}
               className={`px-3 py-1.5 rounded-lg ${statusFilter === 'all' ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500'}`}
