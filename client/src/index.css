@@ -12,6 +12,58 @@ body {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
+/* 🛡️ MOBILE RESPONSIVENESS BASELINE (applies below 768px only via content width)
+   These rules prevent horizontal overflow from tall/wrapping content on small screens.
+   Desktop & tablet layouts are unaffected. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+img,
+video,
+canvas,
+svg,
+picture {
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+#root {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Prevent text from blowing out flex/grid cells on small screens */
+@layer base {
+  @media (max-width: 767px) {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    label {
+      overflow-wrap: break-word;
+    }
+  }
+}
+
 /* 🌙 PREMIUM DARK MODE STYLING SYSTEM */
 
 /* 1. Global backgrounds */
