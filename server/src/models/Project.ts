@@ -40,8 +40,8 @@ const ProjectSchema = new Schema(
       required: [true, 'Project owner (User) is required'],
     },
     likes: {
-      type: [Schema.Types.ObjectId],
-      ref: 'User',
+      // Mix of registered user ids and anonymous device-scoped ids ("device:<uuid>")
+      type: [String],
       default: [],
     },
     views: {
