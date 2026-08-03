@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import ScrollReveal from '../components/ScrollReveal.js';
+import { getDeviceId, getLikerId, isLikedBy } from '../utils/deviceId.js';
 
 interface Member {
   _id: string;
@@ -35,31 +36,26 @@ interface ProjectType {
 export const MemberProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [member, setMember] = useState<Member | null>(null);
   const [memberProjects, setMemberProjects] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(true);
   const [likeCache, setLikeCache] = useState<Record<string, { isLiked: boolean; likesCount: number }>>({});
 
   const handleLikeProject = async (projectId: string) => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
     try {
       const res = await fetch(`/api/projects/${projectId}/like`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Device-Id': getDeviceId() },
       });
 
       if (res.ok) {
         const data = await res.json();
+        const likerId = getLikerId(user?._id);
         setLikeCache((prev) => ({ ...prev, [projectId]: { isLiked: data.isLiked, likesCount: data.likesCount } }));
         setMemberProjects((prev) =>
           prev.map((p) =>
             p._id === projectId
-              ? { ...p, likes: data.isLiked ? [...p.likes, user._id] : p.likes.filter((id: any) => id.toString() !== user._id) }
+              ? { ...p, likes: data.isLiked ? [...p.likes, likerId] : p.likes.filter((id: any) => id.toString() !== likerId) }
               : p
           )
         );
@@ -316,12 +312,12 @@ export const MemberProfile: React.FC = () => {
                         handleLikeProject(project._id);
                       }}
                       className={`flex items-center gap-1 font-bold px-2.5 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
-                        (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : user && (project.likes || []).some((id: any) => id.toString() === user._id))
+                        (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : isLikedBy(project.likes, getLikerId(user?._id)))
                           ? 'bg-rose-50 border-rose-200 text-rose-600'
                           : 'bg-slate-50 border-slate-100 text-slate-500 hover:text-rose-500 hover:bg-rose-50'
                       }`}
                       title={
-                        (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : user && (project.likes || []).some((id: any) => id.toString() === user._id))
+                        (likeCache[project._id] !== undefined ? likeCache[project._id].isLiked : isLikedBy(project.likes, getLikerId(user?._id)))
                           ? 'Unlike project'
                           : 'Like project'
                       }
