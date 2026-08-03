@@ -119,7 +119,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
         <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-[#006655]/6 blur-3xl pointer-events-none" />
 
         <ScrollReveal>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/25 text-[#006655] dark:text-emerald-400 text-[11px] font-bold uppercase tracking-widest mb-6 shadow-xs">
                 {eyebrowIcon}
@@ -150,7 +150,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
       </div>
 
       {/* Body */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-16">
           {/* Desktop sidebar */}
           <aside className="hidden lg:block">
