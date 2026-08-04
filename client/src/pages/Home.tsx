@@ -566,8 +566,7 @@ export const Home: React.FC = () => {
             “
           </span>
           <blockquote className="relative z-10 text-sm sm:text-base md:text-2xl font-medium italic text-[#091e22] leading-relaxed mb-8 line-clamp-3">
-            "Guild Code isn't just another platform; it's the professional sanctuary I didn't know I needed.
-            The level of discourse and the quality of projects here are unparalleled in the open-source world."
+            "Guild Code isn't just another platform; it's the professional sanctuary I didn't know I needed."
           </blockquote>
           <Link to="/members" className="flex flex-col items-center group">
             <div className="w-10 h-10 bg-[#006655] rounded-full overflow-hidden mb-3 flex items-center justify-center">
