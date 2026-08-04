@@ -106,10 +106,10 @@ export const Home: React.FC = () => {
   return (
     <div className="font-sans antialiased text-[#091e22] bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-[#e6f7f8] via-[#eef9fa] to-white pt-16 pb-20 px-6 relative overflow-hidden select-none">
+      <section className="bg-gradient-to-b from-[#e6f7f8] via-[#eef9fa] to-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none">
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <ScrollReveal>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-6 sm:mb-8">
               <svg className="w-3.5 h-3.5 text-[#006655] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15a5 5 0 100-10 5 5 0 000 10z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 14L4.5 21l3.75-1.5L12 21l3.75-1.5L19.5 21l-3.75-7" />
@@ -119,15 +119,14 @@ export const Home: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-6xl mx-auto">
-              Welcome to <span className="text-[#006655] font-serif italic pr-1">Guild Code</span>, <br className="hidden md:block" />
-              Ecosystem for <span className="italic text-[#006655] font-serif pr-2">Elite</span> Builders & Founders.
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight max-w-6xl mx-auto">
+              Welcome to <span className="text-[#006655] font-serif italic pr-1">Guild Code</span> <br className="hidden md:block" />
             </h1>
           </ScrollReveal>
 
           {/* Subtitle */}
           <ScrollReveal delay={200}>
-            <p className="text-[#5c7075] text-lg max-w-4xl mx-auto mb-8 leading-relaxed select-none">
+            <p className="text-[#5c7075] text-base sm:text-lg max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed select-none">
               A collaborative platform where developers, designers, and creators come together to learn, build, and grow. <br className="hidden md:block" />
               Share your work, connect with peers, and be part of something amazing.
             </p>
@@ -135,7 +134,7 @@ export const Home: React.FC = () => {
 
           {/* Active Members Avatar Pile */}
           <ScrollReveal delay={300}>
-            <div className="flex items-center justify-center gap-4 mb-10 select-none">
+            <div className="flex items-center justify-center gap-4 mb-8 sm:mb-10 select-none">
               {/* Overlapping Rings (Rendering actual DB members) */}
               {members.length > 0 && (
                 <div className="flex items-center">
@@ -173,7 +172,7 @@ export const Home: React.FC = () => {
 
           {/* Action Buttons */}
           <ScrollReveal delay={400}>
-            <div className="flex flex-row justify-center items-center gap-3 sm:gap-4 mb-16">
+            <div className="flex flex-row justify-center items-center gap-3 sm:gap-4 mb-10 sm:mb-16">
               <Link
                 to="/members"
                 className="flex-1 sm:flex-none bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-4 sm:px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-xs sm:text-sm"
