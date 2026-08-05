@@ -200,24 +200,24 @@ export const Home: React.FC = () => {
 
           {/* Live Stat Counters (Spec 4.1) */}
           <ScrollReveal delay={500}>
-            <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-4 sm:p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-3 gap-2 sm:gap-8 md:divide-x md:divide-[#006655]/30 dark:md:divide-[#00a88a]/40">
+            <div className="bg-[#121e21] border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-4 sm:p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-3 gap-2 sm:gap-8 md:divide-x md:divide-[#006655]/30 dark:md:divide-[#00a88a]/40">
               <div className="flex flex-col items-center justify-center p-2 min-w-0">
-                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-100 mb-1">
                   {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
                 </span>
-                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Active Members</span>
+                <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider text-center">Active Members</span>
               </div>
               <div className="flex flex-col items-center justify-center p-2 min-w-0">
-                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-100 mb-1">
                   {loading ? '...' : stats.projectsShared}
                 </span>
-                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Open Projects</span>
+                <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider text-center">Open Projects</span>
               </div>
               <div className="flex flex-col items-center justify-center p-2 min-w-0">
-                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
+                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-100 mb-1">
                   {loading ? '...' : stats.upcomingEvents}
                 </span>
-                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">
+                <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider text-center">
                   Upcoming Sessions
                 </span>
               </div>
