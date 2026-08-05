@@ -114,8 +114,8 @@ export const Home: React.FC = () => {
           <img src="/hero/hero-mobile.png" alt="" className="absolute inset-0 h-full w-full object-cover md:hidden" />
           {/* Video carousel (tablet & above) */}
           <HeroVideoCarousel />
-          {/* Adaptive scrim for readability */}
-          <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-[#07191b]/85 dark:via-[#091719]/70 dark:to-[#0b1315]" />
+          {/* Dark scrim for readability (both themes) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#07191b]/85 via-[#091719]/70 to-[#0b1315]" />
         </div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <ScrollReveal>
@@ -136,7 +136,7 @@ export const Home: React.FC = () => {
 
           {/* Subtitle */}
           <ScrollReveal delay={200}>
-            <p className="text-[#5c7075] text-base sm:text-lg max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed select-none">
+            <p className="text-slate-300 text-base sm:text-lg max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed select-none">
               A collaborative platform where developers, designers, and creators come together to learn, build, and grow. <br className="hidden md:block" />
               Share your work, connect with peers, and be part of something amazing.
             </p>
@@ -172,10 +172,10 @@ export const Home: React.FC = () => {
               )}
               {/* Active Members count details */}
               <div className="text-left font-bold">
-                <div className="flex items-center gap-1 text-xs text-[#091e22]">
+                <div className="flex items-center gap-1 text-xs text-slate-100">
                   {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)} Active Members
                 </div>
-                <p className="text-[9px] text-[#5c7075] font-bold mt-0.5">Explore the community today</p>
+                <p className="text-[9px] text-slate-400 font-bold mt-0.5">Explore the community today</p>
               </div>
             </div>
           </ScrollReveal>
