@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import ScrollReveal from '../components/ScrollReveal.js';
+import { HeroVideoCarousel } from '../components/HeroVideoCarousel.js';
 import { getDeviceId, getLikerId, isLikedBy } from '../utils/deviceId.js';
 
 interface Stats {
@@ -106,7 +107,16 @@ export const Home: React.FC = () => {
   return (
     <div className="font-sans antialiased text-[#091e22] bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-[#e6f7f8] via-[#eef9fa] to-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none">
+      <section className="bg-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none">
+        {/* Background media layers */}
+        <div className="absolute inset-0" aria-hidden="true">
+          {/* Mobile picture (below md) */}
+          <img src="/hero/hero-mobile.png" alt="" className="absolute inset-0 h-full w-full object-cover md:hidden" />
+          {/* Video carousel (tablet & above) */}
+          <HeroVideoCarousel />
+          {/* Adaptive scrim for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#e6f7f8]/80 via-[#eef9fa]/65 to-white dark:from-[#07191b]/85 dark:via-[#091719]/70 dark:to-[#0b1315]" />
+        </div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <ScrollReveal>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-6 sm:mb-8">
