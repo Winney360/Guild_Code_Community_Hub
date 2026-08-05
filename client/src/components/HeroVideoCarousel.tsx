@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 const HERO_VIDEOS = [
+  '/hero/hero-3.mp4',
   '/hero/hero-1.mp4',
   '/hero/hero-2.mp4',
-  '/hero/hero-3.mp4',
   '/hero/hero-4.mp4',
 ];
 
