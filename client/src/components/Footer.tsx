@@ -151,7 +151,7 @@ export const Footer: React.FC = () => {
                   </Link>
                 </li>
                 <li>
-                  <a href="mailto:support@guildcode.dev" className="inline-block py-1 md:py-0 hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
+                  <a href="mailto:guildcommunity@guild-code.com" className="inline-block py-1 md:py-0 hover:text-[#006655] dark:hover:text-emerald-400 transition-colors">
                     Support & Help
                   </a>
                 </li>

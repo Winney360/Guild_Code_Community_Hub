@@ -279,8 +279,8 @@ export const PrivacyPolicy: React.FC = () => {
           <p className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
             <span className="text-[#006655] dark:text-emerald-400">{icons.user}</span>
             Community Support:{' '}
-            <a href="mailto:support@guildcode.dev" className="text-[#006655] dark:text-emerald-400 font-semibold hover:underline">
-              support@guildcode.dev
+            <a href="mailto:guildcommunity@guild-code.com" className="text-[#006655] dark:text-emerald-400 font-semibold hover:underline">
+              guildcommunity@guild-code.com
             </a>
           </p>
         </div>

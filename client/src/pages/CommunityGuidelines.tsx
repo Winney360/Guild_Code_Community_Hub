@@ -167,7 +167,7 @@ export const CommunityGuidelines: React.FC = () => {
         description="Our moderation team can help clarify the expectations we set for every member of the ecosystem."
         actions={[
           { label: 'Email Moderation Team', href: 'mailto:moderation@guildcode.dev', primary: true },
-          { label: 'Community Support', href: 'mailto:support@guildcode.dev' },
+          { label: 'Community Support', href: 'mailto:guildcommunity@guild-code.com' },
         ]}
       />
     </LegalLayout>

@@ -229,7 +229,7 @@ export const TermsOfService: React.FC = () => {
         description="Our legal team is available to clarify platform obligations, licensing, or account-related concerns."
         actions={[
           { label: 'Contact Legal Team', href: 'mailto:legal@guildcode.dev', primary: true },
-          { label: 'Community Support', href: 'mailto:support@guildcode.dev' },
+          { label: 'Community Support', href: 'mailto:guildcommunity@guild-code.com' },
         ]}
       />
     </LegalLayout>
