@@ -130,7 +130,7 @@ export const Home: React.FC = () => {
 
           <ScrollReveal delay={100}>
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight max-w-6xl mx-auto">
-              Welcome to <span className="text-[#006655] font-serif italic pr-1">Guild Code Community</span> <br className="hidden md:block" />
+              Welcome to <span className="text-[#00796b] dark:text-emerald-400 font-serif italic pr-1 drop-shadow-[0_2px_10px_rgba(255,255,255,0.55)] dark:drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">Guild Code Community</span> <br className="hidden md:block" />
             </h1>
           </ScrollReveal>
 
