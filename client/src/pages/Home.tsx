@@ -115,7 +115,7 @@ export const Home: React.FC = () => {
           {/* Video carousel (tablet & above) */}
           <HeroVideoCarousel />
           {/* Adaptive scrim for readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#e6f7f8]/80 via-[#eef9fa]/65 to-white dark:from-[#07191b]/85 dark:via-[#091719]/70 dark:to-[#0b1315]" />
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#07191b]/85 dark:via-[#091719]/70 dark:to-[#0b1315] dark:backdrop-blur-none" />
         </div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <ScrollReveal>
