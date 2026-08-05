@@ -500,6 +500,19 @@ export const Home: React.FC = () => {
                           className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between flex-grow"
                         >
                         <div>
+                          {topLikedProjects.length <= 2 && (
+                            <Link to={`/projects/${p._id}`} className="block relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-slate-100 mb-4">
+                              <img
+                                src={
+                                  p.coverImage && p.coverImage.trim() !== ''
+                                    ? p.coverImage
+                                    : 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&h=337&fit=crop'
+                                }
+                                alt={p.title}
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                              />
+                            </Link>
+                          )}
                           <div className="flex justify-between items-start mb-2 gap-2">
                             <Link to={`/projects/${p._id}`} className="hover:underline">
                               <h4 className="font-bold text-base text-[#091e22] hover:text-[#006655] transition-colors">{p.title}</h4>
