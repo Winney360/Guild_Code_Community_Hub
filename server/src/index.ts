@@ -27,7 +27,16 @@ connectDB();
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    // Allow no-origin (curl / server-to-server) plus local dev origins:
+    // localhost, 127.0.0.1, and private-network LAN IPs (phone testing
+    // against the Vite dev server, e.g. http://192.168.x.x:5173).
+    if (
+      !origin ||
+      allowedOrigins.indexOf(origin) !== -1 ||
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:') ||
+      /^http:\/\/(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(origin)
+    ) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
