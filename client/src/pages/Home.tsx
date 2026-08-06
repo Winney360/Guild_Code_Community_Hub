@@ -19,6 +19,8 @@ interface Member {
   specializations?: string[];
   skills?: string[];
   github?: string;
+  linkedin?: string;
+  bio?: string;
   projectCount?: number;
 }
 
@@ -107,19 +109,19 @@ export const Home: React.FC = () => {
   return (
     <div className="font-sans antialiased text-[#091e22] bg-white">
       {/* Hero Section */}
-      <section className="bg-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none min-h-svh lg:min-h-0">
+      <section className="bg-white pt-12 pb-10 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none min-h-[90svh] sm:min-h-dvh lg:min-h-0">
         {/* Background media layers */}
-        <div className="absolute inset-0" aria-hidden="true">
+        <div className="absolute inset-0 h-full w-full" aria-hidden="true">
           {/* Mobile picture (below md) */}
-          <img src="/hero/hero-mobile.png" alt="" className="absolute inset-0 h-full w-full object-cover md:hidden" />
+          <img src="/hero/hero-mobile.png" alt="" className="absolute inset-0 h-full w-full min-h-full min-w-full object-cover object-center md:hidden" />
           {/* Video carousel (tablet & above) */}
           <HeroVideoCarousel />
           {/* Dark scrim for readability (both themes) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#07191b]/85 via-[#091719]/70 to-[#0b1315]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#07191b]/85 via-[#091719]/70 to-[#0b1315]/70" />
         </div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <ScrollReveal>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-full text-xs font-semibold text-[#5c7075] shadow-sm mb-8 sm:mb-8">
               <svg className="w-3.5 h-3.5 text-[#006655] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15a5 5 0 100-10 5 5 0 000 10z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 14L4.5 21l3.75-1.5L12 21l3.75-1.5L19.5 21l-3.75-7" />
@@ -129,14 +131,14 @@ export const Home: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
-            <h1 className="text-[clamp(1.25rem,5.2vw,2rem)] sm:text-4xl md:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight max-w-6xl mx-auto text-white whitespace-nowrap md:whitespace-normal">
-              Welcome to <span className="text-emerald-400 font-serif italic pr-1 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">Guild Code Community</span> <br className="hidden md:block" />
+            <h1 className="text-[clamp(1.75rem,7vw,2.25rem)] sm:text-4xl md:text-6xl font-extrabold tracking-tight mb-6 sm:mb-6 leading-tight max-w-6xl mx-auto text-white whitespace-nowrap md:whitespace-normal">
+              Welcome to <br className="md:hidden" /> <span className="text-emerald-400 font-serif italic pr-1 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">Guild Code Community</span> <br className="hidden md:block" />
             </h1>
           </ScrollReveal>
 
           {/* Subtitle */}
           <ScrollReveal delay={200}>
-            <p className="text-slate-300 text-base sm:text-lg max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed select-none">
+            <p className="text-slate-300 text-sm sm:text-lg max-w-4xl mx-auto mb-8 sm:mb-8 leading-relaxed select-none">
               A collaborative platform where developers, designers, and creators come together to learn, build, and grow. <br className="hidden md:block" />
               Share your work, connect with peers, and be part of something amazing.
             </p>
@@ -144,7 +146,7 @@ export const Home: React.FC = () => {
 
           {/* Active Members Avatar Pile */}
           <ScrollReveal delay={300}>
-            <div className="flex items-center justify-center gap-4 mb-8 sm:mb-10 select-none">
+            <div className="flex items-center justify-center gap-4 mb-10 sm:mb-10 select-none">
               {/* Overlapping Rings (Rendering actual DB members) */}
               {members.length > 0 && (
                 <div className="flex items-center">
@@ -182,7 +184,7 @@ export const Home: React.FC = () => {
 
           {/* Action Buttons */}
           <ScrollReveal delay={400}>
-            <div className="flex flex-row justify-center items-center gap-3 sm:gap-4 mb-10 sm:mb-16">
+            <div className="flex flex-row justify-center items-center gap-3 sm:gap-4 mb-12 sm:mb-16">
               <Link
                 to="/members"
                 className="flex-1 sm:flex-none bg-[#006655] hover:bg-[#004d40] text-white font-bold py-3.5 px-4 sm:px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-xs sm:text-sm"
@@ -198,32 +200,35 @@ export const Home: React.FC = () => {
             </div>
           </ScrollReveal>
 
-          {/* Live Stat Counters (Spec 4.1) */}
-          <ScrollReveal delay={500}>
-            <div className="bg-slate-100 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-4 sm:p-8 max-w-6xl mx-auto shadow-xl grid grid-cols-3 gap-2 sm:gap-8 md:divide-x md:divide-[#006655]/30 dark:md:divide-[#00a88a]/40">
-              <div className="flex flex-col items-center justify-center p-2 min-w-0">
-                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                  {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
-                </span>
-                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Active Members</span>
-              </div>
-              <div className="flex flex-col items-center justify-center p-2 min-w-0">
-                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                  {loading ? '...' : stats.projectsShared}
-                </span>
-                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Open Projects</span>
-              </div>
-              <div className="flex flex-col items-center justify-center p-2 min-w-0">
-                <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] mb-1">
-                  {loading ? '...' : stats.upcomingEvents}
-                </span>
-                <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">
-                  Upcoming Sessions
-                </span>
-              </div>
-            </div>
-          </ScrollReveal>
         </div>
+      </section>
+
+      {/* Live Stat Counters (Spec 4.1) */}
+      <section className="bg-white dark:bg-[#0d1618] px-4 sm:px-6 pt-10 sm:pt-14 pb-14 sm:pb-16">
+        <ScrollReveal delay={100}>
+          <div className="max-w-6xl mx-auto grid grid-cols-3 gap-2 sm:gap-8 divide-x divide-[#006655]/15 dark:divide-[#00a88a]/30">
+            <div className="flex flex-col items-center justify-center p-2 min-w-0">
+              <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] dark:text-[#f1f5f9] mb-1">
+                {loading ? '...' : (stats.activeMembers > 0 ? stats.activeMembers : members.length)}
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Active Members</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-2 min-w-0">
+              <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] dark:text-[#f1f5f9] mb-1">
+                {loading ? '...' : stats.projectsShared}
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">Open Projects</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-2 min-w-0">
+              <span className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#091e22] dark:text-[#f1f5f9] mb-1">
+                {loading ? '...' : stats.upcomingEvents}
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold text-[#5c7075] uppercase tracking-wider text-center">
+                Upcoming Sessions
+              </span>
+            </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* Elite Craftsmanship Section (Vetted Developers) */}
@@ -277,7 +282,7 @@ export const Home: React.FC = () => {
                 <ScrollReveal key={member._id} delay={idx * 120}>
                   <div
                     onClick={() => navigate(`/members/${member._id}`)}
-                    className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56 cursor-pointer group"
+                    className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between cursor-pointer group"
                   >
                   <div className="flex items-center gap-4">
                     <Link to={`/members/${member._id}`} className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[#006655]">
@@ -299,6 +304,10 @@ export const Home: React.FC = () => {
                     </div>
                   </div>
 
+                  <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-2 mt-4">
+                    {member.bio || 'Vetted developer contributing to open-source tooling and scalable community projects within the Guild.'}
+                  </p>
+
                   <div className="flex flex-wrap gap-1.5 my-4">
                     {displaySkills.length > 0 ? (
                       displaySkills.map((skill, idx) => (
@@ -316,28 +325,78 @@ export const Home: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between border-t border-[#006655]/30 dark:border-[#00a88a]/40 pt-3 mt-auto text-xs text-[#5c7075]">
+                  <div className="grid grid-cols-2 gap-2 border-t border-[#006655]/30 dark:border-[#00a88a]/40 pt-3 mt-auto">
                     {member.github ? (
                       <a
                         href={member.github.startsWith('http') ? member.github : `https://${member.github}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="hover:text-[#091e22]"
+                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
                         title="GitHub Profile"
                       >
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
                         </svg>
+                        <span className="text-[10px] font-bold">GitHub</span>
                       </a>
                     ) : (
-                      <Link to={`/members/${member._id}`} className="hover:text-[#091e22]">
+                      <Link
+                        to={`/members/${member._id}`}
+                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
+                        title="View Profile"
+                      >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
+                        <span className="text-[10px] font-bold">Profile</span>
                       </Link>
                     )}
-                    <span>{member.projectCount ?? 0} {member.projectCount === 1 ? 'Project' : 'Projects'}</span>
+                    {member.linkedin ? (
+                      <a
+                        href={member.linkedin.startsWith('http') ? member.linkedin : `https://${member.linkedin}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
+                        title="LinkedIn Profile"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                        <span className="text-[10px] font-bold">LinkedIn</span>
+                      </a>
+                    ) : (
+                      <Link
+                        to={`/members/${member._id}`}
+                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
+                        title="View Profile"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span className="text-[10px] font-bold">Profile</span>
+                      </Link>
+                    )}
+                    <Link
+                      to={`/members/${member._id}`}
+                      className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
+                      title="View Profile"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span className="text-[10px] font-bold">Profile</span>
+                    </Link>
+                    <span
+                      className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500"
+                      title="Published Projects"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                      </svg>
+                      <span className="text-[10px] font-bold">{member.projectCount ?? 0} {member.projectCount === 1 ? 'Project' : 'Projects'}</span>
+                    </span>
                   </div>
                   </div>
                 </ScrollReveal>
