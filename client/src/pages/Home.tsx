@@ -107,7 +107,7 @@ export const Home: React.FC = () => {
   return (
     <div className="font-sans antialiased text-[#091e22] bg-white">
       {/* Hero Section */}
-      <section className="bg-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none min-h-svh sm:min-h-0">
+      <section className="bg-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none min-h-svh lg:min-h-0">
         {/* Background media layers */}
         <div className="absolute inset-0" aria-hidden="true">
           {/* Mobile picture (below md) */}
@@ -129,7 +129,7 @@ export const Home: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight max-w-6xl mx-auto text-white">
+            <h1 className="text-[clamp(1.25rem,5.2vw,2rem)] sm:text-4xl md:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight max-w-6xl mx-auto text-white whitespace-nowrap md:whitespace-normal">
               Welcome to <span className="text-emerald-400 font-serif italic pr-1 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">Guild Code Community</span> <br className="hidden md:block" />
             </h1>
           </ScrollReveal>
@@ -415,9 +415,9 @@ export const Home: React.FC = () => {
 
             return (
               <>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {/* Left Column: Admin Featured or Most Liked Project (Takes 2 Columns on large screens) */}
-                  <ScrollReveal className="lg:col-span-2">
+                  <ScrollReveal className="md:col-span-2 lg:col-span-2">
                     <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl overflow-hidden bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow h-full">
                     <div>
                       {/* Banner Image */}
@@ -493,7 +493,7 @@ export const Home: React.FC = () => {
                   </ScrollReveal>
 
                   {/* Right Column: Top 3 Most Liked Projects */}
-                  <div className="flex flex-col gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 md:col-span-2 lg:col-span-1">
                     {topLikedProjects.map((p, idx) => (
                       <ScrollReveal key={p._id} delay={150 + idx * 120} className="flex flex-col flex-grow">
                         <div

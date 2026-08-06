@@ -18,6 +18,7 @@ import { CookiePolicy } from './pages/CookiePolicy.js';
 import { CommunityGuidelines } from './pages/CommunityGuidelines.js';
 import { Changelog } from './pages/Changelog.js';
 import { SystemStatus } from './pages/SystemStatus.js';
+import { HelpCenter } from './pages/HelpCenter.js';
 import { PublicLayout } from './layouts/PublicLayout.js';
 import { DashboardLayout } from './layouts/DashboardLayout.js';
 import { DashboardOverview } from './pages/DashboardOverview.js';
@@ -59,6 +60,7 @@ function App() {
             <Route path="/guidelines" element={<CommunityGuidelines />} />
             <Route path="/changelog" element={<Changelog />} />
             <Route path="/status" element={<SystemStatus />} />
+            <Route path="/help" element={<HelpCenter />} />
           </Route>
 
           {/* Auth Routes (standalone screen layout) */}

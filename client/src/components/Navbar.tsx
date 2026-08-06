@@ -42,7 +42,7 @@ export const Navbar: React.FC = () => {
         </Link>
 
         {/* Center: Navigation Links */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           <div className="relative">
             <Link to="/" className={`${linkClass('/')} flex items-center gap-1.5`}>
               <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -91,7 +91,7 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Right Side: CTA / Auth Links */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           {user ? (
             <Link
               to="/dashboard"
@@ -119,8 +119,8 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Header Right wrapper */}
-        <div className="flex md:hidden items-center gap-3">
-          <div className="md:hidden">
+        <div className="flex lg:hidden items-center gap-3">
+          <div className="lg:hidden">
             <ThemeToggle />
           </div>
           {/* Hamburger Menu Toggle (Mobile) */}
@@ -141,7 +141,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div className="md:hidden border-t border-[#006655]/30 dark:border-[#00a88a]/40 bg-white dark:bg-[#121e21] px-4 sm:px-6 py-4 flex flex-col gap-4 animate-fadeIn max-h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="lg:hidden border-t border-[#006655]/30 dark:border-[#00a88a]/40 bg-white dark:bg-[#121e21] px-4 sm:px-6 py-4 flex flex-col gap-4 animate-fadeIn max-h-[calc(100vh-4rem)] overflow-y-auto">
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
