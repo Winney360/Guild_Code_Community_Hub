@@ -107,7 +107,7 @@ export const Home: React.FC = () => {
   return (
     <div className="font-sans antialiased text-[#091e22] bg-white">
       {/* Hero Section */}
-      <section className="bg-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none">
+      <section className="bg-white pt-12 pb-16 px-5 sm:pt-16 sm:pb-20 sm:px-6 relative overflow-hidden select-none min-h-svh sm:min-h-0">
         {/* Background media layers */}
         <div className="absolute inset-0" aria-hidden="true">
           {/* Mobile picture (below md) */}
