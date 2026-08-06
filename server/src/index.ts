@@ -28,6 +28,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   'https://guild-code-community-hub.vercel.app',
+  'https://guild-code-community.vercel.app',
 ];
 app.use(cors({
   origin: (origin, callback) => {
