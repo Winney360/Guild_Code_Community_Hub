@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import ScrollReveal from '../components/ScrollReveal.js';
@@ -37,27 +37,47 @@ export const Signup: React.FC = () => {
     }
   }, [loginWithOAuth, navigate]);
 
+  useEffect(() => {
+    if (!googleClientId) return;
+
+    const setupGoogle = () => {
+      if ((window as any).google?.accounts?.id) {
+        (window as any).google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: handleGoogleCredentialResponse,
+          auto_select: false,
+          cancel_on_tap_outside: false,
+        });
+
+        const btnDiv = document.getElementById('googleNativeBtn');
+        if (btnDiv) {
+          btnDiv.innerHTML = '';
+          (window as any).google.accounts.id.renderButton(btnDiv, {
+            theme: 'outline',
+            size: 'large',
+            width: 250,
+            text: 'continue_with',
+            shape: 'pill',
+          });
+        }
+      }
+    };
+
+    setupGoogle();
+    const timer = setTimeout(setupGoogle, 500);
+    return () => clearTimeout(timer);
+  }, [googleClientId, handleGoogleCredentialResponse]);
+
   const handleOAuth = async (provider: 'google' | 'github') => {
     if (provider === 'google') {
       setError('');
       setSuccessMessage('');
-      if (typeof window !== 'undefined' && (window as any).google?.accounts?.id && googleClientId) {
-        try {
-          (window as any).google.accounts.id.initialize({
-            client_id: googleClientId,
-            callback: handleGoogleCredentialResponse,
-          });
-          (window as any).google.accounts.id.prompt((notification: any) => {
-            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-              setError('Google sign-in could not be displayed. Please try again or register with email.');
-            }
-          });
-          return;
-        } catch (err) {
-          console.error('Google prompt error:', err);
-        }
+      const officialBtn = document.querySelector('#googleNativeBtn div[role="button"]') as HTMLElement;
+      if (officialBtn) {
+        officialBtn.click();
+      } else {
+        setError('Google sign-in is not available. Please register with your email instead.');
       }
-      setError('Google sign-in is not available. Please register with your email instead.');
       return;
     }
     setError('');
@@ -357,6 +377,7 @@ export const Signup: React.FC = () => {
 
           {/* Social Sign-in Buttons */}
           <div className="grid grid-cols-1 gap-4">
+            <div id="googleNativeBtn" className="flex items-center justify-center"></div>
             <button
               type="button"
               onClick={() => handleOAuth('google')}
