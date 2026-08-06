@@ -28,7 +28,7 @@ const SocialLinks: React.FC = () => (
       </svg>
     </a>
     <a
-      href="https://twitter.com"
+      href="https://x.com/GCodeCommunity"
       target="_blank"
       rel="noreferrer"
       aria-label="Twitter / X"
