@@ -258,7 +258,7 @@ export const PrivacyPolicy: React.FC = () => {
       {/* 7. Third-Party Services */}
       <LegalSection id="thirdparty" number="Section 07" icon={icons.puzzle} title="Third-Party Services" delay={350} collapsible>
         <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-          Our platform allows authentication or repository sync with GitHub, Discord, and external developer tools. These third-party services operate under their own privacy policies.
+          Our platform allows authentication or repository sync with GitHub, WhatsApp, and external developer tools. These third-party services operate under their own privacy policies.
         </p>
       </LegalSection>
 
