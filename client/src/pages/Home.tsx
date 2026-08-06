@@ -19,7 +19,6 @@ interface Member {
   specializations?: string[];
   skills?: string[];
   github?: string;
-  linkedin?: string;
   bio?: string;
   projectCount?: number;
 }
@@ -282,7 +281,7 @@ export const Home: React.FC = () => {
                 <ScrollReveal key={member._id} delay={idx * 120}>
                   <div
                     onClick={() => navigate(`/members/${member._id}`)}
-                    className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between cursor-pointer group"
+                    className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl p-5 shadow-sm hover:shadow transition-shadow bg-white flex flex-col justify-between h-56 cursor-pointer group"
                   >
                   <div className="flex items-center gap-4">
                     <Link to={`/members/${member._id}`} className="w-12 h-12 bg-slate-100 rounded-full overflow-hidden shrink-0 flex items-center justify-center font-bold text-[#006655]">
@@ -304,7 +303,7 @@ export const Home: React.FC = () => {
                     </div>
                   </div>
 
-                  <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-2 mt-4">
+                  <p className="text-xs text-[#5c7075] leading-relaxed line-clamp-2">
                     {member.bio || 'Vetted developer contributing to open-source tooling and scalable community projects within the Guild.'}
                   </p>
 
@@ -325,78 +324,28 @@ export const Home: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 border-t border-[#006655]/30 dark:border-[#00a88a]/40 pt-3 mt-auto">
+                  <div className="flex items-center justify-between border-t border-[#006655]/30 dark:border-[#00a88a]/40 pt-3 mt-auto text-xs text-[#5c7075]">
                     {member.github ? (
                       <a
                         href={member.github.startsWith('http') ? member.github : `https://${member.github}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
+                        className="hover:text-[#091e22]"
                         title="GitHub Profile"
                       >
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
                         </svg>
-                        <span className="text-[10px] font-bold">GitHub</span>
                       </a>
                     ) : (
-                      <Link
-                        to={`/members/${member._id}`}
-                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
-                        title="View Profile"
-                      >
+                      <Link to={`/members/${member._id}`} className="hover:text-[#091e22]">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
-                        <span className="text-[10px] font-bold">Profile</span>
                       </Link>
                     )}
-                    {member.linkedin ? (
-                      <a
-                        href={member.linkedin.startsWith('http') ? member.linkedin : `https://${member.linkedin}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
-                        title="LinkedIn Profile"
-                      >
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                        </svg>
-                        <span className="text-[10px] font-bold">LinkedIn</span>
-                      </a>
-                    ) : (
-                      <Link
-                        to={`/members/${member._id}`}
-                        className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
-                        title="View Profile"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        <span className="text-[10px] font-bold">Profile</span>
-                      </Link>
-                    )}
-                    <Link
-                      to={`/members/${member._id}`}
-                      className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 hover:border-[#006655]/40 dark:border-slate-700 text-slate-500 hover:text-[#006655] hover:bg-slate-50 transition-colors"
-                      title="View Profile"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <span className="text-[10px] font-bold">Profile</span>
-                    </Link>
-                    <span
-                      className="inline-flex items-center justify-center gap-1.5 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500"
-                      title="Published Projects"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                      </svg>
-                      <span className="text-[10px] font-bold">{member.projectCount ?? 0} {member.projectCount === 1 ? 'Project' : 'Projects'}</span>
-                    </span>
+                    <span>{member.projectCount ?? 0} {member.projectCount === 1 ? 'Project' : 'Projects'}</span>
                   </div>
                   </div>
                 </ScrollReveal>
