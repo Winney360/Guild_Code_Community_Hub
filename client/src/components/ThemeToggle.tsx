@@ -6,7 +6,7 @@ export const ThemeToggle: React.FC = () => {
     if (stored) {
       return stored === 'dark';
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return true;
   });
 
   useEffect(() => {
