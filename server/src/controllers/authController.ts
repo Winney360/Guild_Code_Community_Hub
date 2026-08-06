@@ -2,8 +2,11 @@ import { Request, Response } from 'express';
 import { User } from '../models/User.js';
 import { Notification } from '../models/Notification.js';
 import bcrypt from 'bcryptjs';
+import { OAuth2Client } from 'google-auth-library';
 import { sendTokenCookie } from '../utils/generateToken.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // @desc    Register user
 // @route   POST /api/auth/signup
@@ -187,16 +190,14 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
     // 1. If real Google ID token credential is sent from Google SDK
     if (credential) {
       try {
-        const googleRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${credential}`);
-        if (googleRes.ok) {
-          const payload: any = await googleRes.json();
-          email = payload.email;
-          fullName = payload.name || payload.given_name || email.split('@')[0];
-          avatar = payload.picture;
-        } else {
-          res.status(400).json({ message: 'Invalid or expired Google authentication token' });
-          return;
-        }
+        const ticket = await googleClient.verifyIdToken({
+          idToken: credential,
+          audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        email = payload?.email;
+        fullName = payload?.name || payload?.given_name || (email ? email.split('@')[0] : undefined);
+        avatar = payload?.picture;
       } catch (err) {
         console.error('Google token verification failed:', err);
       }
