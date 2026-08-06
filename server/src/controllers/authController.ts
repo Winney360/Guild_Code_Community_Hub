@@ -198,8 +198,11 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
         email = payload?.email;
         fullName = payload?.name || payload?.given_name || (email ? email.split('@')[0] : undefined);
         avatar = payload?.picture;
-      } catch (err) {
-        console.error('Google token verification failed:', err);
+      } catch (err: any) {
+        console.error('Google token verification failed:', err?.message || err);
+        if (process.env.GOOGLE_CLIENT_ID) {
+          console.error('Expected audience:', process.env.GOOGLE_CLIENT_ID);
+        }
       }
     }
 
