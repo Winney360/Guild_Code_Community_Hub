@@ -20,7 +20,7 @@ export const HeroVideoCarousel: React.FC = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 hidden md:block overflow-hidden pointer-events-none" aria-hidden="true">
+    <div className="absolute inset-0 hidden h-full w-full overflow-hidden pointer-events-none md:block" aria-hidden="true">
       {HERO_VIDEOS.map((src, idx) => (
         <video
           key={src}
@@ -30,7 +30,7 @@ export const HeroVideoCarousel: React.FC = () => {
           loop
           playsInline
           preload="metadata"
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${idx === active ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 h-full w-full min-h-full min-w-full object-cover object-center transition-opacity duration-1000 ${idx === active ? 'opacity-100' : 'opacity-0'}`}
         />
       ))}
     </div>
