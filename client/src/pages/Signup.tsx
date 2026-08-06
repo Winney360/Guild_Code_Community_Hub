@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import ScrollReveal from '../components/ScrollReveal.js';
@@ -18,7 +18,48 @@ export const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  const handleGoogleCredentialResponse = useCallback(async (response: any) => {
+    if (!response?.credential) return;
+    setLoading(true);
+    try {
+      const result = await loginWithOAuth('google', { credential: response.credential });
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setSuccessMessage(result.message || 'Google authentication failed');
+      }
+    } catch {
+      setError('An error occurred during Google authentication.');
+    } finally {
+      setLoading(false);
+    }
+  }, [loginWithOAuth, navigate]);
+
   const handleOAuth = async (provider: 'google' | 'github') => {
+    if (provider === 'google') {
+      setError('');
+      setSuccessMessage('');
+      if (typeof window !== 'undefined' && (window as any).google?.accounts?.id && googleClientId) {
+        try {
+          (window as any).google.accounts.id.initialize({
+            client_id: googleClientId,
+            callback: handleGoogleCredentialResponse,
+          });
+          (window as any).google.accounts.id.prompt((notification: any) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+              setError('Google sign-in could not be displayed. Please try again or register with email.');
+            }
+          });
+          return;
+        } catch (err) {
+          console.error('Google prompt error:', err);
+        }
+      }
+      setError('Google sign-in is not available. Please register with your email instead.');
+      return;
+    }
     setError('');
     setSuccessMessage('');
     setLoading(true);
