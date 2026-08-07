@@ -1,12 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
 import ScrollReveal from '../components/ScrollReveal.js';
 import signBg from '../assets/sign.png';
 
 export const Signup: React.FC = () => {
-  const { signup, loginWithOAuth } = useAuth();
-  const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,85 +16,6 @@ export const Signup: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-  const handleGoogleCredentialResponse = useCallback(async (response: any) => {
-    if (!response?.credential) return;
-    setLoading(true);
-    try {
-      const result = await loginWithOAuth('google', { credential: response.credential });
-      if (result.success) {
-        navigate('/dashboard');
-      } else {
-        setSuccessMessage(result.message || 'Google authentication failed');
-      }
-    } catch {
-      setError('An error occurred during Google authentication.');
-    } finally {
-      setLoading(false);
-    }
-  }, [loginWithOAuth, navigate]);
-
-  useEffect(() => {
-    if (!googleClientId) return;
-
-    const setupGoogle = () => {
-      if ((window as any).google?.accounts?.id) {
-        (window as any).google.accounts.id.initialize({
-          client_id: googleClientId,
-          callback: handleGoogleCredentialResponse,
-          auto_select: false,
-          cancel_on_tap_outside: false,
-        });
-
-        const btnDiv = document.getElementById('googleNativeBtn');
-        if (btnDiv) {
-          btnDiv.innerHTML = '';
-          (window as any).google.accounts.id.renderButton(btnDiv, {
-            theme: 'outline',
-            size: 'large',
-            width: 250,
-            text: 'continue_with',
-            shape: 'pill',
-          });
-        }
-      }
-    };
-
-    setupGoogle();
-    const timer = setTimeout(setupGoogle, 500);
-    return () => clearTimeout(timer);
-  }, [googleClientId, handleGoogleCredentialResponse]);
-
-  const handleOAuth = async (provider: 'google' | 'github') => {
-    if (provider === 'google') {
-      setError('');
-      setSuccessMessage('');
-      const officialBtn = document.querySelector('#googleNativeBtn div[role="button"]') as HTMLElement;
-      if (officialBtn) {
-        officialBtn.click();
-      } else {
-        setError('Google sign-in is not available. Please register with your email instead.');
-      }
-      return;
-    }
-    setError('');
-    setSuccessMessage('');
-    setLoading(true);
-    try {
-      const result = await loginWithOAuth(provider);
-      if (result.success) {
-        navigate('/dashboard');
-      } else {
-        setError(result.message || 'OAuth registration failed');
-      }
-    } catch (err) {
-      setError('An error occurred during authentication.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const isEmailValid = (val: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -364,46 +284,6 @@ export const Signup: React.FC = () => {
               )}
             </button>
           </form>
-
-          {/* Social Divider */}
-          <div className="relative my-5 flex items-center justify-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#006655]/30 dark:border-[#00a88a]/40"></div>
-            </div>
-            <span className="relative px-3 bg-white text-xs font-semibold text-[#5c7075] uppercase tracking-wider">
-              Or continue with
-            </span>
-          </div>
-
-          {/* Social Sign-in Buttons */}
-          <div className="grid grid-cols-1 gap-4">
-            <div id="googleNativeBtn" className="flex items-center justify-center"></div>
-            <button
-              type="button"
-              onClick={() => handleOAuth('google')}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm font-semibold"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v3.92h6.69a5.74 5.74 0 0 1-2.49 3.77v3.1h3.99c2.34-2.16 3.69-5.32 3.69-8.72z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.99-3.1c-1.1.74-2.52 1.18-3.94 1.18-3.04 0-5.61-2.05-6.53-4.82H1.31v3.2A12 12 0 0 0 12 24z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.47 14.35A7.16 7.16 0 0 1 5.06 12c0-.82.14-1.61.41-2.35v-3.2H1.31A12 12 0 0 0 0 12c0 1.94.47 3.79 1.31 5.55l4.16-3.2z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.31 6.8l4.16 3.2c.92-2.77 3.49-4.82 6.53-4.82z"
-                />
-              </svg>
-              <span>Google</span>
-            </button>
-          </div>
 
           <div className="mt-6 text-center text-sm">
             <span className="text-[#5c7075]">Already have an account? </span>
