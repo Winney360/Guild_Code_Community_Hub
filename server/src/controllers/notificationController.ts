@@ -58,6 +58,36 @@ export const markAsRead = async (req: AuthenticatedRequest, res: Response): Prom
   }
 };
 
+// @desc    Delete a notification
+// @route   DELETE /api/notifications/:id
+// @access  Private
+export const deleteNotification = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: 'Not authorized' });
+      return;
+    }
+
+    const notification = await Notification.findById(req.params.id);
+    if (!notification) {
+      res.status(404).json({ message: 'Notification not found' });
+      return;
+    }
+
+    if (notification.userId.toString() !== userId) {
+      res.status(403).json({ message: 'Not authorized to delete this notification' });
+      return;
+    }
+
+    await notification.deleteOne();
+
+    res.status(200).json({ success: true, message: 'Notification deleted' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message || 'Server Error' });
+  }
+};
+
 // @desc    Mark all notifications as read
 // @route   PATCH /api/notifications/read-all
 // @access  Private
