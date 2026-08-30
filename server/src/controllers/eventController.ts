@@ -4,6 +4,35 @@ import { Notification } from '../models/Notification.js';
 import { User } from '../models/User.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
+type EventStatus = 'upcoming' | 'ongoing' | 'completed';
+type StatusEventShape = { date: Date | string; time?: string; status?: EventStatus };
+
+// The event's scheduled start time, computed deterministically as a UTC instant
+// from the stored date + "HH:MM" time string.
+const getEventStartTime = (event: StatusEventShape): Date => {
+  const d = event.date instanceof Date ? event.date : new Date(event.date);
+  const [hh = 0, mm = 0] = (event.time || '')
+    .split(':')
+    .map((part) => parseInt(part, 10));
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), hh, mm));
+};
+
+// A stored "upcoming" (or "ongoing") event whose scheduled time has passed is
+// effectively "completed" so it never shows as upcoming while already past.
+const getEffectiveStatus = (event: StatusEventShape): EventStatus => {
+  if (event.status === 'completed') return 'completed';
+  const started = Date.now() >= getEventStartTime(event).getTime();
+  if (started) return 'completed';
+  return event.status === 'ongoing' ? 'ongoing' : 'upcoming';
+};
+
+const isRegistrationOpen = (event: StatusEventShape): boolean => {
+  return (
+    event.status === 'upcoming' &&
+    Date.now() < getEventStartTime(event).getTime()
+  );
+};
+
 // @desc    Get all published events
 // @route   GET /api/events
 // @access  Public
@@ -14,7 +43,13 @@ export const getEvents = async (req: Request, res: Response): Promise<void> => {
       .populate('createdBy', 'fullName')
       .sort({ date: 1 });
 
-    res.status(200).json({ success: true, count: events.length, data: events });
+    const data = events.map((ev) => {
+      const obj = ev.toObject() as Record<string, any>;
+      obj.effectiveStatus = getEffectiveStatus(ev);
+      return obj;
+    });
+
+    res.status(200).json({ success: true, count: data.length, data });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
@@ -62,7 +97,13 @@ export const getDashboardEvents = async (req: AuthenticatedRequest, res: Respons
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
-    res.status(200).json({ success: true, count: merged.length, data: merged });
+    const data = merged.map((e) => {
+      const obj = (e as any).toObject ? (e as any).toObject() : e;
+      obj.effectiveStatus = getEffectiveStatus(e);
+      return obj;
+    });
+
+    res.status(200).json({ success: true, count: data.length, data });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
@@ -81,7 +122,10 @@ export const getEventById = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    res.status(200).json({ success: true, data: event });
+    const data = event.toObject() as Record<string, any>;
+    data.effectiveStatus = getEffectiveStatus(event);
+
+    res.status(200).json({ success: true, data });
   } catch (error: any) {
     res.status(500).json({ message: error.message || 'Server Error' });
   }
@@ -200,8 +244,8 @@ export const registerForEvent = async (req: Request, res: Response): Promise<voi
       return;
     }
 
-    if (event.status !== 'upcoming') {
-      res.status(400).json({ message: 'Registration is only allowed for upcoming events' });
+    if (!isRegistrationOpen(event)) {
+      res.status(400).json({ message: 'Registration for this event has closed' });
       return;
     }
 
