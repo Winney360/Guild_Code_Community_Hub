@@ -56,20 +56,6 @@ export const DashboardOverview: React.FC = () => {
     fetchDashboardData();
   }, []);
 
-  const handleMarkAllAsRead = async () => {
-    try {
-      const res = await fetch('/api/notifications/read-all', {
-        method: 'PATCH',
-      });
-      if (res.ok) {
-        // Refresh lists
-        await fetchDashboardData();
-      }
-    } catch (err) {
-      console.error('Error marking notifications as read:', err);
-    }
-  };
-
   const getTimeElapsed = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -92,7 +78,6 @@ export const DashboardOverview: React.FC = () => {
     );
   }
 
-  const unreadNotifications = notifications.filter((n) => !n.read);
   const recentActivities = notifications.slice(0, 4);
 
   return (
@@ -287,37 +272,6 @@ export const DashboardOverview: React.FC = () => {
                 </div>
               </Link>
             </div>
-          </div>
-          </ScrollReveal>
-
-          {/* Notifications Card */}
-          <ScrollReveal>
-          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
-            <div className="flex justify-between items-center mb-6 select-none">
-              <h3 className="font-extrabold text-base">Unread Alerts</h3>
-              <span className="w-5 h-5 bg-[#006655] text-white flex items-center justify-center text-[10px] font-bold rounded-full">
-                {unreadNotifications.length}
-              </span>
-            </div>
-
-            <div className="space-y-4 mb-6">
-              {unreadNotifications.length > 0 ? (
-                unreadNotifications.slice(0, 4).map((n) => (
-                  <div key={n._id} className="text-[11px] leading-relaxed py-1.5 border-b border-[#006655]/30 dark:border-[#00a88a]/40 last:border-0 min-w-0">
-                    <span className="font-bold block text-slate-800 truncate">{n.title}</span>
-                    <p className="text-[#5c7075] mt-0.5 line-clamp-2">{n.message}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-[11px] text-slate-400 text-center py-6 font-semibold select-none">No unread notifications.</p>
-              )}
-            </div>
-
-            {unreadNotifications.length > 0 && (
-              <button onClick={handleMarkAllAsRead} className="w-full text-center text-xs font-bold text-[#006655] hover:underline pt-2 select-none">
-                Mark all as read
-              </button>
-            )}
           </div>
           </ScrollReveal>
         </div>
