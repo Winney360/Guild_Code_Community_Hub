@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal.js';
+import { getEffectiveStatus } from '../utils/eventStatus.js';
+import type { EventStatus } from '../utils/eventStatus.js';
 
 interface EventType {
   _id: string;
@@ -14,7 +16,8 @@ interface EventType {
   locationOrLink: string;
   participants: Array<{ name: string; email: string }>;
   maxParticipants: number;
-  status: 'upcoming' | 'ongoing' | 'completed';
+  status: EventStatus;
+  effectiveStatus?: EventStatus;
 }
 
 export const EventDetails: React.FC = () => {
@@ -118,6 +121,8 @@ export const EventDetails: React.FC = () => {
     });
   };
 
+  const status = getEffectiveStatus(event);
+
   const getGoogleCalendarUrl = () => {
     const startDate = new Date(event.date + 'T' + event.time);
     const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
@@ -170,8 +175,14 @@ export const EventDetails: React.FC = () => {
 
           {/* Details */}
           <div className="max-w-2xl text-[#091e22] dark:text-[#f1f5f9]">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-[#1a292c] border border-[#006655]/10 rounded-full text-[10px] font-bold text-[#006655] shadow-sm mb-4">
-              &bull; LIVE WORKSHOP
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-[#1a292c] border rounded-full text-[10px] font-bold shadow-sm mb-4 ${
+              status === 'upcoming'
+                ? 'text-[#006655] border-[#006655]/20'
+                : status === 'ongoing'
+                ? 'text-blue-600 border-blue-200'
+                : 'text-slate-500 border-slate-200'
+            }`}>
+              {status === 'upcoming' ? '• UPCOMING' : status === 'ongoing' ? '• LIVE NOW' : '• COMPLETED'}
             </span>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
               {event.title}
@@ -321,6 +332,33 @@ export const EventDetails: React.FC = () => {
                       Download .ICS
                     </button>
                   </div>
+                </>
+              ) : status !== 'upcoming' ? (
+                <>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-700/40 text-slate-500 dark:text-slate-400 flex items-center justify-center shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-extrabold text-base dark:text-[#f1f5f9]">Registration Closed</h3>
+                      <p className="text-[10px] text-slate-500 dark:text-[#8ba4a8] font-semibold">
+                        {status === 'completed' ? 'This event has already taken place.' : 'Registration for this event is no longer open.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50 dark:bg-slate-700/30 rounded-2xl p-4 text-xs text-slate-400 dark:text-[#8ba4a8] text-center leading-relaxed">
+                    {status === 'completed' ? 'Stay tuned for future Guild Code events.' : 'This event is currently in progress.'}
+                  </div>
+
+                  <Link
+                    to="/events"
+                    className="w-full text-center bg-white dark:bg-[#1a292c] border border-slate-200 dark:border-[#00a88a]/20 hover:bg-slate-50 dark:hover:bg-[#0d1f22] text-slate-700 dark:text-[#f1f5f9] py-2.5 px-4 rounded-xl text-xs font-bold transition-all shadow-sm mt-4 block"
+                  >
+                    Browse Other Events
+                  </Link>
                 </>
               ) : (
                 <>
