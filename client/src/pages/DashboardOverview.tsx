@@ -166,10 +166,8 @@ export const DashboardOverview: React.FC = () => {
       </div>
       </ScrollReveal>
 
-      {/* 2. Main Content Split Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Recent Activity */}
-        <div className="lg:col-span-8 flex flex-col gap-6">
+      {/* 2. Recent Activity */}
+      <div className="flex flex-col gap-6">
           <ScrollReveal>
           <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6 select-none">
@@ -217,65 +215,6 @@ export const DashboardOverview: React.FC = () => {
           </ScrollReveal>
         </div>
 
-        {/* Right Column: Quick Actions & Notifications */}
-        <div className="lg:col-span-4 flex flex-col gap-6">
-          {/* Quick Actions Card */}
-          <ScrollReveal>
-          <div className="bg-white border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 shadow-sm">
-            <h3 className="font-extrabold text-base mb-6 select-none">Quick Actions</h3>
-            <div className="space-y-3">
-              {/* Action 1 */}
-              <Link
-                to="/dashboard/projects"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl transition-colors group"
-              >
-                <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs">My Projects Showcase</h4>
-                  <p className="text-[9px] text-[#5c7075] mt-0.5">Manage details & links</p>
-                </div>
-              </Link>
-
-              {/* Action 2 */}
-              <Link
-                to="/dashboard/collaborations"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl transition-colors group"
-              >
-                <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A2.5 2.5 0 013 11.2 2.5 2.5 0 015.436 8.72M18 13l2.25 2.25M18 7l2.25-2.25" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs">Manage Collabs</h4>
-                  <p className="text-[9px] text-[#5c7075] mt-0.5">Close or check requests</p>
-                </div>
-              </Link>
-
-              {/* Action 3 */}
-              <Link
-                to="/members"
-                className="flex items-center gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-2xl transition-colors group"
-              >
-                <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs">Browse Members</h4>
-                  <p className="text-[9px] text-[#5c7075] mt-0.5">Connect with developers</p>
-                </div>
-              </Link>
-            </div>
-          </div>
-          </ScrollReveal>
-        </div>
-      </div>
     </div>
   );
 };
