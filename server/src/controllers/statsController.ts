@@ -21,10 +21,12 @@ export const getPlatformStats = async (req: Request, res: Response): Promise<voi
       isVisible: true,
     });
 
-    // Spec 4.1: Upcoming Events (status = 'upcoming' and isPublished = true)
+    // Spec 4.1: Upcoming Events (status = 'upcoming' and isPublished = true) —
+    // also exclude events whose scheduled date has already passed.
     const upcomingEventsCount = await Event.countDocuments({
       status: 'upcoming',
       isPublished: true,
+      date: { $gte: new Date() },
     });
 
     res.status(200).json({
