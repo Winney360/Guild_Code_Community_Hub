@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal.js';
+import { getEffectiveStatus, getStatusBadgeClass } from '../utils/eventStatus.js';
+import type { EventStatus } from '../utils/eventStatus.js';
 
 interface EventType {
   _id: string;
@@ -14,7 +16,8 @@ interface EventType {
   locationOrLink: string;
   participants: Array<{ name: string; email: string }>;
   maxParticipants: number;
-  status: 'upcoming' | 'ongoing' | 'completed';
+  status: EventStatus;
+  effectiveStatus?: EventStatus;
   isPublished: boolean;
 }
 
@@ -60,6 +63,9 @@ export const CommunityEvents: React.FC = () => {
     return maps[type] || 'bg-slate-150 text-slate-600';
   };
 
+  const activeEvents = events.filter((e) => getEffectiveStatus(e) !== 'completed');
+  const pastEvents = events.filter((e) => getEffectiveStatus(e) === 'completed');
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 font-sans text-[#091e22]">
       
@@ -102,23 +108,29 @@ export const CommunityEvents: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((event) => (
+            {activeEvents.length === 0 && (
+              <div className="text-center py-16 border border-dashed border-slate-200 rounded-3xl select-none col-span-full">
+                <p className="text-xs text-slate-400 font-semibold">No upcoming events right now. Check back soon!</p>
+              </div>
+            )}
+
+            {activeEvents.length > 0 &&
+              activeEvents.map((event) => {
+                const status = getEffectiveStatus(event);
+                return (
               <div
                 key={event._id}
                 onClick={() => navigate(`/events/${event._id}`)}
                 className="border border-[#006655]/15 dark:border-[#00a88a]/20 rounded-3xl p-6 bg-white shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-[360px] cursor-pointer group"
               >
                 <div>
-                  {/* Category Tag & Mode */}
+                  {/* Category Tag & Status */}
                   <div className="flex justify-between items-center mb-4 select-none">
                     <span className={`px-2 py-0.5 border text-[9px] font-bold rounded ${getEventBadgeClass(event.eventType)}`}>
                       {event.eventType.toUpperCase()}
                     </span>
-                    <span className="text-[10px] text-slate-400 font-semibold flex items-center gap-1">
-                      <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
-                      </svg>
-                      {event.mode.toUpperCase()}
+                    <span className={`px-2 py-0.5 border text-[9px] font-bold rounded uppercase ${getStatusBadgeClass(status)}`}>
+                      {status}
                     </span>
                   </div>
 
@@ -144,15 +156,23 @@ export const CommunityEvents: React.FC = () => {
                     </svg>
                     {event.participants ? event.participants.length : 0} registered
                   </span>
-                  <Link
-                    to={`/events/${event._id}`}
-                    className="bg-[#006655] hover:bg-[#004d40] text-white py-1.5 px-4 rounded-lg font-bold text-xs"
-                  >
-                    Register
-                  </Link>
+                  {status === 'upcoming' ? (
+                    <Link
+                      to={`/events/${event._id}`}
+                      className="bg-[#006655] hover:bg-[#004d40] text-white py-1.5 px-4 rounded-lg font-bold text-xs"
+                    >
+                      Register
+                    </Link>
+                  ) : (
+                    <span className="bg-slate-100 text-slate-400 py-1.5 px-4 rounded-lg font-bold text-xs cursor-not-allowed">
+                      {status === 'ongoing' ? 'Ongoing' : 'Completed'}
+                    </span>
+                  )}
                 </div>
               </div>
-            ))}
+                );
+              })
+            }
 
             {/* Custom Static Card: Host Your Own Event */}
             <div className="border border-dashed border-slate-200 rounded-3xl p-6 bg-slate-50/20 text-center flex flex-col items-center justify-center h-[360px]">
@@ -174,7 +194,36 @@ export const CommunityEvents: React.FC = () => {
       </section>
       </ScrollReveal>
 
-      {/* 3. Stay Ahead of Curve Newsletter Banner */}
+      {/* 4. Past & Completed Events */}
+      {pastEvents.length > 0 && (
+        <ScrollReveal delay={150}>
+        <section className="mb-16">
+          <div className="flex items-center justify-between mb-6 select-none">
+            <h2 className="text-xl font-extrabold tracking-tight">Past & Completed</h2>
+            <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">{pastEvents.length} events</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {pastEvents.map((event) => (
+              <Link
+                key={event._id}
+                to={`/events/${event._id}`}
+                className="border border-slate-100 rounded-2xl p-5 bg-white hover:shadow-sm transition-all flex flex-col gap-1 group"
+              >
+                <div className="flex justify-between items-center gap-2">
+                  <h3 className="font-bold text-sm line-clamp-1 group-hover:text-[#006655] transition-colors">{event.title}</h3>
+                  <span className={`px-2 py-0.5 border text-[9px] font-bold rounded uppercase shrink-0 ${getStatusBadgeClass('completed')}`}>Completed</span>
+                </div>
+                <p className="text-[10px] text-[#5c7075]">
+                  {formatDate(event.date)} &bull; {event.time} {event.timezone}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+        </ScrollReveal>
+      )}
+
+      {/* 5. Stay Ahead of Curve Newsletter Banner */}
       <ScrollReveal delay={200}>
       <section className="bg-slate-900 rounded-3xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 select-none shadow-md">
         <div className="max-w-md">
