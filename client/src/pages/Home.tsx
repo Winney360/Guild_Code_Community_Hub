@@ -35,6 +35,8 @@ export const Home: React.FC = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const quoteAuthor = members.find((m) => m.fullName?.toLowerCase().includes('winfred nkatha'));
+
   const getInitials = (name: string) => {
     if (!name) return '';
     const parts = name.trim().split(/\s+/);
@@ -598,9 +600,13 @@ export const Home: React.FC = () => {
           <blockquote className="relative z-10 text-sm sm:text-base md:text-2xl font-medium italic text-[#091e22] leading-relaxed mb-8 line-clamp-3">
             "Guild Code isn't just another platform; it's the professional sanctuary I didn't know I needed."
           </blockquote>
-          <Link to="/members" className="flex flex-col items-center group">
+          <Link to={quoteAuthor ? `/members/${quoteAuthor._id}` : '/members'} className="flex flex-col items-center group">
             <div className="w-10 h-10 bg-[#006655] rounded-full overflow-hidden mb-3 flex items-center justify-center">
-              <span className="text-white text-xs font-bold">WN</span>
+              {quoteAuthor?.profilePicture ? (
+                <img src={quoteAuthor.profilePicture} alt={quoteAuthor.fullName} className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-white text-xs font-bold">WN</span>
+              )}
             </div>
             <span className="font-bold text-sm group-hover:text-[#006655] transition-colors">Winfred Nkatha</span>
             <span className="text-xs text-[#5c7075]">Team Lead / Fullstack Developer</span>
