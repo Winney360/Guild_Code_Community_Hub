@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal.js';
+import { getEffectiveStatus, getStatusBadgeClass } from '../utils/eventStatus.js';
+import type { EventStatus } from '../utils/eventStatus.js';
 
 interface EventType {
   _id: string;
@@ -12,7 +14,8 @@ interface EventType {
   mode: 'online' | 'physical' | 'hybrid';
   participants: Array<{ name: string; email: string }>;
   maxParticipants: number;
-  status: 'upcoming' | 'ongoing' | 'completed';
+  status: EventStatus;
+  effectiveStatus?: EventStatus;
 }
 
 export const MyEvents: React.FC = () => {
@@ -56,12 +59,7 @@ export const MyEvents: React.FC = () => {
   }, [search, events]);
 
   const getStatusBadge = (status: string) => {
-    const maps: Record<string, string> = {
-      upcoming: 'bg-emerald-50 text-emerald-600 border-emerald-100',
-      ongoing: 'bg-blue-50 text-blue-600 border-blue-100',
-      completed: 'bg-slate-100 text-slate-500 border-slate-200',
-    };
-    return `px-2 py-0.5 border text-[9px] font-bold rounded-lg ${maps[status] || 'bg-slate-150 text-slate-650'}`;
+    return `px-2 py-0.5 border text-[9px] font-bold rounded-lg ${getStatusBadgeClass(status as EventStatus) || 'bg-slate-150 text-slate-650'}`;
   };
 
   const getBadgeClass = (type: string) => {
@@ -129,7 +127,7 @@ export const MyEvents: React.FC = () => {
             <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Active</span>
           </div>
           <span className="text-2xl font-extrabold block leading-tight">
-            {events.filter((e) => e.status === 'upcoming').length}
+            {events.filter((e) => getEffectiveStatus(e) === 'upcoming').length}
           </span>
         </div>
       </div>
@@ -179,7 +177,9 @@ export const MyEvents: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#006655]/30 dark:divide-[#00a88a]/40">
-              {filteredEvents.map((event) => (
+              {filteredEvents.map((event) => {
+                const effStatus = getEffectiveStatus(event);
+                return (
                 <tr key={event._id} className="hover:bg-slate-50/30 transition-colors">
                   {/* Title */}
                   <td className="p-4 pl-6 font-bold text-[#091e22]">
@@ -207,7 +207,7 @@ export const MyEvents: React.FC = () => {
 
                   {/* Status */}
                   <td className="p-4 select-none">
-                    <span className={getStatusBadge(event.status)}>{event.status.toUpperCase()}</span>
+                    <span className={getStatusBadge(effStatus)}>{effStatus.toUpperCase()}</span>
                   </td>
 
                   {/* Registrations */}
@@ -230,7 +230,8 @@ export const MyEvents: React.FC = () => {
                     </Link>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         )}
