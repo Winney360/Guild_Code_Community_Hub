@@ -337,7 +337,9 @@ export const AdminDashboard: React.FC = () => {
 
         {pendingUsers.length === 0 ? (
           <div className="text-center py-10 border border-dashed border-slate-200 rounded-2xl">
-            <span className="text-3xl block mb-2 select-none">🎉</span>
+            <svg className="w-12 h-12 mx-auto mb-2 select-none text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             <p className="text-xs text-slate-400 font-semibold select-none">All registration applications have been processed!</p>
           </div>
         ) : (
