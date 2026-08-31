@@ -98,70 +98,56 @@ export const DashboardOverview: React.FC = () => {
       <ScrollReveal>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
         {/* Card 1 */}
-        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
-          <div className="flex justify-between items-center">
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center justify-center text-center h-40">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z" />
               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">Live DB</span>
+            </span>
+            <span className="text-2xl font-extrabold leading-tight">{stats.activeProjects}</span>
           </div>
-          <div>
-            <span className="text-2xl font-extrabold block leading-tight">{stats.activeProjects}</span>
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Active Projects</span>
-          </div>
+          <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Active Projects</span>
         </div>
 
         {/* Card 2 */}
-        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
-          <div className="flex justify-between items-center">
-            <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center justify-center text-center h-40">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-teal-600 bg-teal-50 border border-teal-100 px-2 py-0.5 rounded-full">Open</span>
+            </span>
+            <span className="text-2xl font-extrabold leading-tight">{stats.openCollaborations}</span>
           </div>
-          <div>
-            <span className="text-2xl font-extrabold block leading-tight">{stats.openCollaborations}</span>
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Open Collaborations</span>
-          </div>
+          <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Open Collaborations</span>
         </div>
 
         {/* Card 3 */}
-        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
-          <div className="flex justify-between items-center">
-            <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center justify-center text-center h-40">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-            </div>
-            <span className={`text-[10px] font-bold border px-2 py-0.5 rounded-full ${stats.newApplications > 0 ? 'text-blue-600 bg-blue-50 border-blue-100' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
-              {stats.newApplications > 0 ? `+${stats.newApplications} new` : 'no actions'}
             </span>
+            <span className="text-2xl font-extrabold leading-tight">{stats.newApplications}</span>
           </div>
-          <div>
-            <span className="text-2xl font-extrabold block leading-tight">{stats.newApplications}</span>
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Pending Applications</span>
-          </div>
+          <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Pending Applications</span>
         </div>
 
         {/* Card 4 */}
-        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col justify-between h-32">
-          <div className="flex justify-between items-center">
-            <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="border border-[#006655]/15 dark:border-[#00a88a]/20 bg-white rounded-3xl p-6 shadow-sm flex flex-col items-center justify-center text-center h-40">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-rose-500 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">Project Traffic</span>
+            </span>
+            <span className="text-2xl font-extrabold leading-tight">{stats.profileViews}</span>
           </div>
-          <div>
-            <span className="text-2xl font-extrabold block leading-tight">{stats.profileViews}</span>
-            <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Project Views</span>
-          </div>
+          <span className="text-[10px] font-bold text-[#5c7075] uppercase tracking-wider">Total Project Views</span>
         </div>
       </div>
       </ScrollReveal>
