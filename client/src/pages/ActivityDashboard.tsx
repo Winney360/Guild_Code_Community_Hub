@@ -245,8 +245,8 @@ export const ActivityDashboard: React.FC = () => {
       
       {/* Title */}
       <ScrollReveal>
-      <div className="flex justify-between items-center select-none">
-        <div>
+      <div className="relative select-none">
+        <div className="text-center">
           <h1 className="text-2xl font-extrabold tracking-tight mb-1">Notifications</h1>
           <p className="text-xs text-[#5c7075]">Stay updated with your latest activities and system alerts.</p>
         </div>
@@ -255,7 +255,7 @@ export const ActivityDashboard: React.FC = () => {
         {notifications.some((n) => !n.read) && (
           <button
             onClick={handleMarkAllAsRead}
-            className="flex items-center gap-1.5 text-[#006655] hover:underline font-bold text-xs"
+            className="absolute right-0 top-0 flex items-center gap-1.5 text-[#006655] hover:underline font-bold text-xs"
           >
             <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
