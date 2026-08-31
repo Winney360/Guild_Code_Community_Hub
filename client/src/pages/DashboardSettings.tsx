@@ -301,7 +301,7 @@ export const DashboardSettings: React.FC = () => {
       
       {/* Title */}
       <ScrollReveal>
-      <div className="select-none">
+      <div className="text-center select-none">
         <h1 className="text-2xl font-extrabold tracking-tight mb-1">Settings</h1>
         <p className="text-xs text-[#5c7075]">Manage your account and profile preferences.</p>
       </div>
